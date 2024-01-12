@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "590961852973",
+    "project_id": "fscpro-853c9",
+    "storage_bucket": "fscpro-853c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590961852973:android:72a09af1fec8400ae7aea4",
+        "android_client_info": {
+          "package_name": "com.ashvaiberov.fscu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMUIF1chcM3bAcLgFunsAzqFvExwM6Xy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590961852973:android:d26b1cfc43f7abace7aea4",
+        "android_client_info": {
+          "package_name": "com.example.fcc_app_front"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMUIF1chcM3bAcLgFunsAzqFvExwM6Xy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
