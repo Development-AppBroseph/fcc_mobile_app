@@ -1,26 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:fcc_app_front/shared/config/routes.dart';
-import 'package:fcc_app_front/shared/constants/widgets/login_error_snackbar.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:intl/intl.dart';
-
-import '../../../../shared/constants/urls.dart';
-import '../models/user.dart';
-import '../../../catalog/data/datasources/catalog.dart';
-import 'package:hive/hive.dart';
+import 'package:fcc_app_front/export.dart';
 import 'package:http/http.dart' as http;
-import '../../../../shared/config/base_http_client.dart';
-import '../../../../shared/constants/hive.dart';
 
 class AuthRepo {
   static Future<bool> register(String phoneNumber) async {
     try {
-      final response = await BaseHttpClient.post(
+      final Response? response = await BaseHttpClient.post(
         'api/v1/users/auth/register/',
-        {
-          "phone_number": phoneNumber,
+        <String, String>{
+          'phone_number': phoneNumber,
         },
         haveToken: false,
       );
@@ -44,10 +33,10 @@ class AuthRepo {
 
   static Future<bool> sendSms(String phoneNumber) async {
     try {
-      final response = await BaseHttpClient.post(
+      final Response? response = await BaseHttpClient.post(
         'api/v1/users/auth/send_verification_sms/',
-        {
-          "phone_number": phoneNumber,
+        <String, String>{
+          'phone_number': phoneNumber,
         },
         haveToken: false,
       );
@@ -71,7 +60,7 @@ class AuthRepo {
 
   static Future<UserModel?> getUser() async {
     try {
-      final response = await BaseHttpClient.get(
+      final String? response = await BaseHttpClient.get(
         'api/v1/users/session/',
       );
       log(response.toString());
@@ -95,10 +84,10 @@ class AuthRepo {
 
   static Future<bool> checkRegistration(String phoneNumber) async {
     try {
-      final response = await BaseHttpClient.postBody(
+      final Response response = await BaseHttpClient.postBody(
         'api/v1/users/auth/check_registration/',
-        {
-          "phone_number": phoneNumber,
+        <String, String>{
+          'phone_number': phoneNumber,
         },
         haveToken: false,
       );
@@ -118,10 +107,10 @@ class AuthRepo {
 
   static Future<bool> archiveAccount(String phoneNumber) async {
     try {
-      final response = await BaseHttpClient.postBody(
+      final Response response = await BaseHttpClient.postBody(
         'api/v1/users/auth/archive_account/',
-        {
-          "phone_number": phoneNumber,
+        <String, String>{
+          'phone_number': phoneNumber,
         },
       );
       log(
@@ -139,14 +128,14 @@ class AuthRepo {
   }
 
   static Future<String?> login(String phoneNumber, String code) async {
-    final response = await http.post(
+    final Response response = await http.post(
       Uri.parse(
         '${baseUrl}api/v1/users/auth/login/',
       ),
       body: jsonEncode(
-        {
-          "phone_number": phoneNumber,
-          "verification_code": code,
+        <String, String>{
+          'phone_number': phoneNumber,
+          'verification_code': code,
         },
       ),
       headers: BaseHttpClient.getDefaultHeader(
@@ -154,7 +143,9 @@ class AuthRepo {
       ),
     );
     if (response.statusCode == 403) {
-      final body = Map<String, dynamic>.from(jsonDecode(response.body) as Map);
+      final Map<String, dynamic> body = Map<String, dynamic>.from(
+        jsonDecode(response.body) as Map,
+      );
       await saveUserInfo(body);
       if (body['status'] == 1) {
         return RoutesNames.catalog;
@@ -164,7 +155,9 @@ class AuthRepo {
       }
     } else if (response.statusCode < 300) {
       try {
-        final body = Map<String, dynamic>.from(jsonDecode(response.body) as Map);
+        final Map<String, dynamic> body = Map<String, dynamic>.from(
+          jsonDecode(response.body) as Map,
+        );
         await saveUserInfo(body);
         log(
           jsonDecode(
@@ -183,11 +176,11 @@ class AuthRepo {
   }
 
   static Future<bool> verify(String phoneNumber, String code) async {
-    final response = await BaseHttpClient.post(
+    final Response? response = await BaseHttpClient.post(
       'api/v1/users/auth/verify/',
-      {
-        "phone_number": phoneNumber,
-        "verification_code": code,
+      <String, String>{
+        'phone_number': phoneNumber,
+        'verification_code': code,
       },
       haveToken: false,
     );
@@ -217,18 +210,23 @@ class AuthRepo {
     return false;
   }
 
-  static Future<bool> incrementInvites(String phoneNumber, String userName) async {
+  static Future<bool> incrementInvites(
+    String phoneNumber,
+    String userName,
+  ) async {
     try {
-      final response = await BaseHttpClient.post(
+      final Response? response = await BaseHttpClient.post(
         'api/v1/users/auth/increment_invites/',
-        {
-          "phone_number": phoneNumber,
-          "invited_by_username": userName,
+        <String, String>{
+          'phone_number': phoneNumber,
+          'invited_by_username': userName,
         },
         haveToken: false,
       );
       if (response != null) {
-        final body = Map<String, dynamic>.from(jsonDecode(response.body) as Map);
+        final Map<String, dynamic> body = Map<String, dynamic>.from(
+          jsonDecode(response.body) as Map,
+        );
         await saveUserInfo(
           body,
         );
@@ -249,12 +247,15 @@ class AuthRepo {
     return false;
   }
 
-  static Future<bool> memberShip(String phoneNumber, MembershipType type) async {
-    final response = await BaseHttpClient.put(
+  static Future<bool> memberShip(
+    String phoneNumber,
+    MembershipType type,
+  ) async {
+    final String? response = await BaseHttpClient.put(
       'api/v1/users/user/membership/',
-      {
-        "phone_number": phoneNumber,
-        "membership_level": type.name,
+      <String, String>{
+        'phone_number': phoneNumber,
+        'membership_level': type.name,
       },
     );
     log(response.toString());
@@ -262,21 +263,21 @@ class AuthRepo {
     return false;
   }
 
-  static saveUserName(
+  static dynamic saveUserName(
     Map<String, dynamic> body,
   ) async {
-    final box = Hive.box(HiveStrings.userBox);
+    final Box box = Hive.box(HiveStrings.userBox);
     await box.put(
       HiveStrings.username,
       body['username'],
     );
   }
 
-  static saveClientId(
+  static dynamic saveClientId(
     Map<String, dynamic> body,
   ) async {
     if (body['user_id'] != null) {
-      final box = Hive.box(HiveStrings.userBox);
+      final Box box = Hive.box(HiveStrings.userBox);
       await box.put(
         HiveStrings.id,
         body['user_id'],
@@ -284,11 +285,11 @@ class AuthRepo {
     }
   }
 
-  static saveUserInfo(
+  static dynamic saveUserInfo(
     Map<String, dynamic> body,
   ) async {
     try {
-      final box = Hive.box(HiveStrings.userBox);
+      final Box box = Hive.box(HiveStrings.userBox);
 
       await box.put(
         HiveStrings.id,
@@ -317,10 +318,10 @@ class AuthRepo {
     try {
       final response = await BaseHttpClient.patch(
         'api/v1/users/verify-identity/',
-        {
-          "first_name": firstName,
-          "last_name": lastName,
-          "middle_name": middleName,
+        <String, String?>{
+          'first_name': firstName,
+          'last_name': lastName,
+          'middle_name': middleName,
         },
       );
       await saveUserName(
@@ -352,20 +353,20 @@ class AuthRepo {
     BuildContext context,
   ) async {
     try {
-      final date = DateFormat('dd-MM-yyyy').parse(
+      final DateTime date = DateFormat('dd-MM-yyyy').parse(
         dateOfBirth,
       );
-      final response = await BaseHttpClient.putResponse(
+      final Response? response = await BaseHttpClient.putResponse(
           'api/v1/users/verify-identity/',
           middleName != ''
-              ? {
+              ? <String, String>{
                   'first_name': firstName,
                   'last_name': lastName,
                   'middle_name': middleName,
                   'username': userName,
                   'date_of_birth': DateFormat('yyyy-MM-dd').format(date),
                 }
-              : {
+              : <String, String>{
                   'first_name': firstName,
                   'last_name': lastName,
                   'username': userName,
@@ -409,11 +410,11 @@ class AuthRepo {
     return null;
   }
 
-  static changePhone(String phone) async {
-    final response = await BaseHttpClient.post(
+  static Future<void> changePhone(String phone) async {
+    final Response? response = await BaseHttpClient.post(
       'api/v1/users/auth/change_phone_number/',
-      {
-        "phone_number": phone,
+      <String, String>{
+        'phone_number': phone,
       },
       haveToken: false,
     );
@@ -429,10 +430,10 @@ class AuthRepo {
         );
       } catch (e) {
         log('Someting wrong in changePhone: $e');
-        return null;
+        return;
       }
     } else {
-      return null;
+      return;
     }
   }
 }

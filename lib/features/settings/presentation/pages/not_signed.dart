@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../../shared/config/routes.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import '../../../../shared/widgets/buttons/cstm_btn.dart';
+import 'package:fcc_app_front/export.dart';
 
 class NotSignedPage extends StatelessWidget {
   const NotSignedPage({super.key});
@@ -20,7 +15,7 @@ class NotSignedPage extends StatelessWidget {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               Text(
                 'Вы не авторизованы',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -43,7 +38,7 @@ class NotSignedPage extends StatelessWidget {
                 onTap: () {
                   context.pushNamed(RoutesNames.login);
                 },
-                text: "Войти",
+                text: 'Войти',
                 alignment: MainAxisAlignment.center,
                 textColor: Theme.of(context).scaffoldBackgroundColor,
                 color: Theme.of(context).canvasColor,

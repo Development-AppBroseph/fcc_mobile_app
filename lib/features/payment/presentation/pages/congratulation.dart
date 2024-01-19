@@ -1,22 +1,15 @@
-import 'package:confetti/confetti.dart';
-import 'package:fcc_app_front/shared/config/routes.dart';
-import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:collection/collection.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../shared/widgets/buttons/cstm_btn.dart';
-import '../../../catalog/data/datasources/catalog.dart';
+import 'package:fcc_app_front/export.dart';
 
 class PaymentCongratulationPage extends StatefulWidget {
-  const PaymentCongratulationPage({
-    Key? key,
-    required this.membership,
-    required this.goMenu,
-  }) : super(key: key);
   final String membership;
   final bool goMenu;
+
+  const PaymentCongratulationPage({
+    required this.membership,
+    required this.goMenu,
+    Key? key,
+  }) : super(key: key);
+
   @override
   State<PaymentCongratulationPage> createState() => _PaymentCongratulationPageState();
 }
@@ -38,8 +31,11 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final membershipName = membershipNames[MembershipType.values
-                    .firstWhereOrNull((element) => element.name == widget.membership) ??
+    final String membershipName = membershipNames[MembershipType.values.firstWhereOrNull((
+                  MembershipType element,
+                ) {
+                  return element.name == widget.membership;
+                }) ??
                 MembershipType.standard]
             ?.toUpperCase() ??
         'Стандарт';
@@ -51,7 +47,7 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
             vertical: 20.h,
           ),
           child: Column(
-            children: [
+            children: <Widget>[
               ConfettiWidget(
                 confettiController: confettiController,
                 blastDirectionality: BlastDirectionality.explosive,
@@ -65,7 +61,7 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Text(
                       'Вы успешно подключили  тариф “$membershipName"',
                       style: Theme.of(context).textTheme.titleMedium,
@@ -83,7 +79,7 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
                           context.pop();
                         }
                       },
-                      text: "Перейти в каталог",
+                      text: 'Перейти в каталог',
                     ),
                   ],
                 ),

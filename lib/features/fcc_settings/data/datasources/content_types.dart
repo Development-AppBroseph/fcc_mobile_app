@@ -1,4 +1,4 @@
-const contentTypes = [
+const List<String> contentTypes = <String>[
   'about_us',
   'rate',
   'terms_and_conditions',
@@ -16,9 +16,9 @@ enum ContentTypeEnum {
   privacyPolicy,
 }
 
-final contentList = Map.fromIterables(
+final Map<String, String> contentList = Map<String, String>.fromIterables(
   ContentTypeEnum.values.map(
-    (e) => e.name,
+    (ContentTypeEnum e) => e.name,
   ),
   contentTypes,
 );

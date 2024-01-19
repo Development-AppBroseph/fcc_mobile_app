@@ -1,11 +1,4 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../shared/config/utils/pop_possible.dart';
-import '../../../../shared/constants/colors/color.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-import '../../../../shared/widgets/on_tap_scale.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ChatAppBar extends StatelessWidget {
   const ChatAppBar({super.key});
@@ -29,7 +22,7 @@ class ChatAppBar extends StatelessWidget {
           color: scaffoldBackgroundColor,
         ),
         child: Row(
-          children: [
+          children: <Widget>[
             OnTapScaleAndFade(
               onTap: () {
                 canPopThenPop(context);
@@ -46,25 +39,25 @@ class ChatAppBar extends StatelessWidget {
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   const CircleAvatar(
-                    backgroundImage: AssetImage("assets/avatars/fsk.png"),
+                    backgroundImage: AssetImage('assets/avatars/fsk.png'),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Text(
-                        "Поддержка",
+                        'Поддержка',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: Theme.of(context).primaryColorDark,
                               fontWeight: FontWeight.w400,
                             ),
                       ),
                       Text(
-                        "Мы всегда на связи",
+                        'Мы всегда на связи',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontSize: 14,
                               color: Theme.of(context).hintColor,

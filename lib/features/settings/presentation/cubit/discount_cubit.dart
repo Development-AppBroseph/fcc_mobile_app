@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../../../shared/config/base_http_client.dart';
+import 'package:fcc_app_front/shared/config/base_http_client.dart';
 part 'discount_state.dart';
 
 class DiscountCubit extends Cubit<DiscountState> {
@@ -13,9 +13,9 @@ class DiscountCubit extends Cubit<DiscountState> {
             0,
           ),
         );
-  load() async {
+  dynamic load() async {
     try {
-      final discount = await BaseHttpClient.get(
+      final String? discount = await BaseHttpClient.get(
         'api/v1/discounts/discount/',
       );
       if (discount != null) {

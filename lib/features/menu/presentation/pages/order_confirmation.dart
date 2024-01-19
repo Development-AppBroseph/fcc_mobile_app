@@ -1,8 +1,4 @@
-import 'package:confetti/confetti.dart';
-import '../../../../shared/constants/widgets/custom_back.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fcc_app_front/export.dart';
 
 class OrderConfirmationPage extends StatefulWidget {
   const OrderConfirmationPage({super.key});
@@ -36,8 +32,8 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
             vertical: 20.h,
           ),
           child: Column(
-            children: [
-              CustomBackButton(),
+            children: <Widget>[
+              const CustomBackButton(),
               ConfettiWidget(
                 confettiController: confettiController,
                 blastDirectionality: BlastDirectionality.explosive,
@@ -51,13 +47,13 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Text(
-                      "Доставка оформлена",
+                      'Доставка оформлена',
                       style: Theme.of(context).textTheme.titleMedium,
                     ).animate().fadeIn(duration: 1000.ms),
                     Text(
-                      "Подробности можете посмотреть на экране «Доставка»",
+                      'Подробности можете посмотреть на экране «Доставка»',
                       style: Theme.of(context).textTheme.bodySmall,
                       textAlign: TextAlign.center,
                     ).animate().flip(duration: 1000.ms),

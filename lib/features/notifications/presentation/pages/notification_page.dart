@@ -1,18 +1,10 @@
-import 'package:fcc_app_front/features/notifications/data/utils/save_notification_settings.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../shared/constants/colors/color.dart';
-import '../../../../shared/constants/widgets/custom_back.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
+import 'package:fcc_app_front/export.dart';
 
 class NotificationSettingsPage extends StatefulWidget {
   const NotificationSettingsPage({super.key});
 
   @override
-  State<NotificationSettingsPage> createState() =>
-      _NotificationSettingsPageState();
+  State<NotificationSettingsPage> createState() => _NotificationSettingsPageState();
 }
 
 class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
@@ -38,19 +30,19 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomBackButton(),
+            children: <Widget>[
+              const CustomBackButton(),
               sized30,
               Text(
-                "Настройки уведомления",
+                'Настройки уведомления',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               sized20,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   Text(
-                    "Получать уведомления",
+                    'Получать уведомления',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: hintColor,
                         ),
@@ -71,21 +63,20 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
               ),
               sized30,
               Row(
-                children: [
+                children: <Widget>[
                   SizedBox(
                     height: 18,
                     width: 18,
                     child: Checkbox(
                       side: BorderSide(
                         width: 1,
-                        color:
-                            receiveNotifications ? primaryColorDark : hintColor,
+                        color: receiveNotifications ? primaryColorDark : hintColor,
                       ),
                       activeColor: Theme.of(context).primaryColor,
                       visualDensity: VisualDensity.compact,
                       value: pushNotifications,
                       onChanged: receiveNotifications
-                          ? (value) {
+                          ? (bool? value) {
                               setState(() {
                                 saveNotificationSettings(
                                   pushNotifications: value,
@@ -100,11 +91,9 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                     width: 15,
                   ),
                   Text(
-                    "Пуш-уведомления",
+                    'Пуш-уведомления',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: receiveNotifications
-                              ? primaryColorDark
-                              : hintColor,
+                          color: receiveNotifications ? primaryColorDark : hintColor,
                         ),
                   ),
                 ],
@@ -113,21 +102,20 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                 height: 15,
               ),
               Row(
-                children: [
+                children: <Widget>[
                   SizedBox(
                     height: 18,
                     width: 18,
                     child: Checkbox(
                       side: BorderSide(
                         width: 1,
-                        color:
-                            receiveNotifications ? primaryColorDark : hintColor,
+                        color: receiveNotifications ? primaryColorDark : hintColor,
                       ),
                       activeColor: Theme.of(context).primaryColor,
                       visualDensity: VisualDensity.compact,
                       value: smsNotifications,
                       onChanged: receiveNotifications
-                          ? (value) {
+                          ? (bool? value) {
                               setState(() {
                                 saveNotificationSettings(
                                   smsNotifications: value,
@@ -142,11 +130,9 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                     width: 15,
                   ),
                   Text(
-                    "СМС-оповещения",
+                    'СМС-оповещения',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: receiveNotifications
-                              ? primaryColorDark
-                              : hintColor,
+                          color: receiveNotifications ? primaryColorDark : hintColor,
                         ),
                   ),
                 ],

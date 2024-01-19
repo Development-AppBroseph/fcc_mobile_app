@@ -1,29 +1,21 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fcc_app_front/features/chat/data/utils/date_string.dart';
-import 'package:fcc_app_front/features/fcc_settings/data/utils/launch_store.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../shared/constants/colors/color.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import '../../data/models/message.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ChatMessageContainer extends StatelessWidget {
-  const ChatMessageContainer({
-    Key? key,
-    required this.message,
-    this.isFirstOfDay = false,
-  }) : super(key: key);
   final MessageModel message;
   final bool isFirstOfDay;
+
+  const ChatMessageContainer({
+    required this.message,
+    this.isFirstOfDay = false,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: Column(
-        children: [
+        children: <Widget>[
           sized10,
           if (isFirstOfDay)
             Text(
@@ -38,12 +30,11 @@ class ChatMessageContainer extends StatelessWidget {
           sized10,
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment:
-                message.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
-            children: [
+            mainAxisAlignment: message.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+            children: <Widget>[
               if (!message.isMine)
                 const Row(
-                  children: [
+                  children: <Widget>[
                     CircleAvatar(
                       radius: 20,
                       backgroundImage: AssetImage(
@@ -57,7 +48,7 @@ class ChatMessageContainer extends StatelessWidget {
                 ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   if (!message.isMine)
                     Text(
                       'Поддержка',
@@ -71,41 +62,45 @@ class ChatMessageContainer extends StatelessWidget {
                   ),
                   if (message.image != null)
                     Column(
-                      children: [
+                      children: <Widget>[
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: SizedBox(
                             width: 300.w,
                             child: CachedNetworkImage(
                               imageUrl: message.image!,
-                              placeholder: (context, url) => Container(
-                                width: 300.w,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 10,
-                                  horizontal: 15,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: message.isMine ? textColor : primaryColorLight,
-                                ),
-                                child: const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ),
-                              errorWidget: (context, url, error) => Container(
-                                width: 300.w,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 10,
-                                  horizontal: 15,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: message.isMine ? textColor : primaryColorLight,
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.error,
+                              placeholder: (BuildContext context, String url) {
+                                return Container(
+                                  width: 300.w,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 15,
                                   ),
-                                ),
-                              ),
+                                  decoration: BoxDecoration(
+                                    color: message.isMine ? textColor : primaryColorLight,
+                                  ),
+                                  child: const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              },
+                              errorWidget: (BuildContext context, String url, Object error) {
+                                return Container(
+                                  width: 300.w,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 15,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: message.isMine ? textColor : primaryColorLight,
+                                  ),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.error,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -116,10 +111,8 @@ class ChatMessageContainer extends StatelessWidget {
                     SizedBox(
                       width: 300.w,
                       child: Row(
-                        mainAxisAlignment: message.isMine
-                            ? MainAxisAlignment.end
-                            : MainAxisAlignment.start,
-                        children: [
+                        mainAxisAlignment: message.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+                        children: <Widget>[
                           Container(
                             constraints: BoxConstraints(
                               maxWidth: 300.w,
@@ -136,58 +129,42 @@ class ChatMessageContainer extends StatelessWidget {
                                 ? RichText(
                                     text: TextSpan(
                                         text: 'Онлайн поддержка в WhatsApp и Telegram',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(
+                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
-                                        children: [
+                                        children: <InlineSpan>[
                                           TextSpan(
                                             text: ' WhatsApp ',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(
+                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                                   fontSize: 14,
                                                   color: textColor,
                                                   decoration: TextDecoration.underline,
                                                   fontWeight: FontWeight.w400,
                                                 ),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                launchWhatsapp();
-                                              },
+                                            recognizer: TapGestureRecognizer()..onTap = launchWhatsapp,
                                           ),
                                           const TextSpan(
                                             text: 'и',
                                           ),
                                           TextSpan(
                                             text: ' Telegram ',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(
+                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                                   fontSize: 14,
                                                   color: textColor,
                                                   decoration: TextDecoration.underline,
                                                   fontWeight: FontWeight.w400,
                                                 ),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                launchTelegram();
-                                              },
+                                            recognizer: TapGestureRecognizer()..onTap = launchTelegram,
                                           ),
                                         ]),
                                   )
                                 : Text(
                                     message.message ?? '',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall?.copyWith(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                            ),
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                   ),
                           ),
                         ],
@@ -197,7 +174,7 @@ class ChatMessageContainer extends StatelessWidget {
               ),
               if (message.isMine)
                 const Row(
-                  children: [
+                  children: <Widget>[
                     SizedBox(
                       width: 5,
                     ),

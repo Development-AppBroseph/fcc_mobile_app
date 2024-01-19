@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../shared/constants/colors/color.dart';
+import 'package:fcc_app_front/export.dart';
 
 class FirstReadMessage extends StatelessWidget {
   const FirstReadMessage({super.key});
@@ -11,9 +8,9 @@ class FirstReadMessage extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.start,
-      children: [
+      children: <Widget>[
         const Row(
-          children: [
+          children: <Widget>[
             CircleAvatar(
               radius: 20,
               backgroundImage: AssetImage(
@@ -27,7 +24,7 @@ class FirstReadMessage extends StatelessWidget {
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
               'Поддержка',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -42,7 +39,7 @@ class FirstReadMessage extends StatelessWidget {
               width: 300.w,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Container(
                     constraints: BoxConstraints(
                       maxWidth: 300.w,
@@ -56,7 +53,7 @@ class FirstReadMessage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
-                      "Запрос передан специалистам",
+                      'Запрос передан специалистам',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,

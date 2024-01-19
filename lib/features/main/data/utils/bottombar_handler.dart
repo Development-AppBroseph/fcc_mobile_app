@@ -1,4 +1,4 @@
-import '../../../../shared/config/routes.dart';
+import 'package:fcc_app_front/shared/config/routes.dart';
 
 String bottomNavigationHandler(int index) {
   switch (index) {

@@ -1,7 +1,4 @@
-import '../config/routes.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({
@@ -15,11 +12,11 @@ class ErrorScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: true,
-          title: const Text("Error Screen"),
+          title: const Text('Error Screen'),
         ),
         body: Center(
           child: Column(
-            children: [
+            children: <Widget>[
               Text(
                 error,
               ),
@@ -30,7 +27,7 @@ class ErrorScreen extends StatelessWidget {
                 onPressed: () => context.goNamed(
                   RoutesNames.menu,
                 ),
-                child: const Text("Go to home page"),
+                child: const Text('Go to home page'),
               ),
             ],
           ),

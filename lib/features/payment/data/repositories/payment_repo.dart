@@ -1,17 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:fcc_app_front/features/payment/data/models/payment.dart';
-import 'package:fcc_app_front/shared/config/utils/get_token.dart';
-import 'package:http/http.dart';
-
-import '../../../../shared/config/base_http_client.dart';
+import 'package:fcc_app_front/export.dart';
 
 class PaymentRepo {
-  static Future<String?> getWeblink(int membership, String amount) async {
+  static Future<String?> getWeblink(
+    int membership,
+    String amount,
+  ) async {
     try {
       Response? response;
-      response = await BaseHttpClient.post('api/v1/users/generate-payment-link/', {
+      response = await BaseHttpClient.post('api/v1/users/generate-payment-link/', <String, Object?>{
         'client': getClientId(),
         'membership': membership,
         'amount': amount,
@@ -28,7 +27,7 @@ class PaymentRepo {
 
   static Future<PaymentModel?> latestPayment() async {
     try {
-      final response = await BaseHttpClient.get('api/v1/users/latest-payment/');
+      final String? response = await BaseHttpClient.get('api/v1/users/latest-payment/');
       if (response != null) {
         return PaymentModel.fromMap(
           jsonDecode(response),

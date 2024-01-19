@@ -1,19 +1,11 @@
 import 'dart:io';
-import 'package:fcc_app_front/features/auth/data/models/user.dart';
-import '../../../../shared/constants/widgets/custom_back.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:photo_view/photo_view.dart';
 
-import '../../../../shared/widgets/snackbar.dart';
-import '../../../../shared/widgets/textfields/rounded_field.dart';
-import '../../../auth/presentation/cubit/auth_cubit.dart';
+import 'package:fcc_app_front/export.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key});
+  const EditProfilePage({
+    super.key,
+  });
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
@@ -30,7 +22,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     if (!isNameValid(surname.text)) {
       ErrorSnackBar.showErrorSnackBar(
         context,
-        "Введена некорректная контактная информация, допускаются только буквы русского языка",
+        'Введена некорректная контактная информация, допускаются только буквы русского языка',
         1,
         const EdgeInsets.symmetric(horizontal: 10),
         3,
@@ -39,8 +31,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
       return;
     }
     if (surname.text.isEmpty) {
-      ErrorSnackBar.showErrorSnackBar(context, "Пожалуйста введите фамилию",
-          0.9, const EdgeInsets.symmetric(horizontal: 10), 1);
+      ErrorSnackBar.showErrorSnackBar(
+        context,
+        'Пожалуйста введите фамилию',
+        0.9,
+        const EdgeInsets.symmetric(horizontal: 10),
+        1,
+      );
     }
   }
 
@@ -48,7 +45,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Scaffold(
+        builder: (BuildContext context) => Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.black,
             title: Text(
@@ -69,8 +66,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
+//TODO: Should remove from ui
   bool isNameValid(String input) {
-    final regExp = RegExp(r'^[А-Яа-яЁё ]+$');
+    final RegExp regExp = RegExp(r'^[А-Яа-яЁё ]+$');
     return regExp.hasMatch(input);
   }
 
@@ -87,23 +85,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
             child: SingleChildScrollView(
               child: BlocBuilder<AuthCubit, AuthState>(
-                builder: (context, state) {
+                builder: (BuildContext context, AuthState state) {
                   UserModel? user;
                   if (state is Authenticated) {
                     user = state.user;
                   }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       CustomBackButton(),
                       sized30,
                       Text(
-                        "Посмотреть свои данные",
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                        'Посмотреть свои данные',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
                       ),
                       sized20,
                       Text(
@@ -117,17 +114,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       RounField(
                         controller: name,
                         enabled: false,
-                        hintText: "Введите имя",
+                        hintText: 'Введите имя',
                         initialText: user?.firstName,
-                        hintStyle:
-                            Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).hintColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                        textStyle:
-                            Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).primaryColorDark,
-                                ),
+                        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).hintColor,
+                              fontWeight: FontWeight.w400,
+                            ),
+                        textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).primaryColorDark,
+                            ),
                         textInputAction: TextInputAction.next,
                       ),
                       sized10,
@@ -141,20 +136,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       sized10,
                       RounField(
                         enabled: false,
-                        textStyle:
-                            Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).primaryColorDark,
-                                ),
+                        textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).primaryColorDark,
+                            ),
                         controller: surname,
                         initialText: user?.lastName,
-                        hintText: "Введите фамилию",
-                        hintStyle:
-                            Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).hintColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                        hintText: 'Введите фамилию',
+                        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).hintColor,
+                              fontWeight: FontWeight.w400,
+                            ),
                         textInputAction: TextInputAction.next,
-                        inputFormatter: const [],
+                        inputFormatter: const <TextInputFormatter>[],
                       ),
                       sized10,
                       Text(
@@ -169,16 +162,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         enabled: false,
                         controller: middlename,
                         initialText: user?.middleName,
-                        textStyle:
-                            Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).primaryColorDark,
-                                ),
-                        hintText: "Введите отчество",
-                        hintStyle:
-                            Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).hintColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                        textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).primaryColorDark,
+                            ),
+                        hintText: 'Введите отчество',
+                        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).hintColor,
+                              fontWeight: FontWeight.w400,
+                            ),
                         textInputAction: TextInputAction.next,
                       ),
                     ],

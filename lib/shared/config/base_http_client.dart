@@ -1,34 +1,32 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:fcc_app_front/export.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
-
-import '../constants/hive.dart';
-import '../constants/urls.dart';
-import 'utils/get_token.dart';
 
 class BaseHttpClient {
-  static final client = http.Client();
+  static final http.Client client = http.Client();
   static Map<String, String> getDefaultHeader({bool haveToken = true}) {
-    final token = getToken();
+    final String? token = getToken();
     return token != null && haveToken
-        ? {
+        ? <String, String>{
             'Authorization': 'Bearer $token',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           }
-        : {
+        : <String, String>{
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           };
   }
 
-  static Future<String?> get(String api,
-      {bool haveToken = true, Map<String, String>? headers}) async {
-    var url = Uri.parse(baseUrl + api);
-    var response = await client.get(
+  static Future<String?> get(
+    String api, {
+    bool haveToken = true,
+    Map<String, String>? headers,
+  }) async {
+    Uri url = Uri.parse(baseUrl + api);
+    http.Response response = await client.get(
       url,
       headers: headers ??
           getDefaultHeader(
@@ -61,21 +59,28 @@ class BaseHttpClient {
     return null;
   }
 
-  static Future<Response> getBody(String api,
-      {bool haveToken = true, Map<String, String>? headers}) async {
-    var url = Uri.parse(baseUrl + api);
-    var response = await client.get(
+  static Future<Response> getBody(
+    String api, {
+    bool haveToken = true,
+    Map<String, String>? headers,
+  }) async {
+    Uri url = Uri.parse(baseUrl + api);
+    http.Response response = await client.get(
       url,
       headers: headers ?? getDefaultHeader(haveToken: haveToken),
     );
     return response;
   }
 
-  static Future<Response> postBody(String api, dynamic object,
-      {bool haveToken = true, Map<String, String>? headers}) async {
-    var url = Uri.parse(baseUrl + api);
-    var payload = jsonEncode(object);
-    var response = await client.post(
+  static Future<Response> postBody(
+    String api,
+    dynamic object, {
+    bool haveToken = true,
+    Map<String, String>? headers,
+  }) async {
+    Uri url = Uri.parse(baseUrl + api);
+    String payload = jsonEncode(object);
+    http.Response response = await client.post(
       url,
       body: payload,
       headers: headers ??
@@ -87,18 +92,18 @@ class BaseHttpClient {
   }
 
   static Future<dynamic> refreshToken() async {
-    var url = Uri.parse('http://167.99.246.103:8081/api/v1/users/token/refresh/');
-    final box = Hive.box(
+    Uri url = Uri.parse('http://167.99.246.103:8081/api/v1/users/token/refresh/');
+    final Box box = Hive.box(
       HiveStrings.userBox,
     );
     if (!box.containsKey(
       HiveStrings.refreshToken,
     )) return;
-    var response = await client.post(
+    http.Response response = await client.post(
       url,
       headers: getDefaultHeader(),
       body: jsonEncode(
-        {
+        <String, dynamic>{
           'refresh': box.get(
             HiveStrings.refreshToken,
           ),
@@ -106,12 +111,12 @@ class BaseHttpClient {
       ),
     );
     if (response.statusCode < 300) {
-      final token = jsonDecode(
+      final dynamic token = jsonDecode(
         utf8.decode(
           response.bodyBytes,
         ),
       )['access'];
-      final refresh = jsonDecode(
+      final dynamic refresh = jsonDecode(
         utf8.decode(
           response.bodyBytes,
         ),
@@ -142,9 +147,9 @@ class BaseHttpClient {
     Map<String, String>? headers,
     Function? onError,
   }) async {
-    var url = Uri.parse(baseUrl + api);
-    var payload = jsonEncode(object);
-    var response = await client.post(
+    Uri url = Uri.parse(baseUrl + api);
+    String payload = jsonEncode(object);
+    http.Response response = await client.post(
       url,
       body: payload,
       headers: headers ?? getDefaultHeader(haveToken: haveToken),
@@ -186,10 +191,10 @@ class BaseHttpClient {
     bool haveToken = true,
     Map<String, String>? headers,
   }) async {
-    var url = Uri.parse(baseUrl + api);
-    var payload = json.encode(object);
+    Uri url = Uri.parse(baseUrl + api);
+    String payload = json.encode(object);
 
-    var response = await client.put(
+    http.Response response = await client.put(
       url,
       body: payload,
       headers: headers ?? getDefaultHeader(haveToken: haveToken),
@@ -231,10 +236,10 @@ class BaseHttpClient {
     Map<String, String>? headers,
     Function? onError,
   }) async {
-    var url = Uri.parse(baseUrl + api);
-    var payload = json.encode(object);
+    Uri url = Uri.parse(baseUrl + api);
+    String payload = json.encode(object);
 
-    var response = await client.put(
+    http.Response response = await client.put(
       url,
       body: payload,
       headers: headers ?? getDefaultHeader(haveToken: haveToken),
@@ -273,10 +278,10 @@ class BaseHttpClient {
     bool haveToken = true,
     Map<String, String>? headers,
   }) async {
-    var url = Uri.parse(baseUrl + api);
-    var payload = json.encode(object);
+    Uri url = Uri.parse(baseUrl + api);
+    String payload = json.encode(object);
 
-    var response = await client.patch(
+    http.Response response = await client.patch(
       url,
       body: payload,
       headers: headers ?? getDefaultHeader(haveToken: haveToken),
@@ -314,9 +319,9 @@ class BaseHttpClient {
     bool haveToken = true,
     Map<String, String>? headers,
   }) async {
-    var url = Uri.parse(baseUrl + api);
+    Uri url = Uri.parse(baseUrl + api);
 
-    var response = await client.delete(
+    http.Response response = await client.delete(
       url,
       headers: headers ?? getDefaultHeader(haveToken: haveToken),
     );

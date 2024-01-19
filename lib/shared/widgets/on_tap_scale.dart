@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:fcc_app_front/export.dart';
 
 class OnTapScaleAndFade extends StatefulWidget {
   final Widget child;
@@ -8,19 +8,18 @@ class OnTapScaleAndFade extends StatefulWidget {
   final double lowerBound;
   final HitTestBehavior? behavior;
   const OnTapScaleAndFade({
-    Key? key,
     required this.child,
     required this.onTap,
     this.lowerBound = 0.85,
     this.behavior,
+    Key? key,
   }) : super(key: key);
 
   @override
   State<OnTapScaleAndFade> createState() => _OnTapScaleAndFadeState();
 }
 
-class _OnTapScaleAndFadeState extends State<OnTapScaleAndFade>
-    with TickerProviderStateMixin {
+class _OnTapScaleAndFadeState extends State<OnTapScaleAndFade> with TickerProviderStateMixin {
   double squareScaleA = 1;
   late AnimationController _controllerA;
   @override
@@ -48,10 +47,10 @@ class _OnTapScaleAndFadeState extends State<OnTapScaleAndFade>
         _controllerA.reverse();
         widget.onTap();
       },
-      onTapDown: (dp) {
+      onTapDown: (TapDownDetails dp) {
         _controllerA.reverse();
       },
-      onTapUp: (dp) {
+      onTapUp: (TapUpDetails dp) {
         Timer(const Duration(milliseconds: 50), () {
           _controllerA.fling();
         });

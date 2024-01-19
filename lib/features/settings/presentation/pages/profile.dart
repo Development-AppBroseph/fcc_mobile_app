@@ -1,13 +1,4 @@
-import 'package:auto_animated/auto_animated.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-
-import '../../../auth/presentation/cubit/auth_cubit.dart';
-import '../../data/datasources/settings.dart';
-import '../widgets/settings_page_button.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -39,15 +30,15 @@ class _ProfilePageState extends State<ProfilePage> {
             horizontal: 35.0.w,
           ),
           child: CustomScrollView(
-            slivers: [
+            slivers: <Widget>[
               SliverToBoxAdapter(
                 child: Animate(
-                  effects: const [
+                  effects: const <Effect>[
                     FadeEffect(),
                     ScaleEffect(),
                   ],
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       sized20,
                       ClipOval(
                         child: Image.asset(
@@ -57,28 +48,26 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       sized20,
                       BlocBuilder<AuthCubit, AuthState>(
-                        builder: (context, state) {
+                        builder: (BuildContext context, AuthState state) {
                           if (state is Authenticated) {
                             return Column(
-                              children: [
+                              children: <Widget>[
                                 Text(
-                                  "${state.user.lastName} ${state.user.firstName} ${state.user.middleName}",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium?.copyWith(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                  '${state.user.lastName} ${state.user.firstName} ${state.user.middleName}',
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                   textAlign: TextAlign.center,
                                 ),
                                 sized10,
                                 Text(
                                   state.user.phoneNumber,
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium?.copyWith(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w400,
-                                            color: Theme.of(context).hintColor,
-                                          ),
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w400,
+                                        color: Theme.of(context).hintColor,
+                                      ),
                                   textAlign: TextAlign.center,
                                 ),
                                 sized30,
@@ -96,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 controller: _scrollController,
                 showItemInterval: const Duration(milliseconds: 150),
                 showItemDuration: const Duration(milliseconds: 200),
-                itemBuilder: (context, index, animation) => FadeTransition(
+                itemBuilder: (BuildContext context, int index, Animation<double> animation) => FadeTransition(
                   opacity: Tween<double>(
                     begin: 0,
                     end: 1,
@@ -108,8 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       end: Offset.zero,
                     ).animate(animation),
                     child: SettingsPageButton(
-                      setting:
-                          settingsList[index == settingsList.length ? index - 1 : index],
+                      setting: settingsList[index == settingsList.length ? index - 1 : index],
                       isFsc: index == settingsList.length,
                     ),
                   ),

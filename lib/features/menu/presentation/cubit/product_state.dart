@@ -6,7 +6,7 @@ class ProductState extends Equatable {
   );
   final List<ProductModel> products;
   @override
-  List<Object> get props => [
+  List<Object> get props => <Object>[
         products,
       ];
 }

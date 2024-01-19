@@ -1,10 +1,4 @@
-import 'package:fcc_app_front/features/chat/data/utils/pick_file.dart';
-import 'package:fcc_app_front/shared/constants/colors/color.dart';
-
-import '../cubit/chat_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../shared/widgets/on_tap_scale.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ChatTextfield extends StatefulWidget {
   const ChatTextfield({
@@ -16,7 +10,7 @@ class ChatTextfield extends StatefulWidget {
 }
 
 class _ChatTextfieldState extends State<ChatTextfield> {
-  final controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +23,10 @@ class _ChatTextfieldState extends State<ChatTextfield> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
+        children: <Widget>[
           OnTapScaleAndFade(
             onTap: () async {
-              final path = await pickImage();
+              final String? path = await pickImage();
               if (path != null && context.mounted) {
                 context.read<ChatCubit>().uploadImage(path);
               }
@@ -46,7 +40,7 @@ class _ChatTextfieldState extends State<ChatTextfield> {
               ),
               child: Center(
                 child: Image.asset(
-                  "assets/settings/paper-clip.png",
+                  'assets/settings/paper-clip.png',
                   width: 20,
                   height: 20,
                 ),
@@ -106,7 +100,7 @@ class _ChatTextfieldState extends State<ChatTextfield> {
               ),
               child: Center(
                 child: Image.asset(
-                  "assets/settings/send.png",
+                  'assets/settings/send.png',
                   width: 20,
                   height: 20,
                   color: primaryColorLight,

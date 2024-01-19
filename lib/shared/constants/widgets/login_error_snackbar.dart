@@ -5,9 +5,9 @@ import 'package:fcc_app_front/shared/constants/colors/color.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-showLoginErrorSnackbar(BuildContext context, Response response) {
+dynamic showLoginErrorSnackbar(BuildContext context, Response response) {
   try {
-    final body = jsonDecode(
+    final Map body = jsonDecode(
       utf8.decode(
         response.bodyBytes,
       ),
@@ -37,7 +37,7 @@ showLoginErrorSnackbar(BuildContext context, Response response) {
     if (message == '') {
       message = 'Что-то пошло не так, пожалуйста, введите свои данные еще раз.';
     }
-    final snackBar = SnackBar(
+    final SnackBar snackBar = SnackBar(
       content: Text(
         message,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(

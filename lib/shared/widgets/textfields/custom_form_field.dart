@@ -1,11 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import '../../constants/colors/color.dart';
+import 'package:fcc_app_front/export.dart';
 
 class CustomFormField extends StatefulWidget {
   const CustomFormField({
-    Key? key,
     this.controller,
     this.textInputAction,
     this.hintText,
@@ -13,6 +9,7 @@ class CustomFormField extends StatefulWidget {
     this.textInputFormatter,
     this.validator,
     this.initialValue,
+    Key? key,
   }) : super(key: key);
   final TextEditingController? controller;
   final TextInputAction? textInputAction;

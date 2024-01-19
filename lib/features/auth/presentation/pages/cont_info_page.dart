@@ -1,33 +1,12 @@
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
-import 'package:fcc_app_front/features/auth/data/datasources/lowercase_formatter.dart';
-import 'package:fcc_app_front/features/fcc_settings/data/datasources/content_types.dart';
-import 'package:fcc_app_front/features/fcc_settings/presentation/cubit/content_cubit.dart';
-import 'package:fcc_app_front/shared/config/routes.dart';
-
-import '../../../../shared/constants/colors/color.dart';
-import '../../../../shared/constants/widgets/custom_back.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import '../../../../shared/widgets/buttons/cstm_btn.dart';
-import '../../../../shared/widgets/snackbar.dart';
-import '../../../../shared/widgets/textfields/rounded_field.dart';
-import '../../../notifications/data/repositories/notifications.dart';
-import '../cubit/auth_cubit.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ContInfoPage extends StatefulWidget {
-  const ContInfoPage({
-    Key? key,
-    required this.phone,
-  }) : super(key: key);
   final String phone;
+
+  const ContInfoPage({
+    required this.phone,
+    Key? key,
+  }) : super(key: key);
   @override
   State<ContInfoPage> createState() => _ContInfoPageState();
 }
@@ -47,34 +26,30 @@ class _ContInfoPageState extends State<ContInfoPage> {
     if (!aggreedChecked) {
       ErrorSnackBar.showErrorSnackBar(
           context,
-          "Пожалуйста, примите Условия использования и Политику конфиденциальности",
+          'Пожалуйста, примите Условия использования и Политику конфиденциальности',
           0.9,
           const EdgeInsets.symmetric(horizontal: 10),
           1);
       return false;
     }
     if (!oldEnoughChecked) {
-      ErrorSnackBar.showErrorSnackBar(
-          context,
-          "Вы недостаточно взрослый, чтобы использовать это приложение",
-          0.9,
-          const EdgeInsets.symmetric(horizontal: 10),
-          1);
+      ErrorSnackBar.showErrorSnackBar(context, 'Вы недостаточно взрослый, чтобы использовать это приложение', 0.9,
+          const EdgeInsets.symmetric(horizontal: 10), 1);
       return false;
     }
     if (surname.text.isEmpty) {
-      ErrorSnackBar.showErrorSnackBar(context, "Пожалуйста, введите фамилию",
-          0.9, const EdgeInsets.symmetric(horizontal: 10), 1);
+      ErrorSnackBar.showErrorSnackBar(
+          context, 'Пожалуйста, введите фамилию', 0.9, const EdgeInsets.symmetric(horizontal: 10), 1);
       return false;
     }
     try {
-      final date = DateFormat('dd-MM-yyyy').parseStrict(
+      final DateTime date = DateFormat('dd-MM-yyyy').parseStrict(
         maskFormatter.getMaskedText(),
       );
       if (!(DateTime.now().compareTo(date) == 1)) {
         ErrorSnackBar.showErrorSnackBar(
           context,
-          "Дата вашего рождения не может быть этой датой",
+          'Дата вашего рождения не может быть этой датой',
           1,
           const EdgeInsets.symmetric(horizontal: 10),
           3,
@@ -91,7 +66,7 @@ class _ContInfoPageState extends State<ContInfoPage> {
           )) {
         ErrorSnackBar.showErrorSnackBar(
           context,
-          "Вам меньше 18 лет",
+          'Вам меньше 18 лет',
           1,
           const EdgeInsets.symmetric(horizontal: 10),
           3,
@@ -101,7 +76,7 @@ class _ContInfoPageState extends State<ContInfoPage> {
     } catch (e) {
       ErrorSnackBar.showErrorSnackBar(
         context,
-        "Пожалуйста, введите действительную дату",
+        'Пожалуйста, введите действительную дату',
         1,
         const EdgeInsets.symmetric(horizontal: 10),
         3,
@@ -111,17 +86,17 @@ class _ContInfoPageState extends State<ContInfoPage> {
     return true;
   }
 
-  final maskFormatter = MaskTextInputFormatter(
+  final MaskTextInputFormatter maskFormatter = MaskTextInputFormatter(
     initialText: '',
-    mask: "##-##-####",
-    filter: {
-      "#": RegExp(r'[0-9]'),
+    mask: '##-##-####',
+    filter: <String, RegExp>{
+      '#': RegExp(r'[0-9]'),
     },
   );
 
-  final russianFormatter = FilteringTextInputFormatter.allow(
+  final FilteringTextInputFormatter russianFormatter = FilteringTextInputFormatter.allow(
     RegExp(
-      "[А-Яа-яЁё]",
+      '[А-Яа-яЁё]',
     ),
   );
 
@@ -138,11 +113,11 @@ class _ContInfoPageState extends State<ContInfoPage> {
             ),
             child: SingleChildScrollView(
               child: Column(
-                children: [
-                  if (context.canPop()) CustomBackButton(),
+                children: <Widget>[
+                  if (context.canPop()) const CustomBackButton(),
                   sized30,
                   Text(
-                    "Заполните контактную информацию",
+                    'Заполните контактную информацию',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
@@ -154,20 +129,20 @@ class _ContInfoPageState extends State<ContInfoPage> {
                           color: Theme.of(context).primaryColorDark,
                         ),
                     controller: surname,
-                    hintText: "Введите фамилию",
+                    hintText: 'Введите фамилию',
                     hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).hintColor,
                           fontWeight: FontWeight.w400,
                         ),
                     textInputAction: TextInputAction.next,
-                    inputFormatter: [
+                    inputFormatter: <TextInputFormatter>[
                       russianFormatter,
                     ],
                   ),
                   sized10,
                   RounField(
                     controller: name,
-                    hintText: "Введите имя",
+                    hintText: 'Введите имя',
                     hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).hintColor,
                           fontWeight: FontWeight.w400,
@@ -176,7 +151,7 @@ class _ContInfoPageState extends State<ContInfoPage> {
                           color: Theme.of(context).primaryColorDark,
                         ),
                     textInputAction: TextInputAction.next,
-                    inputFormatter: [
+                    inputFormatter: <TextInputFormatter>[
                       russianFormatter,
                     ],
                   ),
@@ -186,13 +161,13 @@ class _ContInfoPageState extends State<ContInfoPage> {
                     textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).primaryColorDark,
                         ),
-                    hintText: "Введите отчество",
+                    hintText: 'Введите отчество',
                     hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).hintColor,
                           fontWeight: FontWeight.w400,
                         ),
                     textInputAction: TextInputAction.next,
-                    inputFormatter: [
+                    inputFormatter: <TextInputFormatter>[
                       russianFormatter,
                     ],
                   ),
@@ -221,21 +196,19 @@ class _ContInfoPageState extends State<ContInfoPage> {
                         prefixIconConstraints: const BoxConstraints(
                           maxHeight: 40,
                         ),
-                        hintStyle:
-                            Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(context).hintColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                        hintText: " Имя пользователя",
+                        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).hintColor,
+                              fontWeight: FontWeight.w400,
+                            ),
+                        hintText: ' Имя пользователя',
                         prefixIcon: Text(
                           '@',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context).primaryColorDark,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(context).primaryColorDark,
+                              ),
                         ),
                       ),
-                      inputFormatters: [
+                      inputFormatters: <TextInputFormatter>[
                         LowerCaseTextFormatter(),
                       ],
                       textInputAction: TextInputAction.next,
@@ -248,10 +221,10 @@ class _ContInfoPageState extends State<ContInfoPage> {
                           color: Theme.of(context).primaryColorDark,
                         ),
                     textInputType: TextInputType.number,
-                    inputFormatter: [
+                    inputFormatter: <TextInputFormatter>[
                       maskFormatter,
                     ],
-                    hintText: "Дата рождения (дд-мм-гггг)",
+                    hintText: 'Дата рождения (дд-мм-гггг)',
                     hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).hintColor,
                           fontWeight: FontWeight.w400,
@@ -260,11 +233,11 @@ class _ContInfoPageState extends State<ContInfoPage> {
                   ),
                   sized10,
                   Row(
-                    children: [
+                    children: <Widget>[
                       Checkbox(
                         value: aggreedChecked,
                         activeColor: Theme.of(context).canvasColor,
-                        onChanged: (newBool) {
+                        onChanged: (bool? newBool) {
                           if (newBool != null) {
                             setState(
                               () {
@@ -278,23 +251,17 @@ class _ContInfoPageState extends State<ContInfoPage> {
                         child: RichText(
                           textAlign: TextAlign.justify,
                           text: TextSpan(
-                            children: [
+                            children: <InlineSpan>[
                               TextSpan(
-                                text: "Я принимаю ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
+                                text: 'Я принимаю ',
+                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                     ),
                               ),
                               TextSpan(
-                                text: "Условия пользования ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
+                                text: 'Условия пользования ',
+                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                       color: textColor,
@@ -304,7 +271,7 @@ class _ContInfoPageState extends State<ContInfoPage> {
                                     context.pushNamed(
                                       RoutesNames.fscData,
                                       extra: MapEntry(
-                                        "Условия пользования",
+                                        'Условия пользования',
                                         await ContentCubit.getData(
                                           ContentTypeEnum.termsAndConditions,
                                         ),
@@ -313,21 +280,15 @@ class _ContInfoPageState extends State<ContInfoPage> {
                                   },
                               ),
                               TextSpan(
-                                text: "и ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
+                                text: 'и ',
+                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                     ),
                               ),
                               TextSpan(
-                                text: "Политику конфиденциальности ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
+                                text: 'Политику конфиденциальности ',
+                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                       color: textColor,
@@ -337,7 +298,7 @@ class _ContInfoPageState extends State<ContInfoPage> {
                                     context.pushNamed(
                                       RoutesNames.fscData,
                                       extra: MapEntry(
-                                        "Политику конфиденциальности",
+                                        'Политику конфиденциальности',
                                         await ContentCubit.getData(
                                           ContentTypeEnum.privacyPolicy,
                                         ),
@@ -346,11 +307,8 @@ class _ContInfoPageState extends State<ContInfoPage> {
                                   },
                               ),
                               TextSpan(
-                                text: "перед использованием продукта",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
+                                text: 'перед использованием продукта',
+                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -363,11 +321,11 @@ class _ContInfoPageState extends State<ContInfoPage> {
                   ),
                   sized10,
                   Row(
-                    children: [
+                    children: <Widget>[
                       Checkbox(
                         value: oldEnoughChecked,
                         activeColor: Theme.of(context).canvasColor,
-                        onChanged: (newBool) {
+                        onChanged: (bool? newBool) {
                           if (newBool != null) {
                             setState(
                               () {
@@ -379,12 +337,11 @@ class _ContInfoPageState extends State<ContInfoPage> {
                       ),
                       Expanded(
                         child: Text(
-                          "Я подтверждаю что мне есть 18 лет",
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                          'Я подтверждаю что мне есть 18 лет',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
                         ),
                       )
                     ],
@@ -401,15 +358,14 @@ class _ContInfoPageState extends State<ContInfoPage> {
                         setState(() {
                           isLoading = true;
                         });
-                        final isSuccess =
-                            await context.read<AuthCubit>().verifyIdentity(
-                                  name.text,
-                                  surname.text,
-                                  patronymic.text,
-                                  userName.text,
-                                  maskFormatter.getMaskedText(),
-                                  context,
-                                );
+                        final bool isSuccess = await context.read<AuthCubit>().verifyIdentity(
+                              name.text,
+                              surname.text,
+                              patronymic.text,
+                              userName.text,
+                              maskFormatter.getMaskedText(),
+                              context,
+                            );
                         setState(() {
                           isLoading = false;
                         });
@@ -427,16 +383,13 @@ class _ContInfoPageState extends State<ContInfoPage> {
                         isLoading = false;
                       });
                     },
-                    text: "Отправить на проверку",
+                    text: 'Отправить на проверку',
                     child: isLoading
                         ? Row(
-                            children: [
+                            children: <Widget>[
                               Text(
                                 'Продолжить',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(),
+                                style: Theme.of(context).textTheme.bodySmall?.copyWith(),
                               ),
                               const SizedBox(
                                 width: 10,

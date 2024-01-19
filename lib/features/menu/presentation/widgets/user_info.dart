@@ -1,15 +1,4 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:collection/collection.dart';
-import 'package:fcc_app_front/features/catalog/data/datasources/catalog.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../auth/presentation/cubit/auth_cubit.dart';
-import '../../../../shared/config/routes.dart';
-import '../../../../shared/constants/colors/color.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:fcc_app_front/export.dart';
 
 class MenuUserInfo extends StatelessWidget {
   const MenuUserInfo({super.key});
@@ -17,14 +6,14 @@ class MenuUserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
+      builder: (BuildContext context, AuthState state) {
         if (state is Authenticated) {
           return Row(
-            children: [
+            children: <Widget>[
               Expanded(
                 flex: 3,
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     Container(
                       height: 48.h,
                       width: 48.h,
@@ -48,7 +37,7 @@ class MenuUserInfo extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Column(
-                          children: [
+                          children: <Widget>[
                             AutoSizeText(
                               state.user.firstName,
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -76,7 +65,7 @@ class MenuUserInfo extends StatelessWidget {
                               alignment: Alignment.center,
                               child: AutoSizeText(
                                 membershipNames[MembershipType.values.firstWhereOrNull(
-                                      (element) => element.name == state.user.membership,
+                                      (MembershipType element) => element.name == state.user.membership,
                                     )]
                                         ?.toUpperCase() ??
                                     'План не выбран',
@@ -113,7 +102,7 @@ class MenuUserInfo extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         gradient: const LinearGradient(
-                          colors: [
+                          colors: <Color>[
                             gradientColor,
                             primaryColor,
                             gradientColor,
@@ -125,16 +114,16 @@ class MenuUserInfo extends StatelessWidget {
                         horizontal: 12.w,
                       ),
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           SvgPicture.asset(
-                            "assets/gift.svg",
+                            'assets/gift.svg',
                           ),
                           SizedBox(
                             width: 5.w,
                           ),
                           Expanded(
                             child: AutoSizeText(
-                              "Подарок за друга",
+                              'Подарок за друга',
                               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w500,

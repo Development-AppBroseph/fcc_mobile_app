@@ -1,7 +1,6 @@
-import '../../presentation/widgets/cstm_bottom_nav.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:fcc_app_front/export.dart';
 
-List<BottomNavBarItem> bottombarItems = [
+List<BottomNavBarItem> bottombarItems = <BottomNavBarItem>[
   BottomNavBarItem(
     svgPicture: SvgPicture.asset('assets/home.svg'),
   ),
@@ -9,9 +8,9 @@ List<BottomNavBarItem> bottombarItems = [
     svgPicture: SvgPicture.asset('assets/person.svg'),
   ),
   BottomNavBarItem(
-    svgPicture: SvgPicture.asset("assets/label.svg"),
+    svgPicture: SvgPicture.asset('assets/label.svg'),
   ),
   BottomNavBarItem(
-    svgPicture: SvgPicture.asset("assets/car.svg"),
+    svgPicture: SvgPicture.asset('assets/car.svg'),
   ),
 ];

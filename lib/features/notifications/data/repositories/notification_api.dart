@@ -1,10 +1,9 @@
 import 'dart:math';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fcc_app_front/export.dart';
 
 class NotificationApi {
-  static final _notification = FlutterLocalNotificationsPlugin();
+  static final FlutterLocalNotificationsPlugin _notification = FlutterLocalNotificationsPlugin();
 
   static void init() {
     _notification.initialize(
@@ -18,15 +17,15 @@ class NotificationApi {
   static pushNotification(
     RemoteMessage message,
   ) async {
-    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+    AndroidNotificationDetails androidPlatformChannelSpecifics = const AndroidNotificationDetails(
       'channed id',
       'channel name',
       channelDescription: 'channel description',
       importance: Importance.max,
       priority: Priority.high,
     );
-    var iOSPlatformChannelSpecifics = const DarwinNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
+    DarwinNotificationDetails iOSPlatformChannelSpecifics = const DarwinNotificationDetails();
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );

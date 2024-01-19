@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:fcc_app_front/shared/constants/widgets/custom_back.dart';
-import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
-
-import '../../../../shared/constants/colors/color.dart';
+import 'package:fcc_app_front/export.dart';
 
 class FscDataPage extends StatelessWidget {
   const FscDataPage({
@@ -21,7 +15,7 @@ class FscDataPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: 20.h,

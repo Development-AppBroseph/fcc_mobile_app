@@ -1,17 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:fcc_app_front/features/menu/data/models/catalog.dart';
-
-import '../../../../shared/config/base_http_client.dart';
-import '../../../../shared/config/utils/get_token.dart';
+import 'package:fcc_app_front/export.dart';
 
 class CatalogRepo {
   static Future<List<CatalogModel>> getCatalogs({bool isPublic = false}) async {
-    List<CatalogModel> catalogs = [];
-    final token = getToken();
+    List<CatalogModel> catalogs = <CatalogModel>[];
+    final String? token = getToken();
     try {
-      final response = token == null || isPublic
+      final String? response = token == null || isPublic
           ? await BaseHttpClient.get(
               'api/v1/products/public/catalogs/',
               haveToken: false,
@@ -20,7 +17,7 @@ class CatalogRepo {
               'api/v1/products/catalogs/',
             );
       if (response != null) {
-        final productsData = jsonDecode(response) as List;
+        final List productsData = jsonDecode(response) as List;
         for (final product in productsData) {
           try {
             catalogs.add(

@@ -1,8 +1,7 @@
-import 'package:fcc_app_front/shared/constants/colors/color.dart';
-import 'package:flutter/material.dart';
+import 'package:fcc_app_front/export.dart';
 
-showErrorSnackbar(BuildContext context, String message) {
-  final snackBar = SnackBar(
+dynamic showErrorSnackbar(BuildContext context, String message) {
+  final SnackBar snackBar = SnackBar(
     content: Text(
       message,
       style: Theme.of(context).textTheme.bodyMedium?.copyWith(

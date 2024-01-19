@@ -6,7 +6,7 @@ saveNotificationSettings({
   bool? pushNotifications,
   bool? smsNotifications,
 }) {
-  final box = Hive.box(HiveStrings.userBox);
+  final Box box = Hive.box(HiveStrings.userBox);
   if (receiveNotifications != null) {
     box.put(
       HiveStrings.receiveNotifications,
@@ -28,16 +28,16 @@ saveNotificationSettings({
 }
 
 bool getReceiveNotifications() {
-  final box = Hive.box(HiveStrings.userBox);
+  final Box box = Hive.box(HiveStrings.userBox);
   return box.get(HiveStrings.receiveNotifications) ?? false;
 }
 
 bool getPushNotifications() {
-  final box = Hive.box(HiveStrings.userBox);
+  final Box box = Hive.box(HiveStrings.userBox);
   return box.get(HiveStrings.pushNotifications) ?? false;
 }
 
 bool getSmsNotifications() {
-  final box = Hive.box(HiveStrings.userBox);
+  final Box box = Hive.box(HiveStrings.userBox);
   return box.get(HiveStrings.smsNotifications) ?? false;
 }

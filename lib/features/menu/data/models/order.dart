@@ -7,6 +7,7 @@ class OrderModel {
   final int clientId;
   final List<int> products;
   final String address;
+
   OrderModel({
     required this.id,
     required this.totalPrice,

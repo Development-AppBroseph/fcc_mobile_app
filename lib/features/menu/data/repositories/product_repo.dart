@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import '../../../../shared/config/utils/get_token.dart';
-import '../models/product.dart';
-import '../../../../shared/config/base_http_client.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ProductRepo {
   static Future<List<ProductModel>> getProducts({bool isPublic = false}) async {
-    List<ProductModel> products = [];
-    final token = getToken();
-    final response = token == null || isPublic
+    List<ProductModel> products = <ProductModel>[];
+    final String? token = getToken();
+    final String? response = token == null || isPublic
         ? await BaseHttpClient.get(
             'api/v1/products/public/products/',
           )
@@ -18,7 +16,7 @@ class ProductRepo {
           );
     if (response != null) {
       try {
-        final productsData = jsonDecode(response) as List;
+        final List productsData = jsonDecode(response) as List;
         for (final product in productsData) {
           products.add(
             ProductModel.fromMap(

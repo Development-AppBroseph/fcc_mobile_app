@@ -1,22 +1,4 @@
-import 'package:fcc_app_front/features/chat/presentation/cubit/chat_cubit.dart';
-import 'package:fcc_app_front/features/fcc_settings/presentation/cubit/content_cubit.dart';
-import 'package:fcc_app_front/features/invite/presentation/cubit/invitation_cubit.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/catalog_cubit.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/order_cubit.dart';
-import 'package:fcc_app_front/features/notifications/data/repositories/notifications.dart';
-import 'package:fcc_app_front/features/settings/presentation/cubit/discount_cubit.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-
-import '../../../auth/presentation/cubit/auth_cubit.dart';
-import '../../../menu/presentation/cubit/product_cubit.dart';
-import '../../data/datasources/bottombar_items.dart';
-import '../../data/utils/bottombar_handler.dart';
-import '../cubit/bottom_navbar_cont.dart';
-import '../widgets/cstm_bottom_nav.dart';
+import 'package:fcc_app_front/export.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({
@@ -28,39 +10,39 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
+      providers: <SingleChildWidget>[
         BlocProvider(
-          create: (context) => BottomNavbarCont(),
+          create: (BuildContext context) => BottomNavbarCont(),
         ),
         BlocProvider(
-          create: (context) => ProductCubit()
+          create: (BuildContext context) => ProductCubit()
             ..load(
               isPublic: context.read<AuthCubit>().state is Unauthenticated,
             ),
         ),
         BlocProvider(
-          create: (context) => ContentCubit()..load(),
+          create: (BuildContext context) => ContentCubit()..load(),
         ),
         BlocProvider(
-          create: (context) => OrderCubit()..load(),
+          create: (BuildContext context) => OrderCubit()..load(),
         ),
         BlocProvider(
-          create: (context) => ChatCubit()..load(),
+          create: (BuildContext context) => ChatCubit()..load(),
         ),
         BlocProvider(
-          create: (context) => CatalogCubit()
+          create: (BuildContext context) => CatalogCubit()
             ..load(
               isPublic: context.read<AuthCubit>().state is Unauthenticated,
             ),
         ),
         BlocProvider(
-          create: (context) => InvitationCubit()..load(),
+          create: (BuildContext context) => InvitationCubit()..load(),
         ),
         BlocProvider(
-          create: (context) => DiscountCubit()..load(),
+          create: (BuildContext context) => DiscountCubit()..load(),
         ),
       ],
-      child: Builder(builder: (context) {
+      child: Builder(builder: (BuildContext context) {
         return KeyboardDismisser(
           child: MainScaffold(
             child: child,
@@ -88,7 +70,7 @@ class _MainScaffoldState extends State<MainScaffold> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) async {
+      (Duration timeStamp) async {
         await FirebaseNotificationsRepo().sendFcm();
         await FirebaseMessaging.instance.getInitialMessage();
         await FirebaseNotificationsRepo().initNotifications(
@@ -103,9 +85,9 @@ class _MainScaffoldState extends State<MainScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BlocBuilder<BottomNavbarCont, int>(
-        builder: (context, state) {
+        builder: (BuildContext context, int state) {
           return BottomNavBar(
-            onChanged: (index) {
+            onChanged: (int index) {
               context.read<BottomNavbarCont>().change(index);
               context.goNamed(
                 bottomNavigationHandler(index),

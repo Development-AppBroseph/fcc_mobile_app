@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-
-import '../../../../shared/constants/colors/color.dart';
-import '../../../../shared/constants/widgets/custom_back.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
+import 'package:fcc_app_front/export.dart';
 
 class VersionPage extends StatelessWidget {
   const VersionPage({super.key});
@@ -20,11 +14,11 @@ class VersionPage extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               CustomBackButton(),
               sized40,
               Text(
-                "Версия",
+                'Версия',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: primaryColorDark,
                     ),
@@ -32,7 +26,10 @@ class VersionPage extends StatelessWidget {
               sized30,
               FutureBuilder(
                 future: PackageInfo.fromPlatform(),
-                builder: (context, snapshot) {
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<PackageInfo> snapshot,
+                ) {
                   return Text(
                     "Версия приложения: ${snapshot.data?.version ?? 'Подождите'}",
                     style: Theme.of(context).textTheme.bodySmall,
@@ -40,7 +37,7 @@ class VersionPage extends StatelessWidget {
                 },
               ),
               Text(
-                "Введена в действие: 15.01.2023",
+                'Введена в действие: 15.01.2023',
                 style: Theme.of(context).textTheme.bodySmall,
                 textAlign: TextAlign.left,
               ),

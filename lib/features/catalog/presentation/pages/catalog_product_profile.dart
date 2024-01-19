@@ -1,5 +1,7 @@
 import 'package:auto_animated/auto_animated.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:fcc_app_front/features/menu/data/models/catalog.dart';
+import 'package:fcc_app_front/features/menu/data/models/product.dart';
 import 'package:fcc_app_front/features/menu/data/utils/search_product.dart';
 import 'package:fcc_app_front/features/menu/presentation/cubit/catalog_cubit.dart';
 import 'package:fcc_app_front/features/menu/presentation/cubit/selected_products_cubit.dart';
@@ -7,12 +9,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nested/nested.dart';
 
-import '../../../../shared/constants/widgets/custom_back.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import '../../../menu/presentation/cubit/product_cubit.dart';
-import '../../../menu/presentation/cubit/search.dart';
-import '../../../menu/presentation/widgets/cart.dart';
+import 'package:fcc_app_front/shared/constants/widgets/custom_back.dart';
+import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
+import 'package:fcc_app_front/features/menu/presentation/cubit/product_cubit.dart';
+import 'package:fcc_app_front/features/menu/presentation/cubit/search.dart';
+import 'package:fcc_app_front/features/menu/presentation/widgets/cart.dart';
 
 class CatalogProductProfileMenu extends StatefulWidget {
   final String catalogId;
@@ -22,8 +25,7 @@ class CatalogProductProfileMenu extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CatalogProductProfileMenu> createState() =>
-      _CatalogProductProfileMenuState();
+  State<CatalogProductProfileMenu> createState() => _CatalogProductProfileMenuState();
 }
 
 class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
@@ -42,17 +44,17 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final catalog = context.read<CatalogCubit>().getById(widget.catalogId);
+    final CatalogModel catalog = context.read<CatalogCubit>().getById(widget.catalogId);
     return MultiBlocProvider(
-      providers: [
+      providers: <SingleChildWidget>[
         BlocProvider(
-          create: (context) => SearchCubit(),
+          create: (BuildContext context) => SearchCubit(),
         ),
         BlocProvider(
-          create: (context) => SelectedProductsCubit(),
+          create: (BuildContext context) => SelectedProductsCubit(),
         ),
       ],
-      child: Builder(builder: (context) {
+      child: Builder(builder: (BuildContext context) {
         return Scaffold(
           body: SafeArea(
             child: Padding(
@@ -62,20 +64,19 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                 top: 20.h,
               ),
               child: CustomScrollView(
-                slivers: [
+                slivers: <Widget>[
                   SliverToBoxAdapter(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         CustomBackButton(),
                         sized20,
                         AutoSizeText(
                           catalog.name.toUpperCase(),
-                          style:
-                              Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),
                           maxLines: 1,
                           minFontSize: 16,
                           overflow: TextOverflow.ellipsis,
@@ -90,19 +91,15 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                           alignment: Alignment.centerLeft,
                           child: TextField(
                             textAlignVertical: TextAlignVertical.center,
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w400,
+                                ),
                             decoration: InputDecoration(
                               isDense: true,
                               contentPadding: const EdgeInsets.all(0),
-                              hintText: "Поиск",
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
+                              hintText: 'Поиск',
+                              hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -115,7 +112,7 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                                 color: Theme.of(context).primaryColorDark,
                               ),
                             ),
-                            onChanged: (value) {
+                            onChanged: (String value) {
                               context.read<SearchCubit>().search(value);
                             },
                           ),
@@ -124,33 +121,28 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                     ),
                   ),
                   BlocBuilder<SearchCubit, String?>(
-                    builder: (context, query) {
+                    builder: (BuildContext context, String? query) {
                       return BlocBuilder<ProductCubit, ProductState>(
-                        builder: (context, state) {
-                          final products = searchProduct(
+                        builder: (BuildContext context, ProductState state) {
+                          final List<ProductModel> products = searchProduct(
                             query,
                             state.products
                                 .where(
-                                  (element) =>
-                                      element.catalog.toString() ==
-                                      widget.catalogId,
+                                  (ProductModel element) => element.catalog.toString() == widget.catalogId,
                                 )
                                 .toList(),
                           );
-                          return BlocBuilder<SelectedProductsCubit,
-                              SelectedProductsState>(
-                            builder: (context, selectedProducts) {
+                          return BlocBuilder<SelectedProductsCubit, SelectedProductsState>(
+                            builder: (BuildContext context, SelectedProductsState selectedProducts) {
                               return SliverPadding(
                                 padding: EdgeInsets.symmetric(
                                   vertical: 20.h,
                                 ),
                                 sliver: LiveSliverList(
                                   controller: _scrollController,
-                                  showItemInterval:
-                                      const Duration(milliseconds: 150),
-                                  showItemDuration:
-                                      const Duration(milliseconds: 200),
-                                  itemBuilder: (context, index, animation) =>
+                                  showItemInterval: const Duration(milliseconds: 150),
+                                  showItemDuration: const Duration(milliseconds: 200),
+                                  itemBuilder: (BuildContext context, int index, Animation<double> animation) =>
                                       FadeTransition(
                                     opacity: Tween<double>(
                                       begin: 0,
@@ -164,10 +156,8 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                                       ).animate(animation),
                                       child: ProductCart(
                                         product: products[index],
-                                        isSelected:
-                                            selectedProducts.product != null &&
-                                                selectedProducts.product!.id ==
-                                                    products[index].id,
+                                        isSelected: selectedProducts.product != null &&
+                                            selectedProducts.product!.id == products[index].id,
                                         canSelect: false,
                                       ),
                                     ),

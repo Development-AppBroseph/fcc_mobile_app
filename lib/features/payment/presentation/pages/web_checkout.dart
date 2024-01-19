@@ -1,22 +1,14 @@
 import 'dart:developer';
 
+import 'package:fcc_app_front/export.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-
-import 'package:fcc_app_front/features/payment/data/repositories/payment_repo.dart';
-
-import '../../../../shared/constants/colors/color.dart';
-import '../../../../shared/widgets/snackbar.dart';
 
 class WebCheckoutPage extends StatefulWidget {
   const WebCheckoutPage({
-    Key? key,
     required this.url,
     required this.onComplete,
     required this.phone,
+    Key? key,
   }) : super(key: key);
   final String url;
   final Function onComplete;
@@ -38,9 +30,10 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Should use PopScope
     return WillPopScope(
       onWillPop: () async {
-        final isLast = await _webViewController.canGoBack();
+        final bool isLast = await _webViewController.canGoBack();
         if (isLast) {
           _webViewController.goBack();
           return false;
@@ -49,16 +42,19 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
       },
       child: Scaffold(
         body: Column(
-          children: [
+          children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 70.h, bottom: 10.h),
+              padding: EdgeInsets.only(
+                top: 70.h,
+                bottom: 10.h,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: <Widget>[
                       IconButton(
                         onPressed: () {
                           if (context.canPop()) context.pop();
@@ -79,13 +75,15 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
                     ],
                   ),
                   Row(
-                    children: [
+                    children: <Widget>[
                       IconButton(
                         onPressed: () async {
-                          final payment = await PaymentRepo.latestPayment();
+                          final PaymentModel? payment = await PaymentRepo.latestPayment();
                           if (payment != null) {
-                            final weburl = await PaymentRepo.getWeblink(
-                                payment.membership, payment.amount);
+                            final String? weburl = await PaymentRepo.getWeblink(
+                              payment.membership,
+                              payment.amount,
+                            );
                             if (weburl != null) {
                               setState(() {
                                 url = weburl;
@@ -106,9 +104,8 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          final payment = await PaymentRepo.latestPayment();
-                          if ((payment == null || payment.status == null) &&
-                              context.mounted) {
+                          final PaymentModel? payment = await PaymentRepo.latestPayment();
+                          if ((payment == null || payment.status == null) && context.mounted) {
                             ErrorSnackBar.showErrorSnackBar(
                               context,
                               'Платеж не прошел успешно. Пожалуйста, попробуйте еще раз',
@@ -118,12 +115,9 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
                             );
                             return;
                           }
-                          if ((payment?.status != 'success' ||
-                                  payment?.status != 'confirmed') &&
-                              context.mounted) {
+                          if ((payment?.status != 'success' || payment?.status != 'confirmed') && context.mounted) {
                             widget.onComplete();
-                          } else if (payment?.status != 'time out' &&
-                              context.mounted) {
+                          } else if (payment?.status != 'time out' && context.mounted) {
                             ErrorSnackBar.showErrorSnackBar(
                               context,
                               'Время вашего платежа истекло. Пожалуйста, обновите страницу и попробуйте еще раз',
@@ -131,8 +125,7 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
                               const EdgeInsets.symmetric(horizontal: 15),
                               3,
                             );
-                          } else if (payment?.status != 'error' &&
-                              context.mounted) {
+                          } else if (payment?.status != 'error' && context.mounted) {
                             ErrorSnackBar.showErrorSnackBar(
                               context,
                               'Платеж не прошел успешно. Пожалуйста, попробуйте еще раз',
@@ -160,13 +153,10 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
                             horizontal: 10.h,
                           ),
                           child: Row(
-                            children: [
+                            children: <Widget>[
                               Text(
                                 'Вперед',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
+                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                       color: Theme.of(context).primaryColorDark,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -198,26 +188,28 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
                     widget.url,
                   ),
                 ),
-                onWebViewCreated: (controller) {
+                onWebViewCreated: (InAppWebViewController controller) {
                   _webViewController = controller;
                   controller.addJavaScriptHandler(
-                      handlerName: "mySum",
-                      callback: (args) {
+                      handlerName: 'mySum',
+                      callback: (List args) {
                         // Here you receive all the arguments from the JavaScript side
                         // that is a List<dynamic>
-                        log("From the JavaScript side:");
+                        log('From the JavaScript side:');
                         if (kDebugMode) {
                           print(args.lastOrNull);
                         }
                       });
                 },
-                onLoadStop: (controller, url) {
+                onLoadStop: (InAppWebViewController controller, Uri? url) {
                   log(url?.path ?? '');
                 },
-                onConsoleMessage: (InAppWebViewController controller,
-                    ConsoleMessage consoleMessage) async {
+                onConsoleMessage: (
+                  InAppWebViewController controller,
+                  ConsoleMessage consoleMessage,
+                ) async {
                   log((await controller.getUrl())?.path ?? '');
-                  log("console message: ${consoleMessage.message}");
+                  log('console message: ${consoleMessage.message}');
                 },
               ),
             ),
