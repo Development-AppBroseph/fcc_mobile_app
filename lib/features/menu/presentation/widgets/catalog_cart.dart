@@ -1,18 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fcc_app_front/features/menu/data/models/catalog.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../shared/constants/colors/color.dart';
+import 'package:fcc_app_front/export.dart';
 
 class CatalogCart extends StatelessWidget {
-  const CatalogCart({
-    Key? key,
-    required this.catalog,
-    this.function,
-  }) : super(key: key);
   final CatalogModel catalog;
   final Function? function;
+  const CatalogCart({
+    required this.catalog,
+    this.function,
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -27,7 +23,7 @@ class CatalogCart extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          boxShadow: [
+          boxShadow: <BoxShadow>[
             BoxShadow(
               color: Theme.of(context).hintColor.withOpacity(0.1),
               blurRadius: 46,
@@ -38,9 +34,9 @@ class CatalogCart extends StatelessWidget {
           ),
         ),
         child: Column(
-          children: [
+          children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10.r),
                   child: SizedBox(
@@ -48,47 +44,55 @@ class CatalogCart extends StatelessWidget {
                     child: catalog.image != null
                         ? CachedNetworkImage(
                             imageUrl: catalog.image!,
-                            imageBuilder: (context, imageProvider) =>
-                                AspectRatio(
-                              aspectRatio: 1,
-                              child: Container(
-                                height: double.infinity,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
+                            imageBuilder: (
+                              BuildContext context,
+                              ImageProvider<Object> imageProvider,
+                            ) {
+                              return AspectRatio(
+                                aspectRatio: 1,
+                                child: Container(
+                                  height: double.infinity,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            placeholder: (context, url) => AspectRatio(
-                              aspectRatio: 1,
-                              child: Container(
-                                height: double.infinity,
-                                decoration: const BoxDecoration(
-                                  color: primaryColorLight,
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.smoking_rooms,
+                              );
+                            },
+                            placeholder: (BuildContext context, String url) {
+                              return AspectRatio(
+                                aspectRatio: 1,
+                                child: Container(
+                                  height: double.infinity,
+                                  decoration: const BoxDecoration(
+                                    color: primaryColorLight,
+                                  ),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.smoking_rooms,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => AspectRatio(
-                              aspectRatio: 1,
-                              child: Container(
-                                height: double.infinity,
-                                decoration: const BoxDecoration(
-                                  color: primaryColorLight,
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.smoking_rooms,
+                              );
+                            },
+                            errorWidget: (BuildContext context, String url, Object error) {
+                              return AspectRatio(
+                                aspectRatio: 1,
+                                child: Container(
+                                  height: double.infinity,
+                                  decoration: const BoxDecoration(
+                                    color: primaryColorLight,
+                                  ),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.smoking_rooms,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
                           )
                         : AspectRatio(
                             aspectRatio: 1,
@@ -112,7 +116,7 @@ class CatalogCart extends StatelessWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Text(
                         catalog.name,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(

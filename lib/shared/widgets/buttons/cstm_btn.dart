@@ -1,12 +1,25 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../constants/colors/color.dart';
+import 'package:fcc_app_front/export.dart';
 
 class CstmBtn extends StatefulWidget {
+  final double? height;
+  final double? iconHeight;
+  final TextStyle? textStyle;
+  final double? width;
+  final bool isLogin;
+  final String? iconPath;
+  final bool dropShadow;
+  final EdgeInsets padding;
+  final BorderSide? borderSide;
+  final Color? textColor;
+  final Color? color;
+  final String text;
+  final Widget? child;
+  final MainAxisAlignment alignment;
+  final BorderRadius? borderRadius;
+  final EdgeInsets? margin;
+  final void Function() onTap;
+
   const CstmBtn({
-    Key? key,
     this.height,
     this.iconHeight,
     this.textStyle,
@@ -25,26 +38,8 @@ class CstmBtn extends StatefulWidget {
     this.margin,
     required this.onTap,
     this.gradient,
+    Key? key,
   }) : super(key: key);
-
-  final double? height;
-  final double? iconHeight;
-
-  final TextStyle? textStyle;
-  final double? width;
-  final bool isLogin;
-  final String? iconPath;
-  final bool dropShadow;
-  final EdgeInsets padding;
-  final BorderSide? borderSide;
-  final Color? textColor;
-  final Color? color;
-  final String text;
-  final Widget? child;
-  final MainAxisAlignment alignment;
-  final BorderRadius? borderRadius;
-  final EdgeInsets? margin;
-  final void Function() onTap;
 
   // Добавлено: параметр для градиента
   final Gradient? gradient;
@@ -62,7 +57,7 @@ class _CstmBtnState extends State<CstmBtn> {
       padding: widget.margin ?? const EdgeInsets.all(0),
       child: GestureDetector(
         onTap: widget.onTap,
-        onTapDown: (details) {
+        onTapDown: (TapDownDetails details) {
           setState(() {
             isOnTap = true;
           });
@@ -72,7 +67,7 @@ class _CstmBtnState extends State<CstmBtn> {
             isOnTap = false;
           });
         },
-        onTapUp: (details) {
+        onTapUp: (TapUpDetails details) {
           setState(() {
             isOnTap = false;
           });
@@ -86,14 +81,10 @@ class _CstmBtnState extends State<CstmBtn> {
             decoration: BoxDecoration(
               borderRadius: widget.borderRadius ?? BorderRadius.circular(15),
               gradient: widget.gradient,
-              color: widget.gradient == null
-                  ? widget.color ?? Theme.of(context).primaryColor
-                  : null,
-              border: widget.borderSide != null
-                  ? Border.fromBorderSide(widget.borderSide!)
-                  : null,
+              color: widget.gradient == null ? widget.color ?? Theme.of(context).primaryColor : null,
+              border: widget.borderSide != null ? Border.fromBorderSide(widget.borderSide!) : null,
               boxShadow: widget.dropShadow
-                  ? [
+                  ? <BoxShadow>[
                       BoxShadow(
                         color: primaryColor.withOpacity(0.3),
                         spreadRadius: 5,
@@ -101,14 +92,14 @@ class _CstmBtnState extends State<CstmBtn> {
                         offset: const Offset(0, 3),
                       ),
                     ]
-                  : [],
+                  : <BoxShadow>[],
             ),
             child: Padding(
               padding: widget.padding,
               child: !widget.isLogin
                   ? Row(
                       mainAxisAlignment: widget.alignment,
-                      children: [
+                      children: <Widget>[
                         if (widget.iconPath != null)
                           SvgPicture.asset(
                             widget.iconPath!,

@@ -1,30 +1,29 @@
-import '../models/setting.dart';
-import '../../../../shared/config/routes.dart';
+import 'package:fcc_app_front/export.dart';
 
-final settingsList = List.generate(
+final List<SettingModel> settingsList = List<SettingModel>.generate(
   settingIcons.length,
-  (index) => SettingModel(
+  (int index) => SettingModel(
     title: settingTitles[index],
     icon: settingIcons[index],
     route: settingRoutes[index],
   ),
 );
 
-const settingTitles = [
+const List<String> settingTitles = <String>[
   'Сколько человек я пригласил',
   'Сменить план',
   'Уведомления',
   'Настройки',
   'Чат поддержки',
 ];
-const settingIcons = [
+const List<String> settingIcons = <String>[
   'person_plus',
   'reboot',
   'notif',
   'settings',
   'chat',
 ];
-final settingRoutes = [
+final List<String> settingRoutes = <String>[
   RoutesNames.addPerson,
   RoutesNames.changePlan,
   RoutesNames.notifications,

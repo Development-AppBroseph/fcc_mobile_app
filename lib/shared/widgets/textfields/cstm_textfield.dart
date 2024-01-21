@@ -1,41 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:fcc_app_front/export.dart';
 
 class CustomField extends StatefulWidget {
-  const CustomField(
-      {Key? key,
-      this.controller,
-      this.prefix,
-      this.inputFormatter = const [],
-      this.padding = const EdgeInsets.symmetric(horizontal: 15),
-      this.hintStyle,
-      this.inputType,
-      this.hintText,
-      this.suffixText,
-      this.margin,
-      this.suffixtextstyle,
-      this.textStyle,
-      this.baseColor = Colors.transparent,
-      this.onChanged,
-      this.obscureText,
-      this.suffixIcon,
-      this.textPadding = const EdgeInsets.only(left: 15),
-      this.validator,
-      this.border,
-      this.enabledBorder,
-      this.bordercolor,
-      this.contentPadding = const EdgeInsets.symmetric(vertical: 8),
-      this.prefixIcon,
-      this.height,
-      this.width,
-      this.disabledinputBorder,
-      this.focusNode,
-      this.hintAlignment,
-      this.focusedBorder,
-      this.borderRadius = const BorderRadius.all(Radius.circular(5)),
-      this.suffixIconColor})
-      : super(key: key);
-
   final TextEditingController? controller;
   final EdgeInsets? padding;
   final double? height;
@@ -67,12 +32,46 @@ class CustomField extends StatefulWidget {
   final Color baseColor;
   final FocusNode? focusNode;
 
+  const CustomField(
+      {Key? key,
+      this.controller,
+      this.prefix,
+      this.inputFormatter = const <TextInputFormatter>[],
+      this.padding = const EdgeInsets.symmetric(horizontal: 15),
+      this.hintStyle,
+      this.inputType,
+      this.hintText,
+      this.suffixText,
+      this.margin,
+      this.suffixtextstyle,
+      this.textStyle,
+      this.baseColor = Colors.transparent,
+      this.onChanged,
+      this.obscureText,
+      this.suffixIcon,
+      this.textPadding = const EdgeInsets.only(left: 15),
+      this.validator,
+      this.border,
+      this.enabledBorder,
+      this.bordercolor,
+      this.contentPadding = const EdgeInsets.symmetric(vertical: 8),
+      this.prefixIcon,
+      this.height,
+      this.width,
+      this.disabledinputBorder,
+      this.focusNode,
+      this.hintAlignment,
+      this.focusedBorder,
+      this.borderRadius = const BorderRadius.all(Radius.circular(5)),
+      this.suffixIconColor})
+      : super(key: key);
+
   @override
   State<CustomField> createState() => _CustomFieldState();
 }
 
 class _CustomFieldState extends State<CustomField> {
-  String error = "";
+  String error = '';
   Color currentColor = Colors.black12;
 
   @override
@@ -96,13 +95,13 @@ class _CustomFieldState extends State<CustomField> {
         margin: widget.contentPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             TextField(
               obscureText: widget.obscureText ?? false,
               focusNode: widget.focusNode,
               inputFormatters: widget.inputFormatter,
               keyboardType: widget.inputType,
-              onChanged: (v) {
+              onChanged: (String v) {
                 if (widget.validator != null) {
                   String validation = widget.validator!(v);
                   setState(() {
@@ -114,7 +113,7 @@ class _CustomFieldState extends State<CustomField> {
                 }
               },
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontFamily: "Rubik",
+                    fontFamily: 'Rubik',
                     fontWeight: FontWeight.w400,
                     fontSize: 18,
                   ),
@@ -148,11 +147,11 @@ class _CustomFieldState extends State<CustomField> {
               ),
               controller: widget.controller,
             ),
-            if (error != "")
+            if (error != '')
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     //  SvgPicture.asset('assets/warning.svg'),
                     const SizedBox(
                       width: 5,

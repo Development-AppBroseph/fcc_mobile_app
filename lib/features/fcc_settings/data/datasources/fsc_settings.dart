@@ -1,16 +1,16 @@
 import 'package:fcc_app_front/features/fcc_settings/data/datasources/content_types.dart';
 import 'package:fcc_app_front/features/settings/data/models/fsc_setting.dart';
 
-final fscSettingsList = List.generate(
+final List<FscSettingModel> fscSettingsList = List<FscSettingModel>.generate(
   fscSettingIcons.length,
-  (index) => FscSettingModel(
+  (int index) => FscSettingModel(
     title: fscSettingTitles[index],
     icon: fscSettingIcons[index],
     type: ContentTypeEnum.values.elementAt(index),
   ),
 );
 
-const fscSettingTitles = [
+const List<String> fscSettingTitles = <String>[
   'О нас',
   'Оставить отзыв',
   'Условия использования',
@@ -18,7 +18,7 @@ const fscSettingTitles = [
   'Версия',
   'Политика конфиденциальности',
 ];
-const fscSettingIcons = [
+const List<String> fscSettingIcons = <String>[
   'about_us',
   'rate',
   'terms_of_use',

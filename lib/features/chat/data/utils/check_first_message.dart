@@ -8,13 +8,17 @@ bool checkFirstMessage(MessageModel message, MessageModel? messageBefore) {
   );
 }
 
-bool isSameDate(DateTime firstDate, DateTime secondDate) {
-  return firstDate.year == secondDate.year &&
-      firstDate.month == secondDate.month &&
-      firstDate.day == secondDate.day;
+bool isSameDate(
+  DateTime firstDate,
+  DateTime secondDate,
+) {
+  return firstDate.year == secondDate.year && firstDate.month == secondDate.month && firstDate.day == secondDate.day;
 }
 
-int daysBetween(DateTime from, DateTime to) {
+int daysBetween(
+  DateTime from,
+  DateTime to,
+) {
   from = DateTime(from.year, from.month, from.day);
   to = DateTime(to.year, to.month, to.day);
   return (to.difference(from).inHours / 24).round();

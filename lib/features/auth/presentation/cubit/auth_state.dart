@@ -4,7 +4,7 @@ sealed class AuthState extends Equatable {
   const AuthState();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => <Object>[];
 }
 
 final class Unauthenticated extends AuthState {}
@@ -15,5 +15,7 @@ class Authenticated extends AuthState {
     required this.user,
   });
   @override
-  List<Object> get props => [user];
+  List<Object> get props => <Object>[
+        user,
+      ];
 }

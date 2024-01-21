@@ -1,20 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
-import 'package:fcc_app_front/features/catalog/data/models/membership.dart';
-import '../../../../shared/config/base_http_client.dart';
+import 'package:fcc_app_front/export.dart';
 
 class MembershipCubit extends Cubit<List<MembershipModel>> {
-  MembershipCubit() : super([]);
-  load() async {
+  MembershipCubit() : super(<MembershipModel>[]);
+  Future<void> load() async {
     try {
-      final response = await BaseHttpClient.get('api/v1/users/memberships/');
+      final String? response = await BaseHttpClient.get('api/v1/users/memberships/');
       log(response.toString());
       if (response == null) return;
-      List<MembershipModel> membershipList = [];
-      final memberships = jsonDecode(response) as List;
+      List<MembershipModel> membershipList = <MembershipModel>[];
+      final List memberships = jsonDecode(response) as List;
       for (var element in memberships) {
         membershipList.add(
           MembershipModel.fromMap(element),
@@ -28,11 +25,7 @@ class MembershipCubit extends Cubit<List<MembershipModel>> {
 
   String getPrice(int id) {
     try {
-      return super
-              .state
-              .firstWhereOrNull((element) => element.id == id)
-              ?.price
-              .toStringAsFixed(0) ??
+      return super.state.firstWhereOrNull((MembershipModel element) => element.id == id)?.price.toStringAsFixed(0) ??
           '-';
     } catch (e) {
       log('No membership with id $id');

@@ -10,19 +10,19 @@ List<CatalogModel> getCatalogByMembership(
     case MembershipType.standard:
       return allCatalogs
           .where(
-            (element) => element.membership == MembershipType.standard.name,
+            (CatalogModel element) => element.membership == MembershipType.standard.name,
           )
           .toList();
     case MembershipType.premium:
-      List<CatalogModel> catalogs = [];
+      List<CatalogModel> catalogs = <CatalogModel>[];
       catalogs.addAll(
         allCatalogs.where(
-          (element) => element.membership == MembershipType.standard.name,
+          (CatalogModel element) => element.membership == MembershipType.standard.name,
         ),
       );
       catalogs.addAll(
         allCatalogs.where(
-          (element) => element.membership == MembershipType.premium.name,
+          (CatalogModel element) => element.membership == MembershipType.premium.name,
         ),
       );
       return catalogs;

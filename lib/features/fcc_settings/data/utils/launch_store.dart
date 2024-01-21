@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:url_launcher/url_launcher.dart';
 
-launchStore({String? url}) {
+import 'package:fcc_app_front/export.dart';
+
+dynamic launchStore({String? url}) {
   if (url != null) {
     launchUrl(
       Uri.parse(url),
@@ -10,10 +11,10 @@ launchStore({String? url}) {
   } else if (Platform.isAndroid || Platform.isIOS) {
     //Todo: final appId = Platform.isAndroid ? 'YOUR_ANDROID_PACKAGE_ID' : 'YOUR_IOS_APP_ID';
     //Todo: Add your app url
-    final url = Uri.parse(
+    final Uri url = Uri.parse(
       Platform.isAndroid
-          ? "https://play.google.com/store/apps/details?id=com.ashvaiberov.fscu"
-          : "https://apps.apple.com/app/%D1%84%D0%BA%D0%BA/id6469049914",
+          ? 'https://play.google.com/store/apps/details?id=com.ashvaiberov.fscu'
+          : 'https://apps.apple.com/app/%D1%84%D0%BA%D0%BA/id6469049914',
     );
     launchUrl(
       url,
@@ -24,11 +25,11 @@ launchStore({String? url}) {
 
 String getStoreLink() {
   return Platform.isAndroid
-      ? "https://play.google.com/store/apps/details?id=com.ashvaiberov.fscu"
-      : "https://apps.apple.com/app/%D1%84%D0%BA%D0%BA/id6469049914";
+      ? 'https://play.google.com/store/apps/details?id=com.ashvaiberov.fscu'
+      : 'https://apps.apple.com/app/%D1%84%D0%BA%D0%BA/id6469049914';
 }
 
-launchWhatsapp() {
+dynamic launchWhatsapp() {
   launchUrl(
     Uri.parse(
       'https://wa.me/79851378350',
@@ -37,7 +38,7 @@ launchWhatsapp() {
   );
 }
 
-launchTelegram() {
+dynamic launchTelegram() {
   launchUrl(
     Uri.parse(
       'https://t.me/Alina_Fyaritovna',

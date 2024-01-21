@@ -6,19 +6,19 @@ import 'package:fcc_app_front/features/menu/data/repositories/order_repo.dart';
 part 'order_state.dart';
 
 class OrderCubit extends Cubit<OrderState> {
-  OrderCubit() : super(const OrderState([]));
+  OrderCubit() : super(const OrderState(<OrderModel>[]));
   load() async {
-    final orders = await OrderRepo.getOrders();
+    final List<OrderModel> orders = await OrderRepo.getOrders();
     emit(
       OrderState(orders),
     );
   }
 
   changeAddress(String address) async {
-    List<OrderModel> orders = [
+    List<OrderModel> orders = <OrderModel>[
       ...super.state.orders,
     ];
-    final order = await OrderRepo.updateOrderAddress(
+    final OrderModel? order = await OrderRepo.updateOrderAddress(
       address,
       super.state.orders.last.id,
     );

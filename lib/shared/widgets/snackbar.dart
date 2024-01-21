@@ -1,19 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
-import '../constants/colors/color.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ErrorSnackBar {
-  static Future<void> showErrorSnackBar(BuildContext context, String message,
-      double textScaleFactor, EdgeInsets padding, int maxLines) async {
+  static Future<void> showErrorSnackBar(
+      BuildContext context, String message, double textScaleFactor, EdgeInsets padding, int maxLines) async {
     showTopSnackBar(
       Overlay.of(context),
       SizedBox(
         width: 330.w,
         child: CustomSnackBar.error(
-          boxShadow: [
+          boxShadow: <BoxShadow>[
             BoxShadow(
               color: Theme.of(context).scaffoldBackgroundColor,
             ),

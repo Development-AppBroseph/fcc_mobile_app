@@ -1,27 +1,11 @@
 import 'dart:async';
-import 'package:fcc_app_front/shared/config/routes.dart';
-import 'package:fcc_app_front/shared/config/utils/pop_possible.dart';
-import 'package:hive/hive.dart';
 
-import '../../../../shared/constants/hive.dart';
-import '../../../../shared/widgets/snackbar.dart';
-import '../cubit/auth_cubit.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:pinput/pinput.dart';
-
-import '../../../../shared/constants/colors/color.dart';
-import '../../../../shared/widgets/buttons/count_btn.dart';
-import '../../../../shared/widgets/on_tap_scale.dart';
+import 'package:fcc_app_front/export.dart';
 
 class CstmBtmSheet extends StatefulWidget {
   const CstmBtmSheet({
-    Key? key,
     required this.phone,
+    Key? key,
   }) : super(key: key);
   final String phone;
   @override
@@ -42,7 +26,7 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
   }
 
   void startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         if (counter > 0) {
           counter--;
@@ -68,18 +52,18 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
           height: 880.h,
           color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
-            children: [
+            children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     OnTapScaleAndFade(
                       onTap: () {
                         canPopThenPop(context);
                       },
                       child: Text(
-                        "Отмена",
+                        'Отмена',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               fontSize: 17,
                               fontWeight: FontWeight.w400,
@@ -88,7 +72,7 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                       ),
                     ),
                     Text(
-                      "Подтверждение",
+                      'Подтверждение',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontSize: 17,
                             fontWeight: FontWeight.w400,
@@ -106,7 +90,7 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                 height: 75,
               ),
               Text(
-                "Код отправлен на номер",
+                'Код отправлен на номер',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -133,8 +117,7 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                       length: 4,
                       autofocus: true,
                       controller: codeController,
-                      androidSmsAutofillMethod:
-                          AndroidSmsAutofillMethod.smsUserConsentApi,
+                      androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
                       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                       pinAnimationType: PinAnimationType.slide,
                       defaultPinTheme: const PinTheme(
@@ -149,26 +132,24 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                           ),
                         ),
                       ),
-                      errorBuilder: (errorText, pin) => const SizedBox.shrink(),
+                      errorBuilder: (String? errorText, String pin) => const SizedBox.shrink(),
                       showCursor: true,
-                      onCompleted: (pin) async {
+                      onCompleted: (String pin) async {
                         setState(() {
                           isLoading = true;
                         });
-                        final route = await context.read<AuthCubit>().login(
+                        final String? route = await context.read<AuthCubit>().login(
                               widget.phone,
                               pin,
                             );
                         if (route == null) isError = true;
                         if (route == RoutesNames.auth &&
                             context.mounted &&
-                            Hive.box(HiveStrings.userBox)
-                                .containsKey(HiveStrings.invite)) {
-                          final isSucces =
-                              await context.read<AuthCubit>().incrementInvites(
-                                    widget.phone,
-                                    Hive.box(HiveStrings.userBox).get(HiveStrings.invite),
-                                  );
+                            Hive.box(HiveStrings.userBox).containsKey(HiveStrings.invite)) {
+                          final bool isSucces = await context.read<AuthCubit>().incrementInvites(
+                                widget.phone,
+                                Hive.box(HiveStrings.userBox).get(HiveStrings.invite),
+                              );
                           if (isSucces && context.mounted) {
                             setState(() {
                               isLoading = false;
@@ -195,12 +176,8 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                             extra: widget.phone,
                           );
                         } else if (context.mounted && isError) {
-                          ErrorSnackBar.showErrorSnackBar(
-                              context,
-                              "Введен неверный код, попробуйте еще раз",
-                              0.9,
-                              const EdgeInsets.symmetric(horizontal: 10),
-                              1);
+                          ErrorSnackBar.showErrorSnackBar(context, 'Введен неверный код, попробуйте еще раз', 0.9,
+                              const EdgeInsets.symmetric(horizontal: 10), 1);
                         }
                         setState(() {
                           isLoading = false;

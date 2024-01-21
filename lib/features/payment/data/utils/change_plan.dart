@@ -1,12 +1,4 @@
-import 'package:fcc_app_front/features/catalog/data/datasources/catalog.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../../shared/config/routes.dart';
-import '../../../auth/presentation/cubit/auth_cubit.dart';
-import '../../../menu/presentation/cubit/catalog_cubit.dart';
-import '../../../menu/presentation/cubit/product_cubit.dart';
+import 'package:fcc_app_front/export.dart';
 
 changePlan(BuildContext context, MembershipType type) async {
   context.read<ProductCubit>().load(
@@ -18,7 +10,7 @@ changePlan(BuildContext context, MembershipType type) async {
   context.pop();
   context.pushNamed(
     RoutesNames.paymentCongrats,
-    extra: {
+    extra: <String, Object>{
       'membership': type.name,
       'goMenu': false,
     },

@@ -1,7 +1,7 @@
 import 'package:fcc_app_front/features/chat/data/utils/check_first_message.dart';
 import 'package:intl/intl.dart';
 
-getDateString(DateTime date) {
+String getDateString(DateTime date) {
   if (isSameDate(
     date,
     DateTime.now(),

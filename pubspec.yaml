@@ -50,6 +50,7 @@ dependencies:
   webview_flutter: ^4.4.1
   flutter_inappwebview: ^5.8.0
   collection: ^1.17.2
+  nested: ^1.0.0
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"

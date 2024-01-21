@@ -1,15 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import '../widgets/chat_appbar.dart';
-import '../widgets/chat_textfield.dart';
-import '../widgets/message_list.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ChatPage extends StatelessWidget {
-  const ChatPage({
-    Key? key,
-    required this.id,
-  }) : super(key: key);
   final String id;
+
+  const ChatPage({
+    required this.id,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +14,7 @@ class ChatPage extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: Column(
-            children: [
+            children: <Widget>[
               ChatAppBar(),
               MessageList(),
               ChatTextfield(),

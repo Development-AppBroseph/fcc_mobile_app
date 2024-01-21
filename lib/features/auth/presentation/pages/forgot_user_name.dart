@@ -1,9 +1,4 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../shared/config/utils/pop_possible.dart';
-import '../../../../shared/widgets/buttons/cstm_btn.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ForgotUserName extends StatelessWidget {
   const ForgotUserName({super.key});
@@ -18,9 +13,9 @@ class ForgotUserName extends StatelessWidget {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               AutoSizeText(
-                "Не помню имя пользователя",
+                'Не помню имя пользователя',
                 style: Theme.of(context).textTheme.titleMedium,
                 maxLines: 1,
                 minFontSize: 15,
@@ -29,7 +24,7 @@ class ForgotUserName extends StatelessWidget {
                 height: 70.h,
               ),
               Text(
-                "Перейдите по ссылке которую вам отправил в мессенджер знакомый либо запросите у него имя пользователя.",
+                'Перейдите по ссылке которую вам отправил в мессенджер знакомый либо запросите у него имя пользователя.',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
@@ -40,7 +35,7 @@ class ForgotUserName extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "Пригласивший вас пользователь может найти свое имя пользователя по кнопке «Скидка», которая расположена в нижней панели приложения»",
+                'Пригласивший вас пользователь может найти свое имя пользователя по кнопке «Скидка», которая расположена в нижней панели приложения»',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
@@ -54,7 +49,7 @@ class ForgotUserName extends StatelessWidget {
                 onTap: () {
                   canPopThenPop(context);
                 },
-                text: "Продолжить",
+                text: 'Продолжить',
               ),
             ],
           ),

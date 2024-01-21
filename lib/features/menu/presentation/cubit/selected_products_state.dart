@@ -4,7 +4,7 @@ class SelectedProductsState extends Equatable {
   const SelectedProductsState({this.product});
   final ProductModel? product;
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         product,
       ];
 }

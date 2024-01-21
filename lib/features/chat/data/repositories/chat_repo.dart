@@ -1,21 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:fcc_app_front/features/chat/data/models/message.dart';
-import 'package:fcc_app_front/shared/config/base_http_client.dart';
-import 'package:fcc_app_front/shared/config/utils/get_token.dart';
-import 'package:fcc_app_front/shared/constants/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:fcc_app_front/export.dart';
 import 'package:http/http.dart' as http;
 
 class ChatRepo {
   static Future<int?> getChat() async {
-    final box = Hive.box(HiveStrings.userBox);
+    final Box box = Hive.box(HiveStrings.userBox);
     if (!box.containsKey(
       HiveStrings.chatId,
     )) {
-      final chat = await BaseHttpClient.get('api/v1/support-chats/chats/');
+      final String? chat = await BaseHttpClient.get('api/v1/support-chats/chats/');
       if (chat == null) return null;
-      final id = jsonDecode(
+      final int id = jsonDecode(
         chat,
       )['id'] as int;
       box.put(
@@ -29,10 +26,10 @@ class ChatRepo {
   }
 
   static Future<MessageModel?> writeMessage(String message) async {
-    final chat = await BaseHttpClient.post(
+    final http.Response? chat = await BaseHttpClient.post(
       'api/v1/support-chats/messages/',
-      {
-        "message": message,
+      <String, String>{
+        'message': message,
       },
     );
     if (chat == null) return null;
@@ -46,13 +43,13 @@ class ChatRepo {
   }
 
   static Future<MessageModel?> uploadImage(String path) async {
-    final request = http.MultipartRequest(
+    final http.MultipartRequest request = http.MultipartRequest(
       'POST',
       Uri.parse('http://167.99.246.103:8081/api/v1/support-chats/messages/'),
     );
-    final token = getToken();
+    final String? token = getToken();
     request.headers.addAll(
-      {
+      <String, String>{
         'Authorization': 'Bearer $token',
       },
     );
@@ -62,8 +59,8 @@ class ChatRepo {
         path,
       ),
     );
-    var response = await request.send();
-    var responseData = await http.Response.fromStream(response);
+    http.StreamedResponse response = await request.send();
+    http.Response responseData = await http.Response.fromStream(response);
     log(
       jsonDecode(
         utf8.decode(
@@ -84,13 +81,13 @@ class ChatRepo {
   }
 
   static Future<List<MessageModel>> getMessages() async {
-    List<MessageModel> messages = [];
+    List<MessageModel> messages = <MessageModel>[];
     try {
-      final response = await BaseHttpClient.get(
+      final String? response = await BaseHttpClient.get(
         'api/v1/support-chats/messages/',
       );
       if (response != null) {
-        final body = jsonDecode(
+        final List body = jsonDecode(
           response,
         ) as List;
         for (final message in body) {
@@ -102,7 +99,7 @@ class ChatRepo {
         }
       }
       messages.sort(
-        (a, b) => a.date.compareTo(
+        (MessageModel a, MessageModel b) => a.date.compareTo(
           b.date,
         ),
       );

@@ -1,24 +1,15 @@
 import 'dart:developer';
 
-import 'package:fcc_app_front/features/catalog/data/datasources/catalog.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/selected_membership_cubit.dart';
-import 'package:fcc_app_front/shared/config/routes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../config/utils/pop_possible.dart';
-import '../colors/color.dart';
+import 'package:fcc_app_front/export.dart';
 
 class CustomBackButton extends StatelessWidget {
-  CustomBackButton({
-    Key? key,
+  const CustomBackButton({
     this.path,
     this.pop = false,
+    Key? key,
   }) : super(key: key);
   final String? path;
-  bool pop;
+  final bool pop;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +46,7 @@ class CustomBackButton extends StatelessWidget {
           right: 5.w,
         ),
         child: Row(
-          children: [
+          children: <Widget>[
             const Icon(
               Icons.arrow_back_ios_new,
               size: 13,
@@ -65,7 +56,7 @@ class CustomBackButton extends StatelessWidget {
               width: 5,
             ),
             Text(
-              "Назад",
+              'Назад',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w400,
                   ),

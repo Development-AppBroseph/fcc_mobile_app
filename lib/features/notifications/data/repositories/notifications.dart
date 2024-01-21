@@ -1,19 +1,15 @@
 import 'dart:developer';
 
-import 'package:fcc_app_front/features/notifications/data/repositories/notification_api.dart';
-import 'package:fcc_app_front/shared/config/base_http_client.dart';
-import 'package:fcc_app_front/shared/constants/hive.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:hive/hive.dart';
+import 'package:fcc_app_front/export.dart';
 
 class FirebaseNotificationsRepo {
-  final _firebaseMessaging = FirebaseMessaging.instance;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   Future initNotifications(Function onBackgroundMessage) async {
     await _firebaseMessaging.requestPermission();
     log(await _firebaseMessaging.getToken() ?? '');
     try {
       FirebaseMessaging.onBackgroundMessage(
-        (message) async {
+        (RemoteMessage message) async {
           log(message.data.toString());
           NotificationApi.pushNotification(message);
           onBackgroundMessage();
@@ -24,7 +20,7 @@ class FirebaseNotificationsRepo {
     }
     try {
       FirebaseMessaging.onMessage.listen(
-        (message) {
+        (RemoteMessage message) {
           log(message.data.toString());
           NotificationApi.pushNotification(message);
 
@@ -37,12 +33,12 @@ class FirebaseNotificationsRepo {
   }
 
   sendFcm() async {
-    final box = await Hive.openBox(HiveStrings.userBox);
+    final Box box = await Hive.openBox(HiveStrings.userBox);
     try {
       if (!box.containsKey(HiveStrings.isFcmSent)) {
-        final response = await BaseHttpClient.postBody(
+        final Response response = await BaseHttpClient.postBody(
           'api/v1/notifications/fcm_token_create/',
-          {
+          <String, String?>{
             'token': await _firebaseMessaging.getToken(),
           },
         );

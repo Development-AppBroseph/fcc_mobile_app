@@ -8,7 +8,7 @@ class DiscountState extends Equatable {
   final int count;
   final int discount;
   @override
-  List<Object> get props => [
+  List<Object> get props => <Object>[
         count,
         discount,
       ];

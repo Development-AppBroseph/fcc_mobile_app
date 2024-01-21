@@ -1,10 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../on_tap_scale.dart';
+import 'package:fcc_app_front/export.dart';
 
 class CounterButton extends StatefulWidget {
   CounterButton({
@@ -33,7 +30,7 @@ class _CounterButtonState extends State<CounterButton> {
   }
 
   void startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         if (widget.counter > 0) {
           widget.counter--;
@@ -74,14 +71,10 @@ class _CounterButtonState extends State<CounterButton> {
           onTap: timerFinished ? resetTimer : null,
           child: Center(
             child: Text(
-              timerFinished
-                  ? "Отправить еще раз"
-                  : "Запросить через 00:${widget.counter.toString().padLeft(2, '0')}",
+              timerFinished ? 'Отправить еще раз' : "Запросить через 00:${widget.counter.toString().padLeft(2, '0')}",
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w400,
-                    color: timerFinished
-                        ? Theme.of(context).primaryColorDark
-                        : Theme.of(context).hintColor,
+                    color: timerFinished ? Theme.of(context).primaryColorDark : Theme.of(context).hintColor,
                   ),
             ),
           ),

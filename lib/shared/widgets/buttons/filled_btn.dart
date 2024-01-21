@@ -1,12 +1,19 @@
-import 'package:auto_size_text/auto_size_text.dart';
-
-import '../../constants/widgets/sizedbox.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../on_tap_scale.dart';
+import 'package:fcc_app_front/export.dart';
 
 class FillBtn extends StatefulWidget {
+  final double height;
+  final double width;
+  final EdgeInsets? margin;
+  final EdgeInsets? padding;
+  final BorderRadius borderRadius;
+  final Color? color;
+  final Color? textColor;
+  final TextStyle? textStyle;
+  final String text;
+  final String iconPath;
+  final MainAxisAlignment mainAxisAlignment;
+  final void Function() onTap;
+
   const FillBtn({
     super.key,
     this.height = 60,
@@ -22,18 +29,6 @@ class FillBtn extends StatefulWidget {
     this.color,
     this.mainAxisAlignment = MainAxisAlignment.center,
   });
-  final double height;
-  final double width;
-  final EdgeInsets? margin;
-  final EdgeInsets? padding;
-  final BorderRadius borderRadius;
-  final Color? color;
-  final Color? textColor;
-  final TextStyle? textStyle;
-  final String text;
-  final String iconPath;
-  final MainAxisAlignment mainAxisAlignment;
-  final void Function() onTap;
 
   @override
   State<FillBtn> createState() => _FillBtnState();
@@ -55,7 +50,7 @@ class _FillBtnState extends State<FillBtn> {
         ),
         child: Row(
           mainAxisAlignment: widget.mainAxisAlignment,
-          children: [
+          children: <Widget>[
             SvgPicture.asset(
               widget.iconPath,
               width: 24,

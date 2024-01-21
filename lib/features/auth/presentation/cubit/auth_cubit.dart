@@ -1,31 +1,22 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:fcc_app_front/shared/config/routes.dart';
-import 'package:flutter/material.dart';
-import '../../data/models/user.dart';
-import '../../../catalog/data/datasources/catalog.dart';
-import '../../../../shared/constants/hive.dart';
-import 'package:hive/hive.dart';
-
-import '../../data/repositories/auth_repo.dart';
+import 'package:fcc_app_front/export.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  static final box = Hive.box(
+  static final Box box = Hive.box(
     HiveStrings.userBox,
   );
   AuthCubit() : super(Unauthenticated());
-  init() async {
+  void init() async {
     if (box.containsKey(
           HiveStrings.token,
         ) &&
         box.containsKey(
           HiveStrings.username,
         )) {
-      final user = await AuthRepo.getUser();
+      final UserModel? user = await AuthRepo.getUser();
       if (user != null) {
         log('Have user');
         emit(
@@ -45,7 +36,7 @@ class AuthCubit extends Cubit<AuthState> {
     String dateOfBirth,
     BuildContext context,
   ) async {
-    final user = await AuthRepo.verifyIdentity(
+    final UserModel? user = await AuthRepo.verifyIdentity(
       firstName,
       lastName,
       middleName,
@@ -64,12 +55,12 @@ class AuthCubit extends Cubit<AuthState> {
     return false;
   }
 
-  editUser({
+  void editUser({
     String? firstName,
     String? lastName,
     String? middleName,
   }) async {
-    final user = await AuthRepo.editUser(
+    final UserModel? user = await AuthRepo.editUser(
       firstName: firstName,
       lastName: lastName,
       middleName: middleName,
@@ -83,14 +74,14 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  changePhone(String phone) async {
+  void changePhone(String phone) async {
     await AuthRepo.changePhone(
       phone,
     );
   }
 
-  archiveAccount() {
-    final currentState = super.state;
+  void archiveAccount() {
+    final AuthState currentState = super.state;
     if (currentState is Authenticated) {
       AuthRepo.archiveAccount(
         currentState.user.phoneNumber,
@@ -102,19 +93,22 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  logOut() {
+  void logOut() {
     box.clear();
     emit(
       Unauthenticated(),
     );
   }
 
-  Future<String?> login(String phone, String code) async {
+  Future<String?> login(
+    String phone,
+    String code,
+  ) async {
     try {
       if (await AuthRepo.checkRegistration(phone)) {
-        final route = await AuthRepo.login(phone, code);
+        final String? route = await AuthRepo.login(phone, code);
         if (route == RoutesNames.menu) {
-          final user = await AuthRepo.getUser();
+          final UserModel? user = await AuthRepo.getUser();
           if (user != null) {
             emit(
               Authenticated(
@@ -137,7 +131,10 @@ class AuthCubit extends Cubit<AuthState> {
     return null;
   }
 
-  Future<bool> incrementInvites(String phone, String userName) async {
+  Future<bool> incrementInvites(
+    String phone,
+    String userName,
+  ) async {
     return await AuthRepo.incrementInvites(phone, userName);
   }
 
@@ -149,8 +146,11 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<bool> memberShip(String phone, MembershipType type) async {
-    final authState = super.state;
+  Future<bool> memberShip(
+    String phone,
+    MembershipType type,
+  ) async {
+    final AuthState authState = super.state;
     if (authState is Authenticated) {
       emit(
         Authenticated(

@@ -1,13 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:fcc_app_front/features/settings/presentation/cubit/discount_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../shared/constants/widgets/custom_back.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../shared/constants/colors/color.dart';
-import '../widgets/offer_cart.dart';
+import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/settings/presentation/widgets/offer_cart.dart';
 
 class OfferPage extends StatelessWidget {
   const OfferPage({super.key});
@@ -22,11 +14,11 @@ class OfferPage extends StatelessWidget {
             vertical: 20.h,
           ),
           child: Column(
-            children: [
+            children: <Widget>[
               CustomBackButton(),
               const Spacer(),
               AutoSizeText(
-                "Сколько человек я пригласил",
+                'Сколько человек я пригласил',
                 style: Theme.of(context).textTheme.titleMedium,
                 maxLines: 1,
               ),
@@ -38,48 +30,45 @@ class OfferPage extends StatelessWidget {
                   horizontal: 20.w,
                 ),
                 child: BlocBuilder<DiscountCubit, DiscountState>(
-                  builder: (context, state) {
+                  builder: (BuildContext context, DiscountState state) {
                     return Column(
-                      children: [
+                      children: <Widget>[
                         AutoSizeText.rich(
                           TextSpan(
-                            children: [
+                            children: <InlineSpan>[
                               const TextSpan(
-                                text: "Вы пригласили ",
+                                text: 'Вы пригласили ',
                               ),
                               TextSpan(
-                                text: "${state.count} человек",
+                                text: '${state.count} человек',
                                 style: Theme.of(context).textTheme.titleMedium,
                               )
                             ],
                           ),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(color: hintColor),
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: hintColor,
+                              ),
                           maxLines: 1,
                         ),
                         sized10,
                         Text(
-                          "Пользователи, которые зашли по вашей реферальной ссылке",
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    fontSize: 12,
-                                  ),
+                          'Пользователи, которые зашли по вашей реферальной ссылке',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                fontSize: 12,
+                              ),
                           textAlign: TextAlign.center,
                         ),
                         sized40,
                         OfferCart(
                           borderColor: Theme.of(context).primaryColor,
-                          title: "${state.discount} %",
+                          title: '${state.discount} %',
                           titleStyle: Theme.of(context).textTheme.titleLarge,
                           onTap: () {},
-                          description: "Ваш процент скидки",
-                          descriptionStyle:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    fontSize: 14,
-                                    color: hintColor,
-                                  ),
+                          description: 'Ваш процент скидки',
+                          descriptionStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                fontSize: 14,
+                                color: hintColor,
+                              ),
                         ),
                       ],
                     );

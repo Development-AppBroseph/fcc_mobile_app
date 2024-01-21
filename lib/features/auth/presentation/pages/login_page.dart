@@ -1,17 +1,4 @@
-import 'package:fcc_app_front/shared/config/routes.dart';
-import 'package:fcc_app_front/shared/constants/colors/color.dart';
-import 'package:fcc_app_front/shared/constants/widgets/custom_back.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
-import '../../../../shared/widgets/buttons/cstm_btn.dart';
-import '../../../../shared/widgets/snackbar.dart';
-import '../cubit/auth_cubit.dart';
-import '../widgets/cstm_bottom_sheet.dart';
+import 'package:fcc_app_front/export.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
@@ -24,11 +11,11 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController phoneController = TextEditingController();
-  final maskFormatter = MaskTextInputFormatter(
+  final MaskTextInputFormatter maskFormatter = MaskTextInputFormatter(
     initialText: '+7 ',
     mask: '+7 ###-###-##-##',
-    filter: {
-      "#": RegExp(r'[0-9]'),
+    filter: <String, RegExp>{
+      '#': RegExp(r'[0-9]'),
     },
   );
   bool isLoading = false;
@@ -45,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
               reverse: true,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   SizedBox(
                     height: 40.h,
                   ),
@@ -56,24 +43,24 @@ class _LoginPageState extends State<LoginPage> {
                     height: 100.h,
                   ),
                   Text(
-                    "Введите",
+                    'Введите',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text(
-                    "номер телефона",
+                    'номер телефона',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(
                     height: 30,
                   ),
                   Text(
-                    "Чтобы войти или стать",
+                    'Чтобы войти или стать',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).hintColor,
                         ),
                   ),
                   Text(
-                    "членом клуба ФКК",
+                    'членом клуба ФКК',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).hintColor,
                         ),
@@ -83,14 +70,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       TextField(
-                        inputFormatters: [
+                        inputFormatters: <TextInputFormatter>[
                           maskFormatter,
                         ],
                         keyboardType: TextInputType.number,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              fontFamily: "Rubik",
+                              fontFamily: 'Rubik',
                               fontWeight: FontWeight.w400,
                               fontSize: 18,
                             ),
@@ -124,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                       if (!maskFormatter.isFill()) {
                         ErrorSnackBar.showErrorSnackBar(
                           context,
-                          "Неверный формат номера телефона",
+                          'Неверный формат номера телефона',
                           0.9,
                           const EdgeInsets.symmetric(horizontal: 15),
                           3,
@@ -133,23 +120,18 @@ class _LoginPageState extends State<LoginPage> {
                         setState(() {
                           isLoading = true;
                         });
-                        final isSuccess =
-                            await context.read<AuthCubit>().createUserSendCode(
-                                  maskFormatter
-                                      .getMaskedText()
-                                      .replaceAll(' ', '')
-                                      .replaceAll('-', ''),
-                                );
+                        final bool isSuccess = await context.read<AuthCubit>().createUserSendCode(
+                              maskFormatter.getMaskedText().replaceAll(' ', '').replaceAll('-', ''),
+                            );
                         if (isSuccess && context.mounted) {
                           showCupertinoModalBottomSheet(
                             context: context,
                             expand: true,
-                            builder: (context) => CstmBtmSheet(
-                              phone: maskFormatter
-                                  .getMaskedText()
-                                  .replaceAll(' ', '')
-                                  .replaceAll('-', ''),
-                            ),
+                            builder: (BuildContext context) {
+                              return CstmBtmSheet(
+                                phone: maskFormatter.getMaskedText().replaceAll(' ', '').replaceAll('-', ''),
+                              );
+                            },
                           );
                         }
                         setState(() {
@@ -157,10 +139,10 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       }
                     },
-                    text: "Продолжить",
+                    text: 'Продолжить',
                     child: isLoading
                         ? Row(
-                            children: [
+                            children: <Widget>[
                               Text(
                                 'Продолжить',
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(),

@@ -1,11 +1,9 @@
-import 'package:bloc/bloc.dart';
-import 'package:fcc_app_front/features/chat/data/repositories/chat_repo.dart';
-import '../../data/models/message.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ChatCubit extends Cubit<List<MessageModel>> {
-  ChatCubit() : super([]);
+  ChatCubit() : super(<MessageModel>[]);
   load() async {
-    var messages = await ChatRepo.getMessages();
+    List<MessageModel> messages = await ChatRepo.getMessages();
     if (messages.isNotEmpty) {
       messages.insert(
         messages.length - 1,
@@ -13,7 +11,7 @@ class ChatCubit extends Cubit<List<MessageModel>> {
           id: -1,
           isMine: false,
           date: messages.last.date,
-          message: "Support",
+          message: 'Support',
         ),
       );
     }
@@ -22,25 +20,25 @@ class ChatCubit extends Cubit<List<MessageModel>> {
     );
   }
 
-  addMessage(String text) async {
-    final message = await ChatRepo.writeMessage(text);
+  Future<void> addMessage(String text) async {
+    final MessageModel? message = await ChatRepo.writeMessage(text);
     if (message == null) return;
     if (super.state.isEmpty) {
       emit(
-        [
+        <MessageModel>[
           message,
           MessageModel(
             id: -1,
             isMine: false,
             date: message.date,
-            message: "Support",
+            message: 'Support',
           ),
           ...super.state,
         ],
       );
     } else {
       emit(
-        [
+        <MessageModel>[
           message,
           ...super.state,
         ],
@@ -48,11 +46,11 @@ class ChatCubit extends Cubit<List<MessageModel>> {
     }
   }
 
-  uploadImage(String path) async {
-    final message = await ChatRepo.uploadImage(path);
+  Future<void> uploadImage(String path) async {
+    final MessageModel? message = await ChatRepo.uploadImage(path);
     if (message == null) return;
     emit(
-      [
+      <MessageModel>[
         message,
         ...super.state,
       ],

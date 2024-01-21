@@ -8,6 +8,7 @@ class ProductModel {
   final int stock;
   final String image;
   final int catalog;
+
   ProductModel({
     required this.id,
     required this.name,

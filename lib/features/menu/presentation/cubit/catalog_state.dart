@@ -6,5 +6,7 @@ class CatalogState extends Equatable {
   );
   final List<CatalogModel> catalogs;
   @override
-  List<Object> get props => [catalogs];
+  List<Object> get props => <Object>[
+        catalogs,
+      ];
 }

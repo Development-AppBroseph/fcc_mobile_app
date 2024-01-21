@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fcc_app_front/export.dart';
 
 class RounField extends StatefulWidget {
   const RounField({
-    Key? key,
     this.margin = const EdgeInsets.symmetric(horizontal: 0),
     this.initialText,
     this.enabled,
@@ -27,6 +24,7 @@ class RounField extends StatefulWidget {
     this.borderRadius,
     this.color,
     this.iconFunction,
+    Key? key,
   }) : super(key: key);
   final EdgeInsets margin;
   final String? initialText;
@@ -79,7 +77,7 @@ class _RounFieldState extends State<RounField> {
           ),
         ),
         child: Row(
-          children: [
+          children: <Widget>[
             Expanded(
               child: Padding(
                 padding: widget.textfieldPadding ?? const EdgeInsets.all(0),
@@ -87,7 +85,7 @@ class _RounFieldState extends State<RounField> {
                   enabled: widget.enabled,
                   style: widget.textStyle ??
                       Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontFamily: "Rubik",
+                            fontFamily: 'Rubik',
                             fontWeight: FontWeight.w400,
                             fontSize: 17,
                             color: Theme.of(context).hintColor,

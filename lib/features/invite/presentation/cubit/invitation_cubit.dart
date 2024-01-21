@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:fcc_app_front/features/invite/data/models/invitation.dart';
-
-import '../../../../shared/config/base_http_client.dart';
+import 'package:fcc_app_front/export.dart';
 
 class InvitationCubit extends Cubit<InvitationModel?> {
   InvitationCubit() : super(null);
-  load() async {
+  dynamic load() async {
     try {
-      final invitation = await BaseHttpClient.get(
+      final String? invitation = await BaseHttpClient.get(
         'api/v1/users/invitation_details/',
       );
       if (invitation != null) {

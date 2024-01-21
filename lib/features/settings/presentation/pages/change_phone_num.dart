@@ -1,12 +1,4 @@
-import 'package:fcc_app_front/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:fcc_app_front/shared/config/utils/pop_possible.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
-import '../../../../shared/constants/colors/color.dart';
-import '../../../../shared/widgets/buttons/cstm_btn.dart';
-import '../../../../shared/widgets/textfields/cstm_textfield.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ChangePhoneNum extends StatefulWidget {
   const ChangePhoneNum({super.key});
@@ -16,12 +8,12 @@ class ChangePhoneNum extends StatefulWidget {
 }
 
 class _ChangePhoneNumState extends State<ChangePhoneNum> {
-  final controller = TextEditingController();
-  final maskFormatter = MaskTextInputFormatter(
+  final TextEditingController controller = TextEditingController();
+  final MaskTextInputFormatter maskFormatter = MaskTextInputFormatter(
     initialText: '+7 ',
     mask: '+7 ###-###-##-##',
-    filter: {
-      "#": RegExp(r'[0-9]'),
+    filter: <String, RegExp>{
+      '#': RegExp(r'[0-9]'),
     },
   );
 
@@ -31,11 +23,14 @@ class _ChangePhoneNumState extends State<ChangePhoneNum> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [
+            children: <Widget>[
               Row(
-                children: [
+                children: <Widget>[
                   const Padding(
-                    padding: EdgeInsets.only(left: 30, top: 20),
+                    padding: EdgeInsets.only(
+                      left: 30,
+                      top: 20,
+                    ),
                     child: Icon(
                       Icons.arrow_back_ios_new,
                       size: 13,
@@ -43,13 +38,16 @@ class _ChangePhoneNumState extends State<ChangePhoneNum> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 5),
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 5,
+                    ),
                     child: GestureDetector(
                       onTap: () {
                         canPopThenPop(context);
                       },
                       child: Text(
-                        "Назад",
+                        'Назад',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w400,
                             ),
@@ -62,14 +60,14 @@ class _ChangePhoneNumState extends State<ChangePhoneNum> {
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
               Row(
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: 50,
                       ),
                       child: Text(
-                        "Введите",
+                        'Введите',
                         style: Theme.of(context).textTheme.titleLarge,
                         textAlign: TextAlign.start,
                       ),
@@ -78,14 +76,14 @@ class _ChangePhoneNumState extends State<ChangePhoneNum> {
                 ],
               ),
               Row(
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: 50,
                       ),
                       child: Text(
-                        "номер телефона",
+                        'номер телефона',
                         style: Theme.of(context).textTheme.titleLarge,
                         textAlign: TextAlign.start,
                       ),
@@ -97,14 +95,14 @@ class _ChangePhoneNumState extends State<ChangePhoneNum> {
                 height: 30,
               ),
               Row(
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: 50,
                       ),
                       child: Text(
-                        "Для редактирования номера телефона",
+                        'Для редактирования номера телефона',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Theme.of(context).hintColor,
                             ),
@@ -118,15 +116,18 @@ class _ChangePhoneNumState extends State<ChangePhoneNum> {
                 height: 30,
               ),
               Row(
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: CustomField(
                       controller: controller,
-                      contentPadding: const EdgeInsets.only(right: 20, left: 5),
-                      inputFormatter: [
+                      contentPadding: const EdgeInsets.only(
+                        right: 20,
+                        left: 5,
+                      ),
+                      inputFormatter: <TextInputFormatter>[
                         MaskTextInputFormatter(
                           mask: '+7 ###-###-##-##',
-                          filter: {"#": RegExp(r'[0-9]')},
+                          filter: <String, RegExp>{'#': RegExp(r'[0-9]')},
                         ),
                       ],
                       inputType: TextInputType.number,
@@ -135,12 +136,12 @@ class _ChangePhoneNumState extends State<ChangePhoneNum> {
                 ],
               ),
               Row(
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: CstmBtn(
                       onTap: () async {
                         if (maskFormatter.isFill()) {
-                          await context.read<AuthCubit>().changePhone(
+                          context.read<AuthCubit>().changePhone(
                                 maskFormatter.getMaskedText(),
                               );
                           if (context.mounted) {
@@ -148,7 +149,7 @@ class _ChangePhoneNumState extends State<ChangePhoneNum> {
                           }
                         }
                       },
-                      text: "Продолжить",
+                      text: 'Продолжить',
                       margin: const EdgeInsets.only(
                         left: 30,
                         right: 30,

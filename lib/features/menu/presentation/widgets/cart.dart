@@ -1,24 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/selected_products_cubit.dart';
-import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
-import 'package:flutter/material.dart';
-
-import 'package:fcc_app_front/features/menu/data/models/product.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../shared/constants/colors/color.dart';
+import 'package:fcc_app_front/export.dart';
 
 class ProductCart extends StatelessWidget {
-  const ProductCart({
-    Key? key,
-    required this.product,
-    this.isSelected = false,
-    this.canSelect = true,
-  }) : super(key: key);
   final ProductModel product;
   final bool isSelected;
   final bool canSelect;
+
+  const ProductCart({
+    required this.product,
+    this.isSelected = false,
+    this.canSelect = true,
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -35,7 +28,7 @@ class ProductCart extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          boxShadow: [
+          boxShadow: <BoxShadow>[
             BoxShadow(
               color: Theme.of(context).hintColor.withOpacity(0.1),
               blurRadius: 46,
@@ -50,40 +43,28 @@ class ProductCart extends StatelessWidget {
           ),
         ),
         child: Column(
-          children: [
+          children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 SizedBox(
                   height: 90,
                   child: CachedNetworkImage(
                     imageUrl: product.image,
-                    imageBuilder: (context, imageProvider) => AspectRatio(
-                      aspectRatio: 1,
-                      child: Container(
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
+                    imageBuilder: (BuildContext context, ImageProvider<Object> imageProvider) {
+                      return AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    placeholder: (context, url) => AspectRatio(
-                      aspectRatio: 1,
-                      child: Container(
-                        height: double.infinity,
-                        decoration: const BoxDecoration(
-                          color: primaryColorLight,
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.smoking_rooms,
-                          ),
-                        ),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => AspectRatio(
+                      );
+                    },
+                    placeholder: (BuildContext context, String url) => AspectRatio(
                       aspectRatio: 1,
                       child: Container(
                         height: double.infinity,
@@ -97,6 +78,26 @@ class ProductCart extends StatelessWidget {
                         ),
                       ),
                     ),
+                    errorWidget: (
+                      BuildContext context,
+                      String url,
+                      Object error,
+                    ) {
+                      return AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          height: double.infinity,
+                          decoration: const BoxDecoration(
+                            color: primaryColorLight,
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.smoking_rooms,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -106,7 +107,7 @@ class ProductCart extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
+                    children: <Widget>[
                       Text(
                         product.name,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(

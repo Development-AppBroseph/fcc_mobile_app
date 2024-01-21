@@ -6,9 +6,9 @@ import 'package:fcc_app_front/features/menu/data/repositories/catalog_repo.dart'
 part 'catalog_state.dart';
 
 class CatalogCubit extends Cubit<CatalogState> {
-  CatalogCubit() : super(const CatalogState([]));
+  CatalogCubit() : super(const CatalogState(<CatalogModel>[]));
   load({bool isPublic = false}) async {
-    final catalogs = await CatalogRepo.getCatalogs(isPublic: isPublic);
+    final List<CatalogModel> catalogs = await CatalogRepo.getCatalogs(isPublic: isPublic);
     emit(
       CatalogState(
         catalogs,
@@ -17,7 +17,7 @@ class CatalogCubit extends Cubit<CatalogState> {
   }
 
   loadPublic() async {
-    final catalogs = await CatalogRepo.getCatalogs(
+    final List<CatalogModel> catalogs = await CatalogRepo.getCatalogs(
       isPublic: true,
     );
     emit(
@@ -29,7 +29,7 @@ class CatalogCubit extends Cubit<CatalogState> {
 
   CatalogModel getById(String id) {
     return super.state.catalogs.firstWhere(
-          (element) => element.id.toString() == id,
+          (CatalogModel element) => element.id.toString() == id,
         );
   }
 }

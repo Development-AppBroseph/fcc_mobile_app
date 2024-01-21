@@ -1,16 +1,16 @@
 class HiveStrings {
-  static const userBox = 'userBox';
+  static const String userBox = 'userBox';
 
-  static const id = 'id';
-  static const chatId = 'chatId';
-  static const token = 'token';
-  static const username = 'username';
-  static const invite = 'invite';
-  static const refreshToken = 'refreshToken';
-  static const password = 'password';
-  static const isFcmSent = 'isFcmSent';
-  static const address = 'address';
-  static const receiveNotifications = 'receiveNotifications';
-  static const pushNotifications = 'pushNotifications';
-  static const smsNotifications = 'smsNotifications';
+  static const String id = 'id';
+  static const String chatId = 'chatId';
+  static const String token = 'token';
+  static const String username = 'username';
+  static const String invite = 'invite';
+  static const String refreshToken = 'refreshToken';
+  static const String password = 'password';
+  static const String isFcmSent = 'isFcmSent';
+  static const String address = 'address';
+  static const String receiveNotifications = 'receiveNotifications';
+  static const String pushNotifications = 'pushNotifications';
+  static const String smsNotifications = 'smsNotifications';
 }

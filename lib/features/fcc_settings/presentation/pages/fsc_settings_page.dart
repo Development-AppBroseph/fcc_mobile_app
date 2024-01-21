@@ -1,12 +1,4 @@
-import 'package:auto_animated/auto_animated.dart';
-import 'package:fcc_app_front/features/fcc_settings/presentation/widgets/fsc_setting_button.dart';
-
-import '../../data/datasources/fsc_settings.dart';
-import '../../../../shared/constants/widgets/custom_back.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:fcc_app_front/export.dart';
 
 class FscSettingsPage extends StatefulWidget {
   const FscSettingsPage({super.key});
@@ -38,18 +30,18 @@ class _FscSettingsPageState extends State<FscSettingsPage> {
             horizontal: 35.w,
           ),
           child: CustomScrollView(
-            slivers: [
+            slivers: <Widget>[
               SliverToBoxAdapter(
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 10,
                       ),
                       child: CustomBackButton(),
                     ),
                     Text(
-                      "ФКК",
+                      'ФКК',
                       style: Theme.of(context).textTheme.titleMedium,
                       textAlign: TextAlign.center,
                     ),
@@ -61,7 +53,7 @@ class _FscSettingsPageState extends State<FscSettingsPage> {
                 controller: _scrollController,
                 showItemInterval: const Duration(milliseconds: 150),
                 showItemDuration: const Duration(milliseconds: 200),
-                itemBuilder: (context, index, animation) => FadeTransition(
+                itemBuilder: (BuildContext context, int index, Animation<double> animation) => FadeTransition(
                   opacity: Tween<double>(
                     begin: 0,
                     end: 1,
@@ -89,15 +81,14 @@ class _FscSettingsPageState extends State<FscSettingsPage> {
                     ),
                     child: FutureBuilder(
                       future: PackageInfo.fromPlatform(),
-                      builder: (context, snapshot) {
+                      builder: (BuildContext context, AsyncSnapshot<PackageInfo> snapshot) {
                         return Text(
                           "Версия приложения: ${snapshot.data?.version ?? 'Подождите'}",
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Theme.of(context).hintColor,
-                                  ),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).hintColor,
+                              ),
                         );
                       },
                     ),

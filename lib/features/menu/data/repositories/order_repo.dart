@@ -1,14 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:fcc_app_front/features/menu/data/datasources/order_exception.dart';
-import 'package:fcc_app_front/features/menu/data/models/order.dart';
-import 'package:fcc_app_front/features/menu/data/models/product.dart';
-import 'package:fcc_app_front/shared/config/utils/get_token.dart';
-import 'package:hive/hive.dart';
-
-import '../../../../shared/config/base_http_client.dart';
-import '../../../../shared/constants/hive.dart';
+import 'package:fcc_app_front/export.dart';
 
 class OrderRepo {
   static Future<OrderModel?> placeOrder(
@@ -19,21 +12,21 @@ class OrderRepo {
     String email,
   ) async {
     try {
-      final response = await BaseHttpClient.postBody(
+      final Response response = await BaseHttpClient.postBody(
         'api/v1/orders/orders/',
-        {
-          "client": getClientId(),
-          "order_items": [
-            {
-              "product": product.id,
-              "quantity": 1,
+        <String, Object?>{
+          'client': getClientId(),
+          'order_items': <Map<String, int>>[
+            <String, int>{
+              'product': product.id,
+              'quantity': 1,
             },
           ],
-          "shipping_price": "0",
-          "pickup_address": address,
-          "client_name": name,
-          "client_phone": phone,
-          "client_email": email,
+          'shipping_price': '0',
+          'pickup_address': address,
+          'client_name': name,
+          'client_phone': phone,
+          'client_email': email,
         },
       );
       Hive.box(HiveStrings.userBox).put(HiveStrings.address, address);
@@ -61,13 +54,13 @@ class OrderRepo {
   }
 
   static Future<List<OrderModel>> getOrders() async {
-    List<OrderModel> orders = [];
+    List<OrderModel> orders = <OrderModel>[];
     try {
-      final response = await BaseHttpClient.get(
+      final String? response = await BaseHttpClient.get(
         'api/v1/orders/orders/',
       );
       if (response != null) {
-        final body = jsonDecode(response) as List;
+        final List body = jsonDecode(response) as List;
         for (var order in body) {
           try {
             if (order['client'] == getClientId()) {
@@ -94,8 +87,8 @@ class OrderRepo {
 
       final response = await BaseHttpClient.patch(
         'api/v1/orders/orders/$id/',
-        {
-          "pickup_address": address,
+        <String, String>{
+          'pickup_address': address,
         },
       );
 

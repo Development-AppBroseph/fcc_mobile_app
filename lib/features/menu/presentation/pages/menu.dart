@@ -1,25 +1,4 @@
-import 'package:auto_animated/auto_animated.dart';
-import 'package:collection/collection.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/selected_membership_cubit.dart';
-import 'package:fcc_app_front/shared/constants/widgets/custom_back.dart';
-import 'package:fcc_app_front/shared/widgets/buttons/cstm_btn.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-
-import 'package:fcc_app_front/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:fcc_app_front/features/catalog/data/datasources/catalog.dart';
-import 'package:fcc_app_front/features/menu/data/utils/get_by_membership.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/catalog_cubit.dart';
-import 'package:fcc_app_front/features/menu/presentation/widgets/catalog_cart.dart';
-
-import '../../../../shared/config/routes.dart';
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import '../../data/utils/search.dart';
-import '../cubit/search.dart';
-import '../widgets/user_info.dart';
+import 'package:fcc_app_front/export.dart';
 
 class Menu extends StatefulWidget {
   const Menu({
@@ -35,7 +14,7 @@ class _MenuState extends State<Menu> {
   void initState() {
     _scrollController = ScrollController();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       if (context.read<CatalogCubit>().state.catalogs.isEmpty) {
         context.read<CatalogCubit>().load(
               isPublic: context.read<AuthCubit>().state is Unauthenticated,
@@ -53,8 +32,8 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SearchCubit(),
-      child: Builder(builder: (context) {
+      create: (BuildContext context) => SearchCubit(),
+      child: Builder(builder: (BuildContext context) {
         return Scaffold(
           body: SafeArea(
             child: Padding(
@@ -64,36 +43,30 @@ class _MenuState extends State<Menu> {
                 top: 20.h,
               ),
               child: BlocBuilder<SelectedMembershipCubit, MembershipType?>(
-                builder: (context, selectedMembership) {
+                builder: (BuildContext context, MembershipType? selectedMembership) {
                   return CustomScrollView(
-                    slivers: [
+                    slivers: <Widget>[
                       SliverToBoxAdapter(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            selectedMembership != null &&
-                                    context.watch<AuthCubit>().state is Unauthenticated
+                          children: <Widget>[
+                            selectedMembership != null && context.watch<AuthCubit>().state is Unauthenticated
                                 ? Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
+                                    children: <Widget>[
                                       CustomBackButton(
                                         path: RoutesNames.introCatalog,
                                       ),
                                       sized10,
                                       Text(
-                                        membershipNames[MembershipType.values.any(
-                                                        (element) =>
-                                                            element == selectedMembership)
-                                                    ? MembershipType.values
-                                                        .firstWhereOrNull((element) =>
-                                                            element == selectedMembership)
+                                        membershipNames[MembershipType.values
+                                                        .any((MembershipType element) => element == selectedMembership)
+                                                    ? MembershipType.values.firstWhereOrNull(
+                                                        (MembershipType element) => element == selectedMembership)
                                                     : null]
                                                 ?.toUpperCase() ??
                                             membershipNames.values.first.toUpperCase(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge
-                                            ?.copyWith(
+                                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                               fontSize: 26,
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -118,12 +91,11 @@ class _MenuState extends State<Menu> {
                                 decoration: InputDecoration(
                                   isDense: true,
                                   contentPadding: const EdgeInsets.all(0),
-                                  hintText: "Поиск",
-                                  hintStyle:
-                                      Theme.of(context).textTheme.bodySmall?.copyWith(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                  hintText: 'Поиск',
+                                  hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                   border: InputBorder.none,
                                   enabledBorder: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -133,7 +105,7 @@ class _MenuState extends State<Menu> {
                                     color: Theme.of(context).primaryColorDark,
                                   ),
                                 ),
-                                onChanged: (value) {
+                                onChanged: (String value) {
                                   context.read<SearchCubit>().search(value);
                                 },
                               ),
@@ -142,49 +114,44 @@ class _MenuState extends State<Menu> {
                         ),
                       ),
                       BlocListener<AuthCubit, AuthState>(
-                        listener: (context, state) {
+                        listener: (BuildContext context, AuthState state) {
                           context.read<CatalogCubit>().load(
-                                isPublic:
-                                    context.read<AuthCubit>().state is Unauthenticated,
+                                isPublic: context.read<AuthCubit>().state is Unauthenticated,
                               );
                         },
                         child: BlocBuilder<SearchCubit, String?>(
-                          builder: (context, query) {
+                          builder: (BuildContext context, String? query) {
                             return BlocBuilder<CatalogCubit, CatalogState>(
-                              builder: (context, state) {
-                                final authState = context.watch<AuthCubit>().state;
-                                final catalogs = searchCatalog(
+                              builder: (BuildContext context, CatalogState state) {
+                                final AuthState authState = context.watch<AuthCubit>().state;
+                                final List<CatalogModel> catalogs = searchCatalog(
                                   query,
                                   getCatalogByMembership(
                                     state.catalogs,
                                     selectedMembership != null &&
-                                            MembershipType.values.any((element) =>
-                                                element == selectedMembership) &&
+                                            MembershipType.values
+                                                .any((MembershipType element) => element == selectedMembership) &&
                                             authState is Unauthenticated
-                                        ? MembershipType.values.firstWhereOrNull(
-                                            (element) => element == selectedMembership)
+                                        ? MembershipType.values
+                                            .firstWhereOrNull((MembershipType element) => element == selectedMembership)
                                         : authState is Authenticated &&
-                                                MembershipType.values.any((element) =>
-                                                    element.name ==
-                                                    authState.user.membership)
+                                                MembershipType.values.any((MembershipType element) =>
+                                                    element.name == authState.user.membership)
                                             ? MembershipType.values.firstWhereOrNull(
-                                                (element) =>
-                                                    element.name ==
-                                                    authState.user.membership,
+                                                (MembershipType element) => element.name == authState.user.membership,
                                               )
                                             : null,
                                   ),
                                 );
-                                if (authState is Authenticated &&
-                                    authState.user.membership == "no membership") {
+                                if (authState is Authenticated && authState.user.membership == 'no membership') {
                                   return SliverToBoxAdapter(
                                     child: SizedBox(
                                       height: 400.h,
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
+                                        children: <Widget>[
                                           Text(
-                                            "Пожалуйста выберите план для подписки",
+                                            'Пожалуйста выберите план для подписки',
                                             style: Theme.of(context).textTheme.bodyMedium,
                                             textAlign: TextAlign.center,
                                           ),
@@ -213,7 +180,7 @@ class _MenuState extends State<Menu> {
                                     controller: _scrollController,
                                     showItemInterval: const Duration(milliseconds: 150),
                                     showItemDuration: const Duration(milliseconds: 200),
-                                    itemBuilder: (context, index, animation) =>
+                                    itemBuilder: (BuildContext context, int index, Animation<double> animation) =>
                                         FadeTransition(
                                       opacity: Tween<double>(
                                         begin: 0,
@@ -230,7 +197,7 @@ class _MenuState extends State<Menu> {
                                           function: () {
                                             context.pushNamed(
                                               RoutesNames.productMenu,
-                                              pathParameters: {
+                                              pathParameters: <String, String>{
                                                 'id': catalogs[index].id.toString(),
                                               },
                                             );
