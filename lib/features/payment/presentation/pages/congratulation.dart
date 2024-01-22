@@ -31,9 +31,7 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final String membershipName = membershipNames[MembershipType.values.firstWhereOrNull((
-                  MembershipType element,
-                ) {
+    final String membershipName = membershipNames[MembershipType.values.firstWhereOrNull((MembershipType element) {
                   return element.name == widget.membership;
                 }) ??
                 MembershipType.standard]

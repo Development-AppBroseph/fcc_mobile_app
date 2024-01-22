@@ -49,135 +49,25 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
                 bottom: 10.h,
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {
-                          if (context.canPop()) context.pop();
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new,
-                          size: 13,
-                          color: primaryColorDark,
-                        ),
-                      ),
-                      Text(
-                        'Оплата',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context).primaryColorDark,
-                              fontWeight: FontWeight.w400,
-                            ),
-                      ),
-                    ],
+                  IconButton(
+                    onPressed: () {
+                      if (context.canPop()) context.pop();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new,
+                      size: 13,
+                      color: primaryColorDark,
+                    ),
                   ),
-                  Row(
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () async {
-                          final PaymentModel? payment = await PaymentRepo.latestPayment();
-                          if (payment != null) {
-                            final String? weburl = await PaymentRepo.getWeblink(
-                              payment.membership,
-                              payment.amount,
-                            );
-                            if (weburl != null) {
-                              setState(() {
-                                url = weburl;
-                              });
-                              _webViewController.loadUrl(
-                                urlRequest: URLRequest(
-                                  url: Uri.parse(weburl),
-                                ),
-                              );
-                            }
-                          }
-                        },
-                        icon: const Icon(
-                          Icons.replay_outlined,
-                          size: 20,
-                          color: primaryColorDark,
+                  Text(
+                    'Оплата',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Theme.of(context).primaryColorDark,
+                          fontWeight: FontWeight.w400,
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          final PaymentModel? payment = await PaymentRepo.latestPayment();
-                          if ((payment == null || payment.status == null) && context.mounted) {
-                            ErrorSnackBar.showErrorSnackBar(
-                              context,
-                              'Платеж не прошел успешно. Пожалуйста, попробуйте еще раз',
-                              0.9,
-                              const EdgeInsets.symmetric(horizontal: 15),
-                              3,
-                            );
-                            return;
-                          }
-                          if ((payment?.status != 'success' || payment?.status != 'confirmed') && context.mounted) {
-                            widget.onComplete();
-                          } else if (payment?.status != 'time out' && context.mounted) {
-                            ErrorSnackBar.showErrorSnackBar(
-                              context,
-                              'Время вашего платежа истекло. Пожалуйста, обновите страницу и попробуйте еще раз',
-                              0.9,
-                              const EdgeInsets.symmetric(horizontal: 15),
-                              3,
-                            );
-                          } else if (payment?.status != 'error' && context.mounted) {
-                            ErrorSnackBar.showErrorSnackBar(
-                              context,
-                              'Платеж не прошел успешно. Пожалуйста, попробуйте еще раз',
-                              0.9,
-                              const EdgeInsets.symmetric(horizontal: 15),
-                              3,
-                            );
-                          } else if (context.mounted) {
-                            ErrorSnackBar.showErrorSnackBar(
-                              context,
-                              'Вы еще не завершили процесс оплаты',
-                              0.9,
-                              const EdgeInsets.symmetric(horizontal: 15),
-                              3,
-                            );
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            vertical: 5.h,
-                            horizontal: 10.h,
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                'Вперед',
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      color: Theme.of(context).primaryColorDark,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                size: 13,
-                                color: primaryColorDark,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                    ],
-                  )
+                  ),
                 ],
               ),
             ),
