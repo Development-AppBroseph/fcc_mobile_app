@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
@@ -25,6 +26,33 @@ class AuthCubit extends Cubit<AuthState> {
           ),
         );
       }
+    }
+  }
+
+  Future<bool> checkInviteByLink({
+    required String username,
+  }) async {
+    try {
+      final Response response = await BaseHttpClient.getBody(
+        inviteUrl + username,
+      );
+
+      if (response.statusCode == 200) {
+        log('Invited by username: ${response.body}');
+        return true;
+      } else if (response.statusCode == 400) {
+        log('Username parameter missing: ${response.body}');
+        return false;
+      } else if (response.statusCode == 422) {
+        log('No user found with provided username: ${response.body}');
+        return false;
+      } else {
+        log('Request failed with status: ${response.statusCode}');
+        return false;
+      }
+    } catch (error) {
+      log(error.toString());
+      return false;
     }
   }
 

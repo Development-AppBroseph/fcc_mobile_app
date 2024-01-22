@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fcc_app_front/export.dart';
 
 class UnauthenticatedInvitePage extends StatefulWidget {
@@ -118,19 +120,37 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                           3,
                         );
                       } else {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        Hive.box(HiveStrings.userBox).put(
-                          HiveStrings.invite,
-                          controller.text,
-                        );
-                        context.goNamed(
-                          RoutesNames.introCatalog,
-                        );
-                        setState(() {
-                          isLoading = false;
-                        });
+                        final bool inviteLink = await context.read<AuthCubit>().checkInviteByLink(
+                              username: controller.text,
+                            );
+
+                        if (inviteLink) {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          Hive.box(HiveStrings.userBox).put(
+                            HiveStrings.invite,
+                            controller.text,
+                          );
+                          if (mounted) {
+                            context.goNamed(
+                              RoutesNames.introCatalog,
+                            );
+                          }
+                          setState(() {
+                            isLoading = false;
+                          });
+                        } else {
+                          if (mounted) {
+                            ErrorSnackBar.showErrorSnackBar(
+                              context,
+                              'Пользователь с указанным именем не найден',
+                              0.9,
+                              const EdgeInsets.symmetric(horizontal: 15),
+                              3,
+                            );
+                          }
+                        }
                       }
                     },
                     text: 'Продолжить',
