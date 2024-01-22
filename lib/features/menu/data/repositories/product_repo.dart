@@ -4,7 +4,9 @@ import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 
 class ProductRepo {
-  static Future<List<ProductModel>> getProducts({bool isPublic = false}) async {
+  static Future<List<ProductModel>> getProducts({
+    bool isPublic = false,
+  }) async {
     List<ProductModel> products = <ProductModel>[];
     final String? token = getToken();
     final String? response = token == null || isPublic

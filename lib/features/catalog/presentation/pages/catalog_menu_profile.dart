@@ -20,22 +20,16 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: <SingleChildWidget>[
-        BlocProvider(
+        BlocProvider<SearchCubit>(
           create: (BuildContext context) => SearchCubit(),
         ),
-        BlocProvider(
+        BlocProvider<ProductCubit>(
           create: (BuildContext context) => ProductCubit()..loadPublic(),
         ),
-        BlocProvider(
+        BlocProvider<CatalogCubit>(
           create: (BuildContext context) => CatalogCubit()..loadPublic(),
         ),
       ],
@@ -168,5 +162,11 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
