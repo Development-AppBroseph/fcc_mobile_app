@@ -34,8 +34,8 @@ class _FscSettingsPageState extends State<FscSettingsPage> {
               SliverToBoxAdapter(
                 child: Column(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
                         vertical: 10,
                       ),
                       child: CustomBackButton(),
@@ -53,22 +53,28 @@ class _FscSettingsPageState extends State<FscSettingsPage> {
                 controller: _scrollController,
                 showItemInterval: const Duration(milliseconds: 150),
                 showItemDuration: const Duration(milliseconds: 200),
-                itemBuilder: (BuildContext context, int index, Animation<double> animation) => FadeTransition(
-                  opacity: Tween<double>(
-                    begin: 0,
-                    end: 1,
-                  ).animate(animation),
-                  // And slide transition
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, -0.1),
-                      end: Offset.zero,
+                itemBuilder: (
+                  BuildContext context,
+                  int index,
+                  Animation<double> animation,
+                ) {
+                  return FadeTransition(
+                    opacity: Tween<double>(
+                      begin: 0,
+                      end: 1,
                     ).animate(animation),
-                    child: FscSettingsPageButton(
-                      setting: fscSettingsList[index],
+                    // And slide transition
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0, -0.1),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: FscSettingsPageButton(
+                        setting: fscSettingsList[index],
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
                 itemCount: fscSettingsList.length,
               ),
               SliverFillRemaining(

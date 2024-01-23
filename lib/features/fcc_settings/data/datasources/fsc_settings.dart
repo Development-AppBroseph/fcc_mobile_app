@@ -15,7 +15,6 @@ const List<String> fscSettingTitles = <String>[
   'Оставить отзыв',
   'Условия использования',
   'Лицензии открытого ПО',
-  'Версия',
   'Политика конфиденциальности',
 ];
 const List<String> fscSettingIcons = <String>[
@@ -23,6 +22,5 @@ const List<String> fscSettingIcons = <String>[
   'rate',
   'terms_of_use',
   'license_of_open_source_software',
-  'version',
   'privacy_policy',
 ];

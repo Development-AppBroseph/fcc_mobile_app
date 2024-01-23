@@ -59,10 +59,12 @@ class _MenuState extends State<Menu> {
                                       ),
                                       sized10,
                                       Text(
-                                        membershipNames[MembershipType.values
-                                                        .any((MembershipType element) => element == selectedMembership)
-                                                    ? MembershipType.values.firstWhereOrNull(
-                                                        (MembershipType element) => element == selectedMembership)
+                                        membershipNames[MembershipType.values.any((MembershipType element) {
+                                              return element == selectedMembership;
+                                            })
+                                                    ? MembershipType.values.firstWhereOrNull((MembershipType element) {
+                                                        return element == selectedMembership;
+                                                      })
                                                     : null]
                                                 ?.toUpperCase() ??
                                             membershipNames.values.first.toUpperCase(),
@@ -135,8 +137,9 @@ class _MenuState extends State<Menu> {
                                         ? MembershipType.values
                                             .firstWhereOrNull((MembershipType element) => element == selectedMembership)
                                         : authState is Authenticated &&
-                                                MembershipType.values.any((MembershipType element) =>
-                                                    element.name == authState.user.membership)
+                                                MembershipType.values.any((MembershipType element) {
+                                                  return element.name == authState.user.membership;
+                                                })
                                             ? MembershipType.values.firstWhereOrNull(
                                                 (MembershipType element) => element.name == authState.user.membership,
                                               )
@@ -180,31 +183,36 @@ class _MenuState extends State<Menu> {
                                     controller: _scrollController,
                                     showItemInterval: const Duration(milliseconds: 150),
                                     showItemDuration: const Duration(milliseconds: 200),
-                                    itemBuilder: (BuildContext context, int index, Animation<double> animation) =>
-                                        FadeTransition(
-                                      opacity: Tween<double>(
-                                        begin: 0,
-                                        end: 1,
-                                      ).animate(animation),
-                                      // And slide transition
-                                      child: SlideTransition(
-                                        position: Tween<Offset>(
-                                          begin: const Offset(0, -0.1),
-                                          end: Offset.zero,
+                                    itemBuilder: (
+                                      BuildContext context,
+                                      int index,
+                                      Animation<double> animation,
+                                    ) {
+                                      return FadeTransition(
+                                        opacity: Tween<double>(
+                                          begin: 0,
+                                          end: 1,
                                         ).animate(animation),
-                                        child: CatalogCart(
-                                          catalog: catalogs[index],
-                                          function: () {
-                                            context.pushNamed(
-                                              RoutesNames.productMenu,
-                                              pathParameters: <String, String>{
-                                                'id': catalogs[index].id.toString(),
-                                              },
-                                            );
-                                          },
+                                        // And slide transition
+                                        child: SlideTransition(
+                                          position: Tween<Offset>(
+                                            begin: const Offset(0, -0.1),
+                                            end: Offset.zero,
+                                          ).animate(animation),
+                                          child: CatalogCart(
+                                            catalog: catalogs[index],
+                                            function: () {
+                                              context.pushNamed(
+                                                RoutesNames.productMenu,
+                                                pathParameters: <String, String>{
+                                                  'id': catalogs[index].id.toString(),
+                                                },
+                                              );
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                    ),
+                                      );
+                                    },
                                     itemCount: catalogs.length,
                                   ),
                                 );
