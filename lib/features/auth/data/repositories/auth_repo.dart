@@ -105,19 +105,16 @@ class AuthRepo {
     return false;
   }
 
-  static Future<bool> archiveAccount(String phoneNumber) async {
+  static Future<bool> archiveAccount() async {
     try {
-      final Response response = await BaseHttpClient.postBody(
-        'api/v1/users/auth/archive_account/',
-        <String, String>{
-          'phone_number': phoneNumber,
-        },
-      );
+      http.Response response = await BaseHttpClient.getBody('api/v1/users/auth/archive_account/',
+          headers: BaseHttpClient.getDefaultHeader());
       log(
         utf8.decode(
           response.bodyBytes,
         ),
       );
+
       if (response.statusCode == 200) {
         return true;
       }
@@ -175,7 +172,10 @@ class AuthRepo {
     return null;
   }
 
-  static Future<bool> verify(String phoneNumber, String code) async {
+  static Future<bool> verify(
+    String phoneNumber,
+    String code,
+  ) async {
     final Response? response = await BaseHttpClient.post(
       'api/v1/users/auth/verify/',
       <String, String>{
@@ -304,7 +304,7 @@ class AuthRepo {
             HiveStrings.refreshToken,
             body['refresh_token'],
           )
-          .then((value) => log('Saved the user info'));
+          .then((void value) => log('Saved the user info'));
     } catch (e) {
       log('Someting wrong in saveUserInfo: $e');
     }
@@ -316,7 +316,7 @@ class AuthRepo {
     String? middleName,
   }) async {
     try {
-      final response = await BaseHttpClient.patch(
+      final dynamic response = await BaseHttpClient.patch(
         'api/v1/users/verify-identity/',
         <String, String?>{
           'first_name': firstName,
