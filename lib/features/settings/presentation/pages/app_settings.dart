@@ -16,7 +16,7 @@ class AppSettingsPage extends StatelessWidget {
           ),
           child: Column(
             children: <Widget>[
-              CustomBackButton(),
+              const CustomBackButton(),
               sized20,
               Text(
                 'Настройки',

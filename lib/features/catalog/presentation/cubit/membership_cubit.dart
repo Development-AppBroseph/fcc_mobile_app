@@ -7,11 +7,12 @@ class MembershipCubit extends Cubit<List<MembershipModel>> {
   MembershipCubit() : super(<MembershipModel>[]);
   Future<void> load() async {
     try {
-      final String? response = await BaseHttpClient.get('api/v1/users/memberships/');
-      log(response.toString());
-      if (response == null) return;
+      final Response response = await BaseHttpClient.getBody(
+        'api/v1/users/memberships/',
+      );
+      log(response.body.toString());
       List<MembershipModel> membershipList = <MembershipModel>[];
-      final List memberships = jsonDecode(response) as List;
+      final List memberships = jsonDecode(response.body) as List;
       for (var element in memberships) {
         membershipList.add(
           MembershipModel.fromMap(element),
@@ -25,7 +26,13 @@ class MembershipCubit extends Cubit<List<MembershipModel>> {
 
   String getPrice(int id) {
     try {
-      return super.state.firstWhereOrNull((MembershipModel element) => element.id == id)?.price.toStringAsFixed(0) ??
+      return super
+              .state
+              .firstWhereOrNull((MembershipModel element) {
+                return element.id == id;
+              })
+              ?.price
+              .toStringAsFixed(0) ??
           '-';
     } catch (e) {
       log('No membership with id $id');

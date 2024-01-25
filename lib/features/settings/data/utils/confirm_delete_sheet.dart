@@ -1,6 +1,6 @@
 import 'package:fcc_app_front/export.dart';
 
-dynamic showConfirmDeleteDialog(
+void showConfirmDeleteDialog(
   BuildContext context,
 ) {
   showDialog(
@@ -45,9 +45,14 @@ dynamic showConfirmDeleteDialog(
                 right: 20,
                 top: 30,
               ),
-              onTap: () {
-                canPopThenPop(context);
-                context.read<AuthCubit>().archiveAccount();
+              onTap: () async {
+                final Future<bool> result = context.read<AuthCubit>().archiveAccount();
+                if (await result) {
+                  if (context.mounted) {
+                    canPopThenPop(context);
+                  }
+                }
+                // context.go(RoutesNames.unauthenticatedInvite);
               },
               text: 'Удалить аккаунт',
               color: Theme.of(context).hintColor.withOpacity(0.1),

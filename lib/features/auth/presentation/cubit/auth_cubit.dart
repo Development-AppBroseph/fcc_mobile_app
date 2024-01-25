@@ -108,17 +108,21 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  void archiveAccount() {
+  Future<bool> archiveAccount() async {
     final AuthState currentState = super.state;
     if (currentState is Authenticated) {
-      AuthRepo.archiveAccount(
-        currentState.user.phoneNumber,
-      );
+      AuthRepo.archiveAccount();
     }
+
     box.clear();
     emit(
       Unauthenticated(),
     );
+    if (await AuthRepo.archiveAccount()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void logOut() {

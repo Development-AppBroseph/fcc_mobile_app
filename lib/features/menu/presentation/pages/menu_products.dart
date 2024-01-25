@@ -20,12 +20,6 @@ class _ProductMenuState extends State<ProductMenu> {
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final CatalogModel catalog = context.read<CatalogCubit>().getById(widget.catalogId);
     return MultiBlocProvider(
@@ -196,5 +190,11 @@ class _ProductMenuState extends State<ProductMenu> {
         );
       }),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
