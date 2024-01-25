@@ -4,7 +4,9 @@ import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 
 class CatalogRepo {
-  static Future<List<CatalogModel>> getCatalogs({bool isPublic = false}) async {
+  static Future<List<CatalogModel>> getCatalogs({
+    bool isPublic = false,
+  }) async {
     List<CatalogModel> catalogs = <CatalogModel>[];
     final String? token = getToken();
     try {
