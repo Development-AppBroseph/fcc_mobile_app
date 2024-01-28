@@ -1,4 +1,5 @@
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/menu/presentation/pages/product_details.dart';
 
 class Routes {
   static String menu = '/';
@@ -38,6 +39,8 @@ class Routes {
   static String unauthenticatedInvite = '/unauthenticatedInvite';
   static String catalogMenu = 'catalogMenu/:type';
   static String catalogProductMenu = '/catalogProductMenu/:id';
+  static String productDetails = '/productDetails';
+
   static String catalogMenuProfile = 'ctMenuProfile/:type';
   static String catalogProductProfile = '/ctProductProfile/:id';
   static String payment = '/payment';
@@ -81,6 +84,8 @@ class RoutesNames {
   static String unauthenticatedInvite = 'unauthenticatedInvite';
   static String catalog = 'catalog';
   static String catalogMenu = 'catalogMenu';
+  static String productDetails = 'productDetails';
+
   static String catalogProductMenu = 'catalogProductMenu';
   static String catalogMenuProfile = 'ctMenuProfile';
   static String catalogProductProfile = 'ctProductProfile';
@@ -546,8 +551,23 @@ final GoRouter router = GoRouter(
               ),
             );
           },
-        ),
+        )
       ],
+    ),
+    GoRoute(
+      path: Routes.productDetails,
+      name: RoutesNames.productDetails,
+      pageBuilder: (
+        BuildContext context,
+        GoRouterState state,
+      ) {
+        return buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: ProductDetails(
+              model: state.extra as ProductModel,
+            ));
+      },
     ),
     GoRoute(
       path: Routes.payment,
@@ -643,7 +663,10 @@ final GoRouter router = GoRouter(
         state.fullPath!.contains(Routes.unauthenticatedInvite)) {
       return Routes.introCatalog;
     }
-    if ((state.fullPath!.contains(Routes.unauthenticatedInvite) || state.fullPath!.contains(Routes.introCatalog)) &&
+    if ((state.fullPath!.contains(
+              Routes.unauthenticatedInvite,
+            ) ||
+            state.fullPath!.contains(Routes.introCatalog)) &&
         buildContext.read<AuthCubit>().state is Authenticated) {
       return Routes.menu;
     }
@@ -659,8 +682,16 @@ CustomTransitionPage buildPageWithDefaultTransition<T>({
   return CustomTransitionPage<T>(
     key: state.pageKey,
     child: child,
-    transitionsBuilder:
-        (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) =>
-            FadeTransition(opacity: animation, child: child),
+    transitionsBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+    ) {
+      return FadeTransition(
+        opacity: animation,
+        child: child,
+      );
+    },
   );
 }
