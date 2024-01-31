@@ -147,42 +147,6 @@ class _ProductMenuState extends State<ProductMenu> {
                       );
                     },
                   ),
-                  SliverFillRemaining(
-                    fillOverscroll: false,
-                    hasScrollBody: false,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        CstmBtn(
-                          width: double.infinity,
-                          onTap: () async {
-                            if (context.read<AuthCubit>().state is Unauthenticated) {
-                              context.pushNamed(RoutesNames.login);
-                              return;
-                            }
-                            if (context.read<SelectedProductsCubit>().state.product != null) {
-                              context.pushNamed(
-                                RoutesNames.selectedProduct,
-                                extra: MultipleCubits(
-                                  cubits: <String, Cubit<Equatable>>{
-                                    'productCubit': BlocProvider.of<ProductCubit>(context),
-                                    'selectedProductsCubit': BlocProvider.of<SelectedProductsCubit>(context),
-                                  },
-                                ),
-                              );
-                            } else {
-                              showErrorSnackbar(
-                                context,
-                                'Добавьте товар, нажав на + у его правого края.',
-                              );
-                            }
-                          },
-                          text: 'Оформить доставку',
-                        ),
-                        sized20,
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),

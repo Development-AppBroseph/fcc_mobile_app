@@ -674,7 +674,7 @@ final GoRouter router = GoRouter(
   },
 );
 
-CustomTransitionPage buildPageWithDefaultTransition<T>({
+CustomTransitionPage<void> buildPageWithDefaultTransition<T>({
   required BuildContext context,
   required GoRouterState state,
   required Widget child,

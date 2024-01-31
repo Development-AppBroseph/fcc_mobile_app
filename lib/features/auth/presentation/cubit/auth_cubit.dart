@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/auth/data/models/membership.dart';
 
 part 'auth_state.dart';
 
@@ -27,6 +28,10 @@ class AuthCubit extends Cubit<AuthState> {
         );
       }
     }
+  }
+
+  Future<CurrentMembership?> getCurrentMerbership() {
+    return AuthRepo.getCurrentMembership();
   }
 
   Future<bool> checkInviteByLink({

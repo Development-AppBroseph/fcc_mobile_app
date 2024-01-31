@@ -48,6 +48,7 @@ class ProductCart extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
+                print('Working');
                 context.pushNamed(
                   RoutesNames.productDetails,
                   extra: product,
@@ -156,11 +157,6 @@ class ProductCart extends StatelessWidget {
                   ),
                   const SizedBox(
                     width: 20,
-                  ),
-                  const Icon(
-                    Icons.add,
-                    color: Colors.black,
-                    size: 15,
                   ),
                   const SizedBox(
                     width: 10,

@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/auth/data/models/membership.dart';
 
 class ProductDetails extends StatefulWidget {
   final ProductModel model;
@@ -32,7 +35,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                 Container(
                   height: size.height / 2.5,
                   width: size.width,
-                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16))),
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                    Radius.circular(16),
+                  )),
                   child: Card(
                       clipBehavior: Clip.antiAlias,
                       child: CachedNetworkImage(
@@ -67,7 +73,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 ProductTextDetailsField(
                   title: 'Количесевтво блоков',
-                  subtitle: widget.model.id.toString(),
+                  subtitle: widget.model.stock.toString(),
                 ),
                 const ProductTextDetailsField(
                   title: 'Крескость',
@@ -84,10 +90,43 @@ class _ProductDetailsState extends State<ProductDetails> {
                 const SizedBox(
                   height: 40,
                 ),
-                CstmBtn(
-                  text: 'Оформить заказ',
-                  onTap: () {
-                    //TODO Add order
+                BlocBuilder<AuthCubit, AuthState>(
+                  builder: (BuildContext context, AuthState state) {
+                    return CstmBtn(
+                      text: 'Оформить заказ',
+                      onTap: () async {
+                        final CurrentMembership? merbership = await context.read<AuthCubit>().getCurrentMerbership();
+                        if (state is Authenticated) {
+                          if (merbership?.membership?.level == null && context.mounted) {
+                            ErrorSnackBar.showErrorSnackBar(
+                              context,
+                              'Выберите план',
+                              1,
+                              const EdgeInsets.all(10),
+                              10,
+                            );
+                          } else {
+                            //TODO add to cart
+                          }
+                          if (widget.model.stock >= 4 && context.mounted) {
+                            print('You can add item');
+                          } else {
+                            if (context.mounted) {
+                              ErrorSnackBar.showErrorSnackBar(
+                                context,
+                                'На складе недостаточно товара',
+                                1,
+                                const EdgeInsets.all(10),
+                                10,
+                              );
+                            }
+                          }
+                        } else {
+                          if (context.mounted) context.goNamed(RoutesNames.invite);
+                          log('Not authenticated');
+                        }
+                      },
+                    );
                   },
                 )
               ],

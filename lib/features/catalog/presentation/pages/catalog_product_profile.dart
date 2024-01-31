@@ -1,23 +1,4 @@
-import 'dart:math';
-
-import 'package:auto_animated/auto_animated.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:fcc_app_front/features/menu/data/models/catalog.dart';
-import 'package:fcc_app_front/features/menu/data/models/product.dart';
-import 'package:fcc_app_front/features/menu/data/utils/search_product.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/catalog_cubit.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/selected_products_cubit.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nested/nested.dart';
-
-import 'package:fcc_app_front/shared/constants/widgets/custom_back.dart';
-import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/product_cubit.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/search.dart';
-import 'package:fcc_app_front/features/menu/presentation/widgets/cart.dart';
+import 'package:fcc_app_front/export.dart';
 
 class CatalogProductProfileMenu extends StatefulWidget {
   final String catalogId;
@@ -149,27 +130,22 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                                     int index,
                                     Animation<double> animation,
                                   ) {
-                                    return GestureDetector(
-                                      child: FadeTransition(
-                                        opacity: Tween<double>(
-                                          begin: 0,
-                                          end: 1,
+                                    return FadeTransition(
+                                      opacity: Tween<double>(
+                                        begin: 0,
+                                        end: 1,
+                                      ).animate(animation),
+                                      // And slide transition
+                                      child: SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(0, -0.1),
+                                          end: Offset.zero,
                                         ).animate(animation),
-                                        // And slide transition
-                                        child: SlideTransition(
-                                          position: Tween<Offset>(
-                                            begin: const Offset(0, -0.1),
-                                            end: Offset.zero,
-                                          ).animate(animation),
-                                          child: InkWell(
-                                            onTap: () => print('worked'),
-                                            child: ProductCart(
-                                              product: products[index],
-                                              isSelected: selectedProducts.product != null &&
-                                                  selectedProducts.product!.id == products[index].id,
-                                              canSelect: false,
-                                            ),
-                                          ),
+                                        child: ProductCart(
+                                          product: products[index],
+                                          isSelected: selectedProducts.product != null &&
+                                              selectedProducts.product!.id == products[index].id,
+                                          canSelect: false,
                                         ),
                                       ),
                                     );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/auth/data/models/membership.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRepo {
@@ -29,6 +30,25 @@ class AuthRepo {
       return false;
     }
     return false;
+  }
+
+  static Future<CurrentMembership?> getCurrentMembership() async {
+    try {
+      final Response response = await BaseHttpClient.getBody(
+        'api/v1/users/my-current-membership/',
+      );
+
+      if (response.statusCode == 200) {
+        return CurrentMembership.fromJson(jsonDecode(utf8.decode(
+          response.bodyBytes,
+        )));
+      } else {
+        log(response.statusCode.toString());
+      }
+    } catch (e) {
+      log('Someting wrong in getCurrentMembership: $e');
+    }
+    return null;
   }
 
   static Future<bool> sendSms(String phoneNumber) async {
