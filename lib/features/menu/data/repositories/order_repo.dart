@@ -4,23 +4,20 @@ import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 
 class OrderRepo {
-  static Future<OrderModel?> placeOrder(
-    ProductModel product,
-    String address,
-    String name,
-    String phone,
-    String email,
-  ) async {
+  static Future<OrderModel?> placeOrder({
+    required ProductModel product,
+    required String address,
+    required String name,
+    required String phone,
+    required String email,
+  }) async {
     try {
       final Response response = await BaseHttpClient.postBody(
         'api/v1/orders/orders/',
         <String, Object?>{
           'client': getClientId(),
           'order_items': <Map<String, int>>[
-            <String, int>{
-              'product': product.id,
-              'quantity': 1,
-            },
+            <String, int>{'product': product.id, 'quantity': 1}
           ],
           'shipping_price': '0',
           'pickup_address': address,
@@ -81,7 +78,10 @@ class OrderRepo {
     return orders;
   }
 
-  static Future<OrderModel?> updateOrderAddress(String address, int id) async {
+  static Future<OrderModel?> updateOrderAddress(
+    String address,
+    int id,
+  ) async {
     try {
       Hive.box(HiveStrings.userBox).put(HiveStrings.address, address);
 

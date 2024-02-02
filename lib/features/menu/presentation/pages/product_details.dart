@@ -106,10 +106,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                               10,
                             );
                           } else {
-                            //TODO add to cart
+                            if (context.mounted) _makeOrder(context, state);
                           }
                           if (widget.model.stock >= 4 && context.mounted) {
-                            print('You can add item');
+                            if (context.mounted) _makeOrder(context, state);
                           } else {
                             if (context.mounted) {
                               ErrorSnackBar.showErrorSnackBar(
@@ -135,5 +135,20 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
       ),
     );
+  }
+
+  void _makeOrder(
+    BuildContext context,
+    Authenticated state,
+  ) {
+    if (context.mounted) {
+      context.read<OrderCubit>().makeOrder(
+            address: 'Пока не знаю какой адрес',
+            phone: state.user.phoneNumber,
+            email: 'alidroid696@gmail.com',
+            product: widget.model,
+            name: 'ali',
+          );
+    }
   }
 }

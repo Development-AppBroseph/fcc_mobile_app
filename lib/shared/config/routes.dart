@@ -1,5 +1,4 @@
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/menu/presentation/pages/product_details.dart';
 
 class Routes {
   static String menu = '/';
@@ -9,6 +8,7 @@ class Routes {
   static String orderConfirm = '/orderConfirm';
 
   static String order = '/order';
+  static String orderDetails = 'orderDetails';
   static String invite = '/invite';
 
   static String profile = '/profile';
@@ -55,6 +55,7 @@ class RoutesNames {
   static String orderConfirm = 'orderConfirm';
 
   static String order = 'order';
+  static String orderDetails = 'orderDetails';
   static String invite = 'invite';
 
   static String profile = 'profile';
@@ -319,16 +320,30 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
-          path: Routes.order,
-          name: RoutesNames.order,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return buildPageWithDefaultTransition<void>(
-              context: context,
-              state: state,
-              child: const OrderDetails(),
-            );
-          },
-        ),
+            path: Routes.order,
+            name: RoutesNames.order,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return buildPageWithDefaultTransition<void>(
+                context: context,
+                state: state,
+                child: const Order(),
+              );
+            },
+            routes: <RouteBase>[
+              GoRoute(
+                path: Routes.orderDetails,
+                name: RoutesNames.orderDetails,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return buildPageWithDefaultTransition<void>(
+                    context: context,
+                    state: state,
+                    child: OrderDetails(
+                      order: state.extra as OrderModel,
+                    ),
+                  );
+                },
+              ),
+            ]),
         GoRoute(
           path: Routes.termsOfUse,
           name: RoutesNames.termsOfUse,
@@ -577,14 +592,12 @@ final GoRouter router = GoRouter(
         final Map<String, dynamic> data = state.extra as Map<String, dynamic>;
         final String url = data['paymentUrl'] as String;
         final String phone = data['phone'] as String;
-        final Function onComplete = data['onComplete'] as Function;
         return buildPageWithDefaultTransition<void>(
           context: context,
           state: state,
           child: WebCheckoutPage(
             url: url,
             phone: phone,
-            onComplete: onComplete,
           ),
         );
       },

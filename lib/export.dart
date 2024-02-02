@@ -72,9 +72,11 @@ export 'package:fcc_app_front/features/menu/presentation/cubit/selected_membersh
 export 'package:fcc_app_front/features/menu/presentation/cubit/selected_products_cubit.dart';
 export 'package:fcc_app_front/features/menu/presentation/pages/menu.dart';
 export 'package:fcc_app_front/features/menu/presentation/pages/menu_products.dart';
+export 'package:fcc_app_front/features/menu/presentation/pages/order.dart';
 export 'package:fcc_app_front/features/menu/presentation/pages/order_confirmation.dart';
 export 'package:fcc_app_front/features/menu/presentation/pages/order_details.dart';
 export 'package:fcc_app_front/features/menu/presentation/pages/placing_order.dart';
+export 'package:fcc_app_front/features/menu/presentation/pages/product_details.dart';
 export 'package:fcc_app_front/features/menu/presentation/pages/selected_product.dart';
 export 'package:fcc_app_front/features/menu/presentation/widgets/cart.dart';
 export 'package:fcc_app_front/features/menu/presentation/widgets/catalog_cart.dart';
