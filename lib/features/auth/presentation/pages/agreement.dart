@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:fcc_app_front/export.dart';
 
 class AgreementScreen extends StatelessWidget {
@@ -18,7 +17,7 @@ class AgreementScreen extends StatelessWidget {
               SizedBox(
                   height: size.height / 4.h,
                   child: Image.asset(
-                    'assets/avatars/app_icon.png',
+                    Assets.avatars.appIcon.path,
                   )),
               Column(
                 children: <Widget>[
