@@ -1,7 +1,9 @@
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/auth/presentation/pages/agreement.dart';
 
 class Routes {
   static String menu = '/';
+  static String agreement = '/agreement';
   static String productMenu = 'productMenu/:id';
   static String selectedProduct = '/selectedProduct';
   static String placeOrder = '/placeOrder';
@@ -45,6 +47,7 @@ class Routes {
 }
 
 class RoutesNames {
+  static String agreement = 'agreement';
   static String menu = 'menu';
   static String productMenu = 'productMenu';
   static String selectedProduct = 'selectedProduct';
@@ -93,7 +96,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>()
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
-  initialLocation: Routes.unauthenticatedInvite,
+  initialLocation: Routes.agreement,
   errorBuilder: (BuildContext context, GoRouterState state) {
     return ErrorScreen(
       error: state.error?.message ?? 'Error happened',
@@ -458,6 +461,18 @@ final GoRouter router = GoRouter(
           context: context,
           state: state,
           child: const UnauthenticatedInvitePage(),
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.agreement,
+      name: RoutesNames.agreement,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        return buildPageWithDefaultTransition<void>(
+          context: context,
+          state: state,
+          child: const AgreementScreen(),
         );
       },
     ),
