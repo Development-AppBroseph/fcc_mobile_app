@@ -30,6 +30,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Future<Response> res = BaseHttpClient.getBody('api/v1/users/my-current-membership/');
+
+    res.then((Response value) => log('Here is answer${value.body}'));
     return BlocListener<AuthCubit, AuthState>(
       listener: (BuildContext context, AuthState state) {
         router.refresh();

@@ -259,11 +259,11 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                           nameController.text,
                                         )) {
                                       final OrderModel? order = await OrderRepo.placeOrder(
-                                        product,
-                                        addressController.text,
-                                        nameController.text,
-                                        maskFormatter.getMaskedText().replaceAll(' ', '').replaceAll('-', ''),
-                                        emailController.text,
+                                        product: product,
+                                        address: addressController.text,
+                                        name: nameController.text,
+                                        phone: maskFormatter.getMaskedText().replaceAll(' ', '').replaceAll('-', ''),
+                                        email: emailController.text,
                                       );
                                       if (order != null && context.mounted) {
                                         canPopThenPop(context);

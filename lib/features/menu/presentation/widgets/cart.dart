@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fcc_app_front/export.dart';
 
 class ProductCart extends StatelessWidget {
@@ -44,46 +46,38 @@ class ProductCart extends StatelessWidget {
         ),
         child: Column(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                SizedBox(
-                  height: 90,
-                  child: CachedNetworkImage(
-                    imageUrl: product.image,
-                    imageBuilder: (BuildContext context, ImageProvider<Object> imageProvider) {
-                      return AspectRatio(
-                        aspectRatio: 1,
-                        child: Container(
-                          height: double.infinity,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
+            InkWell(
+              onTap: () {
+                print('Working');
+                context.pushNamed(
+                  RoutesNames.productDetails,
+                  extra: product,
+                );
+              },
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 90,
+                    child: CachedNetworkImage(
+                      imageUrl: product.image,
+                      imageBuilder: (
+                        BuildContext context,
+                        ImageProvider<Object> imageProvider,
+                      ) {
+                        return AspectRatio(
+                          aspectRatio: 1,
+                          child: Container(
+                            height: double.infinity,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                    placeholder: (BuildContext context, String url) => AspectRatio(
-                      aspectRatio: 1,
-                      child: Container(
-                        height: double.infinity,
-                        decoration: const BoxDecoration(
-                          color: primaryColorLight,
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.smoking_rooms,
-                          ),
-                        ),
-                      ),
-                    ),
-                    errorWidget: (
-                      BuildContext context,
-                      String url,
-                      Object error,
-                    ) {
-                      return AspectRatio(
+                        );
+                      },
+                      placeholder: (BuildContext context, String url) => AspectRatio(
                         aspectRatio: 1,
                         child: Container(
                           height: double.infinity,
@@ -96,64 +90,79 @@ class ProductCart extends StatelessWidget {
                             ),
                           ),
                         ),
-                      );
-                    },
+                      ),
+                      errorWidget: (
+                        BuildContext context,
+                        String url,
+                        Object error,
+                      ) {
+                        return AspectRatio(
+                          aspectRatio: 1,
+                          child: Container(
+                            height: double.infinity,
+                            decoration: const BoxDecoration(
+                              color: primaryColorLight,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.smoking_rooms,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(
-                        product.name,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w400,
-                            ),
-                      ),
-                      sized5,
-                      Text(
-                        product.description,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 10,
-                            ),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      sized5,
-                      Text(
-                        '${product.price} \u20BD',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                            ),
-                      ),
-                      Text(
-                        'Доступно: ${product.stock}',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                            ),
-                      ),
-                    ],
+                  const SizedBox(
+                    width: 15,
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                const Icon(
-                  Icons.add,
-                  color: Colors.black,
-                  size: 15,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-              ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          product.name,
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w400,
+                              ),
+                        ),
+                        sized5,
+                        Text(
+                          product.description,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 10,
+                              ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        sized5,
+                        Text(
+                          '${product.price} \u20BD',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
+                        ),
+                        Text(
+                          'Доступно: ${product.stock}',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

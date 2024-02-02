@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_animated/auto_animated.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fcc_app_front/features/menu/data/models/catalog.dart';
@@ -156,11 +158,16 @@ class _CatalogProductMenuState extends State<CatalogProductMenu> {
                                             begin: const Offset(0, -0.1),
                                             end: Offset.zero,
                                           ).animate(animation),
-                                          child: ProductCart(
-                                            product: products[index],
-                                            isSelected: selectedProducts.product != null &&
-                                                selectedProducts.product!.id == products[index].id,
-                                            canSelect: false,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              return log('Clicked product');
+                                            },
+                                            child: ProductCart(
+                                              product: products[index],
+                                              isSelected: selectedProducts.product != null &&
+                                                  selectedProducts.product!.id == products[index].id,
+                                              canSelect: false,
+                                            ),
                                           ),
                                         ),
                                       );

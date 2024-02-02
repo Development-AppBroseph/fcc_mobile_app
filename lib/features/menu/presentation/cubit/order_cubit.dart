@@ -1,20 +1,17 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:fcc_app_front/features/menu/data/models/order.dart';
-import 'package:fcc_app_front/features/menu/data/repositories/order_repo.dart';
+import 'package:fcc_app_front/export.dart';
 
 part 'order_state.dart';
 
 class OrderCubit extends Cubit<OrderState> {
   OrderCubit() : super(const OrderState(<OrderModel>[]));
-  load() async {
+  dynamic load() async {
     final List<OrderModel> orders = await OrderRepo.getOrders();
     emit(
-      OrderState(orders),
+      state.copyWith(orders: orders),
     );
   }
 
-  changeAddress(String address) async {
+  dynamic changeAddress(String address) async {
     List<OrderModel> orders = <OrderModel>[
       ...super.state.orders,
     ];
@@ -31,5 +28,21 @@ class OrderCubit extends Cubit<OrderState> {
         ),
       );
     }
+  }
+
+  dynamic makeOrder({
+    required ProductModel product,
+    required String address,
+    required String name,
+    required String phone,
+    required String email,
+  }) async {
+    return await OrderRepo.placeOrder(
+      address: address,
+      product: product,
+      name: name,
+      phone: phone,
+      email: email,
+    );
   }
 }

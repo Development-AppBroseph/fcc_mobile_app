@@ -1,21 +1,4 @@
-import 'package:auto_animated/auto_animated.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:fcc_app_front/features/menu/data/models/catalog.dart';
-import 'package:fcc_app_front/features/menu/data/models/product.dart';
-import 'package:fcc_app_front/features/menu/data/utils/search_product.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/catalog_cubit.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/selected_products_cubit.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nested/nested.dart';
-
-import 'package:fcc_app_front/shared/constants/widgets/custom_back.dart';
-import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/product_cubit.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/search.dart';
-import 'package:fcc_app_front/features/menu/presentation/widgets/cart.dart';
+import 'package:fcc_app_front/export.dart';
 
 class CatalogProductProfileMenu extends StatefulWidget {
   final String catalogId;
@@ -69,7 +52,7 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        CustomBackButton(),
+                        const CustomBackButton(),
                         sized20,
                         AutoSizeText(
                           catalog.name.toUpperCase(),
@@ -126,11 +109,11 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                         builder: (BuildContext context, ProductState state) {
                           final List<ProductModel> products = searchProduct(
                             query,
-                            state.products
-                                .where(
-                                  (ProductModel element) => element.catalog.toString() == widget.catalogId,
-                                )
-                                .toList(),
+                            state.products.where(
+                              (ProductModel element) {
+                                return element.catalog.toString() == widget.catalogId;
+                              },
+                            ).toList(),
                           );
                           return BlocBuilder<SelectedProductsCubit, SelectedProductsState>(
                             builder: (BuildContext context, SelectedProductsState selectedProducts) {
@@ -142,26 +125,31 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                                   controller: _scrollController,
                                   showItemInterval: const Duration(milliseconds: 150),
                                   showItemDuration: const Duration(milliseconds: 200),
-                                  itemBuilder: (BuildContext context, int index, Animation<double> animation) =>
-                                      FadeTransition(
-                                    opacity: Tween<double>(
-                                      begin: 0,
-                                      end: 1,
-                                    ).animate(animation),
-                                    // And slide transition
-                                    child: SlideTransition(
-                                      position: Tween<Offset>(
-                                        begin: const Offset(0, -0.1),
-                                        end: Offset.zero,
+                                  itemBuilder: (
+                                    BuildContext context,
+                                    int index,
+                                    Animation<double> animation,
+                                  ) {
+                                    return FadeTransition(
+                                      opacity: Tween<double>(
+                                        begin: 0,
+                                        end: 1,
                                       ).animate(animation),
-                                      child: ProductCart(
-                                        product: products[index],
-                                        isSelected: selectedProducts.product != null &&
-                                            selectedProducts.product!.id == products[index].id,
-                                        canSelect: false,
+                                      // And slide transition
+                                      child: SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(0, -0.1),
+                                          end: Offset.zero,
+                                        ).animate(animation),
+                                        child: ProductCart(
+                                          product: products[index],
+                                          isSelected: selectedProducts.product != null &&
+                                              selectedProducts.product!.id == products[index].id,
+                                          canSelect: false,
+                                        ),
                                       ),
-                                    ),
-                                  ),
+                                    );
+                                  },
                                   itemCount: products.length,
                                 ),
                               );

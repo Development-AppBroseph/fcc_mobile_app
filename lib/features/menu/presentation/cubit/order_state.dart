@@ -10,4 +10,12 @@ class OrderState extends Equatable {
   List<Object> get props => <Object>[
         orders,
       ];
+
+  OrderState copyWith({
+    List<OrderModel>? orders,
+  }) {
+    return OrderState(
+      orders ?? this.orders,
+    );
+  }
 }
