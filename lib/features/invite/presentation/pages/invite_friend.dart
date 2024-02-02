@@ -1,11 +1,12 @@
 import 'package:fcc_app_front/export.dart';
 
 class InviteFrPage extends StatefulWidget {
+  final bool showBackButton;
+
   const InviteFrPage({
     this.showBackButton = true,
     super.key,
   });
-  final bool showBackButton;
 
   @override
   State<InviteFrPage> createState() => _InviteFrPageState();
@@ -27,12 +28,11 @@ class _InviteFrPageState extends State<InviteFrPage> {
                   ? SingleChildScrollView(
                       child: BlocBuilder<InvitationCubit, InvitationModel?>(
                         builder: (BuildContext context, InvitationModel? state) {
-                          if (state == null) return Container();
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               sized30,
-                              if (widget.showBackButton) CustomBackButton(),
+                              if (widget.showBackButton) const CustomBackButton(),
                               Center(
                                 child: Text(
                                   'Пригласить друга',
