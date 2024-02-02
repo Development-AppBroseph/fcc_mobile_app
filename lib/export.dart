@@ -1,5 +1,6 @@
 export 'package:auto_animated/auto_animated.dart';
 export 'package:auto_size_text/auto_size_text.dart';
+export 'package:awesome_dialog/awesome_dialog.dart' hide DismissType;
 export 'package:bloc/bloc.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:collection/collection.dart';
@@ -103,6 +104,7 @@ export 'package:fcc_app_front/features/settings/presentation/pages/not_signed.da
 export 'package:fcc_app_front/features/settings/presentation/pages/offer_page.dart';
 export 'package:fcc_app_front/features/settings/presentation/pages/profile.dart';
 export 'package:fcc_app_front/features/settings/presentation/widgets/settings_page_button.dart';
+export 'package:fcc_app_front/gen/assets.gen.dart';
 export 'package:fcc_app_front/shared/config/base_http_client.dart';
 export 'package:fcc_app_front/shared/config/routes.dart';
 export 'package:fcc_app_front/shared/config/utils/get_token.dart';
