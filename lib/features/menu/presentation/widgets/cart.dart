@@ -145,13 +145,6 @@ class ProductCart extends StatelessWidget {
                                 fontSize: 14,
                               ),
                         ),
-                        Text(
-                          'Доступно: ${product.stock}',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                              ),
-                        ),
                       ],
                     ),
                   ),

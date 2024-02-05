@@ -172,6 +172,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ),
                         textInputAction: TextInputAction.next,
                       ),
+                      sized40,
+                      CstmBtn(
+                        text: 'Сохранить',
+                        onTap: () {
+                          context.pop();
+                          //TODO : Save user info
+                        },
+                      )
                     ],
                   );
                 },

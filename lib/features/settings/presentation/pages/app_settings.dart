@@ -22,16 +22,6 @@ class AppSettingsPage extends StatelessWidget {
                 'Настройки',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              sized40,
-              FillBtn(
-                text: 'Изменить номер',
-                onTap: () {
-                  context.goNamed(
-                    RoutesNames.changeNumber,
-                  );
-                },
-                iconPath: 'assets/call.svg',
-              ),
               sized20,
               FillBtn(
                 text: 'Посмотреть свои данные',
