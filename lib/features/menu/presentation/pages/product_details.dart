@@ -98,7 +98,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         final CurrentMembership? merbership = await context.read<AuthCubit>().getCurrentMerbership();
                         if (state is Authenticated) {
                           if (merbership?.membership?.level == null && context.mounted) {
-                            ErrorSnackBar.showErrorSnackBar(
+                            ApplicationSnackBar.showErrorSnackBar(
                               context,
                               'Выберите план',
                               1,
@@ -108,11 +108,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                           } else {
                             if (context.mounted) _makeOrder(context, state);
                           }
+
                           if (widget.model.stock >= 4 && context.mounted) {
                             if (context.mounted) _makeOrder(context, state);
+                            ApplicationSnackBar.showErrorSnackBar(
+                              context,
+                              'Заказ оформлен',
+                              1,
+                              const EdgeInsets.all(10),
+                              1,
+                              false,
+                            );
                           } else {
                             if (context.mounted) {
-                              ErrorSnackBar.showErrorSnackBar(
+                              ApplicationSnackBar.showErrorSnackBar(
                                 context,
                                 'На складе недостаточно товара',
                                 1,
@@ -141,14 +150,24 @@ class _ProductDetailsState extends State<ProductDetails> {
     BuildContext context,
     Authenticated state,
   ) {
-    if (context.mounted) {
-      context.read<OrderCubit>().makeOrder(
-            address: 'Пока не знаю какой адрес',
-            phone: state.user.phoneNumber,
-            email: 'alidroid696@gmail.com',
-            product: widget.model,
-            name: 'ali',
-          );
+    try {
+      if (context.mounted) {
+        context.read<OrderCubit>().makeOrder(
+              address: 'Пока не знаю какой адрес',
+              phone: state.user.phoneNumber,
+              email: 'alidroid696@gmail.com',
+              product: widget.model,
+              name: 'ali',
+            );
+      }
+    } on OrderException {
+      ApplicationSnackBar.showErrorSnackBar(
+        context,
+        'В месяц можете приобрести только один товар',
+        1,
+        EdgeInsets.zero,
+        1,
+      );
     }
   }
 }

@@ -1,34 +1,61 @@
-import 'dart:math';
-
 class OrderModel {
   final int id;
-  final double totalPrice;
-  final DateTime date;
-  final int clientId;
-  final List<int> products;
-  final String address;
+  final int client;
+  final List<OrderItem> orderItems;
+  final String totalPrice;
+  final String shippingPrice;
+  final String pickupAddress;
+  final String clientName;
+  final String clientPhone;
+  final String clientEmail;
+  final DateTime createdAt;
 
   OrderModel({
     required this.id,
+    required this.client,
+    required this.orderItems,
     required this.totalPrice,
-    required this.date,
-    required this.clientId,
-    required this.products,
-    required this.address,
+    required this.shippingPrice,
+    required this.pickupAddress,
+    required this.clientName,
+    required this.clientPhone,
+    required this.clientEmail,
+    required this.createdAt,
   });
 
-  factory OrderModel.fromMap(Map<String, dynamic> map) {
+  factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
-      id: map['id'] ?? Random().nextInt(1000),
-      totalPrice: double.parse(
-        (map['total_price'] ?? '0').toString(),
-      ),
-      date: DateTime.parse(
-        map['order_date'] ?? map['created_at'] as String,
-      ),
-      clientId: map['client'] ?? Random().nextInt(1000),
-      address: map['pickup_address'] ?? '',
-      products: (map['order_items'] as List).map((e) => e['product'] as int).toList(),
+      id: json['id'] ?? 0,
+      client: json['client'] ?? 0,
+      orderItems:
+          (json['order_items'] as List<dynamic>?)?.map((item) => OrderItem.fromJson(item)).toList() ?? <OrderItem>[],
+      totalPrice: json['total_price'] ?? '',
+      shippingPrice: json['shipping_price'] ?? '',
+      pickupAddress: json['pickup_address'] ?? '',
+      clientName: json['client_name'] ?? '',
+      clientPhone: json['client_phone'] ?? '',
+      clientEmail: json['client_email'] ?? '',
+      createdAt: DateTime.parse(json['created_at'] ?? ''),
+    );
+  }
+}
+
+class OrderItem {
+  final int productId;
+  final String productName;
+  final int quantity;
+
+  OrderItem({
+    required this.productId,
+    required this.productName,
+    required this.quantity,
+  });
+
+  factory OrderItem.fromJson(Map<String, dynamic> json) {
+    return OrderItem(
+      productId: json['product'] ?? 0,
+      productName: json['product_name'] ?? '',
+      quantity: json['quantity'] ?? 0,
     );
   }
 }

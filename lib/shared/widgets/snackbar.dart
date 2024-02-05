@@ -1,8 +1,9 @@
 import 'package:fcc_app_front/export.dart';
 
-class ErrorSnackBar {
+class ApplicationSnackBar {
   static Future<void> showErrorSnackBar(
-      BuildContext context, String message, double textScaleFactor, EdgeInsets padding, int maxLines) async {
+      BuildContext context, String message, double textScaleFactor, EdgeInsets padding, int maxLines,
+      [bool? isError]) async {
     showTopSnackBar(
       Overlay.of(context),
       SizedBox(
@@ -23,7 +24,7 @@ class ErrorSnackBar {
                 fontSize: 14,
                 color: scaffoldBackgroundColor,
               ),
-          backgroundColor: Theme.of(context).colorScheme.error,
+          backgroundColor: isError != null ? Colors.green : Theme.of(context).colorScheme.error,
         ),
       ),
     );

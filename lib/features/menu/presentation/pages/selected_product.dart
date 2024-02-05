@@ -34,7 +34,7 @@ class SelectedProductPage extends StatelessWidget {
                       onTap: () {
                         final AuthState userState = context.read<AuthCubit>().state;
                         if (userState is Authenticated && userState.user.userName == '') {
-                          ErrorSnackBar.showErrorSnackBar(
+                          ApplicationSnackBar.showErrorSnackBar(
                             context,
                             'Вы не ввели свои данные',
                             0.9,

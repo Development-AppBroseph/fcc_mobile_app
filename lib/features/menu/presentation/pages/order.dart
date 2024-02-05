@@ -51,7 +51,7 @@ class _OrderState extends State<Order> {
                                       ListView.separated(
                                           shrinkWrap: true,
                                           itemBuilder: (BuildContext context, int index) {
-                                            final OrderModel order = state.orders[index];
+                                            final OrderModel order = state.orders.last;
 
                                             return GestureDetector(
                                               onTap: () {
@@ -78,7 +78,7 @@ class _OrderState extends State<Order> {
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                       children: <Widget>[
-                                                        const Text('Parlament'),
+                                                        Text(order.orderItems.last.productName),
                                                         Text(
                                                           '№ ${order.id}',
                                                           style: Theme.of(context).textTheme.bodySmall,
@@ -102,7 +102,7 @@ class _OrderState extends State<Order> {
                                               height: 20.h,
                                             );
                                           },
-                                          itemCount: state.orders.length),
+                                          itemCount: 1),
                                     ],
                                   ),
                                 );

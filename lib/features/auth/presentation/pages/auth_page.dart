@@ -123,7 +123,7 @@ class _AuthPageState extends State<AuthPage> {
                   CstmBtn(
                     onTap: () async {
                       if (controller.text == '') {
-                        ErrorSnackBar.showErrorSnackBar(
+                        ApplicationSnackBar.showErrorSnackBar(
                           context,
                           'Имя пользователя не может быть пустым',
                           0.9,
@@ -160,7 +160,7 @@ class _AuthPageState extends State<AuthPage> {
                             extra: widget.phone,
                           );
                         } else if (context.mounted) {
-                          ErrorSnackBar.showErrorSnackBar(
+                          ApplicationSnackBar.showErrorSnackBar(
                             context,
                             'Введено некорректное имя пользователя. Попробуйте снова или запросите имя пользователя пригласившего вас.',
                             0.9,
