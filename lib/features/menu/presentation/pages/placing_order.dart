@@ -275,11 +275,11 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       }
                                     } else {
                                       if (addressController.text == '') {
-                                        ErrorSnackBar.showErrorSnackBar(context, 'Пожалуйста, введите адрес', 0.9,
+                                        ApplicationSnackBar.showErrorSnackBar(context, 'Пожалуйста, введите адрес', 0.9,
                                             const EdgeInsets.symmetric(horizontal: 10), 1);
                                       }
                                       if (nameController.text == '') {
-                                        ErrorSnackBar.showErrorSnackBar(
+                                        ApplicationSnackBar.showErrorSnackBar(
                                           context,
                                           'Пожалуйста, введите имя',
                                           1,
@@ -290,7 +290,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       if (!russianValidator(
                                         nameController.text,
                                       )) {
-                                        ErrorSnackBar.showErrorSnackBar(
+                                        ApplicationSnackBar.showErrorSnackBar(
                                             context,
                                             'Пожалуйста, используйте в имени только русские буквы',
                                             0.9,
@@ -298,7 +298,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                             2);
                                       }
                                       if (validateMobile() != null) {
-                                        ErrorSnackBar.showErrorSnackBar(
+                                        ApplicationSnackBar.showErrorSnackBar(
                                             context,
                                             validateMobile() ?? 'Пожалуйста, введите номер телефона',
                                             0.9,

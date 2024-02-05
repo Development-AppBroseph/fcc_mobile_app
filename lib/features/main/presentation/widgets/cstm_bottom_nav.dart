@@ -1,12 +1,12 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../shared/constants/colors/color.dart';
+import 'package:fcc_app_front/shared/constants/colors/color.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../shared/widgets/on_tap_scale.dart';
+import 'package:fcc_app_front/shared/widgets/on_tap_scale.dart';
 
 // test
-class BottomNavBar extends StatelessWidget {
+class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
     Key? key,
     required this.onChanged,
@@ -19,13 +19,18 @@ class BottomNavBar extends StatelessWidget {
   final void Function(int) onChanged;
 
   @override
+  State<BottomNavBar> createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 80.h,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
-        boxShadow: [
+        boxShadow: <BoxShadow>[
           BoxShadow(
             offset: const Offset(
               0,
@@ -40,10 +45,10 @@ class BottomNavBar extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ...items
+        children: <Widget>[
+          ...widget.items
               .map(
-                (e) => Expanded(
+                (BottomNavBarItem e) => Expanded(
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: Container(
@@ -51,7 +56,7 @@ class BottomNavBar extends StatelessWidget {
                       child: OnTapScaleAndFade(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          onChanged(items.indexOf(e));
+                          widget.onChanged(widget.items.indexOf(e));
                         },
                         child: e.svgPicture,
                       ),

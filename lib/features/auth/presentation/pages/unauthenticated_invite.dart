@@ -110,7 +110,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                   CstmBtn(
                     onTap: () async {
                       if (controller.text == '') {
-                        ErrorSnackBar.showErrorSnackBar(
+                        ApplicationSnackBar.showErrorSnackBar(
                           context,
                           'Имя пользователя не может быть пустым',
                           0.9,
@@ -140,7 +140,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                           });
                         } else {
                           if (mounted) {
-                            ErrorSnackBar.showErrorSnackBar(
+                            ApplicationSnackBar.showErrorSnackBar(
                               context,
                               'Пользователь с указанным именем не найден',
                               0.9,

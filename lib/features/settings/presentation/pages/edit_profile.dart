@@ -20,7 +20,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   void validateAndSubmit() {
     if (!isNameValid(surname.text)) {
-      ErrorSnackBar.showErrorSnackBar(
+      ApplicationSnackBar.showErrorSnackBar(
         context,
         'Введена некорректная контактная информация, допускаются только буквы русского языка',
         1,
@@ -31,7 +31,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       return;
     }
     if (surname.text.isEmpty) {
-      ErrorSnackBar.showErrorSnackBar(
+      ApplicationSnackBar.showErrorSnackBar(
         context,
         'Пожалуйста введите фамилию',
         0.9,
@@ -93,7 +93,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      CustomBackButton(),
+                      const CustomBackButton(),
                       sized30,
                       Text(
                         'Посмотреть свои данные',

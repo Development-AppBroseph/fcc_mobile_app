@@ -24,7 +24,7 @@ class _ContInfoPageState extends State<ContInfoPage> {
 
   bool validateAndSubmit() {
     if (!aggreedChecked) {
-      ErrorSnackBar.showErrorSnackBar(
+      ApplicationSnackBar.showErrorSnackBar(
           context,
           'Пожалуйста, примите Условия использования и Политику конфиденциальности',
           0.9,
@@ -33,12 +33,12 @@ class _ContInfoPageState extends State<ContInfoPage> {
       return false;
     }
     if (!oldEnoughChecked) {
-      ErrorSnackBar.showErrorSnackBar(context, 'Вы недостаточно взрослый, чтобы использовать это приложение', 0.9,
+      ApplicationSnackBar.showErrorSnackBar(context, 'Вы недостаточно взрослый, чтобы использовать это приложение', 0.9,
           const EdgeInsets.symmetric(horizontal: 10), 1);
       return false;
     }
     if (surname.text.isEmpty) {
-      ErrorSnackBar.showErrorSnackBar(
+      ApplicationSnackBar.showErrorSnackBar(
           context, 'Пожалуйста, введите фамилию', 0.9, const EdgeInsets.symmetric(horizontal: 10), 1);
       return false;
     }
@@ -47,7 +47,7 @@ class _ContInfoPageState extends State<ContInfoPage> {
         maskFormatter.getMaskedText(),
       );
       if (!(DateTime.now().compareTo(date) == 1)) {
-        ErrorSnackBar.showErrorSnackBar(
+        ApplicationSnackBar.showErrorSnackBar(
           context,
           'Дата вашего рождения не может быть этой датой',
           1,
@@ -64,7 +64,7 @@ class _ContInfoPageState extends State<ContInfoPage> {
               date.day,
             ),
           )) {
-        ErrorSnackBar.showErrorSnackBar(
+        ApplicationSnackBar.showErrorSnackBar(
           context,
           'Вам меньше 18 лет',
           1,
@@ -74,7 +74,7 @@ class _ContInfoPageState extends State<ContInfoPage> {
         return false;
       }
     } catch (e) {
-      ErrorSnackBar.showErrorSnackBar(
+      ApplicationSnackBar.showErrorSnackBar(
         context,
         'Пожалуйста, введите действительную дату',
         1,

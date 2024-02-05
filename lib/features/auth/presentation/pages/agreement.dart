@@ -26,7 +26,7 @@ class AgreementScreen extends StatelessWidget {
                   CstmBtn(
                     text: 'Да',
                     onTap: () {
-                      context.pushReplacementNamed(RoutesNames.unauthenticatedInvite);
+                      context.push(Routes.unauthenticatedInvite);
                     },
                   ),
                   sized20,

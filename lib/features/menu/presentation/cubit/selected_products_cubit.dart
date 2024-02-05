@@ -9,7 +9,7 @@ class SelectedProductsCubit extends Cubit<SelectedProductsState> {
       : super(
           const SelectedProductsState(),
         );
-  dynamic addProduct(ProductModel? product) {
+  addProduct(ProductModel? product) {
     if (product == null) {
       emit(
         const SelectedProductsState(),

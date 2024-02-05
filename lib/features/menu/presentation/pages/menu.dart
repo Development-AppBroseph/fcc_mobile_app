@@ -121,104 +121,107 @@ class _MenuState extends State<Menu> {
                                 isPublic: context.read<AuthCubit>().state is Unauthenticated,
                               );
                         },
-                        child: BlocBuilder<SearchCubit, String?>(
-                          builder: (BuildContext context, String? query) {
-                            return BlocBuilder<CatalogCubit, CatalogState>(
-                              builder: (BuildContext context, CatalogState state) {
-                                final AuthState authState = context.watch<AuthCubit>().state;
-                                final List<CatalogModel> catalogs = searchCatalog(
-                                  query,
-                                  getCatalogByMembership(
-                                    state.catalogs,
-                                    selectedMembership != null &&
-                                            MembershipType.values
-                                                .any((MembershipType element) => element == selectedMembership) &&
-                                            authState is Unauthenticated
-                                        ? MembershipType.values
-                                            .firstWhereOrNull((MembershipType element) => element == selectedMembership)
-                                        : authState is Authenticated &&
-                                                MembershipType.values.any((MembershipType element) {
-                                                  return element.name == authState.user.membership;
-                                                })
-                                            ? MembershipType.values.firstWhereOrNull(
-                                                (MembershipType element) => element.name == authState.user.membership,
-                                              )
-                                            : null,
-                                  ),
-                                );
-                                if (authState is Authenticated && authState.user.membership == 'no membership') {
-                                  return SliverToBoxAdapter(
-                                    child: SizedBox(
-                                      height: 400.h,
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            'Пожалуйста выберите план для подписки',
-                                            style: Theme.of(context).textTheme.bodyMedium,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          sized30,
-                                          CstmBtn(
-                                              text: 'Выбрать план',
-                                              onTap: () {
-                                                context.goNamed(
-                                                  RoutesNames.settings,
-                                                );
-                                                context.pushNamed(
-                                                  RoutesNames.changePlan,
-                                                  extra: authState.user.phoneNumber,
-                                                );
-                                              }),
-                                        ],
-                                      ),
+                        child: BlocProvider(
+                          create: (BuildContext context) => SearchCubit(),
+                          child: BlocBuilder<SearchCubit, String?>(
+                            builder: (BuildContext context, String? query) {
+                              return BlocBuilder<CatalogCubit, CatalogState>(
+                                builder: (BuildContext context, CatalogState state) {
+                                  final AuthState authState = context.watch<AuthCubit>().state;
+                                  final List<CatalogModel> catalogs = searchCatalog(
+                                    query,
+                                    getCatalogByMembership(
+                                      state.catalogs,
+                                      selectedMembership != null &&
+                                              MembershipType.values
+                                                  .any((MembershipType element) => element == selectedMembership) &&
+                                              authState is Unauthenticated
+                                          ? MembershipType.values.firstWhereOrNull(
+                                              (MembershipType element) => element == selectedMembership)
+                                          : authState is Authenticated &&
+                                                  MembershipType.values.any((MembershipType element) {
+                                                    return element.name == authState.user.membership;
+                                                  })
+                                              ? MembershipType.values.firstWhereOrNull(
+                                                  (MembershipType element) => element.name == authState.user.membership,
+                                                )
+                                              : null,
                                     ),
                                   );
-                                }
-                                return SliverPadding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 20.h,
-                                  ),
-                                  sliver: LiveSliverList(
-                                    controller: _scrollController,
-                                    showItemInterval: const Duration(milliseconds: 150),
-                                    showItemDuration: const Duration(milliseconds: 200),
-                                    itemBuilder: (
-                                      BuildContext context,
-                                      int index,
-                                      Animation<double> animation,
-                                    ) {
-                                      return FadeTransition(
-                                        opacity: Tween<double>(
-                                          begin: 0,
-                                          end: 1,
-                                        ).animate(animation),
-                                        // And slide transition
-                                        child: SlideTransition(
-                                          position: Tween<Offset>(
-                                            begin: const Offset(0, -0.1),
-                                            end: Offset.zero,
-                                          ).animate(animation),
-                                          child: CatalogCart(
-                                            catalog: catalogs[index],
-                                            function: () {
-                                              context.pushNamed(
-                                                RoutesNames.productMenu,
-                                                pathParameters: <String, String>{
-                                                  'id': catalogs[index].id.toString(),
-                                                },
-                                              );
-                                            },
-                                          ),
+                                  if (authState is Authenticated && authState.user.membership == 'no membership') {
+                                    return SliverToBoxAdapter(
+                                      child: SizedBox(
+                                        height: 400.h,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              'Пожалуйста выберите план для подписки',
+                                              style: Theme.of(context).textTheme.bodyMedium,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            sized30,
+                                            CstmBtn(
+                                                text: 'Выбрать план',
+                                                onTap: () {
+                                                  context.goNamed(
+                                                    RoutesNames.settings,
+                                                  );
+                                                  context.pushNamed(
+                                                    RoutesNames.changePlan,
+                                                    extra: authState.user.phoneNumber,
+                                                  );
+                                                }),
+                                          ],
                                         ),
-                                      );
-                                    },
-                                    itemCount: catalogs.length,
-                                  ),
-                                );
-                              },
-                            );
-                          },
+                                      ),
+                                    );
+                                  }
+                                  return SliverPadding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 20.h,
+                                    ),
+                                    sliver: LiveSliverList(
+                                      controller: _scrollController,
+                                      showItemInterval: const Duration(milliseconds: 150),
+                                      showItemDuration: const Duration(milliseconds: 200),
+                                      itemBuilder: (
+                                        BuildContext context,
+                                        int index,
+                                        Animation<double> animation,
+                                      ) {
+                                        return FadeTransition(
+                                          opacity: Tween<double>(
+                                            begin: 0,
+                                            end: 1,
+                                          ).animate(animation),
+                                          // And slide transition
+                                          child: SlideTransition(
+                                            position: Tween<Offset>(
+                                              begin: const Offset(0, -0.1),
+                                              end: Offset.zero,
+                                            ).animate(animation),
+                                            child: CatalogCart(
+                                              catalog: catalogs[index],
+                                              function: () {
+                                                context.pushNamed(
+                                                  RoutesNames.productMenu,
+                                                  pathParameters: <String, String>{
+                                                    'id': catalogs[index].id.toString(),
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      itemCount: catalogs.length,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ],

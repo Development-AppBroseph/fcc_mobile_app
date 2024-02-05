@@ -176,7 +176,7 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                             extra: widget.phone,
                           );
                         } else if (context.mounted && isError) {
-                          ErrorSnackBar.showErrorSnackBar(context, 'Введен неверный код, попробуйте еще раз', 0.9,
+                          ApplicationSnackBar.showErrorSnackBar(context, 'Введен неверный код, попробуйте еще раз', 0.9,
                               const EdgeInsets.symmetric(horizontal: 10), 1);
                         }
                         setState(() {

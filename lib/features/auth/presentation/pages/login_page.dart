@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     onTap: () async {
                       if (!maskFormatter.isFill()) {
-                        ErrorSnackBar.showErrorSnackBar(
+                        ApplicationSnackBar.showErrorSnackBar(
                           context,
                           'Неверный формат номера телефона',
                           0.9,

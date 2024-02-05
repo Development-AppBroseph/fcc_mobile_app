@@ -21,7 +21,7 @@ class OrderDetails extends StatelessWidget {
             ),
             sized30,
             Text(
-              "Заказ от ${DateFormat('dd.MM.yyyy').format(order.date)}",
+              "Заказ от ${DateFormat('dd.MM.yyyy').format(order.createdAt)}",
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w400,
                   ),
@@ -80,7 +80,7 @@ class OrderDetails extends StatelessWidget {
                 ),
                 Text(
                   DateFormat('dd.MM.yyyy').format(
-                    order.date,
+                    order.createdAt,
                   ),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 12,
@@ -97,7 +97,7 @@ class OrderDetails extends StatelessWidget {
             ),
             sized20,
             Text(
-              order.address,
+              order.pickupAddress,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w400,
                     fontSize: 12,
@@ -163,7 +163,7 @@ class OrderDetails extends StatelessWidget {
             ),
             sized20,
             Text(
-              order.address,
+              order.pickupAddress,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w400,
                     fontSize: 12,
