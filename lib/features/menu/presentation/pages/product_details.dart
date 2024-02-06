@@ -105,20 +105,28 @@ class _ProductDetailsState extends State<ProductDetails> {
                               const EdgeInsets.all(10),
                               10,
                             );
-                          } else {
-                            if (context.mounted) _makeOrder(context, state);
                           }
 
                           if (widget.model.stock >= 4 && context.mounted) {
-                            if (context.mounted) _makeOrder(context, state);
-                            ApplicationSnackBar.showErrorSnackBar(
-                              context,
-                              'Заказ оформлен',
-                              1,
-                              const EdgeInsets.all(10),
-                              1,
-                              false,
-                            );
+                            if (await _makeOrder(context, state)) {
+                              ApplicationSnackBar.showErrorSnackBar(
+                                context,
+                                'Заказ отправлен',
+                                1,
+                                const EdgeInsets.all(10),
+                                1,
+                                false,
+                              );
+                            } else {
+                              ApplicationSnackBar.showErrorSnackBar(
+                                context,
+                                'в меcяц можно оформить только 1 товар',
+                                1,
+                                const EdgeInsets.all(10),
+                                1,
+                                false,
+                              );
+                            }
                           } else {
                             if (context.mounted) {
                               ApplicationSnackBar.showErrorSnackBar(
@@ -146,28 +154,21 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  void _makeOrder(
+  Future<bool> _makeOrder(
     BuildContext context,
     Authenticated state,
-  ) {
-    try {
-      if (context.mounted) {
-        context.read<OrderCubit>().makeOrder(
-              address: 'Пока не знаю какой адрес',
-              phone: state.user.phoneNumber,
-              email: 'alidroid696@gmail.com',
-              product: widget.model,
-              name: 'ali',
-            );
-      }
-    } on OrderException {
-      ApplicationSnackBar.showErrorSnackBar(
-        context,
-        'В месяц можете приобрести только один товар',
-        1,
-        EdgeInsets.zero,
-        1,
-      );
+  ) async {
+    final bool result = await context.read<OrderCubit>().makeOrder(
+          address: 'Пока не знаю какой адрес',
+          phone: state.user.phoneNumber,
+          email: 'alidroid696@gmail.com',
+          product: widget.model,
+          name: 'ali',
+        );
+
+    if (result && context.mounted) {
+      return false;
     }
+    return result;
   }
 }

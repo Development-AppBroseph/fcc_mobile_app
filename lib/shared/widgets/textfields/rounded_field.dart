@@ -1,6 +1,29 @@
 import 'package:fcc_app_front/export.dart';
 
 class RounField extends StatefulWidget {
+  final EdgeInsets margin;
+  final String? initialText;
+  final bool? enabled;
+  final double width;
+  final TextInputType? textInputType;
+  final TextInputAction? textInputAction;
+  final TextEditingController? controller;
+  final double height;
+  final TextStyle? textStyle;
+  final TextStyle? hintStyle;
+  final EdgeInsets? padding;
+  final String? iconPath;
+  final double? iconSize;
+  final String? hintText;
+  final EdgeInsets? iconPadding;
+  final Color? iconColor;
+  final EdgeInsets? textfieldPadding;
+  final Color? borderColor;
+  final List<TextInputFormatter>? inputFormatter;
+  final BorderRadius? borderRadius;
+  final Color? color;
+  final Function? iconFunction;
+
   const RounField({
     this.margin = const EdgeInsets.symmetric(horizontal: 0),
     this.initialText,
@@ -26,28 +49,7 @@ class RounField extends StatefulWidget {
     this.iconFunction,
     Key? key,
   }) : super(key: key);
-  final EdgeInsets margin;
-  final String? initialText;
-  final bool? enabled;
-  final double width;
-  final TextInputType? textInputType;
-  final TextInputAction? textInputAction;
-  final TextEditingController? controller;
-  final double height;
-  final TextStyle? textStyle;
-  final TextStyle? hintStyle;
-  final EdgeInsets? padding;
-  final String? iconPath;
-  final double? iconSize;
-  final String? hintText;
-  final EdgeInsets? iconPadding;
-  final Color? iconColor;
-  final EdgeInsets? textfieldPadding;
-  final Color? borderColor;
-  final List<TextInputFormatter>? inputFormatter;
-  final BorderRadius? borderRadius;
-  final Color? color;
-  final Function? iconFunction;
+
   @override
   State<RounField> createState() => _RounFieldState();
 }
@@ -82,7 +84,6 @@ class _RounFieldState extends State<RounField> {
               child: Padding(
                 padding: widget.textfieldPadding ?? const EdgeInsets.all(0),
                 child: TextFormField(
-                  enabled: widget.enabled,
                   style: widget.textStyle ??
                       Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontFamily: 'Rubik',

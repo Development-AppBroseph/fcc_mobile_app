@@ -9,9 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../shared/constants/widgets/sizedbox.dart';
-import '../../../../shared/widgets/buttons/filled_btn.dart';
-import '../../../../shared/widgets/on_tap_scale.dart';
+import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
+import 'package:fcc_app_front/shared/widgets/buttons/filled_btn.dart';
+import 'package:fcc_app_front/shared/widgets/on_tap_scale.dart';
 
 class SettingsPageButton extends StatelessWidget {
   const SettingsPageButton({
@@ -44,19 +44,19 @@ class SettingsPageButton extends StatelessWidget {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               ClipOval(
                 child: SizedBox(
                   width: 40,
                   height: 40,
                   child: Image.asset(
-                    "assets/avatars/fsk.png",
+                    'assets/avatars/fsk.png',
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               Text(
-                "ФКК",
+                'ФКК',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
@@ -79,11 +79,11 @@ class SettingsPageButton extends StatelessWidget {
             return;
           }
           if (setting.route == RoutesNames.chat) {
-            final id = await ChatRepo.getChat();
+            final int? id = await ChatRepo.getChat();
             if (id != null && context.mounted) {
               context.pushNamed(
                 setting.route,
-                pathParameters: {
+                pathParameters: <String, String>{
                   'id': id.toString(),
                 },
                 extra: BlocProvider.of<ChatCubit>(context)..load(),
@@ -95,7 +95,7 @@ class SettingsPageButton extends StatelessWidget {
               extra: BlocProvider.of<DiscountCubit>(context),
             );
           } else if (setting.route == RoutesNames.changePlan) {
-            final authState = context.read<AuthCubit>().state;
+            final AuthState authState = context.read<AuthCubit>().state;
             context.pushNamed(
               setting.route,
               extra: authState is Authenticated ? authState.user.phoneNumber : '',
@@ -106,7 +106,7 @@ class SettingsPageButton extends StatelessWidget {
             );
           }
         },
-        iconPath: "assets/settings/${setting.icon}.svg",
+        iconPath: 'assets/settings/${setting.icon}.svg',
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
       ),
     );

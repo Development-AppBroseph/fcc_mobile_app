@@ -41,11 +41,11 @@ class OrderRepo {
         ),
       )['message']
           .contains('limit reached')) {
-        throw OrderException();
+        throw OrderException(message: 'limit reached');
       }
     } catch (e) {
       if (e is OrderException) rethrow;
-      log("Couldn't place the order: $e");
+      throw OrderException(message: 'limit reached');
     }
     return null;
   }

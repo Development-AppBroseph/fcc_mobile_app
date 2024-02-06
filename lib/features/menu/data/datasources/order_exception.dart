@@ -1,3 +1,5 @@
 class OrderException implements Exception {
-  OrderException();
+  final String message;
+
+  OrderException({required this.message});
 }
