@@ -1,6 +1,6 @@
 class HiveStrings {
   static const String userBox = 'userBox';
-
+  static const String message = 'messageBox';
   static const String id = 'id';
   static const String chatId = 'chatId';
   static const String token = 'token';

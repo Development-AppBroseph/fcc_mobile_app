@@ -27,9 +27,6 @@ class MainPage extends StatelessWidget {
           create: (BuildContext context) => OrderCubit()..load(),
         ),
         BlocProvider(
-          create: (BuildContext context) => ChatCubit()..load(),
-        ),
-        BlocProvider(
           create: (BuildContext context) => CatalogCubit()
             ..load(
               isPublic: context.read<AuthCubit>().state is Unauthenticated,
@@ -71,12 +68,8 @@ class _MainScaffoldState extends State<MainScaffold> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (Duration timeStamp) async {
-        await FirebaseNotificationsRepo().sendFcm();
+        //   await FirebaseNotificationsRepo().sendFcm();
         await FirebaseMessaging.instance.getInitialMessage();
-        await FirebaseNotificationsRepo().initNotifications(
-          // ignore: use_build_context_synchronously
-          context.read<ChatCubit>().load(),
-        );
       },
     );
   }

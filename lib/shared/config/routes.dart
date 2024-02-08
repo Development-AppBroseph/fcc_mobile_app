@@ -14,7 +14,7 @@ class Routes {
   static String invite = '/invite';
 
   static String profile = '/profile';
-  static String chat = '/chat/:id';
+  static String chat = '/chat';
   static String notifications = 'notifications';
   static String addPerson = 'addPerson';
   static String changePlan = 'changePlan';
@@ -382,12 +382,9 @@ final GoRouter router = GoRouter(
         return buildPageWithDefaultTransition<void>(
           context: context,
           state: state,
-          child: BlocProvider.value(
-            value: state.extra as ChatCubit,
-            child: ChatPage(
-              id: state.pathParameters['id'] as String,
-            ),
-          ),
+          child: const ChatPage(
+              // id: state.pathParameters['id'] as String,
+              ),
         );
       },
     ),

@@ -370,7 +370,7 @@ class _ContInfoPageState extends State<ContInfoPage> {
                           isLoading = false;
                         });
                         if (isSuccess) {
-                          FirebaseNotificationsRepo().sendFcm();
+                          //     FirebaseNotificationsRepo().sendFcm();
                           if (context.mounted) {
                             context.goNamed(
                               RoutesNames.catalog,

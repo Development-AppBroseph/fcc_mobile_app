@@ -92,7 +92,7 @@ class BaseHttpClient {
   }
 
   static Future<dynamic> refreshToken() async {
-    Uri url = Uri.parse('http://167.99.246.103:8081/api/v1/users/token/refresh/');
+    Uri url = Uri.parse('$baseUrl api/v1/users/token/refresh/');
     final Box box = Hive.box(
       HiveStrings.userBox,
     );

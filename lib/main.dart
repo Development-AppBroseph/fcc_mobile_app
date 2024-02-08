@@ -2,18 +2,19 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dart';
+import 'package:fcc_app_front/features/chat/di/di.dart';
+import 'package:fcc_app_front/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:fcc_app_front/shared/config/base/observer.dart';
 
-Future<void> main() async {
+void main() {
   runZonedGuarded(() async {
     await Hive.initFlutter();
-    await Hive.openBox(
-      HiveStrings.userBox,
-    ).then((Box value) => log(
-          value.get(HiveStrings.token) ?? '',
-        ));
+    await _initHive();
+
+    _initChatDependencies();
     await Firebase.initializeApp();
-    NotificationApi.init();
+    //  NotificationApi.init();
     WidgetsFlutterBinding.ensureInitialized();
     Bloc.observer = AppBlocObserver();
     runApp(
@@ -44,6 +45,12 @@ Future<void> main() async {
           ),
           BlocProvider<SelectedProductsCubit>(
             create: (BuildContext context) => SelectedProductsCubit(),
+          ),
+          BlocProvider<ChatBloc>(
+            create: (BuildContext context) => ChatBloc(getIt<ChatRepositoryImpl>())
+              ..add(
+                FecthAllChatEvent(),
+              ),
           ),
         ],
         child: const FSC(),
@@ -76,4 +83,19 @@ class FSC extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _initHive() async {
+  await Hive.openBox(
+    HiveStrings.userBox,
+  ).then((Box value) => log(
+        value.get(HiveStrings.token) ?? '',
+      ));
+
+  await Hive.openBox<MessageModel>(HiveStrings.message);
+  // Hive.registerAdapter(MessageModelAdapter());
+}
+
+void _initChatDependencies() {
+  setupDependencies();
 }
