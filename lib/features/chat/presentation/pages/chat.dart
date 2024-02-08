@@ -1,10 +1,14 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
+import 'dart:ui';
+
+import 'dart:typed_data' as ui;
+import 'dart:ui' as ui show Codec, FrameInfo, Image, ImmutableBuffer;
 
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/chat/data/models/api_message.dart';
 import 'package:fcc_app_front/features/chat/data/models/message_body_model.dart' as m;
-import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart' as picker;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:http/http.dart' as http;
@@ -24,7 +28,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   late IOWebSocketChannel _channel;
-  final List<types.Message> _messages = <types.Message>[];
+  List<types.Message> _messages = <types.Message>[];
 
   final types.User _user = const types.User(
     id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
@@ -85,7 +89,7 @@ class _ChatPageState extends State<ChatPage> {
                 },
                 child: const Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Photo'),
+                  child: Text('Фото'),
                 ),
               ),
               TextButton(
@@ -95,14 +99,14 @@ class _ChatPageState extends State<ChatPage> {
                 },
                 child: const Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('File'),
+                  child: Text('Файл'),
                 ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text('Cancel'),
+                  child: Text('Назад'),
                 ),
               ),
             ],
@@ -113,8 +117,8 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleFileSelection() async {
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
+    final picker.FilePickerResult? result = await picker.FilePicker.platform.pickFiles(
+      type: picker.FileType.any,
     );
 
     if (result != null && result.files.single.path != null) {
@@ -139,23 +143,34 @@ class _ChatPageState extends State<ChatPage> {
       source: ImageSource.gallery,
     );
 
-    // if (result != null) {
-    //   final Uint8List bytes = await result.readAsBytes();
-    //   final Image image = await decodeImageFromList(bytes);
+    if (result != null) {
+      final Uint8List bytes = await result.readAsBytes();
+      final ui.Image image = await decodeImageFromList(bytes);
 
-    //   final types.ImageMessage message = types.ImageMessage(
-    //     author: _user,
-    //     createdAt: DateTime.now().millisecondsSinceEpoch,
-    //     height: image.height,
-    //     id: const Uuid().v4(),
-    //     name: result.name,
-    //     size: bytes.length,
-    //     uri: result.path,
-    //     width: image.width,
-    //   );
+      final types.ImageMessage message = types.ImageMessage(
+        author: _user,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        height: image.height.toDouble(),
+        id: const Uuid().v4(),
+        name: result.name,
+        size: bytes.length,
+        uri: result.path,
+        width: image.width.toDouble(),
+      );
 
-    //   _addMessage(message);
-    // }
+      // Convert the image bytes to base64 and include it in the message
+      final String base64Image = base64Encode(bytes);
+
+      _channel.sink.add(jsonEncode(
+        m.Message(
+          message: '',
+          photo: base64Image,
+          clientSend: true,
+        ).toMap(),
+      ));
+
+      _addMessage(message);
+    }
   }
 
   void _handleMessageTap(BuildContext _, types.Message message) async {
@@ -199,93 +214,98 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void _handlePreviewDataFetched(
-    types.TextMessage message,
-    types.PreviewData previewData,
-  ) {
-    final int index = _messages.indexWhere((types.Message element) => element.id == message.id);
-    final types.Message updatedMessage = (_messages[index] as types.TextMessage).copyWith(
-      previewData: previewData,
-    );
+  // void _handlePreviewDataFetched(
+  //   types.TextMessage message,
+  //   types.PreviewData previewData,
+  // ) {
+  //   final int index = _messages.indexWhere((types.Message element) => element.id == message.id);
+  //   final types.Message updatedMessage = (_messages[index] as types.TextMessage).copyWith(
+  //     previewData: previewData,
+  //   );
 
-    setState(() {
-      _messages[index] = updatedMessage;
-    });
-  }
+  //   setState(() {
+  //     _messages[index] = updatedMessage;
+  //   });
+  // }
 
   void _handleSendPressed(types.PartialText message) {
     _channel.sink.add(jsonEncode(
-      m.Message(message: message.text, photo: null, clientSend: true).toMap(),
+      m.Message(
+        message: message.text,
+        photo: null,
+        clientSend: true,
+      ).toMap(),
     ));
   }
 
   void _loadMessages() async {
-    //   final Response response = await BaseHttpClient.getBody('chat/support/messages/${getClientId()}/');
-    //   final List<ApiMessage> messages = (jsonDecode(response.body) as List)
-    //       .where(
-    //         (element) => element['client_send'] == false,
-    //       )
-    //       .map((e) => ApiMessage.fromJson(e))
-    //       .toList();
+    final Response response = await BaseHttpClient.getBody(
+      'chat/support/messages/${getClientId()}/',
+    );
+    final List<ApiMessage> messages = (json.decode(utf8.decode(
+      response.bodyBytes,
+    )) as List)
+        .map((e) {
+      return ApiMessage.fromJson(e);
+    }).toList();
 
-    //   setState(() {});
-    //   _messages = messages
-    //       .map(
-    //         (ApiMessage e) => types.TextMessage(
-    //           createdAt: int.tryParse(e.createdDate ?? ''),
-    //           id: e.id.toString(),
-    //           text: e.message ?? '',
-    //           author: types.User(
-    //             id: e.id.toString(),
-    //           ),
-    //         ),
-    //       )
-    //       .toList();
-
-    // }
+    setState(() {});
+    _messages = messages
+        .map(
+          (ApiMessage e) => types.TextMessage(
+            createdAt: int.tryParse(e.createdDate ?? ''),
+            id: e.id.toString(),
+            text: e.message ?? '',
+            author: e.clientSend == true ? _user : _admin,
+          ),
+        )
+        .toList()
+        .reversed
+        .toList();
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Chat(
-            avatarBuilder: (types.User author) {
-              return UserAvatar(
-                author: author,
-                bubbleRtlAlignment: BubbleRtlAlignment.right,
-              );
-            },
-            messages: _messages,
-            audioMessageBuilder: (types.AudioMessage p0, {int? messageWidth}) {
-              return Image.asset(Assets.microphone.path);
-            },
-            onAttachmentPressed: _handleAttachmentPressed,
-            onMessageTap: _handleMessageTap,
-            onPreviewDataFetched: _handlePreviewDataFetched,
-            onSendPressed: _handleSendPressed,
-            showUserAvatars: true,
-            showUserNames: true,
-            user: _user,
-            theme: DefaultChatTheme(
-                secondaryColor: const Color(0xFFF0F1F3),
-                userAvatarImageBackgroundColor: Colors.black38,
-                primaryColor: const Color(0xFF438BFA),
-                attachmentButtonIcon: SvgPicture.asset(Assets.file.path),
-                inputBorderRadius: const BorderRadius.all(
-                  Radius.circular(20),
-                ),
-                inputTextColor: Colors.black,
-                sendingIcon: SvgPicture.asset(Assets.person.path),
-                inputBackgroundColor: const Color(0xffE5E5E5),
-                inputPadding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                )),
-          ),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Chat(
+          l10n: const ChatL10nRu(),
+          avatarBuilder: (types.User author) {
+            return UserAvatar(
+              author: author,
+              bubbleRtlAlignment: BubbleRtlAlignment.right,
+            );
+          },
+          messages: _messages,
+          audioMessageBuilder: (types.AudioMessage p0, {int? messageWidth}) {
+            return Image.asset(Assets.microphone.path);
+          },
+          onAttachmentPressed: _handleAttachmentPressed,
+          onMessageTap: _handleMessageTap,
+          onSendPressed: _handleSendPressed,
+          showUserAvatars: true,
+          showUserNames: true,
+          user: _user,
+          theme: DefaultChatTheme(
+              secondaryColor: const Color(0xFFF0F1F3),
+              userAvatarImageBackgroundColor: Colors.black38,
+              primaryColor: const Color(0xFF438BFA),
+              attachmentButtonIcon: SvgPicture.asset(Assets.file.path),
+              inputBorderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+              inputTextColor: Colors.black,
+              sendingIcon: SvgPicture.asset(Assets.person.path),
+              inputBackgroundColor: const Color(0xffE5E5E5),
+              messageInsetsVertical: 8,
+              inputContainerDecoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),
+              inputPadding: const EdgeInsets.symmetric()),
         ),
-        appBar: appBar(context),
-      );
+      ),
+      appBar: appBar(context),
+    );
+  }
 
   @override
   void dispose() {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dart';
+import 'package:flutter_chat_types/src/message.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';
@@ -21,8 +22,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     emit(ChatLoading());
 
     try {
-      final Stream messages = _chatRepository.getChats();
-      emit(ChatSuccess(messages: messages));
+      //  final Message messages = _chatRepository.getMessage();
     } catch (e) {
       emit(ChatErrror());
     }
@@ -32,9 +32,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     SendMessage event,
     Emitter<ChatState> emit,
   ) async {
-    try {
-      _chatRepository.sendMessage(event.message);
-    } catch (e) {
+    try {} catch (e) {
       emit(ChatErrror());
     }
   }

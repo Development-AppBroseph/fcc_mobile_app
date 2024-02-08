@@ -160,3 +160,5 @@ export 'package:share_extend/share_extend.dart';
 export 'package:top_snackbar_flutter/custom_snack_bar.dart';
 export 'package:top_snackbar_flutter/top_snack_bar.dart';
 export 'package:url_launcher/url_launcher.dart';
+
+export 'package:fcc_app_front/features/chat/data/models/message_body_model.dart';
