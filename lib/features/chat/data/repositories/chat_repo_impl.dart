@@ -14,7 +14,7 @@ class ChatRepositoryImpl implements ChatRepository {
 
   ChatRepositoryImpl(this._channel, this._messageBox);
 
-  void _saveMessageToStorage(MessageModel message) async {
+  void saveMessageToStorage(MessageModel message) async {
     try {
       await _messageBox.add(message);
     } catch (e) {

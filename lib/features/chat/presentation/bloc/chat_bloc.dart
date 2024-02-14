@@ -21,9 +21,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ) async {
     emit(ChatLoading());
 
-    try {
-      //  final Message messages = _chatRepository.getMessage();
-    } catch (e) {
+    try {} catch (e) {
       emit(ChatErrror());
     }
   }

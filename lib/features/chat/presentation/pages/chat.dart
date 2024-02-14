@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
-
-import 'dart:typed_data' as ui;
-import 'dart:ui' as ui show Codec, FrameInfo, Image, ImmutableBuffer;
-
+import 'dart:ui' as ui show Image;
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/chat/data/models/api_message.dart';
-import 'package:fcc_app_front/features/chat/data/models/message_body_model.dart' as m;
+import 'package:fcc_app_front/features/chat/data/models/message_body_model.dart'
+    as m;
 import 'package:file_picker/file_picker.dart' as picker;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
@@ -34,6 +32,7 @@ class _ChatPageState extends State<ChatPage> {
     id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
   );
   final types.User _admin = const types.User(
+    lastName: 'Администратор',
     id: 'admin',
     firstName: 'Валентина',
   );
@@ -49,11 +48,11 @@ class _ChatPageState extends State<ChatPage> {
     );
 
     super.initState();
-
-    _channel.stream.listen((event) {
+    _channel.stream.listen((dynamic event) {
       MessageModel parsed = MessageModel.fromMap(jsonDecode(event));
 
-      ValueNotifier<bool> isAdmin = ValueNotifier<bool>(parsed.message.clientSend);
+      ValueNotifier<bool> isAdmin =
+          ValueNotifier<bool>(parsed.message.clientSend);
 
       final types.TextMessage message = types.TextMessage(
         author: isAdmin.value ? _user : _admin,
@@ -84,7 +83,7 @@ class _ChatPageState extends State<ChatPage> {
             children: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.pop();
                   _handleImageSelection();
                 },
                 child: const Align(
@@ -94,7 +93,7 @@ class _ChatPageState extends State<ChatPage> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  context.pop();
                   _handleFileSelection();
                 },
                 child: const Align(
@@ -103,7 +102,7 @@ class _ChatPageState extends State<ChatPage> {
                 ),
               ),
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.pop(),
                 child: const Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('Назад'),
@@ -117,7 +116,8 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleFileSelection() async {
-    final picker.FilePickerResult? result = await picker.FilePicker.platform.pickFiles(
+    final picker.FilePickerResult? result =
+        await picker.FilePicker.platform.pickFiles(
       type: picker.FileType.any,
     );
 
@@ -179,8 +179,10 @@ class _ChatPageState extends State<ChatPage> {
 
       if (message.uri.startsWith('http')) {
         try {
-          final int index = _messages.indexWhere((types.Message element) => element.id == message.id);
-          final types.Message updatedMessage = (_messages[index] as types.FileMessage).copyWith(
+          final int index = _messages
+              .indexWhere((types.Message element) => element.id == message.id);
+          final types.Message updatedMessage =
+              (_messages[index] as types.FileMessage).copyWith(
             isLoading: true,
           );
 
@@ -189,9 +191,11 @@ class _ChatPageState extends State<ChatPage> {
           });
 
           final http.Client client = http.Client();
-          final http.Response request = await client.get(Uri.parse(message.uri));
+          final http.Response request =
+              await client.get(Uri.parse(message.uri));
           final Uint8List bytes = request.bodyBytes;
-          final String documentsDir = (await getApplicationDocumentsDirectory()).path;
+          final String documentsDir =
+              (await getApplicationDocumentsDirectory()).path;
           localPath = '$documentsDir/${message.name}';
 
           if (!File(localPath).existsSync()) {
@@ -199,8 +203,10 @@ class _ChatPageState extends State<ChatPage> {
             await file.writeAsBytes(bytes);
           }
         } finally {
-          final int index = _messages.indexWhere((types.Message element) => element.id == message.id);
-          final types.Message updatedMessage = (_messages[index] as types.FileMessage).copyWith(
+          final int index = _messages
+              .indexWhere((types.Message element) => element.id == message.id);
+          final types.Message updatedMessage =
+              (_messages[index] as types.FileMessage).copyWith(
             isLoading: null,
           );
 
@@ -244,8 +250,8 @@ class _ChatPageState extends State<ChatPage> {
     );
     final List<ApiMessage> messages = (json.decode(utf8.decode(
       response.bodyBytes,
-    )) as List)
-        .map((e) {
+    )) as List<dynamic>)
+        .map((dynamic e) {
       return ApiMessage.fromJson(e);
     }).toList();
 
@@ -299,7 +305,8 @@ class _ChatPageState extends State<ChatPage> {
               sendingIcon: SvgPicture.asset(Assets.person.path),
               inputBackgroundColor: const Color(0xffE5E5E5),
               messageInsetsVertical: 8,
-              inputContainerDecoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),
+              inputContainerDecoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
               inputPadding: const EdgeInsets.symmetric()),
         ),
       ),

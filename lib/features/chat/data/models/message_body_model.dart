@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class Message {
   final String message;
-  final dynamic photo; // Assuming photo can be of any type
+  final dynamic photo;
   final bool clientSend;
 
   Message({
@@ -10,8 +10,6 @@ class Message {
     required this.photo,
     required this.clientSend,
   });
-
-  // ... other methods
 
   Message copyWith({
     String? message,
@@ -45,16 +43,21 @@ class Message {
 
   String toJson() => json.encode(toMap());
 
-  factory Message.fromJson(String source) => Message.fromMap(json.decode(source));
+  factory Message.fromJson(String source) =>
+      Message.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Message(message: $message, photo: $photo, clientSend: $clientSend)';
+  String toString() =>
+      'Message(message: $message, photo: $photo, clientSend: $clientSend)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Message && other.message == message && other.photo == photo && other.clientSend == clientSend;
+    return other is Message &&
+        other.message == message &&
+        other.photo == photo &&
+        other.clientSend == clientSend;
   }
 
   @override

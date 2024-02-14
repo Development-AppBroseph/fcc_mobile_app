@@ -11,8 +11,6 @@ class MessageModel {
     required this.message,
   });
 
-  // ... other methods
-
   MessageModel copyWith({
     String? type,
     Message? message,
@@ -41,18 +39,9 @@ class MessageModel {
 
   String toJson() => json.encode(toMap());
 
-  factory MessageModel.fromJson(String source) => MessageModel.fromMap(json.decode(source));
+  factory MessageModel.fromJson(String source) =>
+      MessageModel.fromMap(json.decode(source));
 
   @override
   String toString() => 'MessageModel(type: $type, message: $message)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is MessageModel && other.type == type && other.message == message;
-  }
-
-  @override
-  int get hashCode => type.hashCode ^ message.hashCode;
 }

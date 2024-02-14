@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class ApiMessage {
   int? id;
   String? message;
@@ -94,28 +92,5 @@ class ApiMessage {
   @override
   String toString() {
     return 'ApiMessage(id: $id, message: $message, clientSend: $clientSend, photo: $photo, createdDate: $createdDate, updatedDate: $updatedDate)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is ApiMessage &&
-        other.id == id &&
-        other.message == message &&
-        other.clientSend == clientSend &&
-        other.photo == photo &&
-        other.createdDate == createdDate &&
-        other.updatedDate == updatedDate;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        message.hashCode ^
-        clientSend.hashCode ^
-        photo.hashCode ^
-        createdDate.hashCode ^
-        updatedDate.hashCode;
   }
 }

@@ -76,6 +76,7 @@ class FSC extends StatelessWidget {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             title: 'FSC',
+            
             theme: lightTheme,
             routerConfig: router,
           );
