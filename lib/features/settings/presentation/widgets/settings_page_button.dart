@@ -1,17 +1,14 @@
 import 'package:fcc_app_front/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:fcc_app_front/features/chat/data/repositories/chat_repo.dart';
-import 'package:fcc_app_front/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:fcc_app_front/features/settings/data/models/setting.dart';
 import 'package:fcc_app_front/features/settings/presentation/cubit/discount_cubit.dart';
 import 'package:fcc_app_front/shared/config/routes.dart';
+import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
+import 'package:fcc_app_front/shared/widgets/buttons/filled_btn.dart';
+import 'package:fcc_app_front/shared/widgets/on_tap_scale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
-import 'package:fcc_app_front/shared/widgets/buttons/filled_btn.dart';
-import 'package:fcc_app_front/shared/widgets/on_tap_scale.dart';
 
 class SettingsPageButton extends StatelessWidget {
   const SettingsPageButton({
@@ -79,15 +76,12 @@ class SettingsPageButton extends StatelessWidget {
             return;
           }
           if (setting.route == RoutesNames.chat) {
-            final int? id = await ChatRepo.getChat();
-            if (id != null && context.mounted) {
-              context.pushNamed(
-                setting.route,
-                pathParameters: <String, String>{
-                  'id': id.toString(),
-                },
-                extra: BlocProvider.of<ChatCubit>(context)..load(),
-              );
+            // final int? id = await ChatRepo.getChat();
+            if (context.mounted) {
+              context.pushNamed(setting.route
+
+                  // extra: BlocProvider.of<ChatCubit>(context)..load(),
+                  );
             }
           } else if (setting.route == RoutesNames.addPerson) {
             context.pushNamed(
