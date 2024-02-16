@@ -1,7 +1,5 @@
-import 'dart:math';
-
 class ProductModel {
-  final int id;
+  final String id;
   final String name;
   final String description;
   final double price;
@@ -21,7 +19,7 @@ class ProductModel {
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-      id: map['id'] ?? Random().nextInt(1000),
+      id: map['uuid'] ?? '',
       name: map['name'] ?? '',
       description: map['description'] ?? '',
       price: double.parse(

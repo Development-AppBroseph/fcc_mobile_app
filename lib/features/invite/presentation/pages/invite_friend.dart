@@ -27,110 +27,136 @@ class _InviteFrPageState extends State<InviteFrPage> {
               return auth is Authenticated
                   ? SingleChildScrollView(
                       child: BlocBuilder<InvitationCubit, InvitationModel?>(
-                        builder: (BuildContext context, InvitationModel? state) {
+                        builder:
+                            (BuildContext context, InvitationModel? state) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               sized30,
-                              if (widget.showBackButton) const CustomBackButton(),
+                              if (widget.showBackButton)
+                                const CustomBackButton(),
                               Center(
                                 child: Text(
                                   'Пригласить друга',
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(
                                         fontSize: 23,
                                       ),
                                 ),
                               ),
                               sized10,
-                              Text(
-                                'Ваше имя пользователя',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      fontSize: 12,
-                                      color: Theme.of(context).hintColor,
-                                    ),
-                              ),
+                              // Text(
+                              //   'Ваше имя пользователя',
+                              //   style: Theme.of(context)
+                              //       .textTheme
+                              //       .bodySmall
+                              //       ?.copyWith(
+                              //         fontSize: 12,
+                              //         color: Theme.of(context).hintColor,
+                              //       ),
+                              // ),
+                              // sized10,
+                              // BlocBuilder<AuthCubit, AuthState>(
+                              //   builder:
+                              //       (BuildContext context, AuthState state) {
+                              //     return Container(
+                              //       height: 50,
+                              //       width: double.infinity,
+                              //       padding: const EdgeInsets.symmetric(
+                              //         horizontal: 20,
+                              //       ),
+                              //       decoration: BoxDecoration(
+                              //         borderRadius: BorderRadius.circular(15),
+                              //         border: Border.all(
+                              //           color:
+                              //               Theme.of(context).primaryColorLight,
+                              //         ),
+                              //       ),
+                              //       child: Row(
+                              //         children: <Widget>[
+                              //           Text(
+                              //             state is Authenticated
+                              //                 ? '@${state.user.userName}'
+                              //                 : 'user',
+                              //             style: Theme.of(context)
+                              //                 .textTheme
+                              //                 .bodyLarge
+                              //                 ?.copyWith(
+                              //                   fontWeight: FontWeight.w400,
+                              //                   fontSize: 14,
+                              //                   color:
+                              //                       Theme.of(context).hintColor,
+                              //                 ),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     );
+                              //   },
+
                               sized10,
-                              BlocBuilder<AuthCubit, AuthState>(
-                                builder: (BuildContext context, AuthState state) {
-                                  return Container(
-                                    height: 50,
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 20,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      border: Border.all(
-                                        color: Theme.of(context).primaryColorLight,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text(
-                                          state is Authenticated ? '@${state.user.userName}' : 'user',
-                                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14,
-                                                color: Theme.of(context).hintColor,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                              sized10,
-                              Center(
-                                child: Column(
-                                  children: <Widget>[
-                                    Animate(
-                                      effects: const <Effect>[
-                                        ScaleEffect(),
-                                      ],
-                                      child: QrImageView(
-                                        data: 'https://fcc.i7.kg/',
-                                        version: QrVersions.auto,
-                                        size: 200.0,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Покажите QR-код друзьям',
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                            fontSize: 14,
-                                            color: Theme.of(context).hintColor,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // Center(
+                              //   child: Column(
+                              //     children: <Widget>[
+                              //       Animate(
+                              //         effects: const <Effect>[
+                              //           ScaleEffect(),
+                              //         ],
+                              //         child: QrImageView(
+                              //           data: 'https://fcc.i7.kg/',
+                              //           version: QrVersions.auto,
+                              //           size: 200.0,
+                              //         ),
+                              //       ),
+                              //       Text(
+                              //         'Покажите QR-код друзьям',
+                              //         style: Theme.of(context)
+                              //             .textTheme
+                              //             .bodySmall
+                              //             ?.copyWith(
+                              //               fontSize: 14,
+                              //               color: Theme.of(context).hintColor,
+                              //             ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               sized20,
                               Text(
                                 'Не нужно платить !',
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
-                              sized10,
+                              sized40,
                               RichText(
                                 text: TextSpan(
                                   children: <InlineSpan>[
                                     TextSpan(
                                       text:
-                                          'При помощи этой ссылки вы можете получать 10% скидку на свой ежемесячный набор продуктов',
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                          'При помощи данного инвайт кода вы можете получать 10% скидку на свой ежемесячный набор продуктов ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
                                             fontSize: 13,
                                             color: Theme.of(context).hintColor,
                                           ),
                                     ),
                                     TextSpan(
                                       text: ' за каждого друга!',
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
                                             fontSize: 13,
-                                            color: Theme.of(context).primaryColorDark,
+                                            color: Theme.of(context)
+                                                .primaryColorDark,
                                           ),
                                     ),
                                   ],
                                 ),
                               ),
-                              sized10,
+                              sized40,
                               Container(
                                 height: 50,
                                 width: double.infinity,
@@ -151,10 +177,14 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                         'https://fcc.i7.kg/',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14,
-                                              color: Theme.of(context).hintColor,
+                                              color:
+                                                  Theme.of(context).hintColor,
                                             ),
                                       ),
                                     ),
@@ -188,7 +218,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                   ],
                                 ),
                               ),
-                              sized10,
+                              sized40,
                               CstmBtn(
                                 height: 50,
                                 onTap: () {
@@ -197,10 +227,11 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                     'text',
                                   );
                                 },
-                                text: 'Поделиться ссылкой',
+                                text: 'Поделиться  кодом',
                                 alignment: MainAxisAlignment.center,
                                 iconPath: 'assets/send.svg',
-                                textColor: Theme.of(context).scaffoldBackgroundColor,
+                                textColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 color: Theme.of(context).canvasColor,
                               ),
                               sized10,
@@ -221,7 +252,10 @@ class _InviteFrPageState extends State<InviteFrPage> {
                             children: <Widget>[
                               Text(
                                 'Вы не авторизованы',
-                                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(
                                       fontWeight: FontWeight.w500,
                                       color: Theme.of(context).primaryColorDark,
                                     ),
@@ -230,7 +264,10 @@ class _InviteFrPageState extends State<InviteFrPage> {
                               sized20,
                               Text(
                                 'Сначала вам необходимо пройти аутентификацию, чтобы увидеть ссылку-приглашение.',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 13,
                                       color: Theme.of(context).hintColor,
                                     ),
@@ -243,7 +280,8 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                 },
                                 text: 'Войти',
                                 alignment: MainAxisAlignment.center,
-                                textColor: Theme.of(context).scaffoldBackgroundColor,
+                                textColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 color: Theme.of(context).canvasColor,
                               ),
                             ],
@@ -276,7 +314,8 @@ class StoreButtons extends StatelessWidget {
         onTap: () {
           if (title == 'Play Store') {
             launchStore(
-              url: 'https://play.google.com/store/apps/details?id=com.ashvaiberov.fscu',
+              url:
+                  'https://play.google.com/store/apps/details?id=com.ashvaiberov.fscu',
             );
           } else {
             launchStore(

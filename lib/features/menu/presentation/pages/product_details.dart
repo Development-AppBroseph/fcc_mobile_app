@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/data/models/membership.dart';
 
@@ -95,9 +93,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                     return CstmBtn(
                       text: 'Оформить заказ',
                       onTap: () async {
-                        final CurrentMembership? merbership = await context.read<AuthCubit>().getCurrentMerbership();
+                        final CurrentMembership? merbership = await context
+                            .read<AuthCubit>()
+                            .getCurrentMerbership();
                         if (state is Authenticated) {
-                          if (merbership?.membership?.level == null && context.mounted) {
+                          //TODO: add logic
+                          if (merbership?.membership?.level == null &&
+                              context.mounted) {
                             ApplicationSnackBar.showErrorSnackBar(
                               context,
                               'Выберите план',
@@ -106,41 +108,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                               10,
                             );
                           }
-
-                          if (widget.model.stock >= 4 && context.mounted) {
-                            if (await _makeOrder(context, state)) {
-                              ApplicationSnackBar.showErrorSnackBar(
-                                context,
-                                'Заказ отправлен',
-                                1,
-                                const EdgeInsets.all(10),
-                                1,
-                                false,
-                              );
-                            } else {
-                              ApplicationSnackBar.showErrorSnackBar(
-                                context,
-                                'в меcяц можно оформить только 1 товар',
-                                1,
-                                const EdgeInsets.all(10),
-                                1,
-                                false,
-                              );
-                            }
-                          } else {
-                            if (context.mounted) {
-                              ApplicationSnackBar.showErrorSnackBar(
-                                context,
-                                'На складе недостаточно товара',
-                                1,
-                                const EdgeInsets.all(10),
-                                10,
-                              );
-                            }
-                          }
-                        } else {
-                          if (context.mounted) context.goNamed(RoutesNames.invite);
-                          log('Not authenticated');
                         }
                       },
                     );
@@ -152,23 +119,5 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
       ),
     );
-  }
-
-  Future<bool> _makeOrder(
-    BuildContext context,
-    Authenticated state,
-  ) async {
-    final bool result = await context.read<OrderCubit>().makeOrder(
-          address: 'Пока не знаю какой адрес',
-          phone: state.user.phoneNumber,
-          email: 'alidroid696@gmail.com',
-          product: widget.model,
-          name: 'ali',
-        );
-
-    if (result && context.mounted) {
-      return false;
-    }
-    return result;
   }
 }

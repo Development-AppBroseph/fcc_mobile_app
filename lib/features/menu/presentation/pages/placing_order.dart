@@ -23,7 +23,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
   );
   String? validateMobile() {
     final String value = maskFormatter.getMaskedText();
-    String patttern = r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)';
+    String patttern =
+        r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)';
     RegExp regExp = RegExp(patttern);
     if (value.isEmpty) {
       return 'Пожалуйста, введите номер мобильного телефона';
@@ -35,7 +36,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
 
   @override
   Widget build(BuildContext context) {
-    final ProductModel? product = context.read<SelectedProductsCubit>().state.product;
+    final ProductModel? product =
+        context.read<SelectedProductsCubit>().state.product;
     if (product == null) return Container();
     return BlocProvider(
       create: (BuildContext context) => MembershipCubit()..load(),
@@ -62,7 +64,9 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                     .watch<MembershipCubit>()
                                     .state
                                     .firstWhereOrNull(
-                                        (MembershipModel element) => element.level == authState.user.membership)
+                                        (MembershipModel element) =>
+                                            element.level ==
+                                            authState.user.membership)
                                     ?.price ??
                                 product.price;
                             if (maskFormatter.getMaskedText() == '') {
@@ -80,27 +84,34 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                               sized20,
                               Text(
                                 'Оформление заказа',
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(
                                       fontSize: 20,
                                     ),
                               ),
                               sized20,
                               Text(
                                 'Адрес пункта выдачи',
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
                                       fontWeight: FontWeight.w400,
                                     ),
                               ),
                               sized10,
                               CustomFormField(
                                 controller: addressController,
-                                initialValue: Hive.box(HiveStrings.userBox).containsKey(
+                                initialValue:
+                                    Hive.box(HiveStrings.userBox).containsKey(
                                   HiveStrings.address,
                                 )
-                                    ? Hive.box(HiveStrings.userBox).get(
-                                        HiveStrings.address,
-                                      )
-                                    : null,
+                                        ? Hive.box(HiveStrings.userBox).get(
+                                            HiveStrings.address,
+                                          )
+                                        : null,
                                 textInputAction: TextInputAction.next,
                                 hintText: 'Адрес пункта выдачи',
                                 validator: FormBuilderValidators.compose(
@@ -114,14 +125,19 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                               sized20,
                               Text(
                                 'Получатель',
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
                                       fontWeight: FontWeight.w400,
                                     ),
                               ),
                               sized10,
                               CustomFormField(
                                 controller: nameController,
-                                initialValue: authState is Authenticated ? authState.user.firstName : null,
+                                initialValue: authState is Authenticated
+                                    ? authState.user.firstName
+                                    : null,
                                 textInputAction: TextInputAction.next,
                                 hintText: 'Введите имя',
                                 validator: FormBuilderValidators.compose(
@@ -138,7 +154,9 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                 textInputAction: TextInputAction.next,
                                 hintText: 'Телефон',
                                 textInputType: TextInputType.number,
-                                initialValue: authState is Authenticated ? authState.user.phoneNumber : null,
+                                initialValue: authState is Authenticated
+                                    ? authState.user.phoneNumber
+                                    : null,
                                 textInputFormatter: <TextInputFormatter>[
                                   maskFormatter,
                                 ],
@@ -150,8 +168,11 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                 hintText: 'Эл. почта',
                                 validator: FormBuilderValidators.compose(
                                   <FormFieldValidator<String>>[
-                                    FormBuilderValidators.required(errorText: 'Заполните это поле'),
-                                    FormBuilderValidators.email(errorText: 'Неправильный электронной почты'),
+                                    FormBuilderValidators.required(
+                                        errorText: 'Заполните это поле'),
+                                    FormBuilderValidators.email(
+                                        errorText:
+                                            'Неправильный электронной почты'),
                                   ],
                                 ),
                               ),
@@ -162,11 +183,15 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                               ),
                               sized10,
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     'Дегустационный набор',
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(fontSize: 12),
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -182,16 +207,23 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                   ),
                                   Text(
                                     '$price \u20BD',
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(fontSize: 12),
                                   ),
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     'Доставка в пункт выдачи',
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(fontSize: 12),
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -207,16 +239,23 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                   ),
                                   Text(
                                     '0 Р',
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(fontSize: 12),
                                   ),
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     'Итого',
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(fontSize: 12),
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -232,14 +271,20 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                   ),
                                   Text(
                                     '$price \u20BD',
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(fontSize: 12),
                                   ),
                                 ],
                               ),
                               sized30,
                               Text(
                                 'Переходя к оплате, вы принимаете условия доставки и подтверждаете достоверность ваших данных.',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 12,
                                       color: Theme.of(context).hintColor,
                                     ),
@@ -249,7 +294,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                 width: double.infinity,
                                 onTap: () async {
                                   try {
-                                    if (context.read<AuthCubit>().state is Unauthenticated) {
+                                    if (context.read<AuthCubit>().state
+                                        is Unauthenticated) {
                                       context.pushNamed(RoutesNames.login);
                                       return;
                                     }
@@ -258,32 +304,44 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                         russianValidator(
                                           nameController.text,
                                         )) {
-                                      final OrderModel? order = await OrderRepo.placeOrder(
-                                        product: product,
+                                      final OrderModel? order =
+                                          await OrderRepo.placeOrder(
+                                        productId: product.catalog.toString(),
                                         address: addressController.text,
                                         name: nameController.text,
-                                        phone: maskFormatter.getMaskedText().replaceAll(' ', '').replaceAll('-', ''),
+                                        phone: maskFormatter
+                                            .getMaskedText()
+                                            .replaceAll(' ', '')
+                                            .replaceAll('-', ''),
                                         email: emailController.text,
                                       );
                                       if (order != null && context.mounted) {
                                         canPopThenPop(context);
                                         canPopThenPop(context);
-                                        context.read<SelectedProductsCubit>().addProduct(null);
+                                        context
+                                            .read<SelectedProductsCubit>()
+                                            .addProduct(null);
                                         context.pushNamed(
                                           RoutesNames.orderConfirm,
                                         );
                                       }
                                     } else {
                                       if (addressController.text == '') {
-                                        ApplicationSnackBar.showErrorSnackBar(context, 'Пожалуйста, введите адрес', 0.9,
-                                            const EdgeInsets.symmetric(horizontal: 10), 1);
+                                        ApplicationSnackBar.showErrorSnackBar(
+                                            context,
+                                            'Пожалуйста, введите адрес',
+                                            0.9,
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            1);
                                       }
                                       if (nameController.text == '') {
                                         ApplicationSnackBar.showErrorSnackBar(
                                           context,
                                           'Пожалуйста, введите имя',
                                           1,
-                                          const EdgeInsets.symmetric(horizontal: 10),
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 10),
                                           3,
                                         );
                                       }
@@ -294,20 +352,24 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                             context,
                                             'Пожалуйста, используйте в имени только русские буквы',
                                             0.9,
-                                            const EdgeInsets.symmetric(horizontal: 10),
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10),
                                             2);
                                       }
                                       if (validateMobile() != null) {
                                         ApplicationSnackBar.showErrorSnackBar(
                                             context,
-                                            validateMobile() ?? 'Пожалуйста, введите номер телефона',
+                                            validateMobile() ??
+                                                'Пожалуйста, введите номер телефона',
                                             0.9,
-                                            const EdgeInsets.symmetric(horizontal: 10),
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10),
                                             1);
                                       }
                                     }
                                   } catch (e) {
-                                    if (e is OrderException && context.mounted) {
+                                    if (e is OrderException &&
+                                        context.mounted) {
                                       showErrorSnackbar(
                                         context,
                                         'Bы уже оформили заказ в этом месяце',

@@ -5,22 +5,22 @@ import 'package:fcc_app_front/export.dart';
 
 class OrderRepo {
   static Future<OrderModel?> placeOrder({
-    required ProductModel product,
     required String address,
     required String name,
     required String phone,
     required String email,
+    required String productId,
   }) async {
     try {
       final Response response = await BaseHttpClient.postBody(
         'api/v1/orders/orders/',
         <String, Object?>{
           'client': getClientId(),
-          'order_items': <Map<String, int>>[
-            <String, int>{'product': product.id, 'quantity': 1}
+          'order_items': <Map<String, dynamic>>[
+            <String, dynamic>{'product_id': productId, 'quantity': 1}
           ],
           'shipping_price': '0',
-          'pickup_address': address,
+          'delivery_point': 1,
           'client_name': name,
           'client_phone': phone,
           'client_email': email,

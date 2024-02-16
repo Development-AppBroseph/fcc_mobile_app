@@ -14,6 +14,15 @@ class Authenticated extends AuthState {
   const Authenticated({
     required this.user,
   });
+
+  Authenticated copyWith({
+    UserModel? user,
+  }) {
+    return Authenticated(
+      user: user ?? this.user,
+    );
+  }
+
   @override
   List<Object> get props => <Object>[
         user,
