@@ -40,7 +40,10 @@ class MenuUserInfo extends StatelessWidget {
                           children: <Widget>[
                             AutoSizeText(
                               state.user.firstName,
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -64,12 +67,17 @@ class MenuUserInfo extends StatelessWidget {
                               ),
                               alignment: Alignment.center,
                               child: AutoSizeText(
-                                membershipNames[MembershipType.values.firstWhereOrNull(
-                                      (MembershipType element) => element.name == state.user.membership,
+                                membershipNames[MembershipType.values
+                                            .firstWhereOrNull(
+                                      (MembershipType element) =>
+                                          element.name == state.user.membership,
                                     )]
                                         ?.toUpperCase() ??
                                     'План не выбран',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 9,
                                       fontWeight: FontWeight.w400,
                                       color: scaffoldBackgroundColor,
@@ -124,7 +132,10 @@ class MenuUserInfo extends StatelessWidget {
                           Expanded(
                             child: AutoSizeText(
                               'Подарок за друга',
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w500,
                                   ),

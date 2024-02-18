@@ -5,7 +5,8 @@ class UnauthenticatedInvitePage extends StatefulWidget {
     Key? key,
   }) : super(key: key);
   @override
-  State<UnauthenticatedInvitePage> createState() => _UnauthenticatedInvitePageState();
+  State<UnauthenticatedInvitePage> createState() =>
+      _UnauthenticatedInvitePageState();
 }
 
 class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
@@ -19,7 +20,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: 65.w,
+              horizontal: 40.w,
             ),
             child: SingleChildScrollView(
               reverse: true,
@@ -30,14 +31,14 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                     height: 80.h,
                   ),
                   Text(
-                    'Введите имя пользователя, который вас пригласил',
+                    'Введите свой инвайт код',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
                   ),
                   sized30,
                   Text(
-                    'Вы можете найти его имя в начале сообщения, которое вам отправил пользователь ',
+                    'Если не помните свой инвайт код проверьте приглашение, полученное ранее',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: primaryColorDark,
                         ),
@@ -45,16 +46,18 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                   sized10,
                   RichText(
                     text: TextSpan(
-                      text: 'Если не помните или не знаете, кто пригласил вас, введите имя пользователя ',
+                      text:
+                          'Если не помните или не знаете, кто пригласил вас, введите имя пользователя ',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: primaryColorDark,
                           ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: '@yaroslav',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: textColor,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: textColor,
+                                  ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               controller.text = 'yaroslav';
@@ -85,23 +88,14 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                         LowerCaseTextFormatter(),
                       ],
                       controller: controller,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         isDense: true,
                         contentPadding: EdgeInsets.zero,
-                        prefixIconConstraints: const BoxConstraints(
+                        prefixIconConstraints: BoxConstraints(
                           maxHeight: 40,
-                        ),
-                        prefixIcon: Text(
-                          '@',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                fontFamily: 'Rubik',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 17,
-                                color: Theme.of(context).hintColor,
-                              ),
                         ),
                       ),
                     ),
@@ -118,9 +112,10 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                           3,
                         );
                       } else {
-                        final bool inviteLink = await context.read<AuthCubit>().checkInviteByLink(
-                              username: controller.text,
-                            );
+                        final bool inviteLink =
+                            await context.read<AuthCubit>().checkInviteByLink(
+                                  username: controller.text,
+                                );
 
                         if (inviteLink) {
                           setState(() {
@@ -157,7 +152,10 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                             children: <Widget>[
                               Text(
                                 'Продолжить',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(),
                               ),
                               const SizedBox(
                                 width: 10,
@@ -175,17 +173,17 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                         : null,
                   ),
                   sized20,
-                  CstmBtn(
-                    onTap: () {
-                      context.pushNamed(
-                        RoutesNames.forgot,
-                      );
-                    },
-                    height: 30,
-                    text: 'Я не помню',
-                    color: Colors.transparent,
-                    textColor: Theme.of(context).canvasColor,
-                  ),
+                  // CstmBtn(
+                  //   onTap: () {
+                  //     context.pushNamed(
+                  //       RoutesNames.forgot,
+                  //     );
+                  //   },
+                  //   height: 30,
+                  //   text: 'Я не помню',
+                  //   color: Colors.transparent,
+                  //   textColor: Theme.of(context).canvasColor,
+                  // ),
                 ],
               ),
             ),

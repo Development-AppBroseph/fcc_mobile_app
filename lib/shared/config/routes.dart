@@ -6,7 +6,7 @@ class Routes {
   static String agreement = '/agreement';
   static String productMenu = 'productMenu/:id';
   static String selectedProduct = '/selectedProduct';
-  static String placeOrder = '/placeOrder';
+  static String placeOrder = 'placeOrder';
   static String orderConfirm = '/orderConfirm';
 
   static String order = '/order';
@@ -98,7 +98,8 @@ class RoutesNames {
 }
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _shellNavigatorKey =
+    GlobalKey<NavigatorState>();
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
@@ -297,7 +298,9 @@ final GoRouter router = GoRouter(
                         value: state.extra as MembershipCubit,
                         child: CatalogMenuProfile(
                           type: MembershipType.values.firstWhereOrNull(
-                                (MembershipType element) => element.name == state.pathParameters['type'] as String,
+                                (MembershipType element) =>
+                                    element.name ==
+                                    state.pathParameters['type'] as String,
                               ) ??
                               MembershipType.standard,
                         ),
@@ -346,6 +349,19 @@ final GoRouter router = GoRouter(
                   );
                 },
               ),
+              GoRoute(
+                path: Routes.placeOrder,
+                name: RoutesNames.placeOrder,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return buildPageWithDefaultTransition<void>(
+                    context: context,
+                    state: state,
+                    child: PlacingOrderPage(
+                      product: state.extra as ProductModel,
+                    ),
+                  );
+                },
+              ),
             ]),
         GoRoute(
           path: Routes.termsOfUse,
@@ -389,29 +405,6 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: Routes.placeOrder,
-      name: RoutesNames.placeOrder,
-      parentNavigatorKey: _rootNavigatorKey,
-      pageBuilder: (BuildContext context, GoRouterState state) {
-        final MultipleCubits cubits = state.extra as MultipleCubits;
-        return buildPageWithDefaultTransition<void>(
-          context: context,
-          state: state,
-          child: MultiBlocProvider(
-            providers: <SingleChildWidget>[
-              BlocProvider.value(
-                value: cubits.cubits['productCubit'] as ProductCubit,
-              ),
-              BlocProvider.value(
-                value: cubits.cubits['selectedProductsCubit'] as SelectedProductsCubit,
-              ),
-            ],
-            child: const PlacingOrderPage(),
-          ),
-        );
-      },
-    ),
-    GoRoute(
       path: Routes.orderConfirm,
       name: RoutesNames.orderConfirm,
       parentNavigatorKey: _rootNavigatorKey,
@@ -438,7 +431,8 @@ final GoRouter router = GoRouter(
                   value: cubits.cubits['productCubit'] as ProductCubit,
                 ),
                 BlocProvider.value(
-                  value: cubits.cubits['selectedProductsCubit'] as SelectedProductsCubit,
+                  value: cubits.cubits['selectedProductsCubit']
+                      as SelectedProductsCubit,
                 ),
               ],
               child: const SelectedProductPage(),
@@ -571,7 +565,9 @@ final GoRouter router = GoRouter(
                 value: state.extra as MembershipCubit,
                 child: CatalogMenu(
                   type: MembershipType.values.firstWhereOrNull(
-                        (MembershipType element) => element.name == state.pathParameters['type'] as String,
+                        (MembershipType element) =>
+                            element.name ==
+                            state.pathParameters['type'] as String,
                       ) ??
                       MembershipType.standard,
                 ),

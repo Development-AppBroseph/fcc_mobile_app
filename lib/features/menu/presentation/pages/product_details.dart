@@ -1,20 +1,12 @@
-import 'dart:developer';
-
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/auth/data/models/membership.dart';
 
-class ProductDetails extends StatefulWidget {
+class ProductDetails extends StatelessWidget {
   final ProductModel model;
   const ProductDetails({
     required this.model,
     super.key,
   });
 
-  @override
-  State<ProductDetails> createState() => _ProductDetailsState();
-}
-
-class _ProductDetailsState extends State<ProductDetails> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
@@ -50,14 +42,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                   height: 20,
                 ),
                 Text(
-                  widget.model.name,
+                  model.name,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  widget.model.description,
+                  model.description,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(
@@ -65,15 +57,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 ProductTextDetailsField(
                   title: 'Марка',
-                  subtitle: widget.model.name,
+                  subtitle: model.name,
                 ),
-                ProductTextDetailsField(
+                const ProductTextDetailsField(
                   title: 'Страна произхождение',
-                  subtitle: widget.model.id.toString(),
+                  subtitle: 'ss',
                 ),
                 ProductTextDetailsField(
                   title: 'Количесевтво блоков',
-                  subtitle: widget.model.stock.toString(),
+                  subtitle: model.stock.toString(),
                 ),
                 const ProductTextDetailsField(
                   title: 'Крескость',
@@ -95,53 +87,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                     return CstmBtn(
                       text: 'Оформить заказ',
                       onTap: () async {
-                        final CurrentMembership? merbership = await context.read<AuthCubit>().getCurrentMerbership();
-                        if (state is Authenticated) {
-                          if (merbership?.membership?.level == null && context.mounted) {
-                            ApplicationSnackBar.showErrorSnackBar(
-                              context,
-                              'Выберите план',
-                              1,
-                              const EdgeInsets.all(10),
-                              10,
-                            );
-                          }
-
-                          if (widget.model.stock >= 4 && context.mounted) {
-                            if (await _makeOrder(context, state)) {
-                              ApplicationSnackBar.showErrorSnackBar(
-                                context,
-                                'Заказ отправлен',
-                                1,
-                                const EdgeInsets.all(10),
-                                1,
-                                false,
-                              );
-                            } else {
-                              ApplicationSnackBar.showErrorSnackBar(
-                                context,
-                                'в меcяц можно оформить только 1 товар',
-                                1,
-                                const EdgeInsets.all(10),
-                                1,
-                                false,
-                              );
-                            }
-                          } else {
-                            if (context.mounted) {
-                              ApplicationSnackBar.showErrorSnackBar(
-                                context,
-                                'На складе недостаточно товара',
-                                1,
-                                const EdgeInsets.all(10),
-                                10,
-                              );
-                            }
-                          }
-                        } else {
-                          if (context.mounted) context.goNamed(RoutesNames.invite);
-                          log('Not authenticated');
-                        }
+                        context.pushNamed(
+                          RoutesNames.placeOrder,
+                          extra: model,
+                        );
                       },
                     );
                   },
@@ -152,23 +101,5 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
       ),
     );
-  }
-
-  Future<bool> _makeOrder(
-    BuildContext context,
-    Authenticated state,
-  ) async {
-    final bool result = await context.read<OrderCubit>().makeOrder(
-          address: 'Пока не знаю какой адрес',
-          phone: state.user.phoneNumber,
-          email: 'alidroid696@gmail.com',
-          product: widget.model,
-          name: 'ali',
-        );
-
-    if (result && context.mounted) {
-      return false;
-    }
-    return result;
   }
 }

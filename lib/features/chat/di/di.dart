@@ -21,15 +21,4 @@ void setupDependencies() {
       },
     ),
   );
-
-  getIt.registerSingleton<Box<MessageModel>>(
-    Hive.box<MessageModel>(HiveStrings.message),
-  );
-
-  getIt.registerSingleton<ChatRepositoryImpl>(
-    ChatRepositoryImpl(
-      getIt<WebSocketChannel>(),
-      getIt<Box<MessageModel>>(),
-    ),
-  );
 }
