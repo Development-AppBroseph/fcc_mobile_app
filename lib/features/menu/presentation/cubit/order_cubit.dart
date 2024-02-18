@@ -33,7 +33,7 @@ class OrderCubit extends Cubit<OrderState> {
   Future<bool> makeOrder({
     required String productId,
     required ProductModel product,
-    required String address,
+    required int address,
     required String name,
     required String phone,
     required String email,

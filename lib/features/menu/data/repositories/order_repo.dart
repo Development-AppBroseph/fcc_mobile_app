@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:fcc_app_front/export.dart';
 
 class OrderRepo {
   static Future<OrderModel?> placeOrder({
-    required String address,
+    required int address,
     required String name,
     required String phone,
     required String email,
@@ -17,10 +18,13 @@ class OrderRepo {
         <String, Object?>{
           'client': getClientId(),
           'order_items': <Map<String, dynamic>>[
-            <String, dynamic>{'product_id': productId, 'quantity': 1}
+            <String, dynamic>{
+              'product_uuid': productId,
+              'quantity': 1,
+            }
           ],
           'shipping_price': '0',
-          'delivery_point': 1,
+          'delivery_point': address,
           'client_name': name,
           'client_phone': phone,
           'client_email': email,

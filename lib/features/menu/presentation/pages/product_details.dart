@@ -1,18 +1,12 @@
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/auth/data/models/membership.dart';
 
-class ProductDetails extends StatefulWidget {
+class ProductDetails extends StatelessWidget {
   final ProductModel model;
   const ProductDetails({
     required this.model,
     super.key,
   });
 
-  @override
-  State<ProductDetails> createState() => _ProductDetailsState();
-}
-
-class _ProductDetailsState extends State<ProductDetails> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
@@ -48,14 +42,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                   height: 20,
                 ),
                 Text(
-                  widget.model.name,
+                  model.name,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  widget.model.description,
+                  model.description,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(
@@ -63,15 +57,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 ProductTextDetailsField(
                   title: 'Марка',
-                  subtitle: widget.model.name,
+                  subtitle: model.name,
                 ),
-                ProductTextDetailsField(
+                const ProductTextDetailsField(
                   title: 'Страна произхождение',
-                  subtitle: widget.model.id.toString(),
+                  subtitle: 'ss',
                 ),
                 ProductTextDetailsField(
                   title: 'Количесевтво блоков',
-                  subtitle: widget.model.stock.toString(),
+                  subtitle: model.stock.toString(),
                 ),
                 const ProductTextDetailsField(
                   title: 'Крескость',
@@ -93,22 +87,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                     return CstmBtn(
                       text: 'Оформить заказ',
                       onTap: () async {
-                        final CurrentMembership? merbership = await context
-                            .read<AuthCubit>()
-                            .getCurrentMerbership();
-                        if (state is Authenticated) {
-                          //TODO: add logic
-                          if (merbership?.membership?.level == null &&
-                              context.mounted) {
-                            ApplicationSnackBar.showErrorSnackBar(
-                              context,
-                              'Выберите план',
-                              1,
-                              const EdgeInsets.all(10),
-                              10,
-                            );
-                          }
-                        }
+                        context.pushNamed(
+                          RoutesNames.placeOrder,
+                          extra: model,
+                        );
                       },
                     );
                   },

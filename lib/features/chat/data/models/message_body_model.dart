@@ -1,65 +1,95 @@
-import 'dart:convert';
+class MessageModel {
+  final String type;
+  final Message message;
 
-class Message {
-  final String message;
-  final dynamic photo;
-  final bool clientSend;
-
-  Message({
+  MessageModel({
+    required this.type,
     required this.message,
-    required this.photo,
-    required this.clientSend,
   });
 
+  factory MessageModel.fromJson(Map<String, dynamic> json) {
+    return MessageModel(
+      type: json['type'],
+      message: Message.fromJson(json['message']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'type': type,
+      'message': message.toJson(),
+    };
+  }
+
+  MessageModel copyWith({
+    String? type,
+    Message? message,
+  }) =>
+      MessageModel(
+        type: type ?? this.type,
+        message: message ?? this.message,
+      );
+}
+
+class Message {
+  final int? id;
+  final String message;
+  final dynamic file;
+  final bool clientSend;
+  final String type;
+  final DateTime createdDate;
+  final DateTime updatedDate;
+
+  Message({
+    this.id,
+    required this.message,
+    required this.file,
+    required this.clientSend,
+    required this.type,
+    required this.createdDate,
+    required this.updatedDate,
+  });
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      id: json['id'],
+      message: json['message'],
+      file: json['file'],
+      clientSend: json['client_send'],
+      type: json['type'],
+      createdDate: DateTime.parse(json['createdDate']),
+      updatedDate: DateTime.parse(json['updatedDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'message': message,
+      'file': file,
+      'client_send': clientSend,
+      'type': type,
+      'createdDate': createdDate.toIso8601String(),
+      'updatedDate': updatedDate.toIso8601String(),
+    };
+  }
+
   Message copyWith({
+    int? id,
     String? message,
-    dynamic photo,
+    dynamic file,
     bool? clientSend,
-  }) {
-    return Message(
-      message: message ?? this.message,
-      photo: photo ?? this.photo,
-      clientSend: clientSend ?? this.clientSend,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    final Map<String, dynamic> result = <String, dynamic>{};
-
-    result.addAll(<String, dynamic>{'message': message});
-    result.addAll(<String, dynamic>{'photo': photo});
-    result.addAll(<String, dynamic>{'clientSend': clientSend});
-
-    return result;
-  }
-
-  factory Message.fromMap(Map<String, dynamic> map) {
-    return Message(
-      message: map['message'] ?? '',
-      photo: map['photo'],
-      clientSend: map['client_send'] ?? false,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Message.fromJson(String source) =>
-      Message.fromMap(json.decode(source));
-
-  @override
-  String toString() =>
-      'Message(message: $message, photo: $photo, clientSend: $clientSend)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Message &&
-        other.message == message &&
-        other.photo == photo &&
-        other.clientSend == clientSend;
-  }
-
-  @override
-  int get hashCode => message.hashCode ^ photo.hashCode ^ clientSend.hashCode;
+    String? type,
+    DateTime? createdDate,
+    DateTime? updatedDate,
+  }) =>
+      Message(
+        id: id ?? this.id,
+        message: message ?? this.message,
+        file: file ?? this.file,
+        clientSend: clientSend ?? this.clientSend,
+        type: type ?? this.type,
+        createdDate: createdDate ?? this.createdDate,
+        updatedDate: updatedDate ?? this.updatedDate,
+      );
 }

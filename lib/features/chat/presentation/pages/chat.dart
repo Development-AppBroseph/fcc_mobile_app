@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 import 'dart:ui' as ui show Image;
@@ -39,6 +40,8 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
+    super.initState();
+
     _channel = IOWebSocketChannel.connect(
       Uri.parse(socketUrl),
       headers: <String, String>{
@@ -47,10 +50,14 @@ class _ChatPageState extends State<ChatPage> {
       },
     );
 
-    super.initState();
     _channel.stream.listen((dynamic event) {
-      MessageModel parsed = MessageModel.fromMap(jsonDecode(event));
-
+      ////////
+      final MessageModel s = MessageModel.fromJson(event);
+      log(s.toString());
+      //////////////
+      print(event);
+      MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
+      print(parsed);
       ValueNotifier<bool> isAdmin =
           ValueNotifier<bool>(parsed.message.clientSend);
 
@@ -163,10 +170,14 @@ class _ChatPageState extends State<ChatPage> {
 
       _channel.sink.add(jsonEncode(
         m.Message(
+          createdDate: DateTime.now(),
+          updatedDate: DateTime.now(),
+          type: 'image',
+          id: 1,
           message: '',
-          photo: base64Image,
+          file: base64Image,
           clientSend: true,
-        ).toMap(),
+        ).toJson(),
       ));
 
       _addMessage(message);
@@ -235,12 +246,26 @@ class _ChatPageState extends State<ChatPage> {
   // }
 
   void _handleSendPressed(types.PartialText message) {
+    // final String result = jsonEncode(
+    //   m.Message(
+    //     file: null,
+    //     createdDate: DateTime.now(),
+    //     updatedDate: DateTime.now(),
+    //     type: 'text',
+    //     message: message.text,
+    //     clientSend: true,
+    //   ).toJson(),
+    // );
+    // print(result);
     _channel.sink.add(jsonEncode(
       m.Message(
+        file: null,
+        createdDate: DateTime.now(),
+        updatedDate: DateTime.now(),
+        type: 'text',
         message: message.text,
-        photo: null,
         clientSend: true,
-      ).toMap(),
+      ).toJson(),
     ));
   }
 

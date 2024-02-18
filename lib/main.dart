@@ -5,17 +5,22 @@ import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dart';
 import 'package:fcc_app_front/features/chat/di/di.dart';
 import 'package:fcc_app_front/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
 import 'package:fcc_app_front/shared/config/base/observer.dart';
 
 void main() {
   runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
     await Hive.initFlutter();
     await _initHive();
 
-    _initChatDependencies();
     await Firebase.initializeApp();
-    //  NotificationApi.init();
-    WidgetsFlutterBinding.ensureInitialized();
+    NotificationApi.init();
+
+    FirebaseNotificationsRepo().initNotifications(() {});
+    _initChatDependencies();
+
     Bloc.observer = AppBlocObserver();
     runApp(
       MultiBlocProvider(
@@ -27,6 +32,9 @@ void main() {
           ),
           BlocProvider<OrderCubit>(
             create: (_) => OrderCubit(),
+          ),
+          BlocProvider<MembershipCubit>(
+            create: (_) => MembershipCubit()..load(),
           ),
           BlocProvider<AuthCubit>(
             create: (BuildContext context) => AuthCubit()..init(),
@@ -47,10 +55,12 @@ void main() {
             create: (BuildContext context) => SelectedProductsCubit(),
           ),
           BlocProvider<ChatBloc>(
-            create: (BuildContext context) => ChatBloc(getIt<ChatRepositoryImpl>())
-              ..add(
-                FecthAllChatEvent(),
-              ),
+              create: (BuildContext context) =>
+                  ChatBloc(getIt<ChatRepositoryImpl>())),
+          BlocProvider<OrderBloc>(
+            create: (BuildContext context) {
+              return OrderBloc()..add(FetchAllAddreses());
+            },
           ),
         ],
         child: const FSC(),
@@ -76,7 +86,6 @@ class FSC extends StatelessWidget {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             title: 'FSC',
-            
             theme: lightTheme,
             routerConfig: router,
           );

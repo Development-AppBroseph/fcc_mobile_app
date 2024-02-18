@@ -1,5 +1,4 @@
 import 'dart:io';
-// TODO : remove qr code from screen wehere is invite another user
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/settings/presentation/bloc/profile_bloc.dart';
 
