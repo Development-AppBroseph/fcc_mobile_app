@@ -23,12 +23,19 @@ class AgreementScreen extends StatelessWidget {
                 children: <Widget>[
                   const Text('Вам исполнилось 18 лет?'),
                   sized40,
-                  CstmBtn(
-                    text: 'Да',
-                    onTap: () {
-                      context.push(Routes.unauthenticatedInvite);
-                    },
-                  ),
+                  BlocBuilder<AuthCubit, AuthState>(
+                      builder: (BuildContext context, AuthState state) {
+                    return CstmBtn(
+                      text: 'Да',
+                      onTap: () {
+                        if (state is Unauthenticated) {
+                          context.pushNamed(RoutesNames.unauthenticatedInvite);
+                        } else {
+                          context.pushNamed(RoutesNames.menu);
+                        }
+                      },
+                    );
+                  }),
                   sized20,
                   CstmBtn(
                     color: Colors.black12,
@@ -40,7 +47,8 @@ class AgreementScreen extends StatelessWidget {
                         headerAnimationLoop: true,
                         animType: AnimType.bottomSlide,
                         title: '18+',
-                        desc: 'К сожалению,доступ разрешен только пользователям старше 18 лет',
+                        desc:
+                            'К сожалению,доступ разрешен только пользователям старше 18 лет',
                         buttonsTextStyle: const TextStyle(color: Colors.black),
                         showCloseIcon: true,
                       ).show();

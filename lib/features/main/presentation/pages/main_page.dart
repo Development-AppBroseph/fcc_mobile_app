@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:fcc_app_front/export.dart';
+import 'package:web_socket_channel/io.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({
@@ -11,8 +14,8 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: <SingleChildWidget>[
-        BlocProvider(
-          create: (BuildContext context) => BottomNavbarCont(),
+        BlocProvider<BottomNavbarCont>(
+          create: (BuildContext context) => BottomNavbarCont()..change(1),
         ),
         BlocProvider(
           create: (BuildContext context) => ProductCubit()
@@ -68,21 +71,41 @@ class _MainScaffoldState extends State<MainScaffold> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (Duration timeStamp) async {
-        //   await FirebaseNotificationsRepo().sendFcm();
         await FirebaseMessaging.instance.getInitialMessage();
       },
     );
+
+    final IOWebSocketChannel channel = IOWebSocketChannel.connect(
+      Uri.parse(socketUrl),
+      headers: <String, String>{
+        'Authorization': 'Bearer ${getToken()}',
+        'Origin': baseUrl,
+      },
+    );
+
+    channel.stream.listen((dynamic event) {
+      MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
+      ValueNotifier<bool> isAdmin =
+          ValueNotifier<bool>(parsed.message.clientSend);
+
+      if (!isAdmin.value) {
+        NotificationApi.pushLocaleNotification('ФКК', parsed.message.message);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BlocBuilder<BottomNavbarCont, int>(
+      bottomNavigationBar: BlocConsumer<BottomNavbarCont, int>(
+        listener: (BuildContext context, int state) {
+          context.read<BottomNavbarCont>().change(state);
+        },
         builder: (BuildContext context, int state) {
           return BottomNavBar(
             onChanged: (int index) {
               context.read<BottomNavbarCont>().change(index);
-              context.goNamed(
+              context.pushNamed(
                 bottomNavigationHandler(index),
               );
             },

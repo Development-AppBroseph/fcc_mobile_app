@@ -62,7 +62,9 @@ class _ChatPageState extends State<ChatPage> {
       );
       _addMessage(message);
 
-      NotificationApi.pushLocaleNotification('ФСК', parsed.message.message);
+      if (!isAdmin.value) {
+        NotificationApi.pushLocaleNotification('ФКК', parsed.message.message);
+      }
     });
 
     _loadMessages();
