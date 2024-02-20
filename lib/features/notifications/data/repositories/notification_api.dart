@@ -86,4 +86,31 @@ class NotificationApi {
       platformChannelSpecifics,
     );
   }
+
+  static void pushLocaleNotification(
+    String title,
+    String body,
+  ) async {
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+        const AndroidNotificationDetails(
+      'channed id',
+      'channel name',
+      channelDescription: 'channel description',
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
+    );
+    DarwinNotificationDetails iOSPlatformChannelSpecifics =
+        const DarwinNotificationDetails();
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
+    );
+    flutterLocalNotificationsPlugin.show(
+      1,
+      title,
+      body,
+      platformChannelSpecifics,
+    );
+  }
 }

@@ -82,8 +82,12 @@ class _CstmBtnState extends State<CstmBtn> {
             decoration: BoxDecoration(
               borderRadius: widget.borderRadius ?? BorderRadius.circular(15),
               gradient: widget.gradient,
-              color: widget.gradient == null ? widget.color ?? Theme.of(context).primaryColor : null,
-              border: widget.borderSide != null ? Border.fromBorderSide(widget.borderSide!) : null,
+              color: widget.gradient == null
+                  ? widget.color ?? Theme.of(context).primaryColor
+                  : null,
+              border: widget.borderSide != null
+                  ? Border.fromBorderSide(widget.borderSide!)
+                  : null,
               boxShadow: widget.dropShadow
                   ? <BoxShadow>[
                       BoxShadow(
@@ -113,7 +117,10 @@ class _CstmBtnState extends State<CstmBtn> {
                             Text(
                               widget.text,
                               style: widget.textStyle ??
-                                  Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
                                         color: widget.textColor,
                                       ),
                             ),

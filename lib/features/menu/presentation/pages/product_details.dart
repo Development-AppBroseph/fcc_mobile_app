@@ -32,11 +32,12 @@ class ProductDetails extends StatelessWidget {
                     Radius.circular(16),
                   )),
                   child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      child: CachedNetworkImage(
-                          fit: BoxFit.fill,
-                          imageUrl:
-                              'https://media.sketchfab.com/models/4eb251a5b2874b3ea329da82db428a5d/thumbnails/823c12b6ae604825b82ed6cca2885b06/73cb7ce63b48404e883fa748cb11d9ad.jpeg')),
+                    clipBehavior: Clip.antiAlias,
+                    child: CachedNetworkImage(
+                      fit: BoxFit.fill,
+                      imageUrl: model.image,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
@@ -59,25 +60,25 @@ class ProductDetails extends StatelessWidget {
                   title: 'Марка',
                   subtitle: model.name,
                 ),
-                const ProductTextDetailsField(
+                ProductTextDetailsField(
                   title: 'Страна произхождение',
-                  subtitle: 'ss',
+                  subtitle: model.country,
                 ),
                 ProductTextDetailsField(
                   title: 'Количесевтво блоков',
                   subtitle: model.stock.toString(),
                 ),
-                const ProductTextDetailsField(
+                ProductTextDetailsField(
                   title: 'Крескость',
-                  subtitle: 'Крепкость',
+                  subtitle: model.strenght,
                 ),
-                const ProductTextDetailsField(
+                ProductTextDetailsField(
                   title: 'Вкус',
-                  subtitle: 'Вкус',
+                  subtitle: model.taste,
                 ),
-                const ProductTextDetailsField(
+                ProductTextDetailsField(
                   title: 'Формат',
-                  subtitle: 'Формат',
+                  subtitle: model.format,
                 ),
                 const SizedBox(
                   height: 40,

@@ -49,7 +49,7 @@ class OrderDetails extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  'Собирается',
+                  order.status,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 12,
                       ),
@@ -95,7 +95,10 @@ class OrderDetails extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
             ),
+
             sized20,
+            Text(order.deliveryPoint?.address ?? ''),
+
             Text(
               order.pickupAddress,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -155,20 +158,6 @@ class OrderDetails extends StatelessWidget {
             //   ),
             // ),
             sized30,
-            Text(
-              'Местонахождения заказа',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
-            ),
-            sized20,
-            Text(
-              order.pickupAddress,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                  ),
-            ),
           ],
         ),
       ),

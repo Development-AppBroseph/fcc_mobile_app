@@ -33,9 +33,8 @@ class _ChatPageState extends State<ChatPage> {
     id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
   );
   final types.User _admin = const types.User(
-    lastName: 'Администратор',
+    firstName: 'Администратор',
     id: 'admin',
-    firstName: 'Валентина',
   );
 
   @override
@@ -51,13 +50,7 @@ class _ChatPageState extends State<ChatPage> {
     );
 
     _channel.stream.listen((dynamic event) {
-      ////////
-      final MessageModel s = MessageModel.fromJson(event);
-      log(s.toString());
-      //////////////
-      print(event);
       MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
-      print(parsed);
       ValueNotifier<bool> isAdmin =
           ValueNotifier<bool>(parsed.message.clientSend);
 
@@ -68,6 +61,8 @@ class _ChatPageState extends State<ChatPage> {
         text: parsed.message.message,
       );
       _addMessage(message);
+
+      NotificationApi.pushLocaleNotification('ФСК', parsed.message.message);
     });
 
     _loadMessages();

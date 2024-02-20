@@ -37,7 +37,9 @@ class ProductCart extends StatelessWidget {
             )
           ],
           border: Border.all(
-            color: isSelected ? primaryColor : Theme.of(context).scaffoldBackgroundColor,
+            color: isSelected
+                ? primaryColor
+                : Theme.of(context).scaffoldBackgroundColor,
             width: 1.5,
           ),
           borderRadius: const BorderRadius.all(
@@ -77,7 +79,8 @@ class ProductCart extends StatelessWidget {
                           ),
                         );
                       },
-                      placeholder: (BuildContext context, String url) => AspectRatio(
+                      placeholder: (BuildContext context, String url) =>
+                          AspectRatio(
                         aspectRatio: 1,
                         child: Container(
                           height: double.infinity,
@@ -123,28 +126,23 @@ class ProductCart extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           product.name,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w400,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                  ),
                         ),
                         sized5,
                         Text(
                           product.description,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 10,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 10,
+                                  ),
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
                         sized5,
-                        Text(
-                          '${product.price} \u20BD',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                              ),
-                        ),
                       ],
                     ),
                   ),
