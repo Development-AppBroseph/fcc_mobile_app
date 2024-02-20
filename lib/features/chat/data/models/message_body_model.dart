@@ -57,8 +57,8 @@ class Message {
       file: json['file'],
       clientSend: json['client_send'],
       type: json['type'],
-      createdDate: DateTime.parse(json['createdDate']),
-      updatedDate: DateTime.parse(json['updatedDate']),
+      createdDate: DateTime.parse(json['created_date']),
+      updatedDate: DateTime.parse(json['updated_date']),
     );
   }
 

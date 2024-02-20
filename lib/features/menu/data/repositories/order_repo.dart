@@ -10,7 +10,7 @@ class OrderRepo {
     required String name,
     required String phone,
     required String email,
-    required String productId,
+    required ProductModel product,
   }) async {
     try {
       final Response response = await BaseHttpClient.postBody(
@@ -19,7 +19,7 @@ class OrderRepo {
           'client': getClientId(),
           'order_items': <Map<String, dynamic>>[
             <String, dynamic>{
-              'product_uuid': productId,
+              'product_uuid': product.id,
               'quantity': 1,
             }
           ],

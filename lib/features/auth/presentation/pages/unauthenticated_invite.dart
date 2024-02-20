@@ -25,7 +25,8 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
             child: SingleChildScrollView(
               reverse: true,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   SizedBox(
                     height: 80.h,
@@ -44,29 +45,8 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                         ),
                   ),
                   sized10,
-                  RichText(
-                    text: TextSpan(
-                      text:
-                          'Если не помните или не знаете, кто пригласил вас, введите имя пользователя ',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: primaryColorDark,
-                          ),
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: '@yaroslav',
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: textColor,
-                                  ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              controller.text = 'yaroslav';
-                            },
-                        ),
-                      ],
-                    ),
-                  ),
-                  sized20,
+
+                  sized40,
                   Container(
                     padding: const EdgeInsets.all(
                       15,
@@ -100,7 +80,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                       ),
                     ),
                   ),
-                  sized20,
+                  sized40,
                   CstmBtn(
                     onTap: () async {
                       if (controller.text == '') {

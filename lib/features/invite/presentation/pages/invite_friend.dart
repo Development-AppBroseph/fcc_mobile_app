@@ -280,9 +280,8 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                 },
                                 text: 'Войти',
                                 alignment: MainAxisAlignment.center,
-                                textColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                color: Theme.of(context).canvasColor,
+                                textColor: Colors.black,
+                                color: Theme.of(context).primaryColor,
                               ),
                             ],
                           ),

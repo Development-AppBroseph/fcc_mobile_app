@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: 65.w,
+              horizontal: 40.w,
             ),
             child: SingleChildScrollView(
               reverse: true,
@@ -82,9 +82,10 @@ class _LoginPageState extends State<LoginPage> {
                               fontSize: 18,
                             ),
                         decoration: InputDecoration(
-                          hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(context).hintColor,
-                              ),
+                          hintStyle:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Theme.of(context).hintColor,
+                                  ),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Theme.of(context).dividerColor,
@@ -120,16 +121,23 @@ class _LoginPageState extends State<LoginPage> {
                         setState(() {
                           isLoading = true;
                         });
-                        final bool isSuccess = await context.read<AuthCubit>().createUserSendCode(
-                              maskFormatter.getMaskedText().replaceAll(' ', '').replaceAll('-', ''),
-                            );
+                        final bool isSuccess =
+                            await context.read<AuthCubit>().createUserSendCode(
+                                  maskFormatter
+                                      .getMaskedText()
+                                      .replaceAll(' ', '')
+                                      .replaceAll('-', ''),
+                                );
                         if (isSuccess && context.mounted) {
                           showCupertinoModalBottomSheet(
                             context: context,
                             expand: true,
                             builder: (BuildContext context) {
                               return CstmBtmSheet(
-                                phone: maskFormatter.getMaskedText().replaceAll(' ', '').replaceAll('-', ''),
+                                phone: maskFormatter
+                                    .getMaskedText()
+                                    .replaceAll(' ', '')
+                                    .replaceAll('-', ''),
                               );
                             },
                           );
@@ -145,7 +153,10 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               Text(
                                 'Продолжить',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(),
                               ),
                               const SizedBox(
                                 width: 10,

@@ -45,6 +45,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return BlocBuilder<OrderBloc, AddressOrderState>(
         builder: (BuildContext context, Object? state) {
       if (state is OrderSuccess) {
@@ -170,8 +171,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                 iconDisabledColor: Colors.grey,
                               ),
                               dropdownStyleData: DropdownStyleData(
-                                maxHeight: 200,
-                                width: 200,
+                                maxHeight: size.height,
+                                width: size.width,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(14),
                                   color: Colors.white,
@@ -378,7 +379,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                     )) {
                                   final OrderModel? order =
                                       await OrderRepo.placeOrder(
-                                    productId: const Uuid().v4(),
+                                    product: widget.product,
                                     address: selectedAddress ?? 0,
                                     name: nameController.text,
                                     phone: maskFormatter
