@@ -168,9 +168,8 @@ class _OrderState extends State<Order> {
                               },
                               text: 'Войти',
                               alignment: MainAxisAlignment.center,
-                              textColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              color: Theme.of(context).canvasColor,
+                              textColor: Theme.of(context).primaryColorDark,
+                              color: Theme.of(context).primaryColor,
                             ),
                           ],
                         );

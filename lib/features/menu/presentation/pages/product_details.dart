@@ -84,18 +84,40 @@ class ProductDetails extends StatelessWidget {
                   height: 40,
                 ),
                 BlocBuilder<AuthCubit, AuthState>(
-                  builder: (BuildContext context, AuthState state) {
+                    builder: (BuildContext context, AuthState state) {
+                  if (state is Authenticated) {
                     return CstmBtn(
                       text: 'Оформить заказ',
                       onTap: () async {
+                        if (state is Unauthenticated) {
+                          context.pushNamed(RoutesNames.login);
+                          return;
+                        }
+                        if (model.stock < 4) {
+                          ApplicationSnackBar.showErrorSnackBar(
+                              context,
+                              'Нет в наличии',
+                              0.9,
+                              const EdgeInsets.symmetric(horizontal: 10),
+                              1);
+                          return;
+                        }
+
                         context.pushNamed(
                           RoutesNames.placeOrder,
                           extra: model,
                         );
                       },
                     );
-                  },
-                )
+                  } else {
+                    return CstmBtn(
+                      text: 'Оформить заказ',
+                      onTap: () {
+                        context.pushNamed(RoutesNames.login);
+                      },
+                    );
+                  }
+                })
               ],
             ),
           ),

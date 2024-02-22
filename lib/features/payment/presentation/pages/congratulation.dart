@@ -11,7 +11,8 @@ class PaymentCongratulationPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PaymentCongratulationPage> createState() => _PaymentCongratulationPageState();
+  State<PaymentCongratulationPage> createState() =>
+      _PaymentCongratulationPageState();
 }
 
 class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
@@ -20,7 +21,16 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
   @override
   void initState() {
     super.initState();
+
     confettiController.play();
+    goToMenu();
+  }
+
+  void goToMenu() {
+    Future<void>.delayed(const Duration(seconds: 3)).then((value) {
+      context.read<AuthCubit>().init();
+      context.pushReplacement(RoutesNames.menu);
+    });
   }
 
   @override
@@ -31,7 +41,8 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final String membershipName = membershipNames[MembershipType.values.firstWhereOrNull((MembershipType element) {
+    final String membershipName = membershipNames[MembershipType.values
+                    .firstWhereOrNull((MembershipType element) {
                   return element.name == widget.membership;
                 }) ??
                 MembershipType.standard]

@@ -44,6 +44,7 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
                   IconButton(
                     onPressed: () {
                       if (Navigator.of(context).canPop()) {
+                        context.read<AuthCubit>().init();
                         Navigator.of(context).pop();
                       }
                     },

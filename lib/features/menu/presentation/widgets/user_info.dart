@@ -5,6 +5,7 @@ class MenuUserInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AuthCubit>().init();
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (BuildContext context, AuthState state) {
         if (state is Authenticated) {
