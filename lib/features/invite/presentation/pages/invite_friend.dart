@@ -173,19 +173,32 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                 child: Row(
                                   children: <Widget>[
                                     Expanded(
-                                      child: Text(
-                                        'https://fcc.i7.kg/',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14,
-                                              color:
-                                                  Theme.of(context).hintColor,
-                                            ),
+                                      child: BlocBuilder<AuthCubit, AuthState>(
+                                        builder: (BuildContext context,
+                                            AuthState state) {
+                                          if (state is Authenticated) {
+                                            return Text(
+                                              state.user.invitationCode ?? '',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 14,
+                                                    color: Theme.of(context)
+                                                        .hintColor,
+                                                  ),
+                                            );
+                                          }
+                                          if (state is Unauthenticated) {
+                                            return const Text(
+                                              'Не авторизован',
+                                            );
+                                          }
+                                          return const SizedBox.shrink();
+                                        },
                                       ),
                                     ),
                                     const SizedBox(

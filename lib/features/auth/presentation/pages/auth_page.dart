@@ -58,16 +58,18 @@ class _AuthPageState extends State<AuthPage> {
                   sized10,
                   RichText(
                     text: TextSpan(
-                      text: 'Если не помните или не знаете, кто пригласил вас, введите имя пользователя ',
+                      text:
+                          'Если не помните или не знаете, кто пригласил вас, введите имя пользователя ',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: primaryColorDark,
                           ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: '@yaroslav',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: textColor,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: textColor,
+                                  ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               controller.text = 'yaroslav';
@@ -109,12 +111,13 @@ class _AuthPageState extends State<AuthPage> {
                         ),
                         prefixIcon: Text(
                           '@',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                fontFamily: 'Rubik',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 17,
-                                color: Theme.of(context).hintColor,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    fontFamily: 'Rubik',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 17,
+                                    color: Theme.of(context).hintColor,
+                                  ),
                         ),
                       ),
                     ),
@@ -134,10 +137,11 @@ class _AuthPageState extends State<AuthPage> {
                         setState(() {
                           isLoading = true;
                         });
-                        final bool isSucces = await context.read<AuthCubit>().incrementInvites(
-                              widget.phone,
-                              controller.text.toLowerCase(),
-                            );
+                        final bool isSucces =
+                            await context.read<AuthCubit>().incrementInvites(
+                                  widget.phone,
+                                  controller.text.toLowerCase(),
+                                );
                         if (isSucces && context.mounted) {
                           Hive.box(HiveStrings.userBox).put(
                             HiveStrings.invite,
@@ -179,7 +183,10 @@ class _AuthPageState extends State<AuthPage> {
                             children: <Widget>[
                               Text(
                                 'Продолжить',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(),
                               ),
                               const SizedBox(
                                 width: 10,
@@ -206,7 +213,7 @@ class _AuthPageState extends State<AuthPage> {
                     height: 30,
                     text: 'Я не помню',
                     color: Colors.transparent,
-                    textColor: Theme.of(context).canvasColor,
+                    textColor: Colors.black,
                   ),
                 ],
               ),

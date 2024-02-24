@@ -2,7 +2,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/menu/data/models/address.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
-import 'package:uuid/uuid.dart';
 
 class PlacingOrderPage extends StatefulWidget {
   final ProductModel product;
@@ -172,7 +171,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                               ),
                               dropdownStyleData: DropdownStyleData(
                                 maxHeight: size.height,
-                                width: size.width,
+                                width: size.width / 1.2 - 10.sp,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(14),
                                   color: Colors.white,
@@ -244,105 +243,6 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                             ),
                           ),
                           sized40,
-                          Text(
-                            'Сумма',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                          sized10,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Дегустационный набор',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Expanded(
-                                child: DottedLine(
-                                  dashRadius: 10,
-                                  dashColor: hintColor,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '${widget.product.price} \u20BD',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Доставка в пункт выдачи',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Expanded(
-                                child: DottedLine(
-                                  dashRadius: 10,
-                                  dashColor: hintColor,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '0 Р',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Итого',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Expanded(
-                                child: DottedLine(
-                                  dashRadius: 10,
-                                  dashColor: hintColor,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '${widget.product.price} \u20BD',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(fontSize: 12),
-                              ),
-                            ],
-                          ),
-                          sized30,
                           Text(
                             'Переходя к оплате, вы принимаете условия доставки и подтверждаете достоверность ваших данных.',
                             style:

@@ -186,7 +186,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         BlocConsumer<ProfileBloc, ProfileState>(
                           listener: (BuildContext context, ProfileState state) {
                             if (state is ProfileSucces) {
-                              context.pop();
+                              context.pushNamed(RoutesNames.menu);
                             }
                             if (state is ProfileError) {
                               ApplicationSnackBar.showErrorSnackBar(
@@ -205,17 +205,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             return CstmBtn(
                               text: 'Сохранить',
                               onTap: () {
-                                context.push(Routes.orderConfirm);
+                                context
+                                    .read<ProfileBloc>()
+                                    .add(ChangeProfileDetails(
+                                      name: name.text,
+                                      surname: surname.text,
+                                      middlename: middlename.text,
+                                    ));
+                                context.read<AuthCubit>().init();
                               },
-                              // onTap: () {
-                              //   context
-                              //       .watch<ProfileBloc>()
-                              //       .add(ChangeProfileDetails(
-                              //         name: name.text,
-                              //         surname: surname.text,
-                              //         middlename: middlename.text,
-                              //       ));
-                              // },
                             );
                           },
                         )

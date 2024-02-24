@@ -7,7 +7,9 @@ class UserModel {
   final String phoneNumber;
   final String? membership;
   final String userName;
+  final String? invitationCode;
   UserModel({
+    this.invitationCode,
     required this.firstName,
     required this.lastName,
     required this.middleName,
@@ -21,6 +23,7 @@ class UserModel {
       map['id'],
     );
     return UserModel(
+      invitationCode: map['invitation_code'],
       firstName: map['first_name'] ?? '',
       userName: map['username'] ?? '',
       lastName: map['last_name'] ?? '',

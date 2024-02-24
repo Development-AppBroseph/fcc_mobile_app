@@ -7,12 +7,14 @@ class ChangePlanPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AuthCubit>().init();
     return BlocProvider(
       create: (BuildContext context) => MembershipCubit()..load(),
       child: Builder(
         builder: (BuildContext context) {
           final AuthState authState = context.read<AuthCubit>().state;
-          final String phone = authState is Authenticated ? authState.user.phoneNumber : '';
+          final String phone =
+              authState is Authenticated ? authState.user.phoneNumber : '';
           return Scaffold(
             body: SafeArea(
               child: Padding(
@@ -24,8 +26,8 @@ class ChangePlanPage extends StatelessWidget {
                     return SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
                               vertical: 10,
                             ),
                             child: CustomBackButton(
@@ -47,17 +49,19 @@ class ChangePlanPage extends StatelessWidget {
                           sized20,
                           AutoSizeText(
                             'ФКК',
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
                             maxLines: 1,
                           ),
                           sized10,
                           AutoSizeText(
                             'При покупке подписки Вы будете иметь доступ к ассортименту в соответствии с подпиской',
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  fontSize: 15,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontSize: 15,
+                                    ),
                             maxLines: 2,
                             minFontSize: 12,
                             textAlign: TextAlign.center,
@@ -65,9 +69,10 @@ class ChangePlanPage extends StatelessWidget {
                           sized40,
                           Text(
                             'СТАНДАРТ',
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
                           ),
                           sized10,
                           CstmBtn(
@@ -92,15 +97,22 @@ class ChangePlanPage extends StatelessWidget {
                                                 MembershipType.standard,
                                               );
                                           context.read<ProductCubit>().load(
-                                                isPublic: context.read<AuthCubit>().state is Unauthenticated,
+                                                isPublic: context
+                                                    .read<AuthCubit>()
+                                                    .state is Unauthenticated,
                                               );
                                           context.read<CatalogCubit>().load(
-                                                isPublic: context.read<AuthCubit>().state is Unauthenticated,
+                                                isPublic: context
+                                                    .read<AuthCubit>()
+                                                    .state is Unauthenticated,
                                               );
-                                          context.pushNamed(RoutesNames.paymentCongrats, extra: <String, Object>{
-                                            'membership': MembershipType.standard.name,
-                                            'goMenu': false,
-                                          });
+                                          context.pushNamed(
+                                              RoutesNames.paymentCongrats,
+                                              extra: <String, Object>{
+                                                'membership': MembershipType
+                                                    .standard.name,
+                                                'goMenu': false,
+                                              });
                                         },
                                       );
                                     }
@@ -109,7 +121,10 @@ class ChangePlanPage extends StatelessWidget {
                               }
                             },
                             text: context.read<MembershipCubit>().getPrice(1),
-                            textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
                                   fontSize: 20,
                                   color: Theme.of(context).primaryColorDark,
                                 ),
@@ -123,26 +138,30 @@ class ChangePlanPage extends StatelessWidget {
                                 pathParameters: <String, String>{
                                   'type': MembershipType.standard.name,
                                 },
-                                extra: BlocProvider.of<MembershipCubit>(context),
+                                extra:
+                                    BlocProvider.of<MembershipCubit>(context),
                               );
                             },
                             borderSide: BorderSide(
                               width: 1,
-                              color: Theme.of(context).hintColor.withOpacity(0.1),
+                              color:
+                                  Theme.of(context).hintColor.withOpacity(0.1),
                             ),
                             height: 39,
                             text: 'Перейти к Стандарт каталогу товаров',
-                            textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  fontSize: 12,
-                                ),
+                            textStyle:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontSize: 12,
+                                    ),
                             color: Theme.of(context).scaffoldBackgroundColor,
                           ),
                           sized20,
                           Text(
                             'ПРЕМИУМ',
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
                           ),
                           sized10,
                           CstmBtn(
@@ -167,15 +186,22 @@ class ChangePlanPage extends StatelessWidget {
                                                 MembershipType.premium,
                                               );
                                           context.read<ProductCubit>().load(
-                                                isPublic: context.read<AuthCubit>().state is Unauthenticated,
+                                                isPublic: context
+                                                    .read<AuthCubit>()
+                                                    .state is Unauthenticated,
                                               );
                                           context.read<CatalogCubit>().load(
-                                                isPublic: context.read<AuthCubit>().state is Unauthenticated,
+                                                isPublic: context
+                                                    .read<AuthCubit>()
+                                                    .state is Unauthenticated,
                                               );
-                                          context.pushNamed(RoutesNames.paymentCongrats, extra: <String, Object>{
-                                            'membership': MembershipType.premium.name,
-                                            'goMenu': false,
-                                          });
+                                          context.pushNamed(
+                                              RoutesNames.paymentCongrats,
+                                              extra: <String, Object>{
+                                                'membership':
+                                                    MembershipType.premium.name,
+                                                'goMenu': false,
+                                              });
                                         },
                                       );
                                     }
@@ -184,7 +210,10 @@ class ChangePlanPage extends StatelessWidget {
                               }
                             },
                             text: context.read<MembershipCubit>().getPrice(2),
-                            textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
                                   fontSize: 20,
                                   color: Theme.of(context).primaryColorDark,
                                 ),
@@ -197,7 +226,8 @@ class ChangePlanPage extends StatelessWidget {
                                 pathParameters: <String, String>{
                                   'type': MembershipType.premium.name,
                                 },
-                                extra: BlocProvider.of<MembershipCubit>(context),
+                                extra:
+                                    BlocProvider.of<MembershipCubit>(context),
                               );
                             },
                             borderSide: BorderSide(
@@ -206,17 +236,20 @@ class ChangePlanPage extends StatelessWidget {
                             ),
                             height: 39,
                             text: 'Перейти к Премиум каталогу товаров',
-                            textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  fontSize: 12,
-                                ),
-                            color: Theme.of(context).primaryColor.withOpacity(0.1),
+                            textStyle:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontSize: 12,
+                                    ),
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.1),
                           ),
                           sized20,
                           Text(
                             'ЭЛИТ',
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
                           ),
                           sized10,
                           CstmBtn(
@@ -241,15 +274,22 @@ class ChangePlanPage extends StatelessWidget {
                                                 MembershipType.elite,
                                               );
                                           context.read<ProductCubit>().load(
-                                                isPublic: context.read<AuthCubit>().state is Unauthenticated,
+                                                isPublic: context
+                                                    .read<AuthCubit>()
+                                                    .state is Unauthenticated,
                                               );
                                           context.read<CatalogCubit>().load(
-                                                isPublic: context.read<AuthCubit>().state is Unauthenticated,
+                                                isPublic: context
+                                                    .read<AuthCubit>()
+                                                    .state is Unauthenticated,
                                               );
-                                          context.pushNamed(RoutesNames.paymentCongrats, extra: <String, Object>{
-                                            'membership': MembershipType.elite.name,
-                                            'goMenu': false,
-                                          });
+                                          context.pushNamed(
+                                              RoutesNames.paymentCongrats,
+                                              extra: <String, Object>{
+                                                'membership':
+                                                    MembershipType.elite.name,
+                                                'goMenu': false,
+                                              });
                                         },
                                       );
                                     }
@@ -258,9 +298,13 @@ class ChangePlanPage extends StatelessWidget {
                               }
                             },
                             text: context.read<MembershipCubit>().getPrice(3),
-                            textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
                                   fontSize: 20,
-                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                 ),
                             color: Theme.of(context).primaryColorDark,
                           ),
@@ -272,7 +316,8 @@ class ChangePlanPage extends StatelessWidget {
                                 pathParameters: <String, String>{
                                   'type': MembershipType.elite.name,
                                 },
-                                extra: BlocProvider.of<MembershipCubit>(context),
+                                extra:
+                                    BlocProvider.of<MembershipCubit>(context),
                               );
                             },
                             borderSide: BorderSide(
@@ -281,9 +326,10 @@ class ChangePlanPage extends StatelessWidget {
                             ),
                             height: 39,
                             text: 'Перейти к Элит каталогу товаров',
-                            textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  fontSize: 12,
-                                ),
+                            textStyle:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontSize: 12,
+                                    ),
                             color: Theme.of(context).hintColor.withOpacity(0.1),
                           ),
                           sized20,

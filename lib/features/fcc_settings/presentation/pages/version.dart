@@ -15,32 +15,32 @@ class VersionPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              CustomBackButton(),
+              const CustomBackButton(),
               sized40,
-              Text(
-                'Версия',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: primaryColorDark,
-                    ),
-              ),
-              sized30,
-              FutureBuilder(
-                future: PackageInfo.fromPlatform(),
-                builder: (
-                  BuildContext context,
-                  AsyncSnapshot<PackageInfo> snapshot,
-                ) {
-                  return Text(
-                    "Версия приложения: ${snapshot.data?.version ?? 'Подождите'}",
-                    style: Theme.of(context).textTheme.bodySmall,
-                  );
-                },
-              ),
-              Text(
-                'Введена в действие: 15.01.2023',
-                style: Theme.of(context).textTheme.bodySmall,
-                textAlign: TextAlign.left,
-              ),
+              // Text(
+              //   'Версия',
+              //   style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              //         color: primaryColorDark,
+              //       ),
+              // ),
+              // sized30,
+              // FutureBuilder(
+              //   future: PackageInfo.fromPlatform(),
+              //   builder: (
+              //     BuildContext context,
+              //     AsyncSnapshot<PackageInfo> snapshot,
+              //   ) {
+              //     return Text(
+              //       "Версия приложения: ${snapshot.data?.version ?? 'Подождите'}",
+              //       style: Theme.of(context).textTheme.bodySmall,
+              //     );
+              //   },
+              // ),
+              // Text(
+              //   'Введена в действие: 15.01.2023',
+              //   style: Theme.of(context).textTheme.bodySmall,
+              //   textAlign: TextAlign.left,
+              // ),
             ],
           ),
         ),
