@@ -13,11 +13,7 @@ class CatalogCubit extends Cubit<CatalogState> {
     final List<CatalogModel> catalogs = await CatalogRepo.getCatalogs(
       isPublic: isPublic,
     );
-    emit(
-      CatalogState(
-        catalogs,
-      ),
-    );
+    emit(state.copyWith(catalogs: catalogs));
   }
 
   void loadPublic() async {
