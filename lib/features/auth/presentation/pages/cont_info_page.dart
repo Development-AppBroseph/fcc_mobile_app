@@ -33,13 +33,21 @@ class _ContInfoPageState extends State<ContInfoPage> {
       return false;
     }
     if (!oldEnoughChecked) {
-      ApplicationSnackBar.showErrorSnackBar(context, 'Вы недостаточно взрослый, чтобы использовать это приложение', 0.9,
-          const EdgeInsets.symmetric(horizontal: 10), 1);
+      ApplicationSnackBar.showErrorSnackBar(
+          context,
+          'Вы недостаточно взрослый, чтобы использовать это приложение',
+          0.9,
+          const EdgeInsets.symmetric(horizontal: 10),
+          1);
       return false;
     }
     if (surname.text.isEmpty) {
       ApplicationSnackBar.showErrorSnackBar(
-          context, 'Пожалуйста, введите фамилию', 0.9, const EdgeInsets.symmetric(horizontal: 10), 1);
+          context,
+          'Пожалуйста, введите фамилию',
+          0.9,
+          const EdgeInsets.symmetric(horizontal: 10),
+          1);
       return false;
     }
     try {
@@ -94,7 +102,8 @@ class _ContInfoPageState extends State<ContInfoPage> {
     },
   );
 
-  final FilteringTextInputFormatter russianFormatter = FilteringTextInputFormatter.allow(
+  final FilteringTextInputFormatter russianFormatter =
+      FilteringTextInputFormatter.allow(
     RegExp(
       '[А-Яа-яЁё]',
     ),
@@ -196,16 +205,18 @@ class _ContInfoPageState extends State<ContInfoPage> {
                         prefixIconConstraints: const BoxConstraints(
                           maxHeight: 40,
                         ),
-                        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).hintColor,
-                              fontWeight: FontWeight.w400,
-                            ),
+                        hintStyle:
+                            Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(context).hintColor,
+                                  fontWeight: FontWeight.w400,
+                                ),
                         hintText: ' Имя пользователя',
                         prefixIcon: Text(
                           '@',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).primaryColorDark,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).primaryColorDark,
+                                  ),
                         ),
                       ),
                       inputFormatters: <TextInputFormatter>[
@@ -254,14 +265,20 @@ class _ContInfoPageState extends State<ContInfoPage> {
                             children: <InlineSpan>[
                               TextSpan(
                                 text: 'Я принимаю ',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                     ),
                               ),
                               TextSpan(
                                 text: 'Условия пользования ',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                       color: textColor,
@@ -281,14 +298,20 @@ class _ContInfoPageState extends State<ContInfoPage> {
                               ),
                               TextSpan(
                                 text: 'и ',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                     ),
                               ),
                               TextSpan(
                                 text: 'Политику конфиденциальности ',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                       color: textColor,
@@ -308,7 +331,10 @@ class _ContInfoPageState extends State<ContInfoPage> {
                               ),
                               TextSpan(
                                 text: 'перед использованием продукта',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -338,10 +364,11 @@ class _ContInfoPageState extends State<ContInfoPage> {
                       Expanded(
                         child: Text(
                           'Я подтверждаю что мне есть 18 лет',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                         ),
                       )
                     ],
@@ -358,14 +385,15 @@ class _ContInfoPageState extends State<ContInfoPage> {
                         setState(() {
                           isLoading = true;
                         });
-                        final bool isSuccess = await context.read<AuthCubit>().verifyIdentity(
-                              name.text,
-                              surname.text,
-                              patronymic.text,
-                              userName.text,
-                              maskFormatter.getMaskedText(),
-                              context,
-                            );
+                        final bool isSuccess =
+                            await context.read<AuthCubit>().verifyIdentity(
+                                  name.text,
+                                  surname.text,
+                                  patronymic.text,
+                                  userName.text,
+                                  maskFormatter.getMaskedText(),
+                                  context,
+                                );
                         setState(() {
                           isLoading = false;
                         });
@@ -389,7 +417,10 @@ class _ContInfoPageState extends State<ContInfoPage> {
                             children: <Widget>[
                               Text(
                                 'Продолжить',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(),
                               ),
                               const SizedBox(
                                 width: 10,

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 import 'dart:ui' as ui show Image;
@@ -18,8 +17,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/io.dart';
 
-//add invite where is invite button
-// check if user has subscription and product count > 4
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
 
