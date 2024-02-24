@@ -163,12 +163,12 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - PromisesObjC (2.3.1)
+  - PromisesObjC (2.4.0)
   - rive_common (0.0.1):
     - Flutter
-  - SDWebImage (5.18.11):
-    - SDWebImage/Core (= 5.18.11)
-  - SDWebImage/Core (5.18.11)
+  - SDWebImage (5.19.0):
+    - SDWebImage/Core (= 5.19.0)
+  - SDWebImage/Core (5.19.0)
   - share_extend (0.0.1):
     - Flutter
   - smart_auth (0.0.1):
@@ -283,9 +283,9 @@ SPEC CHECKSUMS:
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: fd030dabf36271f146f1f3beacd48f564b0f17f7
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
-  PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   rive_common: 3a4c254c6e4db7e4b9e05daeb3d1f47ae4f7bf76
-  SDWebImage: a3ba0b8faac7228c3c8eadd1a55c9c9fe5e16457
+  SDWebImage: 981fd7e860af070920f249fd092420006014c3eb
   share_extend: b6748dc53695587891126a89533b862b92548c7b
   smart_auth: 4bedbc118723912d0e45a07e8ab34039c19e04f2
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
