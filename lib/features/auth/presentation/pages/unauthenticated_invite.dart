@@ -106,6 +106,11 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                             controller.text,
                           );
                           if (mounted) {
+                            Hive.box(HiveStrings.userBox).put(
+                              HiveStrings.invite,
+                              controller.text,
+                            );
+
                             context.goNamed(
                               RoutesNames.introCatalog,
                             );
@@ -117,7 +122,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                           if (mounted) {
                             ApplicationSnackBar.showErrorSnackBar(
                               context,
-                              'Пользователь с указанным именем не найден',
+                              'Указанный инвайт код не найден,попробуйте ещё раз',
                               0.9,
                               const EdgeInsets.symmetric(horizontal: 15),
                               3,

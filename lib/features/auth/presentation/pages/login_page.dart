@@ -72,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       TextField(
+                        textInputAction: TextInputAction.done,
                         inputFormatters: <TextInputFormatter>[
                           maskFormatter,
                         ],
@@ -82,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                               fontSize: 18,
                             ),
                         decoration: InputDecoration(
+                          hintText: '+7 (000) 000-00-00',
                           hintStyle:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
                                     color: Theme.of(context).hintColor,

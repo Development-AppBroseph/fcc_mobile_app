@@ -117,7 +117,8 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                       length: 4,
                       autofocus: true,
                       controller: codeController,
-                      androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
+                      androidSmsAutofillMethod:
+                          AndroidSmsAutofillMethod.smsUserConsentApi,
                       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                       pinAnimationType: PinAnimationType.slide,
                       defaultPinTheme: const PinTheme(
@@ -132,30 +133,35 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                           ),
                         ),
                       ),
-                      errorBuilder: (String? errorText, String pin) => const SizedBox.shrink(),
+                      errorBuilder: (String? errorText, String pin) =>
+                          const SizedBox.shrink(),
                       showCursor: true,
                       onCompleted: (String pin) async {
                         setState(() {
                           isLoading = true;
                         });
-                        final String? route = await context.read<AuthCubit>().login(
-                              widget.phone,
-                              pin,
-                            );
+                        final String? route =
+                            await context.read<AuthCubit>().login(
+                                  widget.phone,
+                                  pin,
+                                );
                         if (route == null) isError = true;
                         if (route == RoutesNames.auth &&
                             context.mounted &&
-                            Hive.box(HiveStrings.userBox).containsKey(HiveStrings.invite)) {
-                          final bool isSucces = await context.read<AuthCubit>().incrementInvites(
-                                widget.phone,
-                                Hive.box(HiveStrings.userBox).get(HiveStrings.invite),
-                              );
+                            Hive.box(HiveStrings.userBox)
+                                .containsKey(HiveStrings.invite)) {
+                          final bool isSucces =
+                              await context.read<AuthCubit>().incrementInvites(
+                                    widget.phone,
+                                    Hive.box(HiveStrings.userBox)
+                                        .get(HiveStrings.invite),
+                                  );
                           if (isSucces && context.mounted) {
                             setState(() {
                               isLoading = false;
                             });
                             context.goNamed(
-                              RoutesNames.contactInfo,
+                              RoutesNames.introCatalog,
                               extra: widget.phone,
                             );
                           } else if (context.mounted && route != null) {
@@ -176,8 +182,12 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                             extra: widget.phone,
                           );
                         } else if (context.mounted && isError) {
-                          ApplicationSnackBar.showErrorSnackBar(context, 'Введен неверный код, попробуйте еще раз', 0.9,
-                              const EdgeInsets.symmetric(horizontal: 10), 1);
+                          ApplicationSnackBar.showErrorSnackBar(
+                              context,
+                              'Введен неверный код, попробуйте еще раз',
+                              0.9,
+                              const EdgeInsets.symmetric(horizontal: 10),
+                              1);
                         }
                         setState(() {
                           isLoading = false;
