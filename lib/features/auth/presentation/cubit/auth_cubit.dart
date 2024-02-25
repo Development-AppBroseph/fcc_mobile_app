@@ -39,7 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     try {
       final Response response = await BaseHttpClient.getBody(
-        inviteUrl + username,
+        inviteUrl + username.toUpperCase(),
       );
 
       if (response.statusCode == 200) {

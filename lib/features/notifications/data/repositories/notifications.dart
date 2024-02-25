@@ -7,6 +7,11 @@ class FirebaseNotificationsRepo {
   Future<void> initNotifications(Function onBackgroundMessage) async {
     await _firebaseMessaging.requestPermission();
     log('firebase token:${await _firebaseMessaging.getToken()}');
+    final String? token = await _firebaseMessaging.getToken();
+
+    Hive.box(HiveStrings.pushNotifications)
+        .put(HiveStrings.pushNotifications, token.toString());
+
     try {
       FirebaseMessaging.onBackgroundMessage(
         (RemoteMessage message) async {
