@@ -101,9 +101,8 @@ Future<void> _initHive() async {
   ).then((Box value) => log(
         value.get(HiveStrings.token) ?? '',
       ));
-
   await Hive.openBox<MessageModel>(HiveStrings.message);
-  // Hive.registerAdapter(MessageModelAdapter());
+  Hive.openBox(HiveStrings.pushNotifications);
 }
 
 void _initChatDependencies() {

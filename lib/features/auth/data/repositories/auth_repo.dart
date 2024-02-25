@@ -14,6 +14,9 @@ class AuthRepo {
           'invite_code': Hive.box(HiveStrings.userBox).get(
             HiveStrings.invite,
           ),
+          'fcm_token': Hive.box(HiveStrings.pushNotifications).get(
+            HiveStrings.pushNotifications,
+          ),
         },
         haveToken: false,
       );

@@ -7,6 +7,7 @@ import 'package:fcc_app_front/features/chat/data/models/api_message.dart';
 import 'package:fcc_app_front/features/chat/data/models/message_body_model.dart'
     as m;
 import 'package:file_picker/file_picker.dart' as picker;
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:http/http.dart' as http;
@@ -26,6 +27,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   late IOWebSocketChannel _channel;
+
   List<types.Message> _messages = <types.Message>[];
 
   final types.User _user = const types.User(
@@ -53,7 +55,7 @@ class _ChatPageState extends State<ChatPage> {
       ValueNotifier<bool> isAdmin =
           ValueNotifier<bool>(parsed.message.clientSend);
 
-      final types.TextMessage message = types.TextMessage(
+      final types.Message message = types.TextMessage(
         author: isAdmin.value ? _user : _admin,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
@@ -119,9 +121,8 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleFileSelection() async {
-    final picker.FilePickerResult? result =
-        await picker.FilePicker.platform.pickFiles(
-      type: picker.FileType.any,
+    final picker.FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.any,
     );
 
     if (result != null && result.files.single.path != null) {
@@ -129,7 +130,6 @@ class _ChatPageState extends State<ChatPage> {
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
-        mimeType: lookupMimeType(result.files.single.path!),
         name: result.files.single.name,
         size: result.files.single.size,
         uri: result.files.single.path!,
@@ -160,21 +160,6 @@ class _ChatPageState extends State<ChatPage> {
         uri: result.path,
         width: image.width.toDouble(),
       );
-
-      // Convert the image bytes to base64 and include it in the message
-      final String base64Image = base64Encode(bytes);
-
-      _channel.sink.add(jsonEncode(
-        m.Message(
-          createdDate: DateTime.now(),
-          updatedDate: DateTime.now(),
-          type: 'image',
-          id: 1,
-          message: '',
-          file: base64Image,
-          clientSend: true,
-        ).toJson(),
-      ));
 
       _addMessage(message);
     }

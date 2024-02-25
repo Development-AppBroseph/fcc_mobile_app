@@ -204,48 +204,72 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                     const SizedBox(
                                       width: 5,
                                     ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        await Clipboard.setData(
-                                          const ClipboardData(
-                                            text: 'https://fcc.i7.kg/',
-                                          ),
-                                        ).then(
-                                          (_) {
-                                            showErrorSnackbar(
-                                              context,
-                                              'Cкопирован в буфер обмена',
-                                            );
-                                          },
-                                        );
+                                    BlocBuilder<AuthCubit, AuthState>(
+                                      builder: (BuildContext context,
+                                          AuthState state) {
+                                        if (state is Unauthenticated) {
+                                          return const SizedBox();
+                                        }
+                                        if (state is Authenticated) {
+                                          return GestureDetector(
+                                            onTap: () async {
+                                              await Clipboard.setData(
+                                                ClipboardData(
+                                                  text: state.user
+                                                          .invitationCode ??
+                                                      '',
+                                                ),
+                                              ).then(
+                                                (_) {
+                                                  showErrorSnackbar(
+                                                    context,
+                                                    'Cкопирован в буфер обмена',
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/copy.svg',
+                                              colorFilter: ColorFilter.mode(
+                                                Theme.of(context).canvasColor,
+                                                BlendMode.srcIn,
+                                              ),
+                                              height: 18,
+                                            ),
+                                          );
+                                        }
+                                        return const SizedBox();
                                       },
-                                      child: SvgPicture.asset(
-                                        'assets/copy.svg',
-                                        colorFilter: ColorFilter.mode(
-                                          Theme.of(context).canvasColor,
-                                          BlendMode.srcIn,
-                                        ),
-                                        height: 18,
-                                      ),
                                     ),
                                   ],
                                 ),
                               ),
                               sized40,
-                              CstmBtn(
-                                height: 50,
-                                onTap: () {
-                                  ShareExtend.share(
-                                    'https://fcc.i7.kg/',
-                                    'text',
-                                  );
+                              BlocBuilder<AuthCubit, AuthState>(
+                                builder:
+                                    (BuildContext context, AuthState state) {
+                                  if (state is Unauthenticated) {
+                                    return const SizedBox();
+                                  }
+                                  if (state is Authenticated) {
+                                    return CstmBtn(
+                                      height: 50,
+                                      onTap: () {
+                                        ShareExtend.share(
+                                          state.user.invitationCode ?? '',
+                                          'text',
+                                        );
+                                      },
+                                      text: 'Поделиться  кодом',
+                                      alignment: MainAxisAlignment.center,
+                                      iconPath: 'assets/send.svg',
+                                      textColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      color: Theme.of(context).canvasColor,
+                                    );
+                                  }
+                                  return const SizedBox();
                                 },
-                                text: 'Поделиться  кодом',
-                                alignment: MainAxisAlignment.center,
-                                iconPath: 'assets/send.svg',
-                                textColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                color: Theme.of(context).canvasColor,
                               ),
                               sized10,
                             ],
