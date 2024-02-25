@@ -42,8 +42,8 @@ class AppSettingsPage extends StatelessWidget {
                           MembershipType.standard,
                         );
                   }
-                  context.goNamed(
-                    RoutesNames.menu,
+                  context.go(
+                    Routes.login,
                   );
                 },
                 iconPath: 'assets/logout.svg',

@@ -159,7 +159,7 @@ class AuthCubit extends Cubit<AuthState> {
         return route;
       } else {
         if (await AuthRepo.verify(phone, code)) {
-          return RoutesNames.auth;
+          return RoutesNames.menu;
         }
       }
     } catch (e) {

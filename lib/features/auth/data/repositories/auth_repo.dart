@@ -11,6 +11,9 @@ class AuthRepo {
         'api/v1/users/auth/register/',
         <String, String>{
           'phone_number': phoneNumber,
+          'invite_code': Hive.box(HiveStrings.userBox).get(
+            HiveStrings.invite,
+          ),
         },
         haveToken: false,
       );
@@ -127,7 +130,8 @@ class AuthRepo {
 
   static Future<bool> archiveAccount() async {
     try {
-      http.Response response = await BaseHttpClient.getBody('api/v1/users/auth/archive_account/',
+      http.Response response = await BaseHttpClient.getBody(
+          'api/v1/users/auth/archive_account/',
           headers: BaseHttpClient.getDefaultHeader());
       log(
         utf8.decode(
