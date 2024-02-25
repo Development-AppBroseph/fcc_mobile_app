@@ -86,7 +86,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                       if (controller.text == '') {
                         ApplicationSnackBar.showErrorSnackBar(
                           context,
-                          'Имя пользователя не может быть пустым',
+                          'Инвайт код не может быть пустым',
                           0.9,
                           const EdgeInsets.symmetric(horizontal: 15),
                           3,
