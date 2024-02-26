@@ -3,7 +3,6 @@ const List<String> contentTypes = <String>[
   'rate',
   'terms_and_conditions',
   'license_of_open_source_software',
-  'version',
   'privacy_policy',
 ];
 
@@ -12,7 +11,6 @@ enum ContentTypeEnum {
   rate,
   termsAndConditions,
   licenseOfOpenSourceSoftware,
-  version,
   privacyPolicy,
 }
 

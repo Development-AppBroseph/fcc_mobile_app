@@ -262,17 +262,6 @@ final GoRouter router = GoRouter(
                     );
                   },
                 ),
-                GoRoute(
-                  path: Routes.version,
-                  name: RoutesNames.version,
-                  pageBuilder: (BuildContext context, GoRouterState state) {
-                    return buildPageWithDefaultTransition<void>(
-                      context: context,
-                      state: state,
-                      child: const VersionPage(),
-                    );
-                  },
-                ),
               ],
             ),
             GoRoute(
