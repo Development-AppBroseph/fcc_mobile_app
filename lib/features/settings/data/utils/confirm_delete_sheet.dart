@@ -46,13 +46,13 @@ void showConfirmDeleteDialog(
                 top: 30,
               ),
               onTap: () async {
-                final Future<bool> result = context.read<AuthCubit>().archiveAccount();
+                final Future<bool> result =
+                    context.read<AuthCubit>().archiveAccount();
                 if (await result) {
                   if (context.mounted) {
-                    canPopThenPop(context);
+                    context.go(Routes.unauthenticatedInvite);
                   }
                 }
-                // context.go(RoutesNames.unauthenticatedInvite);
               },
               text: 'Удалить аккаунт',
               color: Theme.of(context).hintColor.withOpacity(0.1),
