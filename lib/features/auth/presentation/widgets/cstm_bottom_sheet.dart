@@ -6,8 +6,10 @@ class CstmBtmSheet extends StatefulWidget {
   const CstmBtmSheet({
     required this.phone,
     Key? key,
+    required this.isRegistration,
   }) : super(key: key);
   final String phone;
+  final bool isRegistration;
   @override
   State<CstmBtmSheet> createState() => _CstmBtmSheetState();
 }
@@ -137,6 +139,16 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                           const SizedBox.shrink(),
                       showCursor: true,
                       onCompleted: (String pin) async {
+                        if (widget.isRegistration) {
+                          ApplicationSnackBar.showErrorSnackBar(
+                            context,
+                            'Вы успешно зарегистрировались. Пожалуйста, авторизуйтесь',
+                            2,
+                            const EdgeInsets.symmetric(horizontal: 10),
+                            2,
+                            false,
+                          );
+                        }
                         setState(() {
                           isLoading = true;
                         });

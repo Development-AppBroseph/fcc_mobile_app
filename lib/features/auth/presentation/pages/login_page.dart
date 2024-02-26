@@ -123,19 +123,20 @@ class _LoginPageState extends State<LoginPage> {
                         setState(() {
                           isLoading = true;
                         });
-                        final bool isSuccess =
+                        final (bool, bool) isSuccess =
                             await context.read<AuthCubit>().createUserSendCode(
                                   maskFormatter
                                       .getMaskedText()
                                       .replaceAll(' ', '')
                                       .replaceAll('-', ''),
                                 );
-                        if (isSuccess && context.mounted) {
+                        if (isSuccess.$1 && context.mounted) {
                           showCupertinoModalBottomSheet(
                             context: context,
                             expand: true,
                             builder: (BuildContext context) {
                               return CstmBtmSheet(
+                                isRegistration: isSuccess.$2,
                                 phone: maskFormatter
                                     .getMaskedText()
                                     .replaceAll(' ', '')

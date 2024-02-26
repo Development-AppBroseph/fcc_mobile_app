@@ -44,7 +44,6 @@ export 'package:fcc_app_front/features/fcc_settings/data/utils/launch_store.dart
 export 'package:fcc_app_front/features/fcc_settings/presentation/cubit/content_cubit.dart';
 export 'package:fcc_app_front/features/fcc_settings/presentation/pages/fcc_data.dart';
 export 'package:fcc_app_front/features/fcc_settings/presentation/pages/fsc_settings_page.dart';
-export 'package:fcc_app_front/features/fcc_settings/presentation/pages/version.dart';
 export 'package:fcc_app_front/features/fcc_settings/presentation/widgets/fsc_setting_button.dart';
 export 'package:fcc_app_front/features/invite/data/models/invitation.dart';
 export 'package:fcc_app_front/features/invite/presentation/cubit/invitation_cubit.dart';

@@ -15,11 +15,7 @@ class FscSettingsPageButton extends StatelessWidget {
       child: FillBtn(
         text: setting.title,
         onTap: () async {
-          if (setting.type == ContentTypeEnum.version) {
-            context.pushNamed(
-              RoutesNames.version,
-            );
-          } else if (setting.type == ContentTypeEnum.rate) {
+          if (setting.type == ContentTypeEnum.rate) {
             launchStore();
           } else {
             context.pushNamed(

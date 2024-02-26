@@ -20,7 +20,7 @@ class FscDataPage extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                     vertical: 20.h,
                   ),
-                  child: CustomBackButton(),
+                  child: const CustomBackButton(),
                 ),
                 sized10,
                 Text(
@@ -30,7 +30,7 @@ class FscDataPage extends StatelessWidget {
                       ),
                 ),
                 sized30,
-                Text(
+                AutoSizeText(
                   data.value,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
