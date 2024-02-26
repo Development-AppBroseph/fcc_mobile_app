@@ -8,7 +8,7 @@ class AuthRepo {
   static Future<bool> register(String phoneNumber) async {
     try {
       final Response? response = await BaseHttpClient.post(
-        'api/v1/users/auth/register/',
+        'api/v1/users/auth/regißster/',
         <String, String>{
           'phone_number': phoneNumber,
           'invite_code': Hive.box(HiveStrings.userBox).get(
