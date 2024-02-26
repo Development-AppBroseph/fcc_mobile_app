@@ -600,12 +600,14 @@ final GoRouter router = GoRouter(
         final Map<String, dynamic> data = state.extra as Map<String, dynamic>;
         final String url = data['paymentUrl'] as String;
         final String phone = data['phone'] as String;
+        final Function onComplete = data['onComplete'] as Function;
         return buildPageWithDefaultTransition<void>(
           context: context,
           state: state,
           child: WebCheckoutPage(
             url: url,
             phone: phone,
+            onComplete: onComplete,
           ),
         );
       },
