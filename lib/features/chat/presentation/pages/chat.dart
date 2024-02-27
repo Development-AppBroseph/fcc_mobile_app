@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 import 'dart:ui' as ui show Image;
@@ -10,6 +11,7 @@ import 'package:file_picker/file_picker.dart' as picker;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
@@ -55,16 +57,28 @@ class _ChatPageState extends State<ChatPage> {
       ValueNotifier<bool> isAdmin =
           ValueNotifier<bool>(parsed.message.clientSend);
 
-      final types.Message message = types.TextMessage(
-        author: isAdmin.value ? _user : _admin,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: const Uuid().v4(),
-        text: parsed.message.message,
-      );
-      _addMessage(message);
+      log(parsed.toJson().toString());
 
-      if (!isAdmin.value) {
-        NotificationApi.pushLocaleNotification('ФКК', parsed.message.message);
+      if (parsed.message.type == 'file') {
+        _addMessage(
+          types.FileMessage(
+            author: isAdmin.value ? _user : _admin,
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            id: const Uuid().v4(),
+            mimeType: '',
+            name: parsed.message.file.toString().split('/').last,
+            size: 28,
+            uri: baseUrl + parsed.message.file,
+          ),
+        );
+      } else {
+        final types.Message message = types.TextMessage(
+          author: isAdmin.value ? _user : _admin,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: const Uuid().v4(),
+          text: parsed.message.message ?? '',
+        );
+        _addMessage(message);
       }
     });
 
@@ -126,43 +140,62 @@ class _ChatPageState extends State<ChatPage> {
     );
 
     if (result != null && result.files.single.path != null) {
-      final types.FileMessage message = types.FileMessage(
+      final Uint8List s =
+          File(result.files.single.path ?? '').readAsBytesSync();
+
+      final Uri a = Uri.dataFromBytes(s,
+          mimeType: lookupMimeType(result.files.single.path!) ?? '');
+
+      log(a.toString());
+      types.FileMessage(
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
+        mimeType: lookupMimeType(result.files.single.path!),
         name: result.files.single.name,
         size: result.files.single.size,
         uri: result.files.single.path!,
       );
-
-      _addMessage(message);
+      _channel.sink.add(
+        jsonEncode(
+          <String, Object>{
+            'file': a.toString(),
+            'format': result.files.single.name.split('.').last,
+            'filename': result.files.single.name.split('.').first
+          },
+        ),
+      );
     }
   }
 
   void _handleImageSelection() async {
     final XFile? result = await ImagePicker().pickImage(
-      imageQuality: 70,
-      maxWidth: 1440,
       source: ImageSource.gallery,
+      imageQuality: 10,
+      maxHeight: 600,
+      maxWidth: 900,
+    );
+    final Uint8List s = File(result!.path).readAsBytesSync();
+    // final String res = base64Encode(s);
+
+    final Uint8List bytes = await result.readAsBytes();
+    Uint8List compressed = await FlutterImageCompress.compressWithList(
+      s,
+      minHeight: 600,
+      minWidth: 400,
+      quality: 10,
+      rotate: 0,
     );
 
-    if (result != null) {
-      final Uint8List bytes = await result.readAsBytes();
-      final ui.Image image = await decodeImageFromList(bytes);
+    final Uri a = Uri.dataFromBytes(compressed,
+        mimeType: lookupMimeType(result.path) ?? '');
+    log('Here is from Uri${a.toString()}');
 
-      final types.ImageMessage message = types.ImageMessage(
-        author: _user,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        height: image.height.toDouble(),
-        id: const Uuid().v4(),
-        name: result.name,
-        size: bytes.length,
-        uri: result.path,
-        width: image.width.toDouble(),
-      );
-
-      _addMessage(message);
-    }
+    _channel.sink.add(jsonEncode(<String, Object>{
+      'file': a.toString(),
+      'format': result.name.split('.').last,
+      'filename': result.name.split('.').first
+    }));
   }
 
   void _handleMessageTap(BuildContext _, types.Message message) async {
@@ -238,16 +271,9 @@ class _ChatPageState extends State<ChatPage> {
     //   ).toJson(),
     // );
     // print(result);
-    _channel.sink.add(jsonEncode(
-      m.Message(
-        file: null,
-        createdDate: DateTime.now(),
-        updatedDate: DateTime.now(),
-        type: 'text',
-        message: message.text,
-        clientSend: true,
-      ).toJson(),
-    ));
+    _channel.sink.add(jsonEncode(<String, Object>{
+      'message': message.text,
+    }));
   }
 
   void _loadMessages() async {
@@ -264,12 +290,24 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {});
     _messages = messages
         .map(
-          (ApiMessage e) => types.TextMessage(
-            createdAt: int.tryParse(e.createdDate ?? ''),
-            id: e.id.toString(),
-            text: e.message ?? '',
-            author: e.clientSend == true ? _user : _admin,
-          ),
+          (ApiMessage e) {
+            if (e.type != null && e.type == 'file') {
+              return types.FileMessage(
+                size: 28,
+                name: e.file?.split('/').last ?? '',
+                uri: e.file ?? '',
+                createdAt: int.tryParse(e.created_date ?? ''),
+                id: e.id.toString(),
+                author: e.clientSend == true ? _user : _admin,
+              );
+            }
+            return types.TextMessage(
+              createdAt: int.tryParse(e.created_date ?? ''),
+              id: e.id.toString(),
+              text: e.message ?? '',
+              author: e.clientSend == true ? _user : _admin,
+            );
+          },
         )
         .toList()
         .reversed
