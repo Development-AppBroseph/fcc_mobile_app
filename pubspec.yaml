@@ -58,6 +58,7 @@ dependencies:
   flutter_chat_ui: ^1.6.12
   image_picker: ^1.0.7
   open_filex: ^4.4.0
+  flutter_image_compress: ^2.1.0
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"

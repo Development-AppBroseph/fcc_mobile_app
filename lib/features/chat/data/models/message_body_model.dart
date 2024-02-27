@@ -33,7 +33,7 @@ class MessageModel {
 
 class Message {
   final int? id;
-  final String message;
+  final String? message;
   final dynamic file;
   final bool clientSend;
   final String type;

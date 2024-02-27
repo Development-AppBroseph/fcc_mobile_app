@@ -89,7 +89,11 @@ class _MainScaffoldState extends State<MainScaffold> {
           ValueNotifier<bool>(parsed.message.clientSend);
 
       if (!isAdmin.value) {
-        NotificationApi.pushLocaleNotification('ФКК', parsed.message.message);
+        NotificationApi.pushLocaleNotification(
+          'ФКК',
+          parsed.message.message ??
+              parsed.message.file.toString().split('/').last,
+        );
       }
     });
   }

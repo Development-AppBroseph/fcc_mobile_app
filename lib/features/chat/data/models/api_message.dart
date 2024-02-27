@@ -2,54 +2,60 @@ class ApiMessage {
   int? id;
   String? message;
   bool? clientSend;
-  String? photo;
-  String? createdDate;
-  String? updatedDate;
+  String? file;
+  String? created_date;
+  String? updated_date;
+  String? type;
 
   ApiMessage({
+    this.type,
     this.id,
     this.message,
     this.clientSend,
-    this.photo,
-    this.createdDate,
-    this.updatedDate,
+    this.file,
+    this.created_date,
+    this.updated_date,
   });
 
   ApiMessage.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    type = json['type'];
     message = json['message'];
     clientSend = json['client_send'];
-    photo = json['photo'];
-    createdDate = json['created_date'];
-    updatedDate = json['updated_date'];
+    file = json['file'];
+    created_date = json['created_date'];
+    updated_date = json['updated_date'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['type'] = type;
     data['message'] = message;
     data['client_send'] = clientSend;
-    data['photo'] = photo;
-    data['created_date'] = createdDate;
-    data['updated_date'] = updatedDate;
+    data['file'] = file;
+    data['created_date'] = created_date;
+    data['updated_date'] = updated_date;
     return data;
   }
 
   ApiMessage copyWith({
     int? id,
+    String? type,
     String? message,
     bool? clientSend,
-    String? photo,
-    String? createdDate,
-    String? updatedDate,
+    String? file,
+    String? created_date,
+    String? updated_date,
   }) {
     return ApiMessage(
+      type: type ?? this.type,
       id: id ?? this.id,
       message: message ?? this.message,
       clientSend: clientSend ?? this.clientSend,
-      photo: photo ?? this.photo,
-      createdDate: createdDate ?? this.createdDate,
-      updatedDate: updatedDate ?? this.updatedDate,
+      file: file ?? this.file,
+      created_date: created_date ?? this.created_date,
+      updated_date: updated_date ?? this.updated_date,
     );
   }
 
@@ -65,14 +71,14 @@ class ApiMessage {
     if (clientSend != null) {
       result.addAll(<String, dynamic>{'clientSend': clientSend});
     }
-    if (photo != null) {
-      result.addAll(<String, dynamic>{'photo': photo});
+    if (file != null) {
+      result.addAll(<String, dynamic>{'file': file});
     }
-    if (createdDate != null) {
-      result.addAll(<String, dynamic>{'createdDate': createdDate});
+    if (created_date != null) {
+      result.addAll(<String, dynamic>{'created_date': created_date});
     }
-    if (updatedDate != null) {
-      result.addAll(<String, dynamic>{'updatedDate': updatedDate});
+    if (updated_date != null) {
+      result.addAll(<String, dynamic>{'updated_date': updated_date});
     }
 
     return result;
@@ -81,16 +87,17 @@ class ApiMessage {
   factory ApiMessage.fromMap(Map<String, dynamic> map) {
     return ApiMessage(
       id: map['id']?.toInt(),
+      type: map['type'],
       message: map['message'],
       clientSend: map['client_send'],
-      photo: map['photo'],
-      createdDate: map['createdDate'],
-      updatedDate: map['updatedDate'],
+      file: map['file'],
+      created_date: map['created_date'],
+      updated_date: map['updated_date'],
     );
   }
 
   @override
   String toString() {
-    return 'ApiMessage(id: $id, message: $message, clientSend: $clientSend, photo: $photo, createdDate: $createdDate, updatedDate: $updatedDate)';
+    return 'ApiMessage(id: $id, message: $message, clientSend: $clientSend, file: $file, created_date: $created_date, updated_date: $updated_date,type: $type)';
   }
 }
