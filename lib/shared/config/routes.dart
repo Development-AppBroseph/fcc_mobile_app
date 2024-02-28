@@ -577,7 +577,7 @@ final GoRouter router = GoRouter(
             context: context,
             state: state,
             child: ProductDetails(
-              model: state.extra as ProductModel,
+              model: state.extra as ProductModel?,
             ));
       },
     ),

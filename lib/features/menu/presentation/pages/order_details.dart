@@ -1,7 +1,7 @@
 import 'package:fcc_app_front/export.dart';
 
 class OrderDetails extends StatelessWidget {
-  final OrderModel order;
+  final OrderModel? order;
 
   const OrderDetails({required this.order, super.key});
 
@@ -21,7 +21,7 @@ class OrderDetails extends StatelessWidget {
             ),
             sized30,
             Text(
-              "Заказ от ${DateFormat('dd.MM.yyyy').format(order.createdAt)}",
+              "Заказ от ${DateFormat('dd.MM.yyyy').format(order?.createdAt ?? DateTime.now())}",
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w400,
                   ),
@@ -49,7 +49,7 @@ class OrderDetails extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  order.status,
+                  order?.status ?? '',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 12,
                       ),
@@ -80,7 +80,7 @@ class OrderDetails extends StatelessWidget {
                 ),
                 Text(
                   DateFormat('dd.MM.yyyy').format(
-                    order.createdAt,
+                    order?.createdAt ?? DateTime.now(),
                   ),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 12,
@@ -97,10 +97,10 @@ class OrderDetails extends StatelessWidget {
             ),
 
             sized20,
-            Text(order.deliveryPoint?.address ?? ''),
+            Text(order?.deliveryPoint?.address ?? ''),
 
             Text(
-              order.pickupAddress,
+              order?.pickupAddress ?? '',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w400,
                     fontSize: 12,
