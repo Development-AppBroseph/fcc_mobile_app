@@ -29,13 +29,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
   );
   String? validateMobile() {
     final String value = maskFormatter.getMaskedText();
-    String patttern =
-        r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)';
-    RegExp regExp = RegExp(patttern);
     if (value.isEmpty) {
       return 'Пожалуйста, введите номер мобильного телефона';
-    } else if (!regExp.hasMatch(value)) {
-      return 'Пожалуйста, введите действительный номер мобильного телефона';
     }
     return null;
   }
@@ -341,9 +336,12 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                 }
                               } catch (e) {
                                 if (e is OrderException && context.mounted) {
-                                  showErrorSnackbar(
+                                  ApplicationSnackBar.showErrorSnackBar(
                                     context,
                                     'Bы уже оформили заказ в этом месяце',
+                                    0.9,
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                    1,
                                   );
                                 }
                               }
