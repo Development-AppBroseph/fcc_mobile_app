@@ -33,12 +33,7 @@ class _CatalogMenuState extends State<CatalogMenu> {
         BlocProvider(
           create: (BuildContext context) => SearchCubit(),
         ),
-        BlocProvider(
-          create: (BuildContext context) => ProductCubit()
-            ..load(
-              isPublic: true,
-            ),
-        ),
+        BlocProvider(create: (BuildContext context) => ProductCubit()),
         BlocProvider(
           create: (BuildContext context) => CatalogCubit()
             ..load(
@@ -64,11 +59,13 @@ class _CatalogMenuState extends State<CatalogMenu> {
                         const CustomBackButton(),
                         sized20,
                         Text(
-                          membershipNames[widget.type]?.toUpperCase() ?? membershipNames.values.first.toUpperCase(),
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontSize: 26,
-                                fontWeight: FontWeight.w700,
-                              ),
+                          membershipNames[widget.type]?.toUpperCase() ??
+                              membershipNames.values.first.toUpperCase(),
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                         ),
                         sized20,
                         Container(
@@ -80,15 +77,19 @@ class _CatalogMenuState extends State<CatalogMenu> {
                           alignment: Alignment.centerLeft,
                           child: TextField(
                             textAlignVertical: TextAlignVertical.center,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                             decoration: InputDecoration(
                               isDense: true,
                               contentPadding: const EdgeInsets.all(0),
                               hintText: 'Поиск',
-                              hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -126,9 +127,12 @@ class _CatalogMenuState extends State<CatalogMenu> {
                             ),
                             sliver: LiveSliverList(
                               controller: _scrollController,
-                              showItemInterval: const Duration(milliseconds: 150),
-                              showItemDuration: const Duration(milliseconds: 200),
-                              itemBuilder: (BuildContext context, int index, Animation<double> animation) =>
+                              showItemInterval:
+                                  const Duration(milliseconds: 150),
+                              showItemDuration:
+                                  const Duration(milliseconds: 200),
+                              itemBuilder: (BuildContext context, int index,
+                                      Animation<double> animation) =>
                                   FadeTransition(
                                 opacity: Tween<double>(
                                   begin: 0,
@@ -147,8 +151,12 @@ class _CatalogMenuState extends State<CatalogMenu> {
                                         RoutesNames.catalogProductMenu,
                                         extra: MultipleCubits(
                                           cubits: <String, Cubit<Equatable>>{
-                                            'productCubit': BlocProvider.of<ProductCubit>(context),
-                                            'catalogCubit': BlocProvider.of<CatalogCubit>(context),
+                                            'productCubit':
+                                                BlocProvider.of<ProductCubit>(
+                                                    context),
+                                            'catalogCubit':
+                                                BlocProvider.of<CatalogCubit>(
+                                                    context),
                                           },
                                         ),
                                         pathParameters: <String, String>{

@@ -43,13 +43,13 @@ void main() {
             create: (BuildContext context) => SelectedMembershipCubit(),
           ),
           BlocProvider<CatalogCubit>(
-            create: (BuildContext context) => CatalogCubit()..load(),
+            create: (BuildContext context) => CatalogCubit(),
           ),
           BlocProvider<SearchCubit>(
             create: (BuildContext context) => SearchCubit(),
           ),
           BlocProvider<ProductCubit>(
-            create: (BuildContext context) => ProductCubit()..load(),
+            create: (BuildContext context) => ProductCubit(),
           ),
           BlocProvider<SelectedProductsCubit>(
             create: (BuildContext context) => SelectedProductsCubit(),

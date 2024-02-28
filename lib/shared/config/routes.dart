@@ -130,7 +130,7 @@ final GoRouter router = GoRouter(
               return buildPageWithDefaultTransition<void>(
                 context: context,
                 state: state,
-                child: const Menu(),
+                child: Menu(catalogId: state.extra as String? ?? ''),
               );
             },
             routes: <RouteBase>[

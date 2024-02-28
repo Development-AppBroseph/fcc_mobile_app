@@ -1,8 +1,10 @@
 import 'package:fcc_app_front/export.dart';
 
 class Menu extends StatefulWidget {
+  final String? catalogId;
   const Menu({
     Key? key,
+    required this.catalogId,
   }) : super(key: key);
   @override
   State<Menu> createState() => _MenuState();
@@ -16,9 +18,9 @@ class _MenuState extends State<Menu> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       if (context.read<CatalogCubit>().state.catalogs.isEmpty) {
-        context.read<CatalogCubit>().load(
-              isPublic: context.read<AuthCubit>().state is Unauthenticated,
-            );
+        context
+            .read<CatalogCubit>()
+            .getUnAuthenticatedCatalogsByMembershipId(widget.catalogId ?? '');
       }
     });
   }
@@ -43,32 +45,47 @@ class _MenuState extends State<Menu> {
                 top: 20.h,
               ),
               child: BlocBuilder<SelectedMembershipCubit, MembershipType?>(
-                builder: (BuildContext context, MembershipType? selectedMembership) {
+                builder:
+                    (BuildContext context, MembershipType? selectedMembership) {
                   return CustomScrollView(
                     slivers: <Widget>[
                       SliverToBoxAdapter(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            selectedMembership != null && context.watch<AuthCubit>().state is Unauthenticated
+                            selectedMembership != null &&
+                                    context.watch<AuthCubit>().state
+                                        is Unauthenticated
                                 ? Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       CustomBackButton(
                                         path: RoutesNames.introCatalog,
                                       ),
                                       sized10,
                                       Text(
-                                        membershipNames[MembershipType.values.any((MembershipType element) {
-                                              return element == selectedMembership;
+                                        membershipNames[MembershipType.values
+                                                        .any((MembershipType
+                                                            element) {
+                                              return element ==
+                                                  selectedMembership;
                                             })
-                                                    ? MembershipType.values.firstWhereOrNull((MembershipType element) {
-                                                        return element == selectedMembership;
+                                                    ? MembershipType.values
+                                                        .firstWhereOrNull(
+                                                            (MembershipType
+                                                                element) {
+                                                        return element ==
+                                                            selectedMembership;
                                                       })
                                                     : null]
                                                 ?.toUpperCase() ??
-                                            membershipNames.values.first.toUpperCase(),
-                                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                            membershipNames.values.first
+                                                .toUpperCase(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge
+                                            ?.copyWith(
                                               fontSize: 26,
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -86,7 +103,10 @@ class _MenuState extends State<Menu> {
                               alignment: Alignment.centerLeft,
                               child: TextField(
                                 textAlignVertical: TextAlignVertical.center,
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 11,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -94,7 +114,10 @@ class _MenuState extends State<Menu> {
                                   isDense: true,
                                   contentPadding: const EdgeInsets.all(0),
                                   hintText: 'Поиск',
-                                  hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
                                         fontSize: 11,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -117,47 +140,67 @@ class _MenuState extends State<Menu> {
                       ),
                       BlocListener<AuthCubit, AuthState>(
                         listener: (BuildContext context, AuthState state) {
-                          context.read<CatalogCubit>().load(
-                                isPublic: context.read<AuthCubit>().state is Unauthenticated,
-                              );
+                          context
+                              .read<CatalogCubit>()
+                              .getUnAuthenticatedCatalogsByMembershipId(
+                                  widget.catalogId ?? '');
                         },
                         child: BlocProvider(
                           create: (BuildContext context) => SearchCubit(),
                           child: BlocBuilder<SearchCubit, String?>(
                             builder: (BuildContext context, String? query) {
                               return BlocBuilder<CatalogCubit, CatalogState>(
-                                builder: (BuildContext context, CatalogState state) {
-                                  final AuthState authState = context.watch<AuthCubit>().state;
-                                  final List<CatalogModel> catalogs = searchCatalog(
+                                builder:
+                                    (BuildContext context, CatalogState state) {
+                                  final AuthState authState =
+                                      context.watch<AuthCubit>().state;
+                                  final List<CatalogModel> catalogs =
+                                      searchCatalog(
                                     query,
                                     getCatalogByMembership(
                                       state.catalogs,
                                       selectedMembership != null &&
-                                              MembershipType.values
-                                                  .any((MembershipType element) => element == selectedMembership) &&
+                                              MembershipType.values.any(
+                                                  (MembershipType element) =>
+                                                      element ==
+                                                      selectedMembership) &&
                                               authState is Unauthenticated
-                                          ? MembershipType.values.firstWhereOrNull(
-                                              (MembershipType element) => element == selectedMembership)
+                                          ? MembershipType.values
+                                              .firstWhereOrNull(
+                                                  (MembershipType element) =>
+                                                      element ==
+                                                      selectedMembership)
                                           : authState is Authenticated &&
-                                                  MembershipType.values.any((MembershipType element) {
-                                                    return element.name == authState.user.membership;
+                                                  MembershipType.values.any(
+                                                      (MembershipType element) {
+                                                    return element.name ==
+                                                        authState
+                                                            .user.membership;
                                                   })
-                                              ? MembershipType.values.firstWhereOrNull(
-                                                  (MembershipType element) => element.name == authState.user.membership,
+                                              ? MembershipType.values
+                                                  .firstWhereOrNull(
+                                                  (MembershipType element) =>
+                                                      element.name ==
+                                                      authState.user.membership,
                                                 )
                                               : null,
                                     ),
                                   );
-                                  if (authState is Authenticated && authState.user.membership == 'no membership') {
+                                  if (authState is Authenticated &&
+                                      authState.user.membership ==
+                                          'no membership') {
                                     return SliverToBoxAdapter(
                                       child: SizedBox(
                                         height: 400.h,
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: <Widget>[
                                             Text(
                                               'Пожалуйста выберите план для подписки',
-                                              style: Theme.of(context).textTheme.bodyMedium,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
                                               textAlign: TextAlign.center,
                                             ),
                                             sized30,
@@ -169,7 +212,8 @@ class _MenuState extends State<Menu> {
                                                   );
                                                   context.pushNamed(
                                                     RoutesNames.changePlan,
-                                                    extra: authState.user.phoneNumber,
+                                                    extra: authState
+                                                        .user.phoneNumber,
                                                   );
                                                 }),
                                           ],
@@ -183,8 +227,10 @@ class _MenuState extends State<Menu> {
                                     ),
                                     sliver: LiveSliverList(
                                       controller: _scrollController,
-                                      showItemInterval: const Duration(milliseconds: 150),
-                                      showItemDuration: const Duration(milliseconds: 200),
+                                      showItemInterval:
+                                          const Duration(milliseconds: 150),
+                                      showItemDuration:
+                                          const Duration(milliseconds: 200),
                                       itemBuilder: (
                                         BuildContext context,
                                         int index,
@@ -206,8 +252,11 @@ class _MenuState extends State<Menu> {
                                               function: () {
                                                 context.pushNamed(
                                                   RoutesNames.productMenu,
-                                                  pathParameters: <String, String>{
-                                                    'id': catalogs[index].id.toString(),
+                                                  pathParameters: <String,
+                                                      String>{
+                                                    'id': catalogs[index]
+                                                        .id
+                                                        .toString(),
                                                   },
                                                 );
                                               },

@@ -10,21 +10,21 @@ class CatalogCubit extends Cubit<CatalogState> {
   void load({
     bool isPublic = false,
   }) async {
-    final List<CatalogModel> catalogs = await CatalogRepo.getCatalogs(
-      isPublic: isPublic,
-    );
-    emit(state.copyWith(catalogs: catalogs));
+    // final List<CatalogModel> catalogs = await CatalogRepo.getCatalogs(
+    //   isPublic: isPublic,
+    // );
+    // emit(state.copyWith(catalogs: catalogs));
   }
 
   void loadPublic() async {
-    final List<CatalogModel> catalogs = await CatalogRepo.getCatalogs(
-      isPublic: true,
-    );
-    emit(
-      CatalogState(
-        catalogs,
-      ),
-    );
+    // final List<CatalogModel> catalogs = await CatalogRepo.getCatalogs(
+    //   isPublic: true,
+    // );
+    // emit(
+    //   CatalogState(
+    //     catalogs,
+    //   ),
+    // );
   }
 
   CatalogModel getById(String id) {
@@ -33,5 +33,15 @@ class CatalogCubit extends Cubit<CatalogState> {
         return element.id.toString() == id;
       },
     );
+  }
+
+  Future<void> getUnAuthenticatedCatalogsByMembershipId(
+    String membershipId,
+  ) async {
+    final List<CatalogModel> catalogs = await CatalogRepo.getCatalogs(
+      catalogId: membershipId,
+    );
+
+    emit(state.copyWith(catalogs: catalogs));
   }
 }
