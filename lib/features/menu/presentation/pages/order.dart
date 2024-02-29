@@ -38,7 +38,7 @@ class _OrderState extends State<Order> {
                                   BuildContext context,
                                   int index,
                                 ) {
-                                  final OrderModel order = state.orders[index];
+                                  final OrderModel order = state.orders.last;
                                   return Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -65,12 +65,18 @@ class _OrderState extends State<Order> {
                                           child: SizedBox(
                                             height: size.height / 8.h,
                                             child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Card(
                                                   elevation: 0.1,
                                                   clipBehavior: Clip.antiAlias,
                                                   child: Image.network(
-                                                    'https://jebnalak.com/cdn/shop/files/blackfridayoffers-2023-09-18T181755.672_800x.png?v=1695050282',
+                                                    order.orderItems[index]
+                                                        .productPhoto,
+                                                    height: 100.h,
+                                                    width: 100.w,
+                                                    fit: BoxFit.fill,
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -83,10 +89,12 @@ class _OrderState extends State<Order> {
                                                       MainAxisAlignment
                                                           .spaceEvenly,
                                                   children: <Widget>[
-                                                    Text(order.orderItems[index]
-                                                        .productName),
                                                     Text(
                                                       '№ ${order.id}',
+                                                    ),
+                                                    Text(
+                                                      order.orderItems[index]
+                                                          .productName,
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodySmall,

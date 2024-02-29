@@ -12,8 +12,10 @@ class OrderModel {
   final DeliveryPoint? deliveryPoint;
   final DateTime createdAt;
   final String status;
+  final String trackNumber;
 
   OrderModel({
+    required this.trackNumber,
     required this.deliveryStatus,
     this.deliveryPoint,
     required this.status,
@@ -31,6 +33,7 @@ class OrderModel {
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
+      trackNumber: json['track_number'] ?? '',
       deliveryStatus: json['delivery_status'] ?? '',
       deliveryPoint: DeliveryPoint.fromJson(json['delivery_point']),
       status: json['status'] ?? '',
@@ -55,8 +58,10 @@ class OrderItem {
   final int productId;
   final String productName;
   final int quantity;
+  final String productPhoto;
 
   OrderItem({
+    required this.productPhoto,
     required this.productId,
     required this.productName,
     required this.quantity,
@@ -64,6 +69,7 @@ class OrderItem {
 
   factory OrderItem.fromJson(Map<String, dynamic> json) {
     return OrderItem(
+      productPhoto: json['product_photo'] ?? '',
       productId: json['product'] ?? 0,
       productName: json['product_name'] ?? '',
       quantity: json['quantity'] ?? 0,

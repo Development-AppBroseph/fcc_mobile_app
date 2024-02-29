@@ -333,7 +333,7 @@ final GoRouter router = GoRouter(
                     context: context,
                     state: state,
                     child: OrderDetails(
-                      order: state.extra as OrderModel,
+                      order: state.extra as OrderModel?,
                     ),
                   );
                 },

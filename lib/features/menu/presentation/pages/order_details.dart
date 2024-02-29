@@ -7,9 +7,10 @@ class OrderDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -21,49 +22,71 @@ class OrderDetails extends StatelessWidget {
             ),
             sized30,
             Text(
-              "Заказ от ${DateFormat('dd.MM.yyyy').format(order?.createdAt ?? DateTime.now())}",
+              'Заказ №${order?.id}',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w700,
                   ),
             ),
             sized10,
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Статуз заказа',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontSize: 12,
+                  'Статуз: ',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
                       ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Expanded(
-                  child: DottedLine(
-                    dashRadius: 10,
-                    dashColor: hintColor,
-                  ),
                 ),
                 const SizedBox(
                   width: 5,
                 ),
                 Text(
                   order?.status ?? '',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontSize: 12,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
                       ),
                 ),
               ],
             ),
+
             sized10,
+            SizedBox(
+              height: size.height / 6,
+              width: double.infinity,
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                child: CachedNetworkImage(
+                    fadeInCurve: Curves.easeInOutBack,
+                    fit: BoxFit.fitWidth,
+                    imageUrl: order?.orderItems.first.productPhoto ?? ''),
+              ),
+            ),
+
+            sized20,
+            InkWell(
+              hoverColor: Theme.of(context).primaryColor,
+              onTap: () {
+                //TODO navigate to product
+              },
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Перейти к товару'),
+                  Icon(
+                    Icons.arrow_right_alt_outlined,
+                    size: 32,
+                  )
+                ],
+              ),
+            ),
+            sized30,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Доставка в пункт выдачи',
+                  'Количество блоков',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontSize: 12,
+                        fontSize: 14,
                       ),
                 ),
                 const SizedBox(
@@ -79,33 +102,86 @@ class OrderDetails extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  DateFormat('dd.MM.yyyy').format(
-                    order?.createdAt ?? DateTime.now(),
-                  ),
+                  '4',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontSize: 12,
+                        fontSize: 14,
+                      ),
+                ),
+              ],
+            ),
+            sized10,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Статус доставки',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: 14,
+                      ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                const Expanded(
+                  child: DottedLine(
+                    dashRadius: 10,
+                    dashColor: hintColor,
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  order?.deliveryStatus ?? '',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: 14,
+                      ),
+                ),
+              ],
+            ),
+            sized10,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Трек-номер',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: 14,
+                      ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                const Expanded(
+                  child: DottedLine(
+                    dashRadius: 10,
+                    dashColor: hintColor,
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  '№${order?.trackNumber}',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontSize: 14,
                       ),
                 ),
               ],
             ),
             sized30,
+            const Text(
+              'Пункт выдачи',
+            ),
+
+            sized20,
             Text(
-              'Адрес пункта выдачи',
+              order?.deliveryPoint?.address ?? '',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w400,
                   ),
             ),
 
-            sized20,
-            Text(order?.deliveryPoint?.address ?? ''),
-
-            Text(
-              order?.pickupAddress ?? '',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12,
-                  ),
-            ),
             sized10,
             // BlocBuilder<EditingAddress, bool>(
             //   builder: (BuildContext context, bool state) {
