@@ -16,6 +16,9 @@ class _ProductMenuState extends State<ProductMenu> {
   @override
   void initState() {
     super.initState();
+    context
+        .read<ProductCubit>()
+        .getAuthenticatedProductByCatalogId(widget.catalogId);
     _scrollController = ScrollController();
   }
 

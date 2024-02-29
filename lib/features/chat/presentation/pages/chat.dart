@@ -179,16 +179,16 @@ class _ChatPageState extends State<ChatPage> {
     // final String res = base64Encode(s);
 
     final Uint8List bytes = await result.readAsBytes();
-    Uint8List compressed = await FlutterImageCompress.compressWithList(
-      s,
-      minHeight: 600,
-      minWidth: 400,
-      quality: 10,
-      rotate: 0,
-    );
+    // Uint8List compressed = await FlutterImageCompress.compressWithList(
+    //   s,
+    //   minHeight: 600,
+    //   minWidth: 400,
+    //   quality: 10,
+    //   rotate: 0,
+    // );
 
-    final Uri a = Uri.dataFromBytes(compressed,
-        mimeType: lookupMimeType(result.path) ?? '');
+    final Uri a =
+        Uri.dataFromBytes(bytes, mimeType: lookupMimeType(result.path) ?? '');
     log('Here is from Uri${a.toString()}');
 
     _channel.sink.add(jsonEncode(<String, Object>{

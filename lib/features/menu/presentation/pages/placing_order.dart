@@ -4,9 +4,9 @@ import 'package:fcc_app_front/features/menu/data/models/address.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
 
 class PlacingOrderPage extends StatefulWidget {
-  final ProductModel product;
+  final ProductModel? product;
   const PlacingOrderPage({
-    required this.product,
+    this.product,
     super.key,
   });
 
@@ -29,13 +29,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
   );
   String? validateMobile() {
     final String value = maskFormatter.getMaskedText();
-    String patttern =
-        r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)';
-    RegExp regExp = RegExp(patttern);
     if (value.isEmpty) {
       return 'Пожалуйста, введите номер мобильного телефона';
-    } else if (!regExp.hasMatch(value)) {
-      return 'Пожалуйста, введите действительный номер мобильного телефона';
     }
     return null;
   }
@@ -65,7 +60,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                   reverse: true,
                   child: BlocBuilder<AuthCubit, AuthState>(
                     builder: (BuildContext context, AuthState authState) {
-                      double price = widget.product.price;
+                      double price = widget.product?.price ?? 0;
+
                       if (authState is Authenticated) {
                         price = context
                                 .watch<MembershipCubit>()
@@ -73,14 +69,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                 .firstWhereOrNull((MembershipModel element) =>
                                     element.level == authState.user.membership)
                                 ?.price ??
-                            widget.product.price;
-                        if (maskFormatter.getMaskedText() == '') {
-                          maskFormatter.updateMask(
-                            newValue: TextEditingValue(
-                              text: authState.user.phoneNumber,
-                            ),
-                          );
-                        }
+                            widget.product?.price ??
+                            0;
                       }
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,11 +208,16 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                           CustomFormField(
                             controller: phoneController,
                             textInputAction: TextInputAction.next,
-                            hintText: 'Телефон',
+                            hintText: '+7 (000) 000-00-00',
+                            validator: FormBuilderValidators.compose(
+                              <FormFieldValidator<String>>[
+                                FormBuilderValidators.required(
+                                  errorText: 'Заполните это поле',
+                                ),
+                              ],
+                            ),
                             textInputType: TextInputType.number,
-                            initialValue: authState is Authenticated
-                                ? authState.user.phoneNumber
-                                : null,
+                            initialValue: maskFormatter.getMaskedText(),
                             textInputFormatter: <TextInputFormatter>[
                               maskFormatter,
                             ],
@@ -279,7 +274,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                     )) {
                                   final OrderModel? order =
                                       await OrderRepo.placeOrder(
-                                    product: widget.product,
+                                    product: widget.product!,
                                     address: selectedAddress ?? 0,
                                     name: nameController.text,
                                     phone: maskFormatter
@@ -341,9 +336,12 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                 }
                               } catch (e) {
                                 if (e is OrderException && context.mounted) {
-                                  showErrorSnackbar(
+                                  ApplicationSnackBar.showErrorSnackBar(
                                     context,
                                     'Bы уже оформили заказ в этом месяце',
+                                    0.9,
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                    1,
                                   );
                                 }
                               }

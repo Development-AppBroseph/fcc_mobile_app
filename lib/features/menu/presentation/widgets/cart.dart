@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 
 class ProductCart extends StatelessWidget {
-  final ProductModel product;
+  final ProductModel? product;
   final bool isSelected;
   final bool canSelect;
 
@@ -50,9 +50,8 @@ class ProductCart extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
-                print('Working');
-                context.pushNamed(
-                  RoutesNames.productDetails,
+                context.push(
+                  Routes.productDetails,
                   extra: product,
                 );
               },
@@ -61,7 +60,7 @@ class ProductCart extends StatelessWidget {
                   SizedBox(
                     height: 90,
                     child: CachedNetworkImage(
-                      imageUrl: product.image,
+                      imageUrl: product?.image ?? '',
                       imageBuilder: (
                         BuildContext context,
                         ImageProvider<Object> imageProvider,
@@ -125,7 +124,7 @@ class ProductCart extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Text(
-                          product.name,
+                          product?.name ?? '',
                           style:
                               Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w400,
@@ -133,7 +132,7 @@ class ProductCart extends StatelessWidget {
                         ),
                         sized5,
                         Text(
-                          product.description,
+                          product?.description ?? '',
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
                                     fontWeight: FontWeight.w400,

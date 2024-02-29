@@ -6,15 +6,16 @@ import 'package:fcc_app_front/export.dart';
 class ProductRepo {
   static Future<List<ProductModel>> getProducts({
     bool isPublic = false,
+    required String catalodId,
   }) async {
     List<ProductModel> products = <ProductModel>[];
     final String? token = getToken();
     final String? response = token == null || isPublic
         ? await BaseHttpClient.get(
-            'api/v1/products/public/products/',
+            'api/v1/products/catalogs/$catalodId/products/',
           )
         : await BaseHttpClient.get(
-            'api/v1/products/products/',
+            'api/v1/products/catalogs/$catalodId/products/',
           );
     if (response != null) {
       try {

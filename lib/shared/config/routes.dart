@@ -130,7 +130,7 @@ final GoRouter router = GoRouter(
               return buildPageWithDefaultTransition<void>(
                 context: context,
                 state: state,
-                child: const Menu(),
+                child: Menu(catalogId: state.extra as String? ?? ''),
               );
             },
             routes: <RouteBase>[
@@ -333,7 +333,7 @@ final GoRouter router = GoRouter(
                     context: context,
                     state: state,
                     child: OrderDetails(
-                      order: state.extra as OrderModel,
+                      order: state.extra as OrderModel?,
                     ),
                   );
                 },
@@ -577,7 +577,7 @@ final GoRouter router = GoRouter(
             context: context,
             state: state,
             child: ProductDetails(
-              model: state.extra as ProductModel,
+              model: state.extra as ProductModel?,
             ));
       },
     ),

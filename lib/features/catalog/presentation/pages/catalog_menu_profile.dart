@@ -27,10 +27,12 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
           create: (BuildContext context) => SearchCubit(),
         ),
         BlocProvider<ProductCubit>(
-          create: (BuildContext context) => ProductCubit()..loadPublic(),
+          create: (BuildContext context) => ProductCubit(),
         ),
         BlocProvider<CatalogCubit>(
-          create: (BuildContext context) => CatalogCubit()..loadPublic(),
+          create: (BuildContext context) => CatalogCubit()
+            ..getUnAuthenticatedCatalogsByMembershipId(
+                (widget.type.index + 1).toString()),
         ),
       ],
       child: Builder(
@@ -52,8 +54,12 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
                           const CustomBackButton(),
                           sized20,
                           Text(
-                            membershipNames[widget.type]?.toUpperCase() ?? membershipNames.values.first.toUpperCase(),
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            membershipNames[widget.type]?.toUpperCase() ??
+                                membershipNames.values.first.toUpperCase(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
                                   fontSize: 26,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -68,7 +74,10 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
                             alignment: Alignment.centerLeft,
                             child: TextField(
                               textAlignVertical: TextAlignVertical.center,
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -76,7 +85,10 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
                                 isDense: true,
                                 contentPadding: const EdgeInsets.all(0),
                                 hintText: 'Поиск',
-                                hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 11,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -114,9 +126,12 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
                               ),
                               sliver: LiveSliverList(
                                 controller: _scrollController,
-                                showItemInterval: const Duration(milliseconds: 150),
-                                showItemDuration: const Duration(milliseconds: 200),
-                                itemBuilder: (BuildContext context, int index, Animation<double> animation) {
+                                showItemInterval:
+                                    const Duration(milliseconds: 150),
+                                showItemDuration:
+                                    const Duration(milliseconds: 200),
+                                itemBuilder: (BuildContext context, int index,
+                                    Animation<double> animation) {
                                   return FadeTransition(
                                     opacity: Tween<double>(
                                       begin: 0,
@@ -129,18 +144,22 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
                                         end: Offset.zero,
                                       ).animate(animation),
                                       child: CatalogCart(
-                                        catalog: catalogs[index],
+                                        catalog: state.catalogs[index],
                                         function: () {
                                           context.pushNamed(
                                             RoutesNames.catalogProductProfile,
                                             extra: MultipleCubits(
-                                              cubits: <String, Cubit<Equatable>>{
-                                                'productCubit': BlocProvider.of<ProductCubit>(context),
-                                                'catalogCubit': BlocProvider.of<CatalogCubit>(context),
+                                              cubits: <String,
+                                                  Cubit<Equatable>>{
+                                                'productCubit': BlocProvider.of<
+                                                    ProductCubit>(context),
+                                                'catalogCubit': BlocProvider.of<
+                                                    CatalogCubit>(context),
                                               },
                                             ),
                                             pathParameters: <String, String>{
-                                              'id': catalogs[index].id.toString(),
+                                              'id': state.catalogs[index].id
+                                                  .toString(),
                                             },
                                           );
                                         },
@@ -148,7 +167,7 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
                                     ),
                                   );
                                 },
-                                itemCount: catalogs.length,
+                                itemCount: state.catalogs.length,
                               ),
                             );
                           },

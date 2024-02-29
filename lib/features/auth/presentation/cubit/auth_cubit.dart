@@ -180,7 +180,7 @@ class AuthCubit extends Cubit<AuthState> {
       return (await AuthRepo.sendSms(phone), false);
     } else {
       if (await AuthRepo.register(phone)) {
-        return (await AuthRepo.sendSms(phone), true);
+        return (true, true);
       }
     }
     return (false, false);

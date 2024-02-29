@@ -5,6 +5,7 @@ import 'package:fcc_app_front/export.dart';
 
 class CatalogRepo {
   static Future<List<CatalogModel>> getCatalogs({
+    required String catalogId,
     bool isPublic = false,
   }) async {
     List<CatalogModel> catalogs = <CatalogModel>[];
@@ -12,10 +13,16 @@ class CatalogRepo {
     try {
       final String? response = token == null || isPublic
           ? await BaseHttpClient.get(
-              'api/v1/products/public/catalogs/',
+              'api/v1/products/catalogs/',
               haveToken: false,
+              headers: <String, String>{
+                'membership_id': catalogId,
+              },
             )
           : await BaseHttpClient.get(
+              headers: <String, String>{
+                'membership_id': catalogId,
+              },
               'api/v1/products/catalogs/',
             );
       if (response != null) {

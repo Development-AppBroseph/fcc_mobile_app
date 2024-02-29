@@ -1,7 +1,7 @@
 import 'package:fcc_app_front/export.dart';
 
 class ProductDetails extends StatelessWidget {
-  final ProductModel model;
+  final ProductModel? model;
   const ProductDetails({
     required this.model,
     super.key,
@@ -35,7 +35,7 @@ class ProductDetails extends StatelessWidget {
                     clipBehavior: Clip.antiAlias,
                     child: CachedNetworkImage(
                       fit: BoxFit.fill,
-                      imageUrl: model.image,
+                      imageUrl: model?.image ?? '',
                     ),
                   ),
                 ),
@@ -43,14 +43,14 @@ class ProductDetails extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  model.name,
+                  model?.name ?? '',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  model.description,
+                  model?.description ?? '',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(
@@ -58,27 +58,27 @@ class ProductDetails extends StatelessWidget {
                 ),
                 ProductTextDetailsField(
                   title: 'Марка',
-                  subtitle: model.name,
+                  subtitle: model?.name ?? '',
                 ),
                 ProductTextDetailsField(
-                  title: 'Страна произхождение',
-                  subtitle: model.country,
+                  title: 'Страна происхождения',
+                  subtitle: model?.country ?? '',
                 ),
-                ProductTextDetailsField(
-                  title: 'Количесевтво блоков',
-                  subtitle: model.stock.toString(),
+                const ProductTextDetailsField(
+                  title: 'Количество блоков',
+                  subtitle: '4',
                 ),
                 ProductTextDetailsField(
                   title: 'Крескость',
-                  subtitle: model.strenght,
+                  subtitle: model?.strenght ?? '',
                 ),
                 ProductTextDetailsField(
                   title: 'Вкус',
-                  subtitle: model.taste,
+                  subtitle: model?.taste ?? '',
                 ),
                 ProductTextDetailsField(
                   title: 'Формат',
-                  subtitle: model.format,
+                  subtitle: model?.format ?? '',
                 ),
                 const SizedBox(
                   height: 40,
@@ -93,7 +93,7 @@ class ProductDetails extends StatelessWidget {
                           context.pushNamed(RoutesNames.login);
                           return;
                         }
-                        if (model.stock < 4) {
+                        if (model!.stock < 4) {
                           ApplicationSnackBar.showErrorSnackBar(
                               context,
                               'Нет в наличии',
