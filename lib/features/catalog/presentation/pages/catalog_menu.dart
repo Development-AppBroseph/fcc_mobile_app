@@ -34,12 +34,7 @@ class _CatalogMenuState extends State<CatalogMenu> {
           create: (BuildContext context) => SearchCubit(),
         ),
         BlocProvider(create: (BuildContext context) => ProductCubit()),
-        BlocProvider(
-          create: (BuildContext context) => CatalogCubit()
-            ..load(
-              isPublic: true,
-            ),
-        ),
+        BlocProvider(create: (BuildContext context) => CatalogCubit()),
       ],
       child: Builder(builder: (BuildContext context) {
         return Scaffold(

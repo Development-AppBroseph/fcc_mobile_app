@@ -23,9 +23,11 @@ class BaseHttpClient {
   static Future<String?> get(
     String api, {
     bool haveToken = true,
+    Map<String, String>? queryParameters,
     Map<String, String>? headers,
   }) async {
-    Uri url = Uri.parse(baseUrl + api);
+    Uri url =
+        Uri.parse(baseUrl + api).replace(queryParameters: queryParameters);
     http.Response response = await client.get(
       url,
       headers: headers ??
@@ -63,8 +65,11 @@ class BaseHttpClient {
     String api, {
     bool haveToken = true,
     Map<String, String>? headers,
+    Map<String, String>? queryParameters,
   }) async {
-    Uri url = Uri.parse(baseUrl + api);
+    Uri url = Uri.parse(baseUrl + api).replace(
+      queryParameters: queryParameters,
+    );
     http.Response response = await client.get(
       url,
       headers: headers ?? getDefaultHeader(haveToken: haveToken),

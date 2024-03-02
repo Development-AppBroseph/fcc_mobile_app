@@ -45,9 +45,6 @@ class _CatalogProductMenuState extends State<CatalogProductMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final CatalogModel catalog = context.read<CatalogCubit>().getById(
-          widget.catalogId,
-        );
     return MultiBlocProvider(
       providers: <SingleChildWidget>[
         BlocProvider(
@@ -76,8 +73,12 @@ class _CatalogProductMenuState extends State<CatalogProductMenu> {
                           const CustomBackButton(),
                           sized20,
                           AutoSizeText(
-                            catalog.name.toUpperCase(),
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            'Catalog_product',
+                            // catalog.name.toUpperCase(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
                                   fontSize: 24,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -95,7 +96,10 @@ class _CatalogProductMenuState extends State<CatalogProductMenu> {
                             alignment: Alignment.centerLeft,
                             child: TextField(
                               textAlignVertical: TextAlignVertical.center,
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -103,7 +107,10 @@ class _CatalogProductMenuState extends State<CatalogProductMenu> {
                                 isDense: true,
                                 contentPadding: const EdgeInsets.all(0),
                                 hintText: 'Поиск',
-                                hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
                                       fontSize: 11,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -132,21 +139,29 @@ class _CatalogProductMenuState extends State<CatalogProductMenu> {
                               query,
                               state.products
                                   .where(
-                                    (ProductModel element) => element.catalog.toString() == widget.catalogId,
+                                    (ProductModel element) =>
+                                        element.catalog.toString() ==
+                                        widget.catalogId,
                                   )
                                   .toList(),
                             );
-                            return BlocBuilder<SelectedProductsCubit, SelectedProductsState>(
-                              builder: (BuildContext context, SelectedProductsState selectedProducts) {
+                            return BlocBuilder<SelectedProductsCubit,
+                                SelectedProductsState>(
+                              builder: (BuildContext context,
+                                  SelectedProductsState selectedProducts) {
                                 return SliverPadding(
                                   padding: EdgeInsets.symmetric(
                                     vertical: 20.h,
                                   ),
                                   sliver: LiveSliverList(
                                     controller: _scrollController,
-                                    showItemInterval: const Duration(milliseconds: 150),
-                                    showItemDuration: const Duration(milliseconds: 200),
-                                    itemBuilder: (BuildContext context, int index, Animation<double> animation) {
+                                    showItemInterval:
+                                        const Duration(milliseconds: 150),
+                                    showItemDuration:
+                                        const Duration(milliseconds: 200),
+                                    itemBuilder: (BuildContext context,
+                                        int index,
+                                        Animation<double> animation) {
                                       return FadeTransition(
                                         opacity: Tween<double>(
                                           begin: 0,
@@ -164,8 +179,12 @@ class _CatalogProductMenuState extends State<CatalogProductMenu> {
                                             },
                                             child: ProductCart(
                                               product: products[index],
-                                              isSelected: selectedProducts.product != null &&
-                                                  selectedProducts.product!.id == products[index].id,
+                                              isSelected:
+                                                  selectedProducts.product !=
+                                                          null &&
+                                                      selectedProducts
+                                                              .product!.id ==
+                                                          products[index].id,
                                               canSelect: false,
                                             ),
                                           ),

@@ -18,7 +18,9 @@ class CurrentMembership {
   CurrentMembership.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     client = json['client'];
-    membership = json['membership'] != null ? Membership.fromJson(json['membership']) : null;
+    membership = json['membership'] != null
+        ? Membership.fromJson(json['membership'])
+        : null;
     startDate = json['start_date'];
     endDate = json['end_date'];
     isActive = json['is_active'];
@@ -44,7 +46,12 @@ class Membership {
   String? price;
   String? name;
 
-  Membership({this.id, this.level, this.price, this.name});
+  Membership({
+    this.id,
+    this.level,
+    this.price,
+    this.name,
+  });
 
   Membership.fromJson(Map<String, dynamic> json) {
     id = json['id'];

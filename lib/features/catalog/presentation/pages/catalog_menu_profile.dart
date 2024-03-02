@@ -31,8 +31,7 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
         ),
         BlocProvider<CatalogCubit>(
           create: (BuildContext context) => CatalogCubit()
-            ..getUnAuthenticatedCatalogsByMembershipId(
-                (widget.type.index + 1).toString()),
+            ..getAllCatalogsById((widget.type.index + 1).toString()),
         ),
       ],
       child: Builder(

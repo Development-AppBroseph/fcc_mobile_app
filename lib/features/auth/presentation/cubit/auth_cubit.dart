@@ -3,10 +3,12 @@ import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/data/models/membership.dart';
+import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
+  final MembersheepBloc membersheepBloc = MembersheepBloc();
   static final Box box = Hive.box(
     HiveStrings.userBox,
   );
@@ -20,7 +22,9 @@ class AuthCubit extends Cubit<AuthState> {
         )) {
       final UserModel? user = await AuthRepo.getUser();
       if (user != null) {
+        membersheepBloc.add(GetCurrentMemberSheep());
         log('Have user');
+
         emit(
           Authenticated(
             user: user,
@@ -159,7 +163,7 @@ class AuthCubit extends Cubit<AuthState> {
         return route;
       } else {
         if (await AuthRepo.verify(phone, code)) {
-          return RoutesNames.menu;
+          return RoutesNames.introCatalog;
         }
       }
     } catch (e) {

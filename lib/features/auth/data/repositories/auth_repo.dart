@@ -37,17 +37,12 @@ class AuthRepo {
 
   static Future<CurrentMembership?> getCurrentMembership() async {
     try {
-      final Response response = await BaseHttpClient.getBody(
+      final String? response = await BaseHttpClient.get(
         'api/v1/users/my-current-membership/',
       );
 
-      if (response.statusCode == 200) {
-        return CurrentMembership.fromJson(jsonDecode(utf8.decode(
-          response.bodyBytes,
-        )));
-      } else {
-        log(response.statusCode.toString());
-      }
+      log(response.toString());
+      return CurrentMembership.fromJson(jsonDecode(response.toString()));
     } catch (e) {
       log('Someting wrong in getCurrentMembership: $e');
     }

@@ -1,4 +1,6 @@
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/auth/data/models/membership.dart';
+import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 
 class Menu extends StatefulWidget {
   final String? catalogId;
@@ -16,13 +18,15 @@ class _MenuState extends State<Menu> {
   void initState() {
     _scrollController = ScrollController();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
-      if (context.read<CatalogCubit>().state.catalogs.isEmpty) {
-        context
-            .read<CatalogCubit>()
-            .getUnAuthenticatedCatalogsByMembershipId(widget.catalogId ?? '');
-      }
-    });
+    getMemberSheep();
+  }
+
+  Future<void> getMemberSheep() async {
+    final CurrentMembership? membersheep =
+        await context.read<AuthCubit>().getCurrentMerbership();
+
+    context.read<CatalogCubit>().getAllCatalogsById(
+        membersheep?.membership?.id.toString() ?? widget.catalogId ?? '');
   }
 
   @override
@@ -139,12 +143,7 @@ class _MenuState extends State<Menu> {
                         ),
                       ),
                       BlocListener<AuthCubit, AuthState>(
-                        listener: (BuildContext context, AuthState state) {
-                          context
-                              .read<CatalogCubit>()
-                              .getUnAuthenticatedCatalogsByMembershipId(
-                                  widget.catalogId ?? '');
-                        },
+                        listener: (BuildContext context, AuthState state) {},
                         child: BlocProvider(
                           create: (BuildContext context) => SearchCubit(),
                           child: BlocBuilder<SearchCubit, String?>(

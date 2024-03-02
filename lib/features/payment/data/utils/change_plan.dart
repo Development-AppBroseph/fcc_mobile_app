@@ -4,9 +4,6 @@ changePlan(BuildContext context, MembershipType type) async {
   context.read<ProductCubit>().load(
         isPublic: context.read<AuthCubit>().state is Unauthenticated,
       );
-  context.read<CatalogCubit>().load(
-        isPublic: context.read<AuthCubit>().state is Unauthenticated,
-      );
   context.pop();
   context.pushNamed(
     RoutesNames.paymentCongrats,
