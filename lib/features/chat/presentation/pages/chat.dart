@@ -59,7 +59,22 @@ class _ChatPageState extends State<ChatPage> {
 
       log(parsed.toJson().toString());
 
-      if (parsed.message.type == 'file') {
+      if (parsed.message.file.toString().contains('image_picker')) {
+        _addMessage(
+          types.ImageMessage(
+            author: isAdmin.value ? _user : _admin,
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            id: const Uuid().v4(),
+            name: parsed.message.file.toString().split('/').last,
+            size: 28,
+            uri: baseUrl + parsed.message.file,
+          ),
+        );
+        return;
+      }
+
+      if (parsed.message.type == 'file' &&
+          !parsed.message.file.toString().contains('image_picker')) {
         _addMessage(
           types.FileMessage(
             author: isAdmin.value ? _user : _admin,
@@ -71,6 +86,7 @@ class _ChatPageState extends State<ChatPage> {
             uri: baseUrl + parsed.message.file,
           ),
         );
+        return;
       } else {
         final types.Message message = types.TextMessage(
           author: isAdmin.value ? _user : _admin,
@@ -287,11 +303,19 @@ class _ChatPageState extends State<ChatPage> {
       return ApiMessage.fromJson(e);
     }).toList();
 
+    print(messages);
+
     setState(() {});
     _messages = messages
         .map(
           (ApiMessage e) {
-            if (e.type != null && e.type == 'file') {
+            if (e.file != null && e.file.toString().contains('.pdf') ||
+                e.file.toString().contains('.docx') ||
+                e.file.toString().contains('.doc') ||
+                e.file.toString().contains('.xlsx') ||
+                e.file.toString().contains('.pptx') ||
+                e.file.toString().contains('.ppt') ||
+                e.file.toString().contains('.txt')) {
               return types.FileMessage(
                 size: 28,
                 name: e.file?.split('/').last ?? '',
@@ -301,11 +325,17 @@ class _ChatPageState extends State<ChatPage> {
                 author: e.clientSend == true ? _user : _admin,
               );
             }
-            return types.TextMessage(
-              createdAt: int.tryParse(e.created_date ?? ''),
-              id: e.id.toString(),
-              text: e.message ?? '',
+            if (e.file != null && e.file.toString().contains('.png') ||
+                e.file.toString().contains('.jpg') ||
+                e.file.toString().contains('.jpeg') ||
+                e.file.toString().contains('.gif')) {}
+            return types.ImageMessage(
               author: e.clientSend == true ? _user : _admin,
+              createdAt: DateTime.now().millisecondsSinceEpoch,
+              id: const Uuid().v4(),
+              name: e.file?.split('/').last ?? '',
+              size: 28,
+              uri: e.file ?? '',
             );
           },
         )
