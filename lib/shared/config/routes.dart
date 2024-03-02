@@ -346,7 +346,7 @@ final GoRouter router = GoRouter(
                     context: context,
                     state: state,
                     child: PlacingOrderPage(
-                      product: state.extra as ProductModel,
+                      product: state.extra as ProductModel?,
                     ),
                   );
                 },

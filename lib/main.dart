@@ -28,7 +28,10 @@ void main() {
       MultiBlocProvider(
         providers: <SingleChildWidget>[
           BlocProvider<MembersheepBloc>(
-            create: (BuildContext context) => MembersheepBloc(),
+            create: (BuildContext context) => MembersheepBloc()
+              ..add(
+                GetCurrentMemberSheep(),
+              ),
           ),
           BlocProvider<BottomNavbarCont>(
             create: (BuildContext context) {

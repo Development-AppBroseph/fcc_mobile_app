@@ -65,8 +65,18 @@ class OrderDetails extends StatelessWidget {
             sized20,
             InkWell(
               hoverColor: Theme.of(context).primaryColor,
-              onTap: () {
-                //TODO navigate to product
+              onTap: () async {
+                final ProductModel? product =
+                    await context.read<OrderCubit>().getProductbyId(
+                          productUuid: order?.orderItems.last.productUuid ?? '',
+                        );
+
+                if (context.mounted) {
+                  context.pushNamed(
+                    RoutesNames.productDetails,
+                    extra: product,
+                  );
+                }
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
