@@ -8,9 +8,7 @@ class FirebaseNotificationsRepo {
     await _firebaseMessaging.requestPermission();
     log('firebase token:${await _firebaseMessaging.getToken()}');
     final String? token = await _firebaseMessaging.getToken();
-
-    Hive.box(HiveStrings.pushNotifications)
-        .put(HiveStrings.pushNotifications, token.toString());
+    Hive.box(HiveStrings.isFcmSent).put(HiveStrings.isFcmSent, token);
 
     try {
       FirebaseMessaging.onBackgroundMessage(
@@ -48,28 +46,6 @@ class FirebaseNotificationsRepo {
       );
     } catch (e) {
       log('FirebaseMessaging.onMessage error: $e');
-    }
-  }
-
-  sendFcm() async {
-    final Box box = await Hive.openBox(HiveStrings.userBox);
-    try {
-      if (!box.containsKey(HiveStrings.isFcmSent)) {
-        final Response response = await BaseHttpClient.postBody(
-          'api/v1/notifications/fcm_token_create/',
-          <String, String?>{
-            'token': await _firebaseMessaging.getToken(),
-          },
-        );
-        if (response.statusCode < 300) {
-          box.put(
-            HiveStrings.isFcmSent,
-            true,
-          );
-        }
-      }
-    } catch (e) {
-      log("Couldn't send fcm: $e");
     }
   }
 }

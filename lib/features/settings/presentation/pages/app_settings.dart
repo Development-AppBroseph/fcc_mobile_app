@@ -35,16 +35,22 @@ class AppSettingsPage extends StatelessWidget {
               sized20,
               FillBtn(
                 text: 'Выйти',
-                onTap: () {
+                onTap: () async {
+                  final fcmToken = Hive.box(HiveStrings.fcmToken).values.last;
+                  await context
+                      .read<AuthCubit>()
+                      .deleteFcmToken(fcmToken.toString());
                   context.read<AuthCubit>().logOut();
                   if (context.read<SelectedMembershipCubit>().state == null) {
                     context.read<SelectedMembershipCubit>().change(
                           MembershipType.standard,
                         );
                   }
-                  context.go(
-                    Routes.login,
-                  );
+                  if (context.mounted) {
+                    context.go(
+                      Routes.login,
+                    );
+                  }
                 },
                 iconPath: 'assets/logout.svg',
               ),

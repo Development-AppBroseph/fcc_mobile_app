@@ -1,10 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/fcc_settings/data/datasources/content_types.dart';
-import 'package:fcc_app_front/shared/config/base_http_client.dart';
 part 'content_state.dart';
 
 class ContentCubit extends Cubit<ContentState> {

@@ -1,10 +1,54 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/auth/data/models/fcm_token.dart';
 import 'package:fcc_app_front/features/auth/data/models/membership.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRepo {
+  static Future<FcmToken?> createFcmToken() async {
+    try {
+      final Response? response = await BaseHttpClient.post(
+        'api/v1/notifications/fcm_token/',
+        <String, String>{
+          'token': await FirebaseMessaging.instance.getToken() ?? '',
+        },
+        headers: <String, String>{
+          'Authorization':
+              'Bearer ' + Hive.box(HiveStrings.userBox).get(HiveStrings.token),
+          'Content-type': 'application/json',
+        },
+        haveToken: false,
+      );
+      final FcmToken createdToken =
+          FcmToken.fromJson(jsonDecode(response?.body ?? ''));
+      await Hive.box(HiveStrings.fcmToken).add(createdToken.id);
+
+      return createdToken;
+    } catch (e) {
+      log('Someting wrong in fcmToken when create: $e');
+    }
+    return null;
+  }
+
+  static Future<bool> deleteFcmToken(String fcmToken) async {
+    try {
+      final Response response = await BaseHttpClient.delete(
+        'api/v1/notifications/fcm_token/$fcmToken/',
+        headers: <String, String>{
+          'Authorization':
+              'Bearer ' + Hive.box(HiveStrings.userBox).get(HiveStrings.token),
+          'Content-type': 'application/json',
+        },
+      );
+      log(response.body.toString());
+      return true;
+    } catch (e) {
+      log('Someting wrong in fcmToken when delete : $e');
+    }
+    return false;
+  }
+
   static Future<bool> register(String phoneNumber) async {
     try {
       final Response? response = await BaseHttpClient.post(
@@ -183,6 +227,8 @@ class AuthRepo {
               )['message'] ??
               '',
         );
+
+        createFcmToken();
         return RoutesNames.menu;
       } catch (e) {
         log('Someting wrong in login: $e');

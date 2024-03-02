@@ -34,6 +34,10 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> deleteFcmToken(String fcmToken) async {
+    await AuthRepo.deleteFcmToken(fcmToken);
+  }
+
   Future<CurrentMembership?> getCurrentMerbership() {
     return AuthRepo.getCurrentMembership();
   }
