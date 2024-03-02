@@ -55,14 +55,14 @@ class OrderModel {
 }
 
 class OrderItem {
-  final int productId;
+  final String productUuid;
   final String productName;
   final int quantity;
   final String productPhoto;
 
   OrderItem({
     required this.productPhoto,
-    required this.productId,
+    required this.productUuid,
     required this.productName,
     required this.quantity,
   });
@@ -70,7 +70,7 @@ class OrderItem {
   factory OrderItem.fromJson(Map<String, dynamic> json) {
     return OrderItem(
       productPhoto: json['product_photo'] ?? '',
-      productId: json['product'] ?? 0,
+      productUuid: json['product_uuid'] ?? 0,
       productName: json['product_name'] ?? '',
       quantity: json['quantity'] ?? 0,
     );

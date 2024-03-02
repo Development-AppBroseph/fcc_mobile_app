@@ -1,4 +1,5 @@
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 
 class ProductDetails extends StatelessWidget {
   final ProductModel? model;
@@ -86,26 +87,49 @@ class ProductDetails extends StatelessWidget {
                 BlocBuilder<AuthCubit, AuthState>(
                     builder: (BuildContext context, AuthState state) {
                   if (state is Authenticated) {
-                    return CstmBtn(
-                      text: 'Оформить заказ',
-                      onTap: () async {
-                        if (state is Unauthenticated) {
-                          context.pushNamed(RoutesNames.login);
-                          return;
-                        }
-                        if (model!.stock < 4) {
-                          ApplicationSnackBar.showErrorSnackBar(
-                              context,
-                              'Нет в наличии',
-                              0.9,
-                              const EdgeInsets.symmetric(horizontal: 10),
-                              1);
-                          return;
-                        }
+                    return BlocBuilder<MembersheepBloc, MembersheepState>(
+                      builder: (
+                        BuildContext context,
+                        MembersheepState membersheepState,
+                      ) {
+                        return CstmBtn(
+                          text: 'Оформить заказ',
+                          onTap: () async {
+                            if (membersheepState.model != null) {
+                              if (!membersheepState.model!.isActive!) {
+                                ApplicationSnackBar.showErrorSnackBar(
+                                  context,
+                                  'Подписка не активна,пожалуйста,продлите подписку',
+                                  0.9,
+                                  const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                  ),
+                                  1,
+                                );
+                                context.go(RoutesNames.introCatalog);
+                                return;
+                              }
+                            }
 
-                        context.pushNamed(
-                          RoutesNames.placeOrder,
-                          extra: model,
+                            if (state is Unauthenticated) {
+                              context.pushNamed(RoutesNames.login);
+                              return;
+                            }
+                            if (model!.stock < 4) {
+                              ApplicationSnackBar.showErrorSnackBar(
+                                  context,
+                                  'Нет в наличии',
+                                  0.9,
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                                  1);
+                              return;
+                            }
+
+                            context.pushNamed(
+                              RoutesNames.placeOrder,
+                              extra: model,
+                            );
+                          },
                         );
                       },
                     );
