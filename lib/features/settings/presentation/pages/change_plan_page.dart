@@ -101,11 +101,7 @@ class ChangePlanPage extends StatelessWidget {
                                                     .read<AuthCubit>()
                                                     .state is Unauthenticated,
                                               );
-                                          context.read<CatalogCubit>().load(
-                                                isPublic: context
-                                                    .read<AuthCubit>()
-                                                    .state is Unauthenticated,
-                                              );
+
                                           context.pushNamed(
                                               RoutesNames.paymentCongrats,
                                               extra: <String, Object>{
@@ -190,11 +186,7 @@ class ChangePlanPage extends StatelessWidget {
                                                     .read<AuthCubit>()
                                                     .state is Unauthenticated,
                                               );
-                                          context.read<CatalogCubit>().load(
-                                                isPublic: context
-                                                    .read<AuthCubit>()
-                                                    .state is Unauthenticated,
-                                              );
+
                                           context.pushNamed(
                                               RoutesNames.paymentCongrats,
                                               extra: <String, Object>{
@@ -278,11 +270,7 @@ class ChangePlanPage extends StatelessWidget {
                                                     .read<AuthCubit>()
                                                     .state is Unauthenticated,
                                               );
-                                          context.read<CatalogCubit>().load(
-                                                isPublic: context
-                                                    .read<AuthCubit>()
-                                                    .state is Unauthenticated,
-                                              );
+
                                           context.pushNamed(
                                               RoutesNames.paymentCongrats,
                                               extra: <String, Object>{

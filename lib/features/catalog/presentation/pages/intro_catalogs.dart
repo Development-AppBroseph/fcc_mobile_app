@@ -92,9 +92,7 @@ class IntroCatalogPage extends StatelessWidget {
                           sized10,
                           CstmBtn(
                             onTap: () {
-                              context
-                                  .read<CatalogCubit>()
-                                  .getUnAuthenticatedCatalogsByMembershipId(
+                              context.read<CatalogCubit>().getAllCatalogsById(
                                     '1',
                                   );
                               context
@@ -145,9 +143,7 @@ class IntroCatalogPage extends StatelessWidget {
                           sized10,
                           CstmBtn(
                             onTap: () {
-                              context
-                                  .read<CatalogCubit>()
-                                  .getUnAuthenticatedCatalogsByMembershipId(
+                              context.read<CatalogCubit>().getAllCatalogsById(
                                     '2',
                                   );
                               context.read<SelectedMembershipCubit>().change(
@@ -200,9 +196,7 @@ class IntroCatalogPage extends StatelessWidget {
                           sized10,
                           CstmBtn(
                             onTap: () {
-                              context
-                                  .read<CatalogCubit>()
-                                  .getUnAuthenticatedCatalogsByMembershipId(
+                              context.read<CatalogCubit>().getAllCatalogsById(
                                     '3',
                                   );
                               context

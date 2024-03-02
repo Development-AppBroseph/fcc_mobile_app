@@ -6,25 +6,15 @@ import 'package:fcc_app_front/export.dart';
 class CatalogRepo {
   static Future<List<CatalogModel>> getCatalogs({
     required String catalogId,
-    bool isPublic = false,
   }) async {
     List<CatalogModel> catalogs = <CatalogModel>[];
-    final String? token = getToken();
     try {
-      final String? response = token == null || isPublic
-          ? await BaseHttpClient.get(
-              'api/v1/products/catalogs/',
-              haveToken: false,
-              headers: <String, String>{
-                'membership_id': catalogId,
-              },
-            )
-          : await BaseHttpClient.get(
-              headers: <String, String>{
-                'membership_id': catalogId,
-              },
-              'api/v1/products/catalogs/',
-            );
+      final String? response = await BaseHttpClient.get(
+        'api/v1/products/catalogs/',
+        queryParameters: <String, String>{
+          'membership_id': catalogId,
+        },
+      );
       if (response != null) {
         final List productsData = jsonDecode(response) as List;
         for (final product in productsData) {

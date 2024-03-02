@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 import 'package:web_socket_channel/io.dart';
 
 class MainPage extends StatelessWidget {
@@ -28,12 +29,6 @@ class MainPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (BuildContext context) => OrderCubit()..load(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => CatalogCubit()
-            ..load(
-              isPublic: context.read<AuthCubit>().state is Unauthenticated,
-            ),
         ),
         BlocProvider(
           create: (BuildContext context) => InvitationCubit()..load(),

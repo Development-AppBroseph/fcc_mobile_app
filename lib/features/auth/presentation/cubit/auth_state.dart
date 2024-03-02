@@ -11,6 +11,7 @@ final class Unauthenticated extends AuthState {}
 
 class Authenticated extends AuthState {
   final UserModel user;
+
   const Authenticated({
     required this.user,
   });
