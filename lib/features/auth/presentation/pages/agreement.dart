@@ -9,6 +9,10 @@ class AgreementScreen extends StatelessWidget {
 
     return BlocListener<AuthCubit, AuthState>(
       listener: (BuildContext context, AuthState state) {
+        if (state is ServerNotResponsesState) {
+          context.go(Routes.serverStatus);
+        }
+
         if (state is Authenticated) {
           context.go(Routes.menu);
         }

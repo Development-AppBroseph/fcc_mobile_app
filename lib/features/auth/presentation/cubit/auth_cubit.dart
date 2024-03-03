@@ -9,6 +9,7 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final MembersheepBloc membersheepBloc = MembersheepBloc();
+
   static final Box box = Hive.box(
     HiveStrings.userBox,
   );
@@ -31,6 +32,13 @@ class AuthCubit extends Cubit<AuthState> {
           ),
         );
       }
+    }
+  }
+
+  Future<void> checkServerState() async {
+    final bool serverResponse = await AuthRepo.checkServerStatus();
+    if (!serverResponse) {
+      emit(const ServerNotResponsesState());
     }
   }
 

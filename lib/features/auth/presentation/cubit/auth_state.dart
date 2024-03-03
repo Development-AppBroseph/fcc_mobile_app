@@ -29,3 +29,7 @@ class Authenticated extends AuthState {
         user,
       ];
 }
+
+final class ServerNotResponsesState extends AuthState {
+  const ServerNotResponsesState();
+}

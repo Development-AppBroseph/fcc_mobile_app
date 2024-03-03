@@ -49,6 +49,24 @@ class AuthRepo {
     return null;
   }
 
+  static Future<bool> checkServerStatus() async {
+    try {
+      final Response response = await BaseHttpClient.getBody(
+        'api/v1/users/session/',
+      );
+      log(response.toString());
+
+      if (response.statusCode == 503) {
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      log('Server not working : $e');
+    }
+    return true;
+  }
+
   static Future<bool> sendSms(String phoneNumber) async {
     try {
       final Response? response = await BaseHttpClient.post(
@@ -58,6 +76,7 @@ class AuthRepo {
         },
         haveToken: false,
       );
+
       if (response != null) {
         log(
           jsonDecode(
@@ -78,22 +97,22 @@ class AuthRepo {
 
   static Future<UserModel?> getUser() async {
     try {
-      final String? response = await BaseHttpClient.get(
+      final Response response = await BaseHttpClient.getBody(
         'api/v1/users/session/',
       );
       log(response.toString());
-      if (response != null) {
-        saveUserName(
-          jsonDecode(
-            response,
-          ),
-        );
-        return UserModel.fromMap(
-          jsonDecode(
-            response,
-          ),
-        );
-      }
+
+      saveUserName(
+        jsonDecode(
+          response.toString(),
+        ),
+      );
+
+      return UserModel.fromMap(
+        jsonDecode(
+          response.body,
+        ),
+      );
     } catch (e) {
       log('Someting wrong in getUser: $e');
     }
