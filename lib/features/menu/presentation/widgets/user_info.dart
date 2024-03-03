@@ -40,7 +40,7 @@ class MenuUserInfo extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             AutoSizeText(
-                              state.user.firstName,
+                              state.user.firstName ?? 'Пользователь',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium
@@ -71,7 +71,9 @@ class MenuUserInfo extends StatelessWidget {
                                 membershipNames[MembershipType.values
                                             .firstWhereOrNull(
                                       (MembershipType element) =>
-                                          element.name == state.user.membership,
+                                          element.name ==
+                                          state.user.userMembership?.membership
+                                              ?.level,
                                     )]
                                         ?.toUpperCase() ??
                                     'План не выбран',

@@ -54,7 +54,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: <Widget>[
                                 Text(
                                   '${state.user.lastName} ${state.user.firstName} ${state.user.middleName}',
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -62,8 +65,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 sized10,
                                 Text(
-                                  state.user.phoneNumber,
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  state.user.phoneNumber ?? '',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(
                                         fontSize: 17,
                                         fontWeight: FontWeight.w400,
                                         color: Theme.of(context).hintColor,
@@ -85,7 +91,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 controller: _scrollController,
                 showItemInterval: const Duration(milliseconds: 150),
                 showItemDuration: const Duration(milliseconds: 200),
-                itemBuilder: (BuildContext context, int index, Animation<double> animation) => FadeTransition(
+                itemBuilder: (BuildContext context, int index,
+                        Animation<double> animation) =>
+                    FadeTransition(
                   opacity: Tween<double>(
                     begin: 0,
                     end: 1,
@@ -97,7 +105,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       end: Offset.zero,
                     ).animate(animation),
                     child: SettingsPageButton(
-                      setting: settingsList[index == settingsList.length ? index - 1 : index],
+                      setting: settingsList[
+                          index == settingsList.length ? index - 1 : index],
                       isFsc: index == settingsList.length,
                     ),
                   ),

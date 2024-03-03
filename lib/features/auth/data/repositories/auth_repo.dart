@@ -88,7 +88,7 @@ class AuthRepo {
             response,
           ),
         );
-        return UserModel.fromMap(
+        return UserModel.fromJson(
           jsonDecode(
             response,
           ),
@@ -350,7 +350,7 @@ class AuthRepo {
           ),
         ),
       );
-      return UserModel.fromMap(
+      return UserModel.fromJson(
         jsonDecode(
           utf8.decode(
             response,
@@ -412,7 +412,7 @@ class AuthRepo {
               ),
             ),
           );
-          return UserModel.fromMap(
+          return UserModel.fromJson(
             jsonDecode(
               utf8.decode(
                 response.bodyBytes,

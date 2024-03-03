@@ -67,7 +67,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                 .watch<MembershipCubit>()
                                 .state
                                 .firstWhereOrNull((MembershipModel element) =>
-                                    element.level == authState.user.membership)
+                                    element.level ==
+                                    authState.user.membershipLevel)
                                 ?.price ??
                             widget.product?.price ??
                             0;

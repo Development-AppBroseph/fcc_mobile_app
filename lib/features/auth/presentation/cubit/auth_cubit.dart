@@ -203,8 +203,7 @@ class AuthCubit extends Cubit<AuthState> {
             lastName: authState.user.lastName,
             middleName: authState.user.middleName,
             phoneNumber: authState.user.phoneNumber,
-            userName: authState.user.userName,
-            membership: type.name,
+            membershipLevel: type.name,
           ),
         ),
       );

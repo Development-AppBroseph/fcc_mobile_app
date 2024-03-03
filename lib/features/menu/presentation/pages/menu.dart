@@ -1,6 +1,5 @@
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/data/models/membership.dart';
-import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 
 class Menu extends StatefulWidget {
   final String? catalogId;
@@ -22,11 +21,14 @@ class _MenuState extends State<Menu> {
   }
 
   Future<void> getMemberSheep() async {
-    final CurrentMembership? membersheep =
-        await context.read<AuthCubit>().getCurrentMerbership();
+    final AuthState state = context.read<AuthCubit>().state;
 
-    context.read<CatalogCubit>().getAllCatalogsById(
-        membersheep?.membership?.id.toString() ?? widget.catalogId ?? '');
+    if (state is Authenticated) {
+      context.read<CatalogCubit>().getAllCatalogsById(
+          state.user.userMembership?.membership?.id.toString() ??
+              widget.catalogId ??
+              '');
+    }
   }
 
   @override
@@ -173,21 +175,22 @@ class _MenuState extends State<Menu> {
                                                   MembershipType.values.any(
                                                       (MembershipType element) {
                                                     return element.name ==
-                                                        authState
-                                                            .user.membership;
+                                                        authState.user
+                                                            .membershipLevel;
                                                   })
                                               ? MembershipType.values
                                                   .firstWhereOrNull(
                                                   (MembershipType element) =>
                                                       element.name ==
-                                                      authState.user.membership,
+                                                      authState
+                                                          .user.membershipLevel,
                                                 )
                                               : null,
                                     ),
                                   );
                                   if (authState is Authenticated &&
-                                      authState.user.membership ==
-                                          'no membership') {
+                                      authState.user.userMembership?.isActive ==
+                                          false) {
                                     return SliverToBoxAdapter(
                                       child: SizedBox(
                                         height: 400.h,
@@ -206,9 +209,6 @@ class _MenuState extends State<Menu> {
                                             CstmBtn(
                                                 text: 'Выбрать план',
                                                 onTap: () {
-                                                  context.goNamed(
-                                                    RoutesNames.settings,
-                                                  );
                                                   context.pushNamed(
                                                     RoutesNames.changePlan,
                                                     extra: authState
