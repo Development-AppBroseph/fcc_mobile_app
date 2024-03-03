@@ -82,30 +82,36 @@ class _OrderState extends State<Order> {
                                                 SizedBox(
                                                   width: 20.w,
                                                 ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      '№ ${order.id}',
-                                                    ),
-                                                    Text(
-                                                      order.orderItems[index]
-                                                          .productName,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall,
-                                                    ),
-                                                    Text(
-                                                      'Статус: ${order.status}',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall,
-                                                    ),
-                                                  ],
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        '№ ${order.id}',
+                                                      ),
+                                                      Text(
+                                                        order.orderItems[index]
+                                                            .productName,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodySmall,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 2,
+                                                      ),
+                                                      Text(
+                                                        'Статус: ${order.status}',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodySmall,
+                                                      ),
+                                                    ],
+                                                  ),
                                                 )
                                               ],
                                             ),

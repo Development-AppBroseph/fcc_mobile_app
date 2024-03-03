@@ -13,8 +13,9 @@ class ChangePlanPage extends StatelessWidget {
       child: Builder(
         builder: (BuildContext context) {
           final AuthState authState = context.read<AuthCubit>().state;
-          final String phone =
-              authState is Authenticated ? authState.user.phoneNumber : '';
+          final String phone = authState is Authenticated
+              ? authState.user.phoneNumber ?? ''
+              : '';
           return Scaffold(
             body: SafeArea(
               child: Padding(

@@ -5,6 +5,7 @@ class Routes {
   static String menu = '/';
   static String agreement = '/agreement';
   static String productMenu = 'productMenu/:id';
+
   static String selectedProduct = '/selectedProduct';
   static String placeOrder = 'placeOrder';
   static String orderConfirm = '/orderConfirm';
@@ -42,6 +43,7 @@ class Routes {
   static String catalogMenu = 'catalogMenu/:type';
   static String catalogProductMenu = '/catalogProductMenu/:id';
   static String productDetails = '/productDetails';
+  static String catalogProductDetails = 'catalogProductDetails';
 
   static String catalogMenuProfile = 'ctMenuProfile/:type';
   static String catalogProductProfile = '/ctProductProfile/:id';
@@ -89,6 +91,7 @@ class RoutesNames {
   static String catalog = 'catalog';
   static String catalogMenu = 'catalogMenu';
   static String productDetails = 'productDetails';
+  static String catalogProductDetails = 'catalogProductDetails';
 
   static String catalogProductMenu = 'catalogProductMenu';
   static String catalogMenuProfile = 'ctMenuProfile';

@@ -6,7 +6,8 @@ class SelectedProductPage extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final ProductModel? product = context.read<SelectedProductsCubit>().state.product;
+    final ProductModel? product =
+        context.read<SelectedProductsCubit>().state.product;
     if (product == null) return Container();
     return Scaffold(
       body: SafeArea(
@@ -32,8 +33,10 @@ class SelectedProductPage extends StatelessWidget {
                     CstmBtn(
                       width: double.infinity,
                       onTap: () {
-                        final AuthState userState = context.read<AuthCubit>().state;
-                        if (userState is Authenticated && userState.user.userName == '') {
+                        final AuthState userState =
+                            context.read<AuthCubit>().state;
+                        if (userState is Authenticated &&
+                            userState.user.membershipLevel == '') {
                           ApplicationSnackBar.showErrorSnackBar(
                             context,
                             'Вы не ввели свои данные',
@@ -46,8 +49,11 @@ class SelectedProductPage extends StatelessWidget {
                             RoutesNames.placeOrder,
                             extra: MultipleCubits(
                               cubits: <String, Cubit<Equatable>>{
-                                'productCubit': BlocProvider.of<ProductCubit>(context),
-                                'selectedProductsCubit': BlocProvider.of<SelectedProductsCubit>(context),
+                                'productCubit':
+                                    BlocProvider.of<ProductCubit>(context),
+                                'selectedProductsCubit':
+                                    BlocProvider.of<SelectedProductsCubit>(
+                                        context),
                               },
                             ),
                           );

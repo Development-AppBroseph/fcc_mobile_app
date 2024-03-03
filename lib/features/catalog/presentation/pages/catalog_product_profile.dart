@@ -1,7 +1,7 @@
 import 'package:fcc_app_front/export.dart';
 
 class CatalogProductProfileMenu extends StatefulWidget {
-  final String catalogId;
+  final String? catalogId;
   const CatalogProductProfileMenu({
     Key? key,
     required this.catalogId,
@@ -18,6 +18,9 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
   void initState() {
     _scrollController = ScrollController();
     super.initState();
+    context
+        .read<ProductCubit>()
+        .getAuthenticatedProductByCatalogId(widget.catalogId ?? '');
   }
 
   @override
@@ -29,7 +32,7 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
   @override
   Widget build(BuildContext context) {
     final CatalogModel catalog =
-        context.read<CatalogCubit>().getById(widget.catalogId);
+        context.read<CatalogCubit>().getById(widget.catalogId ?? '');
     return MultiBlocProvider(
       providers: <SingleChildWidget>[
         BlocProvider(
@@ -116,12 +119,13 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                         builder: (BuildContext context, ProductState state) {
                           final List<ProductModel> products = searchProduct(
                             query,
-                            state.products.where(
-                              (ProductModel element) {
-                                return element.catalog.toString() ==
-                                    widget.catalogId;
-                              },
-                            ).toList(),
+                            state.products
+                                .where(
+                                  (ProductModel element) =>
+                                      element.catalog.toString() ==
+                                      widget.catalogId,
+                                )
+                                .toList(),
                           );
                           return BlocBuilder<SelectedProductsCubit,
                               SelectedProductsState>(
@@ -137,34 +141,28 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                                       const Duration(milliseconds: 150),
                                   showItemDuration:
                                       const Duration(milliseconds: 200),
-                                  itemBuilder: (
-                                    BuildContext context,
-                                    int index,
-                                    Animation<double> animation,
-                                  ) {
-                                    return FadeTransition(
-                                      opacity: Tween<double>(
-                                        begin: 0,
-                                        end: 1,
+                                  itemBuilder: (BuildContext context, int index,
+                                          Animation<double> animation) =>
+                                      FadeTransition(
+                                    opacity: Tween<double>(
+                                      begin: 0,
+                                      end: 1,
+                                    ).animate(animation),
+                                    // And slide transition
+                                    child: SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(0, -0.1),
+                                        end: Offset.zero,
                                       ).animate(animation),
-                                      // And slide transition
-                                      child: SlideTransition(
-                                        position: Tween<Offset>(
-                                          begin: const Offset(0, -0.1),
-                                          end: Offset.zero,
-                                        ).animate(animation),
-                                        child: ProductCart(
-                                          product: products[index],
-                                          isSelected: selectedProducts
-                                                      .product !=
-                                                  null &&
-                                              selectedProducts.product!.id ==
-                                                  products[index].id,
-                                          canSelect: false,
-                                        ),
+                                      child: ProductCart(
+                                        product: products[index],
+                                        isSelected:
+                                            selectedProducts.product != null &&
+                                                selectedProducts.product!.id ==
+                                                    products[index].id,
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ),
                                   itemCount: products.length,
                                 ),
                               );
