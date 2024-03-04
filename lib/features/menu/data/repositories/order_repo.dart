@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:fcc_app_front/export.dart';
 
@@ -20,7 +19,7 @@ class OrderRepo {
           'order_items': <Map<String, dynamic>>[
             <String, dynamic>{
               'product_uuid': product.id,
-              'quantity': 1,
+              'quantity': 4,
             }
           ],
           'shipping_price': '0',

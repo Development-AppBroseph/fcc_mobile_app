@@ -36,6 +36,7 @@ class AppSettingsPage extends StatelessWidget {
               FillBtn(
                 text: 'Выйти',
                 onTap: () {
+                  // TODO Delete FCM token from device with http request
                   context.read<AuthCubit>().logOut();
                   if (context.read<SelectedMembershipCubit>().state == null) {
                     context.read<SelectedMembershipCubit>().change(

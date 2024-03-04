@@ -178,7 +178,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                             AuthState state) {
                                           if (state is Authenticated) {
                                             return Text(
-                                              state.user.invitationCode ?? '',
+                                              'fcc-app.ru/invite/${state.user.invitationCode}',
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
@@ -244,6 +244,43 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                   ],
                                 ),
                               ),
+                              Center(
+                                  child: Column(
+                                children: <Widget>[
+                                  Animate(
+                                    effects: const <Effect>[
+                                      ScaleEffect(),
+                                    ],
+                                    child: BlocBuilder<AuthCubit, AuthState>(
+                                      builder: (
+                                        BuildContext context,
+                                        AuthState state,
+                                      ) {
+                                        if (state is Authenticated) {
+                                          return QrImageView(
+                                            data:
+                                                'fcc-app.ru/invite/${state.user.invitationCode}',
+                                            version: QrVersions.auto,
+                                            size: 200.0,
+                                          );
+                                        } else {
+                                          return const SizedBox.shrink();
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Text(
+                                    'Покажите QR-код друзьям',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          fontSize: 14,
+                                          color: Theme.of(context).hintColor,
+                                        ),
+                                  ),
+                                ],
+                              )),
                               sized40,
                               BlocBuilder<AuthCubit, AuthState>(
                                 builder:
