@@ -3,9 +3,9 @@ import 'package:fcc_app_front/export.dart';
 class ProductMenu extends StatefulWidget {
   final String catalogId;
   const ProductMenu({
-    Key? key,
+    super.key,
     required this.catalogId,
-  }) : super(key: key);
+  });
 
   @override
   State<ProductMenu> createState() => _ProductMenuState();
