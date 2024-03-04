@@ -70,7 +70,7 @@ class ProductDetails extends StatelessWidget {
                   subtitle: '4',
                 ),
                 ProductTextDetailsField(
-                  title: 'Крескость',
+                  title: 'Крепость',
                   subtitle: model?.strenght ?? '',
                 ),
                 ProductTextDetailsField(
