@@ -26,7 +26,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80.h,
+      height: 70.h,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -44,22 +44,26 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           ...widget.items
               .map(
                 (BottomNavBarItem e) => Expanded(
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 20.h),
-                      child: OnTapScaleAndFade(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          widget.onChanged(widget.items.indexOf(e));
-                        },
-                        child: e.svgPicture,
-                      ),
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    margin: EdgeInsets.only(top: 20.h),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(60),
+                          ),
+                          onTap: () => widget.onChanged(
+                                widget.items.indexOf(e),
+                              ),
+                          child: Ink(child: e.svgPicture)),
                     ),
                   ),
                 ),
