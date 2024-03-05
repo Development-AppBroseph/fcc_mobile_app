@@ -13,4 +13,5 @@ class HiveStrings {
   static const String receiveNotifications = 'receiveNotifications';
   static const String pushNotifications = 'pushNotifications';
   static const String smsNotifications = 'smsNotifications';
+  static const String fcmToken = 'fsmToken';
 }

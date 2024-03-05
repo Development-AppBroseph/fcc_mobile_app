@@ -48,6 +48,7 @@ void showConfirmDeleteDialog(
               onTap: () async {
                 final Future<bool> result =
                     context.read<AuthCubit>().archiveAccount();
+
                 if (await result) {
                   if (context.mounted) {
                     context.go(Routes.unauthenticatedInvite);

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/auth/data/models/fcm_token.dart';
 import 'package:fcc_app_front/features/auth/data/models/membership.dart';
 import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dart';
@@ -109,8 +110,10 @@ Future<void> _initHive() async {
   ).then((Box value) => log(
         value.get(HiveStrings.token) ?? '',
       ));
-  await Hive.openBox<MessageModel>(HiveStrings.message);
-  await Hive.openBox(HiveStrings.pushNotifications);
+  await Hive.openBox<dynamic>(HiveStrings.isFcmSent);
+  await Hive.openBox<dynamic>(HiveStrings.message);
+  Hive.registerAdapter(FcmTokenAdapter());
+  await Hive.openBox<dynamic>(HiveStrings.fcmToken);
 }
 
 void _initChatDependencies() {
