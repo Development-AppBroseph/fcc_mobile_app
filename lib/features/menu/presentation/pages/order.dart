@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fcc_app_front/export.dart';
 
 class Order extends StatefulWidget {
@@ -38,20 +40,12 @@ class _OrderState extends State<Order> {
                                   BuildContext context,
                                   int index,
                                 ) {
-                                  final OrderModel order = state.orders.last;
+                                  final List<OrderModel> order = state.orders;
+
                                   return Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          'Заказы',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium
-                                              ?.copyWith(
-                                                fontSize: 20,
-                                              ),
-                                        ),
                                         SizedBox(
                                           height: 30.h,
                                         ),
@@ -59,7 +53,7 @@ class _OrderState extends State<Order> {
                                           onTap: () {
                                             context.pushNamed(
                                               RoutesNames.orderDetails,
-                                              extra: order,
+                                              extra: order[index],
                                             );
                                           },
                                           child: SizedBox(
@@ -71,10 +65,15 @@ class _OrderState extends State<Order> {
                                                 Card(
                                                   elevation: 0.1,
                                                   clipBehavior: Clip.antiAlias,
-                                                  child: Image.network(
-                                                    order.orderItems[index]
-                                                        .productPhoto,
-                                                    height: 100.h,
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: order[index]
+                                                        .orderItems
+                                                        .map((OrderItem e) {
+                                                          return e.productPhoto;
+                                                        })
+                                                        .toString()
+                                                        .replaceAll('(', '')
+                                                        .replaceAll(')', ''),
                                                     width: 100.w,
                                                     fit: BoxFit.fill,
                                                   ),
@@ -92,11 +91,11 @@ class _OrderState extends State<Order> {
                                                             .spaceEvenly,
                                                     children: <Widget>[
                                                       Text(
-                                                        '№ ${order.id}',
+                                                        '№ ${order[index].id}',
                                                       ),
                                                       Text(
-                                                        order.orderItems[index]
-                                                            .productName,
+                                                        order[index]
+                                                            .clientEmail,
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodySmall,
@@ -105,7 +104,7 @@ class _OrderState extends State<Order> {
                                                         maxLines: 2,
                                                       ),
                                                       Text(
-                                                        'Статус: ${order.status}',
+                                                        'Статус: ${order[index].status}',
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodySmall,
@@ -119,7 +118,7 @@ class _OrderState extends State<Order> {
                                         ),
                                       ]);
                                 },
-                                itemCount: 1,
+                                itemCount: state.orders.length,
                               );
                             }
                             return Column(
