@@ -1,10 +1,12 @@
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/presentation/pages/agreement.dart';
+import 'package:fcc_app_front/features/auth/presentation/pages/server_state.dart';
 import 'package:fcc_app_front/features/catalog/presentation/widget/catalog_product_details.dart';
 
 class Routes {
   static String menu = '/';
   static String agreement = '/agreement';
+  static String serverState = '/serverState';
   static String productMenu = 'productMenu/:id';
 
   static String selectedProduct = '/selectedProduct';
@@ -54,6 +56,7 @@ class Routes {
 
 class RoutesNames {
   static String agreement = 'agreement';
+  static String serverState = 'serverState';
   static String menu = 'menu';
   static String productMenu = 'productMenu';
   static String selectedProduct = 'selectedProduct';
@@ -494,6 +497,18 @@ final GoRouter router = GoRouter(
           context: context,
           state: state,
           child: const AgreementScreen(),
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.serverState,
+      name: RoutesNames.serverState,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        return buildPageWithDefaultTransition<void>(
+          context: context,
+          state: state,
+          child: const ServerErrorPage(),
         );
       },
     ),
