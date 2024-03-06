@@ -111,7 +111,20 @@ class _OrderState extends State<Order> {
                                                       ),
                                                       Text(
                                                         order[index]
-                                                            .clientEmail,
+                                                            .orderItems
+                                                            .map((OrderItem e) {
+                                                              return e
+                                                                  .productName;
+                                                            })
+                                                            .toString()
+                                                            .replaceAll(
+                                                              '(',
+                                                              '',
+                                                            )
+                                                            .replaceAll(
+                                                              ')',
+                                                              '',
+                                                            ),
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodySmall,
