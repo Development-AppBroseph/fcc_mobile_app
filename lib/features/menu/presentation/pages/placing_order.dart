@@ -76,7 +76,6 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const CustomBackButton(),
                           sized20,
                           Text(
                             'Оформление заказа',
@@ -269,11 +268,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                   return;
                                 }
                                 if (_formKey.currentState!.validate() &&
-                                    validateMobile() == null &&
-                                    russianValidator(
-                                      nameController.text,
-                                    )) {
-                                  final OrderModel? order =
+                                    validateMobile() == null) {
+                                  final (OrderModel?, String?) order =
                                       await OrderRepo.placeOrder(
                                     product: widget.product!,
                                     address: selectedAddress ?? 0,
@@ -284,7 +280,19 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                         .replaceAll('-', ''),
                                     email: emailController.text,
                                   );
-                                  if (order != null && context.mounted) {
+
+                                  if (order.$2 != null) {
+                                    ApplicationSnackBar.showErrorSnackBar(
+                                        context,
+                                        order.$2 ?? '',
+                                        1,
+                                        const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        3);
+                                    return;
+                                  }
+
+                                  if (order.$1 != null && context.mounted) {
                                     canPopThenPop(context);
                                     context
                                         .read<SelectedProductsCubit>()
@@ -313,17 +321,18 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       3,
                                     );
                                   }
-                                  if (!russianValidator(
-                                    nameController.text,
-                                  )) {
+
+                                  if (emailController.text == '') {
                                     ApplicationSnackBar.showErrorSnackBar(
-                                        context,
-                                        'Пожалуйста, используйте в имени только русские буквы',
-                                        0.9,
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        2);
+                                      context,
+                                      'Пожалуйста, введите электронную почту',
+                                      1,
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      3,
+                                    );
                                   }
+
                                   if (validateMobile() != null) {
                                     ApplicationSnackBar.showErrorSnackBar(
                                         context,

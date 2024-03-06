@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 
 class OrderRepo {
-  static Future<OrderModel?> placeOrder({
+  static Future<(OrderModel?, String?)> placeOrder({
     required int address,
     required String name,
     required String phone,
@@ -29,28 +29,31 @@ class OrderRepo {
           'client_email': email,
         },
       );
+
+      if (response.statusCode == 400 &&
+          response.body == 'Слишком мало кол-во товаров в наличии') {
+        return (null, 'Слишком мало количества товаров в наличии');
+      }
+
       Hive.box(HiveStrings.userBox).put(HiveStrings.address, address);
       if (response.statusCode < 300) {
-        return OrderModel.fromJson(
-          jsonDecode(
-            utf8.decode(
-              response.bodyBytes,
-            ),
-          ),
+        return (
+          OrderModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))),
+          null
         );
       } else if (jsonDecode(
         utf8.decode(
           response.bodyBytes,
         ),
       )['message']
-          .contains('limit reached')) {
-        throw OrderException(message: 'limit reached');
+          .contains('Order limit reached')) {
+        throw OrderException(message: 'Order limit reached');
       }
     } catch (e) {
       if (e is OrderException) rethrow;
-      throw OrderException(message: 'limit reached');
+      throw OrderException(message: 'Order limit reached');
     }
-    return null;
+    return (null, null);
   }
 
   static Future<List<OrderModel>> getOrders() async {

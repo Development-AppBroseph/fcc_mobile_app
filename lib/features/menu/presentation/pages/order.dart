@@ -66,6 +66,22 @@ class _OrderState extends State<Order> {
                                                   elevation: 0.1,
                                                   clipBehavior: Clip.antiAlias,
                                                   child: CachedNetworkImage(
+                                                    imageBuilder: (BuildContext
+                                                            context,
+                                                        ImageProvider<Object>
+                                                            imageProvider) {
+                                                      return Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          image:
+                                                              DecorationImage(
+                                                            image:
+                                                                imageProvider,
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
                                                     imageUrl: order[index]
                                                         .orderItems
                                                         .map((OrderItem e) {
@@ -104,7 +120,7 @@ class _OrderState extends State<Order> {
                                                         maxLines: 2,
                                                       ),
                                                       Text(
-                                                        'Статус: ${order[index].status}',
+                                                        'Статус: ${convertOrderStatus(order[index].status)}',
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodySmall,
@@ -193,5 +209,18 @@ class _OrderState extends State<Order> {
         );
       },
     );
+  }
+
+  String convertOrderStatus(String orderStatus) {
+    switch (orderStatus) {
+      case 'PROCESS':
+        return 'В работе';
+      case 'READY':
+        return 'Собран';
+      case 'DELIVERED':
+        return 'Передан на доставку';
+      default:
+        return 'Статус неизвестен';
+    }
   }
 }

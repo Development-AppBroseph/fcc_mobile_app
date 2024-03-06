@@ -1,5 +1,6 @@
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/presentation/pages/agreement.dart';
+import 'package:fcc_app_front/features/catalog/presentation/widget/catalog_product_details.dart';
 
 class Routes {
   static String menu = '/';
@@ -296,6 +297,23 @@ final GoRouter router = GoRouter(
                               ) ??
                               MembershipType.standard,
                         ),
+                      ),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: Routes.catalogProductDetails,
+                  name: RoutesNames.catalogProductDetails,
+                  parentNavigatorKey: _rootNavigatorKey,
+                  pageBuilder: (
+                    BuildContext context,
+                    GoRouterState state,
+                  ) {
+                    return buildPageWithDefaultTransition<void>(
+                      context: context,
+                      state: state,
+                      child: CatalogProductDetails(
+                        model: state.extra as ProductModel?,
                       ),
                     );
                   },
