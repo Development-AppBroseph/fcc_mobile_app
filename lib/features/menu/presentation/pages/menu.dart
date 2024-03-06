@@ -144,133 +144,123 @@ class _MenuState extends State<Menu> {
                           ],
                         ),
                       ),
-                      BlocListener<AuthCubit, AuthState>(
-                        listener: (BuildContext context, AuthState state) {},
-                        child: BlocProvider(
-                          create: (BuildContext context) => SearchCubit(),
-                          child: BlocBuilder<SearchCubit, String?>(
-                            builder: (BuildContext context, String? query) {
-                              return BlocBuilder<CatalogCubit, CatalogState>(
-                                builder:
-                                    (BuildContext context, CatalogState state) {
-                                  final AuthState authState =
-                                      context.watch<AuthCubit>().state;
-                                  final List<CatalogModel> catalogs =
-                                      searchCatalog(
-                                    query,
-                                    getCatalogByMembership(
-                                      state.catalogs,
-                                      selectedMembership != null &&
+                      BlocBuilder<SearchCubit, String?>(
+                        builder: (BuildContext context, String? query) {
+                          return BlocBuilder<CatalogCubit, CatalogState>(
+                            builder:
+                                (BuildContext context, CatalogState state) {
+                              final AuthState authState =
+                                  context.watch<AuthCubit>().state;
+                              final List<CatalogModel> catalogs = searchCatalog(
+                                query,
+                                getCatalogByMembership(
+                                  state.catalogs,
+                                  selectedMembership != null &&
+                                          MembershipType.values.any(
+                                              (MembershipType element) =>
+                                                  element ==
+                                                  selectedMembership) &&
+                                          authState is Unauthenticated
+                                      ? MembershipType.values.firstWhereOrNull(
+                                          (MembershipType element) =>
+                                              element == selectedMembership)
+                                      : authState is Authenticated &&
                                               MembershipType.values.any(
-                                                  (MembershipType element) =>
-                                                      element ==
-                                                      selectedMembership) &&
-                                              authState is Unauthenticated
+                                                  (MembershipType element) {
+                                                return element.name ==
+                                                    authState
+                                                        .user.membershipLevel;
+                                              })
                                           ? MembershipType.values
                                               .firstWhereOrNull(
-                                                  (MembershipType element) =>
-                                                      element ==
-                                                      selectedMembership)
-                                          : authState is Authenticated &&
-                                                  MembershipType.values.any(
-                                                      (MembershipType element) {
-                                                    return element.name ==
-                                                        authState.user
-                                                            .membershipLevel;
-                                                  })
-                                              ? MembershipType.values
-                                                  .firstWhereOrNull(
-                                                  (MembershipType element) =>
-                                                      element.name ==
-                                                      authState
-                                                          .user.membershipLevel,
-                                                )
-                                              : null,
+                                              (MembershipType element) =>
+                                                  element.name ==
+                                                  authState
+                                                      .user.membershipLevel,
+                                            )
+                                          : null,
+                                ),
+                              );
+                              if (authState is Authenticated &&
+                                  authState.user.userMembership?.isActive ==
+                                      false) {
+                                return SliverToBoxAdapter(
+                                  child: SizedBox(
+                                    height: 400.h,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          'Пожалуйста выберите план для подписки',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        sized30,
+                                        CstmBtn(
+                                            text: 'Выбрать план',
+                                            onTap: () {
+                                              context.pushNamed(
+                                                RoutesNames.changePlan,
+                                                extra:
+                                                    authState.user.phoneNumber,
+                                              );
+                                            }),
+                                      ],
                                     ),
-                                  );
-                                  if (authState is Authenticated &&
-                                      authState.user.userMembership?.isActive ==
-                                          false) {
-                                    return SliverToBoxAdapter(
-                                      child: SizedBox(
-                                        height: 400.h,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                              'Пожалуйста выберите план для подписки',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            sized30,
-                                            CstmBtn(
-                                                text: 'Выбрать план',
-                                                onTap: () {
-                                                  context.pushNamed(
-                                                    RoutesNames.changePlan,
-                                                    extra: authState
-                                                        .user.phoneNumber,
-                                                  );
-                                                }),
-                                          ],
+                                  ),
+                                );
+                              }
+                              return SliverPadding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 20.h,
+                                ),
+                                sliver: LiveSliverList(
+                                  controller: _scrollController,
+                                  showItemInterval:
+                                      const Duration(milliseconds: 150),
+                                  showItemDuration:
+                                      const Duration(milliseconds: 200),
+                                  itemBuilder: (
+                                    BuildContext context,
+                                    int index,
+                                    Animation<double> animation,
+                                  ) {
+                                    return FadeTransition(
+                                      opacity: Tween<double>(
+                                        begin: 0,
+                                        end: 1,
+                                      ).animate(animation),
+                                      // And slide transition
+                                      child: SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(0, -0.1),
+                                          end: Offset.zero,
+                                        ).animate(animation),
+                                        child: CatalogCart(
+                                          catalog: catalogs[index],
+                                          function: () {
+                                            context.pushNamed(
+                                              RoutesNames.productMenu,
+                                              pathParameters: <String, String>{
+                                                'id': catalogs[index]
+                                                    .id
+                                                    .toString(),
+                                              },
+                                            );
+                                          },
                                         ),
                                       ),
                                     );
-                                  }
-                                  return SliverPadding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 20.h,
-                                    ),
-                                    sliver: LiveSliverList(
-                                      controller: _scrollController,
-                                      showItemInterval:
-                                          const Duration(milliseconds: 150),
-                                      showItemDuration:
-                                          const Duration(milliseconds: 200),
-                                      itemBuilder: (
-                                        BuildContext context,
-                                        int index,
-                                        Animation<double> animation,
-                                      ) {
-                                        return FadeTransition(
-                                          opacity: Tween<double>(
-                                            begin: 0,
-                                            end: 1,
-                                          ).animate(animation),
-                                          // And slide transition
-                                          child: SlideTransition(
-                                            position: Tween<Offset>(
-                                              begin: const Offset(0, -0.1),
-                                              end: Offset.zero,
-                                            ).animate(animation),
-                                            child: CatalogCart(
-                                              catalog: catalogs[index],
-                                              function: () {
-                                                context.pushNamed(
-                                                  RoutesNames.productMenu,
-                                                  pathParameters: <String,
-                                                      String>{
-                                                    'id': catalogs[index]
-                                                        .id
-                                                        .toString(),
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      itemCount: catalogs.length,
-                                    ),
-                                  );
-                                },
+                                  },
+                                  itemCount: catalogs.length,
+                                ),
                               );
                             },
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ],
                   );

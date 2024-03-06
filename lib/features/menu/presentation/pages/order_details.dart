@@ -32,7 +32,7 @@ class OrderDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Статуз: ',
+                  'Статус: ',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
@@ -41,7 +41,9 @@ class OrderDetails extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  order?.status ?? '',
+                  convertOrderStatus(
+                    order?.status ?? '',
+                  ),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
@@ -142,7 +144,7 @@ class OrderDetails extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  order?.deliveryStatus ?? '',
+                  convertDeliveryStatus(order?.deliveryStatus ?? ''),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontSize: 14,
                       ),
@@ -248,5 +250,31 @@ class OrderDetails extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String convertDeliveryStatus(String orderStatus) {
+    switch (orderStatus) {
+      case 'WAITING':
+        return 'Ожидает товар';
+      case 'PROCESS':
+        return 'в пути';
+      case 'SUCCESS':
+        return 'Доставлен';
+      default:
+        return 'Статус неизвестен';
+    }
+  }
+
+  String convertOrderStatus(String orderStatus) {
+    switch (orderStatus) {
+      case 'PROCESS':
+        return 'В работе';
+      case 'READY':
+        return 'Собран';
+      case 'DELIVERED':
+        return 'Передан на доставку';
+      default:
+        return 'Статус неизвестен';
+    }
   }
 }

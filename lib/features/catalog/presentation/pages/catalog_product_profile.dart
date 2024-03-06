@@ -1,4 +1,5 @@
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/catalog/presentation/widget/catalog_card.dart';
 
 class CatalogProductProfileMenu extends StatefulWidget {
   final String? catalogId;
@@ -154,12 +155,8 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                                         begin: const Offset(0, -0.1),
                                         end: Offset.zero,
                                       ).animate(animation),
-                                      child: ProductCart(
+                                      child: CatalogCard(
                                         product: products[index],
-                                        isSelected:
-                                            selectedProducts.product != null &&
-                                                selectedProducts.product!.id ==
-                                                    products[index].id,
                                       ),
                                     ),
                                   ),
