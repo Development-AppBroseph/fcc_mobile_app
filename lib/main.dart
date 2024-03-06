@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/data/models/fcm_token.dart';
 import 'package:fcc_app_front/features/auth/data/models/membership.dart';
+import 'package:fcc_app_front/features/auth/presentation/bloc/bloc/server_bloc.dart';
 import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dart';
 import 'package:fcc_app_front/features/chat/di/di.dart';
@@ -69,6 +70,11 @@ void main() {
           BlocProvider<OrderBloc>(
             create: (BuildContext context) {
               return OrderBloc()..add(FetchAllAddreses());
+            },
+          ),
+          BlocProvider<ServerBloc>(
+            create: (BuildContext context) {
+              return ServerBloc()..add(const CheckServerEvent());
             },
           ),
         ],
