@@ -29,8 +29,8 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
   );
   String? validateMobile() {
     final String value = maskFormatter.getMaskedText();
-    if (value.isEmpty) {
-      return 'Пожалуйста, введите номер мобильного телефона';
+    if (value.length < 10) {
+      return 'Пожалуйста, введите корректный номер мобильного телефона';
     }
     return null;
   }
@@ -214,6 +214,9 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                 FormBuilderValidators.required(
                                   errorText: 'Заполните это поле',
                                 ),
+                                FormBuilderValidators.match(
+                                    validateMobile() ?? '',
+                                    errorText: 'Неправильный номер телефона')
                               ],
                             ),
                             textInputType: TextInputType.number,
@@ -264,7 +267,17 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       0.9,
                                       const EdgeInsets.symmetric(
                                           horizontal: 10),
-                                      1);
+                                      2);
+                                  return;
+                                }
+                                if (phoneController.text.length < 10) {
+                                  ApplicationSnackBar.showErrorSnackBar(
+                                      context,
+                                      'Пожалуйста, введите корректный номер мобильного телефона',
+                                      0.9,
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      2);
                                   return;
                                 }
                                 if (_formKey.currentState!.validate() &&
@@ -302,37 +315,6 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                     );
                                   }
                                 } else {
-                                  if (selectedAddress == null) {
-                                    ApplicationSnackBar.showErrorSnackBar(
-                                        context,
-                                        'Пожалуйста, введите адрес',
-                                        0.9,
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        1);
-                                  }
-                                  if (nameController.text == '') {
-                                    ApplicationSnackBar.showErrorSnackBar(
-                                      context,
-                                      'Пожалуйста, введите имя',
-                                      1,
-                                      const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      3,
-                                    );
-                                  }
-
-                                  if (emailController.text == '') {
-                                    ApplicationSnackBar.showErrorSnackBar(
-                                      context,
-                                      'Пожалуйста, введите электронную почту',
-                                      1,
-                                      const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      3,
-                                    );
-                                  }
-
                                   if (validateMobile() != null) {
                                     ApplicationSnackBar.showErrorSnackBar(
                                         context,
@@ -341,7 +323,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                         0.9,
                                         const EdgeInsets.symmetric(
                                             horizontal: 10),
-                                        1);
+                                        3);
                                   }
                                 }
                               } catch (e) {
@@ -351,7 +333,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                     'Bы уже оформили заказ в этом месяце',
                                     0.9,
                                     const EdgeInsets.symmetric(horizontal: 10),
-                                    1,
+                                    2,
                                   );
                                 }
                               }

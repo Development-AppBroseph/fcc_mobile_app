@@ -1,11 +1,7 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:fcc_app_front/shared/constants/colors/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:fcc_app_front/shared/widgets/on_tap_scale.dart';
-
-// test
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
     Key? key,
@@ -53,7 +49,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   child: Container(
                     width: 30,
                     height: 30,
-                    margin: EdgeInsets.only(top: 20.h),
+                    margin: EdgeInsets.only(top: 15.h),
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
