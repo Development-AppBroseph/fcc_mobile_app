@@ -77,9 +77,6 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                             fontSize: 17,
                             color: Theme.of(context).hintColor,
                           ),
-                      inputFormatters: <TextInputFormatter>[
-                        LowerCaseTextFormatter(),
-                      ],
                       controller: controller,
                       decoration: const InputDecoration(
                         border: InputBorder.none,

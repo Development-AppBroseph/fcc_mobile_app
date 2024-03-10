@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/data/models/fcm_token.dart';
-import 'package:fcc_app_front/features/auth/data/models/membership.dart';
 import 'package:fcc_app_front/features/auth/presentation/bloc/bloc/server_bloc.dart';
 import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dart';

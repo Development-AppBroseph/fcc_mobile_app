@@ -46,10 +46,10 @@ class AuthCubit extends Cubit<AuthState> {
     required String username,
   }) async {
     try {
-      final Response response = await BaseHttpClient.getBody(
-        inviteUrl + username.toUpperCase(),
-      );
-
+      final Response response = await BaseHttpClient.getBody(inviteUrl,
+          queryParameters: <String, String>{
+            'invite': username,
+          });
       if (response.statusCode == 200) {
         log('Invited by username: ${response.body}');
         return true;
