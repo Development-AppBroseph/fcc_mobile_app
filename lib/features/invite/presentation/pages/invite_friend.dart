@@ -46,82 +46,6 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                       ),
                                 ),
                               ),
-                              sized10,
-                              // Text(
-                              //   'Ваше имя пользователя',
-                              //   style: Theme.of(context)
-                              //       .textTheme
-                              //       .bodySmall
-                              //       ?.copyWith(
-                              //         fontSize: 12,
-                              //         color: Theme.of(context).hintColor,
-                              //       ),
-                              // ),
-                              // sized10,
-                              // BlocBuilder<AuthCubit, AuthState>(
-                              //   builder:
-                              //       (BuildContext context, AuthState state) {
-                              //     return Container(
-                              //       height: 50,
-                              //       width: double.infinity,
-                              //       padding: const EdgeInsets.symmetric(
-                              //         horizontal: 20,
-                              //       ),
-                              //       decoration: BoxDecoration(
-                              //         borderRadius: BorderRadius.circular(15),
-                              //         border: Border.all(
-                              //           color:
-                              //               Theme.of(context).primaryColorLight,
-                              //         ),
-                              //       ),
-                              //       child: Row(
-                              //         children: <Widget>[
-                              //           Text(
-                              //             state is Authenticated
-                              //                 ? '@${state.user.userName}'
-                              //                 : 'user',
-                              //             style: Theme.of(context)
-                              //                 .textTheme
-                              //                 .bodyLarge
-                              //                 ?.copyWith(
-                              //                   fontWeight: FontWeight.w400,
-                              //                   fontSize: 14,
-                              //                   color:
-                              //                       Theme.of(context).hintColor,
-                              //                 ),
-                              //           ),
-                              //         ],
-                              //       ),
-                              //     );
-                              //   },
-
-                              sized10,
-                              // Center(
-                              //   child: Column(
-                              //     children: <Widget>[
-                              //       Animate(
-                              //         effects: const <Effect>[
-                              //           ScaleEffect(),
-                              //         ],
-                              //         child: QrImageView(
-                              //           data: 'https://fcc.i7.kg/',
-                              //           version: QrVersions.auto,
-                              //           size: 200.0,
-                              //         ),
-                              //       ),
-                              //       Text(
-                              //         'Покажите QR-код друзьям',
-                              //         style: Theme.of(context)
-                              //             .textTheme
-                              //             .bodySmall
-                              //             ?.copyWith(
-                              //               fontSize: 14,
-                              //               color: Theme.of(context).hintColor,
-                              //             ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
                               sized20,
                               Text(
                                 'Не нужно платить !',
@@ -178,7 +102,10 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                             AuthState state) {
                                           if (state is Authenticated) {
                                             return Text(
-                                              'fcc-app.ru/invite/${state.user.invitationCode}',
+                                              state.user.invitationCode
+                                                      ?.split('/')
+                                                      .last ??
+                                                  '',
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
@@ -221,9 +148,14 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                                 ),
                                               ).then(
                                                 (_) {
-                                                  showErrorSnackbar(
+                                                  ApplicationSnackBar
+                                                      .showErrorSnackBar(
                                                     context,
                                                     'Cкопирован в буфер обмена',
+                                                    1,
+                                                    const EdgeInsets.all(16),
+                                                    1,
+                                                    false,
                                                   );
                                                 },
                                               );
@@ -244,6 +176,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                   ],
                                 ),
                               ),
+                              sized40,
                               Center(
                                   child: Column(
                                 children: <Widget>[
@@ -259,7 +192,8 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                         if (state is Authenticated) {
                                           return QrImageView(
                                             data:
-                                                'fcc-app.ru/invite/${state.user.invitationCode}',
+                                                state.user.invitationCode ?? '',
+                                            // 'fcc-app.ru/invite/${state.user.invitationCode}',
                                             version: QrVersions.auto,
                                             size: 200.0,
                                           );
