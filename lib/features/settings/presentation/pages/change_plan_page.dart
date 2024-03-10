@@ -85,7 +85,7 @@ class ChangePlanPage extends StatelessWidget {
                               if (url != null && context.mounted) {
                                 context.pushNamed(
                                   RoutesNames.payment,
-                                  extra: <String, Object>{
+                                  extra: <String, dynamic>{
                                     'paymentUrl': url,
                                     'phone': phone,
                                     'onComplete': () async {
@@ -170,7 +170,7 @@ class ChangePlanPage extends StatelessWidget {
                               if (url != null && context.mounted) {
                                 context.pushNamed(
                                   RoutesNames.payment,
-                                  extra: <String, Object>{
+                                  extra: <String, dynamic>{
                                     'paymentUrl': url,
                                     'phone': phone,
                                     'onComplete': () async {
@@ -254,7 +254,7 @@ class ChangePlanPage extends StatelessWidget {
                               if (url != null && context.mounted) {
                                 context.pushNamed(
                                   RoutesNames.payment,
-                                  extra: <String, Object>{
+                                  extra: <String, dynamic>{
                                     'paymentUrl': url,
                                     'phone': phone,
                                     'onComplete': () async {

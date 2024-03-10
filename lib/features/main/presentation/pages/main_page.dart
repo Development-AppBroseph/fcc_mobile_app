@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 import 'package:web_socket_channel/io.dart';
 
 class MainPage extends StatelessWidget {

@@ -31,7 +31,12 @@ class OrderRepo {
       );
 
       if (response.statusCode == 400 &&
-          response.body == 'Слишком мало кол-во товаров в наличии') {
+          const Utf8Decoder()
+              .convert(response.bodyBytes)
+              .contains('Слишком мало кол-во товаров в наличии')) {
+        print(
+          response.body,
+        );
         return (null, 'Слишком мало количества товаров в наличии');
       }
 

@@ -1,5 +1,4 @@
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 
 class ProductDetails extends StatelessWidget {
   final ProductModel? model;
@@ -26,7 +25,7 @@ class ProductDetails extends StatelessWidget {
                   height: 20,
                 ),
                 Container(
-                  height: size.height / 3,
+                  height: size.height / 3.5,
                   width: size.width,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
@@ -87,40 +86,33 @@ class ProductDetails extends StatelessWidget {
                 BlocBuilder<AuthCubit, AuthState>(
                     builder: (BuildContext context, AuthState state) {
                   if (state is Authenticated) {
-                    return BlocBuilder<MembersheepBloc, MembersheepState>(
-                      builder: (
-                        BuildContext context,
-                        MembersheepState membersheepState,
-                      ) {
-                        return CstmBtn(
-                          text: 'Оформить заказ',
-                          onTap: () async {
-                            if (membersheepState.model != null) {
-                              if (!membersheepState.model!.isActive!) {
-                                ApplicationSnackBar.showErrorSnackBar(
-                                  context,
-                                  'Подписка не активна,пожалуйста,продлите подписку',
-                                  0.9,
-                                  const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                  ),
-                                  1,
-                                );
-                                context.go(RoutesNames.introCatalog);
-                                return;
-                              }
-                            }
-
-                            if (state is Unauthenticated) {
-                              context.pushNamed(RoutesNames.login);
-                              return;
-                            }
-
-                            context.pushNamed(
-                              RoutesNames.placeOrder,
-                              extra: model,
+                    return CstmBtn(
+                      text: 'Оформить заказ',
+                      onTap: () async {
+                        if (state.user.userMembership != null) {
+                          if (state.user.userMembership?.isActive == false) {
+                            ApplicationSnackBar.showErrorSnackBar(
+                              context,
+                              'Подписка не активна,пожалуйста,продлите подписку',
+                              0.9,
+                              const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              1,
                             );
-                          },
+                            context.go(RoutesNames.introCatalog);
+                            return;
+                          }
+                        }
+
+                        if (state is Unauthenticated) {
+                          context.pushNamed(RoutesNames.login);
+                          return;
+                        }
+
+                        context.pushNamed(
+                          RoutesNames.placeOrder,
+                          extra: model,
                         );
                       },
                     );

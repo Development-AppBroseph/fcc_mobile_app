@@ -29,7 +29,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
   );
   String? validateMobile() {
     final String value = maskFormatter.getMaskedText();
-    if (value.length < 10) {
+    if (value.length <= 10) {
       return 'Пожалуйста, введите корректный номер мобильного телефона';
     }
     return null;
@@ -214,9 +214,6 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                 FormBuilderValidators.required(
                                   errorText: 'Заполните это поле',
                                 ),
-                                FormBuilderValidators.match(
-                                    validateMobile() ?? '',
-                                    errorText: 'Неправильный номер телефона')
                               ],
                             ),
                             textInputType: TextInputType.number,
@@ -281,7 +278,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                   return;
                                 }
                                 if (_formKey.currentState!.validate() &&
-                                    validateMobile() == null) {
+                                    phoneController.text.length >= 10) {
                                   final (OrderModel?, String?) order =
                                       await OrderRepo.placeOrder(
                                     product: widget.product!,
@@ -294,7 +291,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                     email: emailController.text,
                                   );
 
-                                  if (order.$2 != null) {
+                                  if (order.$2 != null && context.mounted) {
                                     ApplicationSnackBar.showErrorSnackBar(
                                         context,
                                         order.$2 ?? '',

@@ -105,32 +105,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                         sized20,
                         Text(
-                          'Имя',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context).hintColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                        ),
-                        sized10,
-                        RounField(
-                          controller: name,
-                          enabled: false,
-                          hintText: 'Введите имя',
-                          initialText: user?.firstName,
-                          hintStyle:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context).hintColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                          textStyle:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context).primaryColorDark,
-                                  ),
-                          textInputAction: TextInputAction.next,
-                        ),
-                        sized10,
-                        Text(
                           'Фамилия',
                           style:
                               Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -155,6 +129,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   ),
                           textInputAction: TextInputAction.next,
                           inputFormatter: const <TextInputFormatter>[],
+                        ),
+                        sized10,
+                        Text(
+                          'Имя',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).hintColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                        ),
+                        sized10,
+                        RounField(
+                          controller: name,
+                          enabled: false,
+                          hintText: 'Введите имя',
+                          initialText: user?.firstName,
+                          hintStyle:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).hintColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                          textStyle:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).primaryColorDark,
+                                  ),
+                          textInputAction: TextInputAction.next,
                         ),
                         sized10,
                         Text(

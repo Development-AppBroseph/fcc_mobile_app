@@ -1,5 +1,4 @@
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/auth/presentation/bloc/membersheep_bloc.dart';
 
 class CatalogProductDetails extends StatelessWidget {
   final ProductModel? model;
@@ -26,7 +25,7 @@ class CatalogProductDetails extends StatelessWidget {
                   height: 20,
                 ),
                 Container(
-                  height: size.height / 2.5,
+                  height: size.height / 3.5,
                   width: size.width,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
@@ -84,11 +83,31 @@ class CatalogProductDetails extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                CstmBtn(
-                    text: 'Оформить заказ',
-                    onTap: () async {
-                      context.go(Routes.introCatalog);
-                    })
+                BlocBuilder<AuthCubit, AuthState>(
+                  builder: (BuildContext context, AuthState state) {
+                    if (state is Authenticated) {
+                      return CstmBtn(
+                          text: 'Оформить заказ',
+                          onTap: () async {
+                            if (state.user.userMembership?.isActive == false) {
+                              ApplicationSnackBar.showErrorSnackBar(
+                                  context,
+                                  'Подписка не активна,пожалуйста,продлите подписку',
+                                  1,
+                                  const EdgeInsets.all(16),
+                                  2);
+                              context.go(Routes.introCatalog);
+                            }
+                          });
+                    } else {
+                      return CstmBtn(
+                          text: 'Оформить заказ',
+                          onTap: () async {
+                            context.go(Routes.introCatalog);
+                          });
+                    }
+                  },
+                )
               ],
             ),
           ),

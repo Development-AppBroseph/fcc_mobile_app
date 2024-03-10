@@ -79,20 +79,6 @@ class AuthRepo {
     return false;
   }
 
-  static Future<CurrentMembership?> getCurrentMembership() async {
-    try {
-      final String? response = await BaseHttpClient.get(
-        'api/v1/users/my-current-membership/',
-      );
-
-      log(response.toString());
-      return CurrentMembership.fromJson(jsonDecode(response.toString()));
-    } catch (e) {
-      log('Someting wrong in getCurrentMembership: $e');
-    }
-    return null;
-  }
-
   static Future<bool> sendSms(String phoneNumber) async {
     try {
       final Response? response = await BaseHttpClient.post(

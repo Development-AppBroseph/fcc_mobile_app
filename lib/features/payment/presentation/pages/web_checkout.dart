@@ -12,7 +12,6 @@ import 'package:go_router/go_router.dart';
 
 import 'package:fcc_app_front/features/payment/data/repositories/payment_repo.dart';
 
-import 'package:fcc_app_front/shared/constants/colors/color.dart';
 import 'package:fcc_app_front/shared/widgets/snackbar.dart';
 
 class WebCheckoutPage extends StatefulWidget {
