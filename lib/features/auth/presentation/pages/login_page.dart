@@ -19,6 +19,14 @@ class _LoginPageState extends State<LoginPage> {
     },
   );
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    print('weorked login init');
+    context.read<AuthCubit>().init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return KeyboardDismisser(

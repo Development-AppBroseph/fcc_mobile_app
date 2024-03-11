@@ -33,7 +33,7 @@ class AuthRepo {
 
   static Future<bool> deleteFcmToken(String fcmToken) async {
     try {
-      final Response response = await BaseHttpClient.delete(
+      final String response = await BaseHttpClient.delete(
         'api/v1/notifications/fcm_token/$fcmToken/',
         headers: <String, String>{
           'Authorization':
@@ -41,7 +41,7 @@ class AuthRepo {
           'Content-type': 'application/json',
         },
       );
-      log(response.body.toString());
+      log(response.toString());
       return true;
     } catch (e) {
       log('Someting wrong in fcmToken when delete : $e');

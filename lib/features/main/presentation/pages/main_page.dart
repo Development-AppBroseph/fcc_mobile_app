@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:fcc_app_front/export.dart';
-import 'package:web_socket_channel/io.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({
@@ -69,27 +66,27 @@ class _MainScaffoldState extends State<MainScaffold> {
       },
     );
 
-    final IOWebSocketChannel channel = IOWebSocketChannel.connect(
-      Uri.parse(socketUrl),
-      headers: <String, String>{
-        'Authorization': 'Bearer ${getToken()}',
-        'Origin': baseUrl,
-      },
-    );
+    // final IOWebSocketChannel channel = IOWebSocketChannel.connect(
+    //   Uri.parse(socketUrl),
+    //   headers: <String, String>{
+    //     'Authorization': 'Bearer ${getToken()}',
+    //     'Origin': baseUrl,
+    //   },
+    // );
 
-    channel.stream.listen((dynamic event) {
-      MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
-      ValueNotifier<bool> isAdmin =
-          ValueNotifier<bool>(parsed.message.clientSend);
+    // channel.stream.listen((dynamic event) {
+    //   MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
+    //   ValueNotifier<bool> isAdmin =
+    //       ValueNotifier<bool>(parsed.message.clientSend);
 
-      if (!isAdmin.value) {
-        NotificationApi.pushLocaleNotification(
-          'ФКК',
-          parsed.message.message ??
-              parsed.message.file.toString().split('/').last,
-        );
-      }
-    });
+    //   if (!isAdmin.value) {
+    //     NotificationApi.pushLocaleNotification(
+    //       'ФКК',
+    //       parsed.message.message ??
+    //           parsed.message.file.toString().split('/').last,
+    //     );
+    //   }
+    // });
   }
 
   @override

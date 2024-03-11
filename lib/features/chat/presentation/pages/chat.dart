@@ -43,9 +43,9 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-
+    final int? userId = getClientId();
     _channel = IOWebSocketChannel.connect(
-      Uri.parse(socketUrl),
+      Uri.parse(socketUrl + userId.toString()),
       headers: <String, String>{
         'Authorization': 'Bearer ${getToken()}',
         'Origin': baseUrl,
