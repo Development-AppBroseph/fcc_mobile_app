@@ -1,6 +1,9 @@
+import 'package:equatable/equatable.dart';
+
+import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/shared/config/utils/get_token.dart';
 
-class UserModel {
+class UserModel extends Equatable {
   int? id;
   String? phoneNumber;
   String? firstName;
@@ -72,6 +75,26 @@ class UserModel {
       data['user_membership'] = userMembership!.toJson();
     }
     return data;
+  }
+
+  @override
+  List<Object?> get props {
+    return <Object?>[
+      id,
+      phoneNumber,
+      firstName,
+      lastName,
+      middleName,
+      isActive,
+      isPhoneVerified,
+      passportVerificationStatus,
+      isIdentityVerified,
+      membershipLevel,
+      invitedCount,
+      invitationCode,
+      sumDiscount,
+      userMembership,
+    ];
   }
 }
 

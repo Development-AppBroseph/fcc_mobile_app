@@ -37,31 +37,4 @@ class OrderCubit extends Cubit<OrderState> {
       );
     }
   }
-
-//   Future<bool> makeOrder({
-//     required String productId,
-//     required ProductModel product,
-//     required int address,
-//     required String name,
-//     required String phone,
-//     required String email,
-//   }) async {
-//     try {
-//       await OrderRepo.placeOrder(
-//         address: address,
-//         name: name,
-//         phone: phone,
-//         email: email,
-//       );
-//       return true;
-//     } catch (exception) {
-//       if (exception is OrderException &&
-//           exception.message.contains('limit reached')) {
-//         print(exception.message);
-//         return false;
-//       }
-//     }
-//     return false;
-//   }
-// }
 }

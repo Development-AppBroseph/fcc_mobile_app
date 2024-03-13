@@ -62,14 +62,15 @@ class _FillBtnState extends State<FillBtn> {
                 style: widget.textStyle ??
                     Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w500,
-                          color: widget.textColor ?? Theme.of(context).primaryColorDark,
+                          color: widget.textColor ??
+                              Theme.of(context).primaryColorDark,
                         ),
                 maxLines: 1,
                 minFontSize: 10,
                 textAlign: TextAlign.center,
               ),
             ),
-            sized20,
+            sized20
           ],
         ),
       ),

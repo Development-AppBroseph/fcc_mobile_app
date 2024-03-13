@@ -102,10 +102,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                             AuthState state) {
                                           if (state is Authenticated) {
                                             return Text(
-                                              state.user.invitationCode
-                                                      ?.split('/')
-                                                      .last ??
-                                                  '',
+                                              'fcc-app.ru/invite/${state.user.invitationCode ?? ''}',
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
@@ -142,9 +139,8 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                             onTap: () async {
                                               await Clipboard.setData(
                                                 ClipboardData(
-                                                  text: state.user
-                                                          .invitationCode ??
-                                                      '',
+                                                  text:
+                                                      'fcc-app.ru/invite/${state.user.invitationCode ?? ''}',
                                                 ),
                                               ).then(
                                                 (_) {
@@ -192,8 +188,8 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                         if (state is Authenticated) {
                                           return QrImageView(
                                             data:
-                                                state.user.invitationCode ?? '',
-                                            // 'fcc-app.ru/invite/${state.user.invitationCode}',
+                                                // state.user.invitationCode ?? '',
+                                                'fcc-app.ru/invite/${state.user.invitationCode}',
                                             version: QrVersions.auto,
                                             size: 200.0,
                                           );

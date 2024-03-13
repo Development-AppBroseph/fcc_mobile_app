@@ -71,10 +71,14 @@ class _CounterButtonState extends State<CounterButton> {
           onTap: timerFinished ? resetTimer : null,
           child: Center(
             child: Text(
-              timerFinished ? 'Отправить еще раз' : "Запросить через 00:${widget.counter.toString().padLeft(2, '0')}",
+              timerFinished
+                  ? 'Отправить еще раз'
+                  : "Запросить через 00:${widget.counter.toString().padLeft(2, '0')}",
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w400,
-                    color: timerFinished ? Theme.of(context).primaryColorDark : Theme.of(context).hintColor,
+                    color: timerFinished
+                        ? Theme.of(context).primaryColorDark
+                        : Theme.of(context).hintColor,
                   ),
             ),
           ),

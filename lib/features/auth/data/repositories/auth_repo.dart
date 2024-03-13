@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/data/models/fcm_token.dart';
-import 'package:fcc_app_front/features/auth/data/models/membership.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRepo {
@@ -190,7 +189,7 @@ class AuthRepo {
     );
     if (response.statusCode == 403) {
       final Map<String, dynamic> body = Map<String, dynamic>.from(
-        jsonDecode(response.body) as Map,
+        jsonDecode(response.body) as Map<dynamic,dynamic>,
       );
       await saveUserInfo(body);
       if (body['status'] == 1) {

@@ -1,6 +1,8 @@
 part of 'catalog_cubit.dart';
 
 class CatalogState extends Equatable {
+  final List<CatalogModel> catalogs;
+
   const CatalogState(
     this.catalogs,
   );
@@ -13,7 +15,6 @@ class CatalogState extends Equatable {
     );
   }
 
-  final List<CatalogModel> catalogs;
   @override
   List<Object> get props => <Object>[
         catalogs,

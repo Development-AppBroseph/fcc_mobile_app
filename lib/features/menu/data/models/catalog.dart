@@ -1,12 +1,16 @@
 import 'dart:math';
 
-class CatalogModel {
+import 'package:equatable/equatable.dart';
+
+import 'package:fcc_app_front/export.dart';
+
+class CatalogModel extends Equatable {
   final int id;
   final String name;
   final String description;
   final String membership;
   final String? image;
-  CatalogModel({
+  const CatalogModel({
     required this.id,
     required this.name,
     required this.description,
@@ -22,5 +26,16 @@ class CatalogModel {
       membership: map['membership_level'] ?? 'standard',
       image: map['catalog_image'],
     );
+  }
+
+  @override
+  List<Object?> get props {
+    return <Object?>[
+      id,
+      name,
+      description,
+      membership,
+      image,
+    ];
   }
 }

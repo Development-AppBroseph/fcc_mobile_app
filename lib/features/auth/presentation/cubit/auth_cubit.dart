@@ -21,11 +21,11 @@ class AuthCubit extends Cubit<AuthState> {
       if (user != null) {
         log('Have user');
 
-        emit(
-          Authenticated(
-            user: user,
-          ),
-        );
+        emit(Authenticated(
+          user: user,
+        ).copyWith(
+          user: user,
+        ));
       }
     }
   }

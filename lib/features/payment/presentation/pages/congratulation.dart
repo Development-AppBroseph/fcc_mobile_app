@@ -16,27 +16,21 @@ class PaymentCongratulationPage extends StatefulWidget {
 }
 
 class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
-  final ConfettiController confettiController = ConfettiController();
-
   @override
   void initState() {
     super.initState();
 
-    confettiController.play();
     goToMenu();
   }
 
   void goToMenu() {
     Future<void>.delayed(const Duration(seconds: 3)).then((value) {
       context.read<AuthCubit>().init();
-      context.go(Routes.menu);
+      context.go(
+        Routes.menu,
+        extra: widget.membership,
+      );
     });
-  }
-
-  @override
-  void dispose() {
-    confettiController.dispose();
-    super.dispose();
   }
 
   @override
@@ -57,16 +51,6 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
           ),
           child: Column(
             children: <Widget>[
-              ConfettiWidget(
-                confettiController: confettiController,
-                blastDirectionality: BlastDirectionality.explosive,
-                blastDirection: -1.5,
-                particleDrag: 0.01,
-                emissionFrequency: 0.02,
-                numberOfParticles: 50,
-                gravity: 0.05,
-                shouldLoop: false,
-              ),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -98,5 +82,10 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

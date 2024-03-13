@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fcc_app_front/features/auth/data/models/membership.dart';
-import 'package:fcc_app_front/features/auth/data/repositories/auth_repo.dart';
 import 'package:fcc_app_front/features/menu/data/models/catalog.dart';
 import 'package:fcc_app_front/features/menu/data/repositories/catalog_repo.dart';
 
@@ -25,6 +23,6 @@ class CatalogCubit extends Cubit<CatalogState> {
       catalogId: membershipId,
     );
 
-    emit(CatalogState(catalogs));
+    emit(state.copyWith(catalogs: catalogs));
   }
 }
