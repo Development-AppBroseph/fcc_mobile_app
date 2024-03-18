@@ -28,6 +28,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>FlutterDeepLinkingEnabled</key>
+ <true/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App uses phone microphone to record audio for send audio messages</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -44,8 +46,10 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
+	
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>

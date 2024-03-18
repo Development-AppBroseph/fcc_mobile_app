@@ -177,7 +177,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                   child: Column(
                                 children: <Widget>[
                                   Animate(
-                                    effects: const <Effect>[
+                                    effects: const <Effect<dynamic>>[
                                       ScaleEffect(),
                                     ],
                                     child: BlocBuilder<AuthCubit, AuthState>(

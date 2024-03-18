@@ -8,16 +8,19 @@ import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dar
 import 'package:fcc_app_front/features/chat/di/di.dart';
 import 'package:fcc_app_front/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
+import 'package:fcc_app_front/firebase_options.dart';
 import 'package:fcc_app_front/shared/config/base/observer.dart';
 
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     await Hive.initFlutter();
     await _initHive();
 
-    await Firebase.initializeApp();
     NotificationApi.init();
 
     FirebaseNotificationsRepo().initNotifications(() {});
