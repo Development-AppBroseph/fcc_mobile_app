@@ -28,7 +28,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:367644519695:android:80d0e38238886abb16e27a",
         "android_client_info": {
-          "package_name": "com.example.fcc_app_front"
+          "package_name": "br.mobile.fcc"
         }
       },
       "oauth_client": [],

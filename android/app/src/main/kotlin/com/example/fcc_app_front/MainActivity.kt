@@ -1,4 +1,4 @@
-package com.example.fcc_app_front
+package br.mobile.fcc
 
 import io.flutter.embedding.android.FlutterActivity
 
