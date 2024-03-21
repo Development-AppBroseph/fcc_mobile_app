@@ -69,7 +69,7 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
             Expanded(
               child: InAppWebView(
                 initialUrlRequest: URLRequest(
-                  url: Uri.parse(
+                  url: WebUri(
                     widget.url,
                   ),
                 ),

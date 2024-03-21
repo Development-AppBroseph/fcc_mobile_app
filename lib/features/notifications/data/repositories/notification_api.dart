@@ -29,7 +29,7 @@ class NotificationApi {
           flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>();
 
-      await androidImplementation?.requestPermission();
+      await androidImplementation?.requestNotificationsPermission();
     }
   }
 
