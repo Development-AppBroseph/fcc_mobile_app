@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:158.160.141.46</string>
+		<string>applinks:https://fcc-app.ru</string>
 	</array>
 </dict>
 </plist>
