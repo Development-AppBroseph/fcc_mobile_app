@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+  
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -31,15 +33,20 @@
 
   <title>fcc_mobile_app</title>
   <link rel="manifest" href="manifest.json">
-
+ 
   <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;
   </script>
   <!-- This script adds the flutter initialization JS code -->
+  <script type="application/javascript" src="/assets/packages/flutter_inappwebview_web/assets/web/web_support.js" defer></script>
+    <!-- ... -->
+</head>
   <script src="flutter.js" defer></script>
 </head>
 <body>
+
+
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
@@ -55,5 +62,23 @@
       });
     });
   </script>
+
+
+  <!-- <script>
+ const firebaseConfig = {
+  apiKey: "AIzaSyDU2ONrSHdG6huXBHnAj_y0BZyXNWh73XQ",
+  authDomain: "fcc-mobile-app.firebaseapp.com",
+  projectId: "fcc-mobile-app",
+  storageBucket: "fcc-mobile-app.appspot.com",
+  messagingSenderId: "367644519695",
+  appId: "1:367644519695:web:a048cc4d451c116316e27a",
+  measurementId: "G-HWRH4WVGS0"
+};
+
+firebase.initializeApp(firebaseConfig);
+ 
+ </script>  -->
+
+
 </body>
 </html>

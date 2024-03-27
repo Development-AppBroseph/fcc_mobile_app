@@ -54,11 +54,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyDU2ONrSHdG6huXBHnAj_y0BZyXNWh73XQ',
-    appId: '1:367644519695:web:a048cc4d451c116316e27a',
+    appId: '1:367644519695:web:08936cc4c72b29d316e27a',
     messagingSenderId: '367644519695',
     projectId: 'fcc-mobile-app',
     authDomain: 'fcc-mobile-app.firebaseapp.com',
     storageBucket: 'fcc-mobile-app.appspot.com',
-    measurementId: 'G-HWRH4WVGS0',
+    measurementId: 'G-CW917VTEZK',
   );
 }

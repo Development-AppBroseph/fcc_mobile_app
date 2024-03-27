@@ -18,7 +18,7 @@ import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -28,7 +28,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  late IOWebSocketChannel _channel;
+  late WebSocketChannel _channel;
 
   List<types.Message> _messages = <types.Message>[];
 
@@ -40,66 +40,66 @@ class _ChatPageState extends State<ChatPage> {
     id: 'admin',
   );
 
-  @override
-  void initState() {
-    super.initState();
-    final int? userId = getClientId();
-    _channel = IOWebSocketChannel.connect(
-      Uri.parse(socketUrl + userId.toString()),
-      headers: <String, String>{
-        'Authorization': 'Bearer ${getToken()}',
-        'Origin': baseUrl,
-      },
-    );
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   final int? userId = getClientId();
+  //   _channel = WebSocketChannel.connect(
+  //     Uri.parse(socketUrl + userId.toString()),
+  //     headers: <String, String>{
+  //       'Authorization': 'Bearer ${getToken()}',
+  //       'Origin': baseUrl,
+  //     },
+  //   );
 
-    _channel.stream.listen((dynamic event) {
-      MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
-      ValueNotifier<bool> isAdmin =
-          ValueNotifier<bool>(parsed.message.clientSend);
+  //   _channel.stream.listen((dynamic event) {
+  //     MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
+  //     ValueNotifier<bool> isAdmin =
+  //         ValueNotifier<bool>(parsed.message.clientSend);
 
-      log(parsed.toJson().toString());
+  //     log(parsed.toJson().toString());
 
-      if (parsed.message.file.toString().contains('image_picker')) {
-        _addMessage(
-          types.ImageMessage(
-            author: isAdmin.value ? _user : _admin,
-            createdAt: DateTime.now().millisecondsSinceEpoch,
-            id: const Uuid().v4(),
-            name: parsed.message.file.toString().split('/').last,
-            size: 28,
-            uri: baseUrl + parsed.message.file,
-          ),
-        );
-        return;
-      }
+  //     if (parsed.message.file.toString().contains('image_picker')) {
+  //       _addMessage(
+  //         types.ImageMessage(
+  //           author: isAdmin.value ? _user : _admin,
+  //           createdAt: DateTime.now().millisecondsSinceEpoch,
+  //           id: const Uuid().v4(),
+  //           name: parsed.message.file.toString().split('/').last,
+  //           size: 28,
+  //           uri: baseUrl + parsed.message.file,
+  //         ),
+  //       );
+  //       return;
+  //     }
 
-      if (parsed.message.type == 'file' &&
-          !parsed.message.file.toString().contains('image_picker')) {
-        _addMessage(
-          types.FileMessage(
-            author: isAdmin.value ? _user : _admin,
-            createdAt: DateTime.now().millisecondsSinceEpoch,
-            id: const Uuid().v4(),
-            mimeType: '',
-            name: parsed.message.file.toString().split('/').last,
-            size: 28,
-            uri: baseUrl + parsed.message.file,
-          ),
-        );
-        return;
-      } else {
-        final types.Message message = types.TextMessage(
-          author: isAdmin.value ? _user : _admin,
-          createdAt: DateTime.now().millisecondsSinceEpoch,
-          id: const Uuid().v4(),
-          text: parsed.message.message ?? '',
-        );
-        _addMessage(message);
-      }
-    });
+  //     if (parsed.message.type == 'file' &&
+  //         !parsed.message.file.toString().contains('image_picker')) {
+  //       _addMessage(
+  //         types.FileMessage(
+  //           author: isAdmin.value ? _user : _admin,
+  //           createdAt: DateTime.now().millisecondsSinceEpoch,
+  //           id: const Uuid().v4(),
+  //           mimeType: '',
+  //           name: parsed.message.file.toString().split('/').last,
+  //           size: 28,
+  //           uri: baseUrl + parsed.message.file,
+  //         ),
+  //       );
+  //       return;
+  //     } else {
+  //       final types.Message message = types.TextMessage(
+  //         author: isAdmin.value ? _user : _admin,
+  //         createdAt: DateTime.now().millisecondsSinceEpoch,
+  //         id: const Uuid().v4(),
+  //         text: parsed.message.message ?? '',
+  //       );
+  //       _addMessage(message);
+  //     }
+  //   });
 
-    _loadMessages();
-  }
+  //   _loadMessages();
+  // }
 
   void _addMessage(types.Message message) {
     setState(() {
