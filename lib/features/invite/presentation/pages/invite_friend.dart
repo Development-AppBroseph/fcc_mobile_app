@@ -189,7 +189,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                           return QrImageView(
                                             data:
                                                 // state.user.invitationCode ?? '',
-                                                'fcc-app.ru/invite/${state.user.invitationCode}',
+                                                'https://fcc-app.ru/invite/${state.user.invitationCode}',
                                             version: QrVersions.auto,
                                             size: 200.0,
                                           );
