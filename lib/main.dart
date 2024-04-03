@@ -74,6 +74,9 @@ Future<void> main() async {
           BlocProvider<SelectedProductsCubit>(
             create: (BuildContext context) => SelectedProductsCubit(),
           ),
+          BlocProvider<MembershipCubit>(
+            create: (BuildContext context) => MembershipCubit(),
+          ),
           BlocProvider<ChatBloc>(
               create: (BuildContext context) =>
                   ChatBloc(getIt<ChatRepositoryImpl>())),

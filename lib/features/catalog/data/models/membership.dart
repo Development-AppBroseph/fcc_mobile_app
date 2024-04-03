@@ -1,14 +1,16 @@
-class MembershipModel {
+import 'package:fcc_app_front/export.dart';
+
+class MembershipModel extends Equatable {
   final int id;
   final String level;
   final double price;
-  MembershipModel({
+  const MembershipModel({
     required this.id,
     required this.level,
     required this.price,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'level': level,
@@ -23,4 +25,11 @@ class MembershipModel {
       price: double.tryParse(map['price']) ?? 300,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        level,
+        price,
+      ];
 }

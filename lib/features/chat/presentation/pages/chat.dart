@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
-import 'dart:ui' as ui show Image;
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/chat/data/models/api_message.dart';
-import 'package:fcc_app_front/features/chat/data/models/message_body_model.dart'
-    as m;
+
 import 'package:file_picker/file_picker.dart' as picker;
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -18,6 +17,8 @@ import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:web_socket_channel/html.dart';
+import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatPage extends StatefulWidget {
@@ -40,66 +41,83 @@ class _ChatPageState extends State<ChatPage> {
     id: 'admin',
   );
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   final int? userId = getClientId();
-  //   _channel = WebSocketChannel.connect(
-  //     Uri.parse(socketUrl + userId.toString()),
-  //     headers: <String, String>{
-  //       'Authorization': 'Bearer ${getToken()}',
-  //       'Origin': baseUrl,
-  //     },
-  //   );
+  Future<void> checkWebSocketState() async {
+    await _channel.ready;
+  }
 
-  //   _channel.stream.listen((dynamic event) {
-  //     MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
-  //     ValueNotifier<bool> isAdmin =
-  //         ValueNotifier<bool>(parsed.message.clientSend);
+  @override
+  void initState() {
+    super.initState();
+    final int? userId = getClientId();
 
-  //     log(parsed.toJson().toString());
+    if (kIsWeb) {
+      _channel =
+          WebSocketChannel.connect(Uri.parse(socketUrl + userId.toString()));
+      _channel.sink.add(<String, dynamic>{
+        'Authorization': 'Bearer ' + getToken()!,
+        'Origin': baseUrl
+      });
 
-  //     if (parsed.message.file.toString().contains('image_picker')) {
-  //       _addMessage(
-  //         types.ImageMessage(
-  //           author: isAdmin.value ? _user : _admin,
-  //           createdAt: DateTime.now().millisecondsSinceEpoch,
-  //           id: const Uuid().v4(),
-  //           name: parsed.message.file.toString().split('/').last,
-  //           size: 28,
-  //           uri: baseUrl + parsed.message.file,
-  //         ),
-  //       );
-  //       return;
-  //     }
+      checkWebSocketState();
+    } else {
+      _channel = IOWebSocketChannel.connect(
+        protocols: <String>['https', 'wss'],
+        Uri.parse(socketUrl + userId.toString()),
+        headers: <String, String>{
+          'Authorization': 'Bearer ${getToken()}',
+          'Origin': baseUrl,
+        },
+      );
+    }
 
-  //     if (parsed.message.type == 'file' &&
-  //         !parsed.message.file.toString().contains('image_picker')) {
-  //       _addMessage(
-  //         types.FileMessage(
-  //           author: isAdmin.value ? _user : _admin,
-  //           createdAt: DateTime.now().millisecondsSinceEpoch,
-  //           id: const Uuid().v4(),
-  //           mimeType: '',
-  //           name: parsed.message.file.toString().split('/').last,
-  //           size: 28,
-  //           uri: baseUrl + parsed.message.file,
-  //         ),
-  //       );
-  //       return;
-  //     } else {
-  //       final types.Message message = types.TextMessage(
-  //         author: isAdmin.value ? _user : _admin,
-  //         createdAt: DateTime.now().millisecondsSinceEpoch,
-  //         id: const Uuid().v4(),
-  //         text: parsed.message.message ?? '',
-  //       );
-  //       _addMessage(message);
-  //     }
-  //   });
+    _channel.stream.listen((dynamic event) {
+      MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
+      ValueNotifier<bool> isAdmin =
+          ValueNotifier<bool>(parsed.message.clientSend);
 
-  //   _loadMessages();
-  // }
+      log(parsed.toJson().toString());
+
+      if (parsed.message.file.toString().contains('image_picker')) {
+        _addMessage(
+          types.ImageMessage(
+            author: isAdmin.value ? _user : _admin,
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            id: const Uuid().v4(),
+            name: parsed.message.file.toString().split('/').last,
+            size: 28,
+            uri: baseUrl + parsed.message.file,
+          ),
+        );
+        return;
+      }
+
+      if (parsed.message.type == 'file' &&
+          !parsed.message.file.toString().contains('image_picker')) {
+        _addMessage(
+          types.FileMessage(
+            author: isAdmin.value ? _user : _admin,
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            id: const Uuid().v4(),
+            mimeType: '',
+            name: parsed.message.file.toString().split('/').last,
+            size: 28,
+            uri: baseUrl + parsed.message.file,
+          ),
+        );
+        return;
+      } else {
+        final types.Message message = types.TextMessage(
+          author: isAdmin.value ? _user : _admin,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: const Uuid().v4(),
+          text: parsed.message.message ?? '',
+        );
+        _addMessage(message);
+      }
+    });
+
+    _loadMessages();
+  }
 
   void _addMessage(types.Message message) {
     setState(() {

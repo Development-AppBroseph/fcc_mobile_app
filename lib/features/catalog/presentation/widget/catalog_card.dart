@@ -50,8 +50,10 @@ class CatalogCard extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
-                context.pushNamed(RoutesNames.catalogProductDetails,
-                    extra: product);
+                context.pushNamed(
+                  Routes.catalogProductDetails,
+                  extra: product,
+                );
               },
               child: Row(
                 children: <Widget>[

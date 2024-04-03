@@ -41,4 +41,20 @@ class ProductModel {
       catalog: map['catalog'] ?? 0,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'format': format,
+      'strength': strenght,
+      'tasty': taste,
+      'country': country,
+      'uuid': id,
+      'name': name,
+      'description': description,
+      'price': price,
+      'stock': stock,
+      'image': image,
+      'catalog': catalog,
+    };
+  }
 }
