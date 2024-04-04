@@ -223,7 +223,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                       height: 50,
                                       onTap: () {
                                         ShareExtend.share(
-                                          state.user.invitationCode ?? '',
+                                          'fcc-app.ru/invite/${state.user.invitationCode}',
                                           'text',
                                         );
                                       },
