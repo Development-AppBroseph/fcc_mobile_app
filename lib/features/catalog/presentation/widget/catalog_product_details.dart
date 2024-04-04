@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fcc_app_front/export.dart';
 
 class CatalogProductDetails extends StatelessWidget {
@@ -16,7 +18,7 @@ class CatalogProductDetails extends StatelessWidget {
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           double availableWidth = constraints.maxWidth;
-
+          log('IMAGE' + model!.image.toString());
           return Scaffold(
             backgroundColor: Colors.white,
             body: Padding(

@@ -11,8 +11,10 @@ import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
 import 'package:fcc_app_front/firebase_options.dart';
 import 'package:fcc_app_front/shared/config/base/observer.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 Future<void> main() async {
+  usePathUrlStrategy();
   // if (kIsWeb) {
   //   await Firebase.initializeApp(
   //       options: FirebaseOptions(
