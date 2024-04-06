@@ -87,4 +87,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.window:window:1.0.0-rc01"
     implementation "androidx.window:window-java:1.0.0-rc01"
+    implementation "androidx.activity:activity:1.6.0-alpha05"
+
 }

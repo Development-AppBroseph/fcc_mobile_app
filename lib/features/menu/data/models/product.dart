@@ -41,4 +41,16 @@ class ProductModel {
       catalog: map['catalog'] ?? 0,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = description;
+    data['price'] = price;
+    data['stock'] = stock;
+    data['image'] = image;
+    data['catalog'] = catalog;
+    return data;
+  }
 }

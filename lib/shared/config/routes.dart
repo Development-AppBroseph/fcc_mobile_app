@@ -287,11 +287,13 @@ final GoRouter router = GoRouter(
                   name: RoutesNames.catalogMenuProfile,
                   parentNavigatorKey: _rootNavigatorKey,
                   pageBuilder: (BuildContext context, GoRouterState state) {
+                    final MembershipCubit? value =
+                        state.extra as MembershipCubit?;
                     return buildPageWithDefaultTransition<void>(
                       context: context,
                       state: state,
-                      child: BlocProvider.value(
-                        value: state.extra as MembershipCubit,
+                      child: BlocProvider<MembershipCubit>.value(
+                        value: value ?? MembershipCubit(),
                         child: CatalogMenuProfile(
                           type: MembershipType.values.firstWhereOrNull(
                                 (MembershipType element) =>
