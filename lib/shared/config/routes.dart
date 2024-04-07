@@ -2,6 +2,7 @@ import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/presentation/pages/agreement.dart';
 import 'package:fcc_app_front/features/auth/presentation/pages/server_state.dart';
 import 'package:fcc_app_front/features/catalog/presentation/widget/catalog_product_details.dart';
+import 'package:fcc_app_front/features/menu/presentation/pages/choose_address.dart';
 
 class Routes {
   static String menu = '/';
@@ -11,6 +12,8 @@ class Routes {
 
   static String selectedProduct = '/selectedProduct';
   static String placeOrder = 'placeOrder';
+  static String chooseAddress = 'chooseAddress';
+
   static String orderConfirm = '/orderConfirm';
 
   static String order = '/order';
@@ -61,6 +64,7 @@ class RoutesNames {
   static String productMenu = 'productMenu';
   static String selectedProduct = 'selectedProduct';
   static String placeOrder = 'placeOrder';
+  static String chooseAddress = 'chooseAddress';
   static String orderConfirm = 'orderConfirm';
 
   static String order = 'order';
@@ -365,18 +369,30 @@ final GoRouter router = GoRouter(
                 },
               ),
               GoRoute(
-                path: Routes.placeOrder,
-                name: RoutesNames.placeOrder,
-                pageBuilder: (BuildContext context, GoRouterState state) {
-                  return buildPageWithDefaultTransition<void>(
-                    context: context,
-                    state: state,
-                    child: PlacingOrderPage(
-                      product: state.extra as ProductModel?,
+                  path: Routes.placeOrder,
+                  name: RoutesNames.placeOrder,
+                  pageBuilder: (BuildContext context, GoRouterState state) {
+                    return buildPageWithDefaultTransition<void>(
+                      context: context,
+                      state: state,
+                      child: PlacingOrderPage(
+                        product: state.extra as ProductModel?,
+                      ),
+                    );
+                  },
+                  routes: <RouteBase>[
+                    GoRoute(
+                      path: Routes.chooseAddress,
+                      name: RoutesNames.chooseAddress,
+                      pageBuilder: (BuildContext context, GoRouterState state) {
+                        return buildPageWithDefaultTransition<void>(
+                          context: context,
+                          state: state,
+                          child: ChooseAddress(),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
+                  ]),
             ]),
         GoRoute(
           path: Routes.termsOfUse,

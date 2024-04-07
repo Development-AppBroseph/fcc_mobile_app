@@ -26,4 +26,12 @@ class Address {
   String toString() {
     return 'Address(id: $id, address: $address, latitude: $latitude, longitude: $longitude)';
   }
+
+  void formatAddress() {
+    List<String> parts = address!.split(', ');
+    if (parts.length > 1 && parts[0].contains(RegExp(r'^\d{6}$'))) {
+      parts.removeAt(0);
+      address = parts.join(', ');
+    }
+  }
 }

@@ -120,7 +120,8 @@ class ProductDetails extends StatelessWidget {
                     return CstmBtn(
                       text: 'Оформить заказ',
                       onTap: () {
-                        context.pushNamed(RoutesNames.login);
+                        context.pushNamed(RoutesNames.login,
+                            pathParameters: {'address': ''});
                       },
                     );
                   }
