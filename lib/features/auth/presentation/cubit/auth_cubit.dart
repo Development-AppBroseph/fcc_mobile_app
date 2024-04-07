@@ -30,9 +30,9 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> deleteFcmToken(String fcmToken) async {
-    await AuthRepo.deleteFcmToken(fcmToken);
-  }
+  // Future<void> deleteFcmToken(String fcmToken) async {
+  //   await AuthRepo.deleteFcmToken(fcmToken);
+  // }
 
   Future<bool> checkInviteByLink({
     required String username,

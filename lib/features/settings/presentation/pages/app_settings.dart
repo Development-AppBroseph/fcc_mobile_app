@@ -36,27 +36,24 @@ class AppSettingsPage extends StatelessWidget {
               FillBtn(
                 text: 'Выйти',
                 onTap: () async {
-                  final fcmToken = Hive.box(HiveStrings.fcmToken).values.last;
-                  await context
-                      .read<AuthCubit>()
-                      .deleteFcmToken(fcmToken.toString());
+                  //   final fcmToken = Hive.box(HiveStrings.fcmToken).values.last;
+                  // await context
+                  //     .read<AuthCubit>()
+                  //     .deleteFcmToken(fcmToken.toString());
                   context.read<AuthCubit>().logOut();
                   if (context.read<SelectedMembershipCubit>().state == null) {
                     context.read<SelectedMembershipCubit>().change(
                           MembershipType.standard,
                         );
                   }
-
-                  context.go(
-                    Routes.login,
-                  );
+                  context.go(Routes.login);
                 },
                 iconPath: 'assets/logout.svg',
               ),
               sized20,
               FillBtn(
                 text: 'Удалить учетную запись',
-                textColor: Theme.of(context).errorColor,
+                textColor: Colors.red,
                 onTap: () {
                   showConfirmDeleteDialog(context);
                 },

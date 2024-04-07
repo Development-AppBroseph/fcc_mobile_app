@@ -48,7 +48,8 @@ class _LoginPageState extends State<LoginPage> {
                         height: 40.h,
                       ),
                       CustomBackButton(
-                        path: RoutesNames.menu,
+                        path: Routes.menu,
+                        pop: true,
                       ),
                       SizedBox(
                         height: 100.h,

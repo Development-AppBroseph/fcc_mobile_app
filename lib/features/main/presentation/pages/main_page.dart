@@ -60,11 +60,6 @@ class _MainScaffoldState extends State<MainScaffold> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (Duration timeStamp) async {
-        await FirebaseMessaging.instance.getInitialMessage();
-      },
-    );
 
     // final IOWebSocketChannel channel = IOWebSocketChannel.connect(
     //   Uri.parse(socketUrl),

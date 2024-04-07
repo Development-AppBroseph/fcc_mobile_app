@@ -127,7 +127,6 @@ export 'package:fcc_app_front/shared/widgets/textfields/cstm_textfield.dart';
 export 'package:fcc_app_front/shared/widgets/textfields/custom_form_field.dart';
 export 'package:fcc_app_front/shared/widgets/textfields/rounded_field.dart';
 export 'package:firebase_core/firebase_core.dart';
-export 'package:firebase_messaging/firebase_messaging.dart';
 export 'package:flutter/cupertino.dart' hide RefreshCallback;
 export 'package:flutter/gestures.dart';
 export 'package:flutter/material.dart';
