@@ -61,7 +61,7 @@ void main() {
                   ChatBloc(getIt<ChatRepositoryImpl>())),
           BlocProvider<OrderBloc>(
             create: (BuildContext context) {
-              return OrderBloc()..add(FetchAllAddreses());
+              return OrderBloc();
             },
           ),
           BlocProvider<ServerBloc>(

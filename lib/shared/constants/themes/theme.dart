@@ -9,7 +9,6 @@ ThemeData lightTheme = ThemeData(
   canvasColor: textColor,
   primaryColorLight: primaryColorLight,
   primaryColorDark: primaryColorDark,
-  errorColor: errorColor,
   hintColor: hintColor,
   scaffoldBackgroundColor: scaffoldBackgroundColor,
   textTheme: const TextTheme(

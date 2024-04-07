@@ -57,7 +57,7 @@ class AppSettingsPage extends StatelessWidget {
               sized20,
               FillBtn(
                 text: 'Удалить учетную запись',
-                textColor: Theme.of(context).errorColor,
+                textColor: Colors.red,
                 onTap: () {
                   showConfirmDeleteDialog(context);
                 },

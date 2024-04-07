@@ -7,4 +7,8 @@ abstract class OrderEvent extends Equatable {
   List<Object> get props => <Object>[];
 }
 
-final class FetchAllAddreses extends OrderEvent {}
+final class FetchAllAddreses extends OrderEvent {
+  final String address;
+
+  const FetchAllAddreses({required this.address});
+}
