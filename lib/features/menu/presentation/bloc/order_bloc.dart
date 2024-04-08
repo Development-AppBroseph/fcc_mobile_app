@@ -10,7 +10,6 @@ part 'order_state.dart';
 class OrderBloc extends Bloc<OrderEvent, AddressOrderState> {
   OrderBloc() : super(OrderInitial()) {
     on<FetchAllAddreses>(_fetchAllAddreses);
-    add(FetchAllAddreses());
   }
 
   Future<void> _fetchAllAddreses(
@@ -20,8 +19,8 @@ class OrderBloc extends Bloc<OrderEvent, AddressOrderState> {
     try {
       emit(OrderLoading());
 
-      final List<Address> addreses = await OrderRepository().getAllAddreses();
-
+      final List<Address> addreses =
+          await OrderRepository().searchAddressByName(event.address);
       emit(OrderSuccess(addresses: addreses));
     } catch (e) {
       emit(OrderError(message: e.toString()));

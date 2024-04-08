@@ -43,18 +43,20 @@ class _MenuState extends State<Menu> {
       create: (BuildContext context) => SearchCubit(),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          double availableWidth = constraints.maxWidth;
+          double boxWidth = constraints.maxWidth;
 
           return Scaffold(
             body: SafeArea(
               child: Padding(
-                padding: availableWidth < 600
-                    ? EdgeInsets.only(
-                        left: 30.w,
-                        right: 30.w,
-                        top: 20.h,
+                padding: boxWidth < 600
+                    ? const EdgeInsets.only(
+                        left: 30,
+                        right: 30,
                       )
-                    : EdgeInsets.symmetric(horizontal: 700),
+                    : EdgeInsets.only(
+                        left: 30 + (boxWidth - 600) / 2,
+                        right: 30 + (boxWidth - 600) / 2,
+                      ),
                 child: BlocBuilder<SelectedMembershipCubit, MembershipType?>(
                   builder: (BuildContext context,
                       MembershipType? selectedMembership) {

@@ -1,7 +1,5 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/menu/data/models/address.dart';
-import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
+import 'package:fcc_app_front/features/menu/presentation/pages/choose_address.dart';
 
 class PlacingOrderPage extends StatefulWidget {
   final ProductModel? product;
@@ -15,8 +13,10 @@ class PlacingOrderPage extends StatefulWidget {
 }
 
 class _PlacingOrderPageState extends State<PlacingOrderPage> {
+  String selectedAddressByUser = '';
+  int selectedAddressId = 0;
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
-
+  final TextEditingController addressController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -40,19 +40,22 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return BlocBuilder<OrderBloc, AddressOrderState>(
-        builder: (BuildContext context, Object? state) {
-      if (state is OrderSuccess) {
-        Map<int, String> addressMap = <int, String>{
-          for (Address address in state.addresses) address.id: address.address,
-        };
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double boxWidth = constraints.constrainWidth();
+
         return Scaffold(
           body: SafeArea(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 35.w,
-                vertical: 20.h,
-              ),
+              padding: boxWidth < 600
+                  ? const EdgeInsets.only(
+                      left: 30,
+                      right: 30,
+                    )
+                  : EdgeInsets.only(
+                      left: 30 + (boxWidth - 600) / 2,
+                      right: 30 + (boxWidth - 600) / 2,
+                    ),
               child: FormBuilder(
                 key: _formKey,
                 child: SingleChildScrollView(
@@ -94,92 +97,81 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       fontWeight: FontWeight.w400,
                                     ),
                           ),
-                          sized10,
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton2<dynamic>(
-                              isExpanded: true,
-                              hint: Row(
-                                children: <Widget>[
-                                  const Icon(
-                                    Icons.list,
-                                    size: 16,
-                                    color: Colors.black,
-                                  ),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      'Адрес пункта выдачи',
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                      overflow: TextOverflow.ellipsis,
+                          sized30,
+                          Column(
+                            children: <Widget>[
+                              InkWell(
+                                  onTap: () async {
+                                    final Map<int?, String?>? selectedAddress =
+                                        await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChooseAddress()),
+                                    );
+
+                                    setState(() {
+                                      selectedAddressId =
+                                          selectedAddress?.keys.first ?? 0;
+                                      selectedAddressByUser =
+                                          selectedAddress?.values.first ?? '';
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Theme.of(context).primaryColor,
                                     ),
-                                  ),
-                                ],
-                              ),
-                              items: addressMap.entries
-                                  .map<DropdownMenuItem<dynamic>>(
-                                      (MapEntry<int, String> entry) =>
-                                          DropdownMenuItem<dynamic>(
-                                            value: entry.key,
-                                            child: Text(
-                                              entry.value,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ))
-                                  .toList(),
-                              value: selectedAddress,
-                              onChanged: (dynamic value) {
-                                setState(() {
-                                  selectedAddress = value;
-                                });
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                height: 50,
-                                width: double.infinity,
-                                padding:
-                                    const EdgeInsets.only(left: 14, right: 14),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  border: Border.all(
-                                    color: Colors.black.withOpacity(0.1),
-                                  ),
-                                  color: Colors.white,
-                                ),
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                ),
-                                iconSize: 14,
-                                iconEnabledColor: Colors.black,
-                                iconDisabledColor: Colors.grey,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                maxHeight: size.height,
-                                width: size.width / 1.2 - 10.sp,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Colors.white,
-                                ),
-                                scrollbarTheme: ScrollbarThemeData(
-                                  radius: const Radius.circular(40),
-                                  thickness:
-                                      MaterialStateProperty.all<double>(6),
-                                  thumbVisibility:
-                                      MaterialStateProperty.all<bool>(true),
-                                ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                              ),
-                            ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Выберите адрес',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          const Icon(Icons.chevron_right),
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                            ],
                           ),
+                          sized30,
+                          RichText(
+                              text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Выбран aдрес: ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w200,
+                                    )
+                                    .copyWith(
+                                      fontFamily: 'Rubik',
+                                    ),
+                              ),
+                              TextSpan(
+                                text: '$selectedAddressByUser ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                              ),
+                            ],
+                          )),
                           sized20,
                           Text(
                             'Получатель',
@@ -257,7 +249,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                   return;
                                 }
 
-                                if (selectedAddress == null) {
+                                if (selectedAddressByUser.isEmpty) {
                                   ApplicationSnackBar.showErrorSnackBar(
                                       context,
                                       'Пожалуйста, выберите адрес',
@@ -282,7 +274,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                   final (OrderModel?, String?) order =
                                       await OrderRepo.placeOrder(
                                     product: widget.product!,
-                                    address: selectedAddress ?? 0,
+                                    address: selectedAddressId,
                                     name: nameController.text,
                                     phone: maskFormatter
                                         .getMaskedText()
@@ -346,13 +338,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
             ),
           ),
         );
-      }
-
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator.adaptive(),
-        ),
-      );
-    });
+      },
+    );
   }
 }

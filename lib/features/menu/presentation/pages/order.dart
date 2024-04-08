@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:fcc_app_front/export.dart';
 
 class Order extends StatefulWidget {
@@ -20,15 +18,22 @@ class _OrderState extends State<Order> {
   Widget build(BuildContext context) {
     context.read<OrderCubit>().load();
     final Size size = MediaQuery.of(context).size;
-    return Builder(
-      builder: (BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double boxWidth = constraints.constrainWidth();
+
         return Scaffold(
           body: SafeArea(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 35.w,
-                vertical: 20.h,
-              ),
+              padding: boxWidth < 600
+                  ? const EdgeInsets.only(
+                      left: 30,
+                      right: 30,
+                    )
+                  : EdgeInsets.only(
+                      left: 30 + (boxWidth - 600) / 2,
+                      right: 30 + (boxWidth - 600) / 2,
+                    ),
               child: BlocBuilder<AuthCubit, AuthState>(
                 builder: (BuildContext context, AuthState auth) {
                   return auth is Authenticated
@@ -62,36 +67,40 @@ class _OrderState extends State<Order> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                Card(
-                                                  elevation: 0.1,
-                                                  clipBehavior: Clip.antiAlias,
-                                                  child: CachedNetworkImage(
-                                                    imageBuilder: (BuildContext
-                                                            context,
-                                                        ImageProvider<Object>
-                                                            imageProvider) {
-                                                      return Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          image:
-                                                              DecorationImage(
+                                                Expanded(
+                                                  child: Card(
+                                                    elevation: 0.1,
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    child: CachedNetworkImage(
+                                                      imageBuilder: (BuildContext
+                                                              context,
+                                                          ImageProvider<Object>
+                                                              imageProvider) {
+                                                        return Container(
+                                                          decoration:
+                                                              BoxDecoration(
                                                             image:
-                                                                imageProvider,
-                                                            fit: BoxFit.fill,
+                                                                DecorationImage(
+                                                              image:
+                                                                  imageProvider,
+                                                              fit: BoxFit.fill,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    imageUrl: order[index]
-                                                        .orderItems
-                                                        .map((OrderItem e) {
-                                                          return e.productPhoto;
-                                                        })
-                                                        .toString()
-                                                        .replaceAll('(', '')
-                                                        .replaceAll(')', ''),
-                                                    width: 100.w,
-                                                    fit: BoxFit.fill,
+                                                        );
+                                                      },
+                                                      imageUrl: order[index]
+                                                          .orderItems
+                                                          .map((OrderItem e) {
+                                                            return e
+                                                                .productPhoto;
+                                                          })
+                                                          .toString()
+                                                          .replaceAll('(', '')
+                                                          .replaceAll(')', ''),
+                                                      width: 100.w,
+                                                      fit: BoxFit.fill,
+                                                    ),
                                                   ),
                                                 ),
                                                 SizedBox(

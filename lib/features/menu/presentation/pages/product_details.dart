@@ -118,7 +118,7 @@ class ProductDetails extends StatelessWidget {
                               return;
                             }
 
-                            context.pushNamed(
+                            context.goNamed(
                               RoutesNames.placeOrder,
                               extra: model,
                             );

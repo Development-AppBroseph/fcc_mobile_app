@@ -18,11 +18,12 @@ final class OrderRepository {
     }
   }
 
-  Future<List<Address>> getAllAddreses() async {
+  Future<List<Address>> searchAddressByName(String name) async {
     final List<Address> addresses = <Address>[];
 
     try {
-      final String? response = await BaseHttpClient.get('delivery/addresses/');
+      final String? response =
+          await BaseHttpClient.get('delivery/search/$name');
 
       if (response != null) {
         final List body = jsonDecode(response) as List;
@@ -32,7 +33,6 @@ final class OrderRepository {
           );
         }
       }
-      log(addresses.toString());
     } catch (e) {
       throw (OrderException(message: e.toString()));
     }

@@ -72,160 +72,193 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardDismisser(
-      child: BlocProvider<ProfileBloc>(
-        create: (BuildContext context) => ProfileBloc(),
-        child: Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 35.w,
-                right: 35.w,
-                top: 20.h,
-              ),
-              child: SingleChildScrollView(
-                child: BlocBuilder<AuthCubit, AuthState>(
-                  builder: (BuildContext context, AuthState state) {
-                    UserModel? user;
-                    if (state is Authenticated) {
-                      user = state.user;
-                    }
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const CustomBackButton(),
-                        sized30,
-                        Text(
-                          'Посмотреть свои данные',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double boxWidth = constraints.constrainWidth();
+
+        return KeyboardDismisser(
+          child: BlocProvider<ProfileBloc>(
+            create: (BuildContext context) => ProfileBloc(),
+            child: Scaffold(
+              body: SafeArea(
+                child: Padding(
+                  padding: boxWidth < 600
+                      ? const EdgeInsets.only(
+                          left: 30,
+                          right: 30,
+                        )
+                      : EdgeInsets.only(
+                          left: 30 + (boxWidth - 600) / 2,
+                          right: 30 + (boxWidth - 600) / 2,
+                          bottom: 30),
+                  child: SingleChildScrollView(
+                    child: BlocBuilder<AuthCubit, AuthState>(
+                      builder: (BuildContext context, AuthState state) {
+                        UserModel? user;
+                        if (state is Authenticated) {
+                          user = state.user;
+                        }
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const CustomBackButton(),
+                            sized30,
+                            Text(
+                              'Посмотреть свои данные',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
                                   ),
-                        ),
-                        sized20,
-                        Text(
-                          'Фамилия',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            ),
+                            sized20,
+                            Text(
+                              'Фамилия',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: Theme.of(context).hintColor,
                                     fontWeight: FontWeight.w400,
                                   ),
-                        ),
-                        sized10,
-                        RounField(
-                          enabled: false,
-                          textStyle:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            ),
+                            sized10,
+                            RounField(
+                              enabled: false,
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: Theme.of(context).primaryColorDark,
                                   ),
-                          controller: surname,
-                          initialText: user?.lastName,
-                          hintText: 'Введите фамилию',
-                          hintStyle:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              controller: surname,
+                              initialText: user?.lastName,
+                              hintText: 'Введите фамилию',
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: Theme.of(context).hintColor,
                                     fontWeight: FontWeight.w400,
                                   ),
-                          textInputAction: TextInputAction.next,
-                          inputFormatter: const <TextInputFormatter>[],
-                        ),
-                        sized10,
-                        Text(
-                          'Имя',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              textInputAction: TextInputAction.next,
+                              inputFormatter: const <TextInputFormatter>[],
+                            ),
+                            sized10,
+                            Text(
+                              'Имя',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: Theme.of(context).hintColor,
                                     fontWeight: FontWeight.w400,
                                   ),
-                        ),
-                        sized10,
-                        RounField(
-                          controller: name,
-                          enabled: false,
-                          hintText: 'Введите имя',
-                          initialText: user?.firstName,
-                          hintStyle:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            ),
+                            sized10,
+                            RounField(
+                              controller: name,
+                              enabled: false,
+                              hintText: 'Введите имя',
+                              initialText: user?.firstName,
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: Theme.of(context).hintColor,
                                     fontWeight: FontWeight.w400,
                                   ),
-                          textStyle:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: Theme.of(context).primaryColorDark,
                                   ),
-                          textInputAction: TextInputAction.next,
-                        ),
-                        sized10,
-                        Text(
-                          'Отчество',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              textInputAction: TextInputAction.next,
+                            ),
+                            sized10,
+                            Text(
+                              'Отчество',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: Theme.of(context).hintColor,
                                     fontWeight: FontWeight.w400,
                                   ),
-                        ),
-                        sized10,
-                        RounField(
-                          enabled: false,
-                          controller: middlename,
-                          initialText: user?.middleName,
-                          textStyle:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            ),
+                            sized10,
+                            RounField(
+                              enabled: false,
+                              controller: middlename,
+                              initialText: user?.middleName,
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: Theme.of(context).primaryColorDark,
                                   ),
-                          hintText: 'Введите отчество',
-                          hintStyle:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              hintText: 'Введите отчество',
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: Theme.of(context).hintColor,
                                     fontWeight: FontWeight.w400,
                                   ),
-                          textInputAction: TextInputAction.next,
-                        ),
-                        sized40,
-                        BlocConsumer<ProfileBloc, ProfileState>(
-                          listener: (BuildContext context, ProfileState state) {
-                            if (state is ProfileSucces) {
-                              context.pushNamed(RoutesNames.menu);
-                            }
-                            if (state is ProfileError) {
-                              ApplicationSnackBar.showErrorSnackBar(
-                                context,
-                                state.error,
-                                1,
-                                const EdgeInsets.symmetric(horizontal: 10),
-                                3,
-                              );
-                            }
-                          },
-                          builder: (BuildContext context, ProfileState state) {
-                            if (state is ProfileLoading) {
-                              return const CircularProgressIndicator.adaptive();
-                            }
-                            return CstmBtn(
-                              text: 'Сохранить',
-                              onTap: () {
-                                context
-                                    .read<ProfileBloc>()
-                                    .add(ChangeProfileDetails(
-                                      name: name.text,
-                                      surname: surname.text,
-                                      middlename: middlename.text,
-                                    ));
-                                context.read<AuthCubit>().init();
+                              textInputAction: TextInputAction.next,
+                            ),
+                            sized40,
+                            BlocConsumer<ProfileBloc, ProfileState>(
+                              listener:
+                                  (BuildContext context, ProfileState state) {
+                                if (state is ProfileSucces) {
+                                  context.pushNamed(RoutesNames.menu);
+                                }
+                                if (state is ProfileError) {
+                                  ApplicationSnackBar.showErrorSnackBar(
+                                    context,
+                                    state.error,
+                                    1,
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                    3,
+                                  );
+                                }
                               },
-                            );
-                          },
-                        )
-                      ],
-                    );
-                  },
+                              builder:
+                                  (BuildContext context, ProfileState state) {
+                                if (state is ProfileLoading) {
+                                  return const CircularProgressIndicator
+                                      .adaptive();
+                                }
+                                return CstmBtn(
+                                  text: 'Сохранить',
+                                  onTap: () {
+                                    context
+                                        .read<ProfileBloc>()
+                                        .add(ChangeProfileDetails(
+                                          name: name.text,
+                                          surname: surname.text,
+                                          middlename: middlename.text,
+                                        ));
+                                    context.read<AuthCubit>().init();
+                                  },
+                                );
+                              },
+                            )
+                          ],
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

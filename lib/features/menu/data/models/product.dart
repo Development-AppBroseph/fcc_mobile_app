@@ -42,7 +42,7 @@ class ProductModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'format': format,
       'strength': strenght,
