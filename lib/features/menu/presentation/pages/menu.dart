@@ -40,6 +40,7 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
+    getMemberSheep();
     return BlocProvider(
       create: (BuildContext context) => SearchCubit(),
       child: Scaffold(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/catalog/data/models/membership.dart';
 import 'package:fcc_app_front/features/payment/data/repositories/payment_repo.dart';
@@ -82,6 +84,16 @@ class ChangePlanPage extends StatelessWidget {
                                 1,
                                 context.read<MembershipCubit>().getPrice(1),
                               );
+
+                              if (url == 'free' && context.mounted) {
+                                context.go(Routes.paymentCongrats,
+                                    extra: <String, dynamic>{
+                                      'membership': 'standart',
+                                      'goMenu': true,
+                                    });
+                                return;
+                              }
+
                               if (url != null && context.mounted) {
                                 context.pushNamed(
                                   RoutesNames.payment,
@@ -167,6 +179,16 @@ class ChangePlanPage extends StatelessWidget {
                                 2,
                                 context.read<MembershipCubit>().getPrice(2),
                               );
+
+                              if (url == 'free' && context.mounted) {
+                                context.go(Routes.paymentCongrats,
+                                    extra: <String, dynamic>{
+                                      'membership': 'premium',
+                                      'goMenu': true,
+                                    });
+                                return;
+                              }
+
                               if (url != null && context.mounted) {
                                 context.pushNamed(
                                   RoutesNames.payment,
@@ -251,6 +273,16 @@ class ChangePlanPage extends StatelessWidget {
                                 3,
                                 context.read<MembershipCubit>().getPrice(3),
                               );
+
+                              if (url == 'free' && context.mounted) {
+                                context.go(Routes.paymentCongrats,
+                                    extra: <String, dynamic>{
+                                      'membership': 'elite',
+                                      'goMenu': true,
+                                    });
+                                return;
+                              }
+
                               if (url != null && context.mounted) {
                                 context.pushNamed(
                                   RoutesNames.payment,
