@@ -17,8 +17,7 @@ import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:web_socket_channel/html.dart'
-    if (kIsWeb) 'package:web_socket_channel/web_socket_channel.dart';
+
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -38,13 +37,9 @@ class _ChatPageState extends State<ChatPage> {
     id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
   );
   final types.User _admin = const types.User(
-    firstName: 'Администратор',
+    firstName: '',
     id: 'admin',
   );
-
-  Future<void> checkWebSocketState() async {
-    await _channel.ready;
-  }
 
   @override
   void initState() {
@@ -52,14 +47,8 @@ class _ChatPageState extends State<ChatPage> {
     final int? userId = getClientId();
 
     if (kIsWeb) {
-      _channel =
-          WebSocketChannel.connect(Uri.parse(socketUrl + userId.toString()));
-      _channel.sink.add(<String, dynamic>{
-        'Authorization': 'Bearer ' + getToken()!,
-        'Origin': baseUrl
-      });
-
-      checkWebSocketState();
+      _channel = WebSocketChannel.connect(
+          Uri.parse('$socketUrl$userId?token=${getToken()}'));
     } else {
       _channel = IOWebSocketChannel.connect(
         protocols: <String>['https', 'wss'],
@@ -223,6 +212,18 @@ class _ChatPageState extends State<ChatPage> {
       'format': result.name.split('.').last,
       'filename': result.name.split('.').first
     }));
+
+    // picker.FilePickerResult? result = await picker.FilePicker.platform.pickFiles(
+    //   type: picker.FileType.image,
+    // );
+
+    // if (result != null && result.files.single.path != null) {
+    //   _channel.sink.add(jsonEncode(<String, Object>{
+    //     'file': result.files.single.bytes!.toString(),
+    //     'format': result.files.single.name.split('.').last,
+    //     'filename': result.files.single.name.split('.').first
+    //   }));
+    // }
   }
 
   void _handleMessageTap(BuildContext _, types.Message message) async {
@@ -356,7 +357,7 @@ class _ChatPageState extends State<ChatPage> {
           audioMessageBuilder: (types.AudioMessage p0, {int? messageWidth}) {
             return Image.asset(Assets.microphone.path);
           },
-          onAttachmentPressed: _handleAttachmentPressed,
+          // onAttachmentPressed: _handleAttachmentPressed,
           onMessageTap: _handleMessageTap,
           onSendPressed: _handleSendPressed,
           showUserAvatars: true,

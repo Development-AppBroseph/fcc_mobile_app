@@ -5,6 +5,7 @@ import 'package:fcc_app_front/shared/config/utils/get_token.dart';
 
 class UserModel extends Equatable {
   int? id;
+  int? userDiscount;
   String? phoneNumber;
   String? firstName;
   String? lastName;
@@ -25,6 +26,7 @@ class UserModel extends Equatable {
       this.firstName,
       this.lastName,
       this.middleName,
+      this.userDiscount,
       this.isActive,
       this.isPhoneVerified,
       this.passportVerificationStatus,
@@ -41,6 +43,7 @@ class UserModel extends Equatable {
     );
     phoneNumber = json['phone_number'];
     firstName = json['first_name'];
+    userDiscount = json['discount_percent'];
     lastName = json['last_name'];
     middleName = json['middle_name'];
     isActive = json['is_active'];
@@ -61,6 +64,7 @@ class UserModel extends Equatable {
     data['id'] = id;
     data['phone_number'] = phoneNumber;
     data['first_name'] = firstName;
+    data['discount_percent'] = userDiscount;
     data['last_name'] = lastName;
     data['middle_name'] = middleName;
     data['is_active'] = isActive;

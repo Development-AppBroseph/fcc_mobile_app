@@ -345,7 +345,8 @@ class _InviteFrPageState extends State<InviteFrPage> {
   }
 
   Future<void> _launchUrl(String text) async {
-    final uri = Uri.parse('https://t.me/share/url?url={url}&text={$text}');
+    final Uri uri = Uri.parse(
+        'https://t.me/share/url?url=${text.split('/').last}&text=$text');
     if (!await launchUrl(uri)) {
       throw Exception('Could not launch $uri');
     }

@@ -21,7 +21,7 @@ class ProductDetails extends StatelessWidget {
           body: Padding(
             padding: availableWidth < 600
                 ? const EdgeInsets.all(16.0)
-                : const EdgeInsets.symmetric(horizontal: 700),
+                : const EdgeInsets.symmetric(horizontal: 800),
             child: SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -32,15 +32,16 @@ class ProductDetails extends StatelessWidget {
                       height: 20,
                     ),
                     Container(
-                      height: size.height / 3.5,
+                      height: size.height / 3.2,
                       width: size.width,
                       decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(
-                        Radius.circular(16),
+                        Radius.circular(24),
                       )),
                       child: Card(
                         clipBehavior: Clip.antiAlias,
                         child: CachedNetworkImage(
+                          fadeInCurve: Curves.bounceIn,
                           fit: BoxFit.fill,
                           imageUrl: model?.image ?? '',
                         ),

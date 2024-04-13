@@ -192,13 +192,7 @@ final GoRouter router = GoRouter(
               name: RoutesNames.addPerson,
               pageBuilder: (BuildContext context, GoRouterState state) {
                 return buildPageWithDefaultTransition<void>(
-                  context: context,
-                  state: state,
-                  child: BlocProvider.value(
-                    value: state.extra as DiscountCubit,
-                    child: const OfferPage(),
-                  ),
-                );
+                    context: context, state: state, child: const OfferPage());
               },
             ),
             GoRoute(

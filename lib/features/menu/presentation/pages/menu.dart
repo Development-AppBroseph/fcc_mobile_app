@@ -15,7 +15,7 @@ class _MenuState extends State<Menu> {
   @override
   void initState() {
     _scrollController = ScrollController();
-
+    context.read<AuthCubit>().init();
     super.initState();
     getMemberSheep();
   }
@@ -39,6 +39,7 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
+    getMemberSheep();
     return BlocProvider(
       create: (BuildContext context) => SearchCubit(),
       child: LayoutBuilder(

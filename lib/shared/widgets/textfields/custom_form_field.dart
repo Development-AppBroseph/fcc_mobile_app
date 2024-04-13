@@ -3,8 +3,10 @@ import 'package:fcc_app_front/export.dart';
 class CustomFormField extends StatefulWidget {
   const CustomFormField({
     this.controller,
+    this.onEditingComplete,
     this.textInputAction,
     this.hintText,
+    this.readOnly,
     this.textInputType,
     this.textInputFormatter,
     this.validator,
@@ -14,10 +16,13 @@ class CustomFormField extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputAction? textInputAction;
   final String? hintText;
+
   final TextInputType? textInputType;
   final List<TextInputFormatter>? textInputFormatter;
   final String? Function(String? value)? validator;
   final String? initialValue;
+  final bool? readOnly;
+  final VoidCallback? onEditingComplete;
 
   @override
   State<CustomFormField> createState() => _CustomFormFieldState();
@@ -46,6 +51,9 @@ class _CustomFormFieldState extends State<CustomFormField> {
         ),
       ),
       child: TextFormField(
+        initialValue: widget.initialValue,
+        onEditingComplete: widget.onEditingComplete,
+        readOnly: widget.readOnly ?? false,
         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w400,
               fontSize: 17,

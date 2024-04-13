@@ -34,6 +34,11 @@ class AuthCubit extends Cubit<AuthState> {
   //   await AuthRepo.deleteFcmToken(fcmToken);
   // }
 
+  Future<UserModel?> getUserSession() async {
+    final UserModel? user = await AuthRepo.getUser();
+    return user;
+  }
+
   Future<bool> checkInviteByLink({
     required String username,
   }) async {

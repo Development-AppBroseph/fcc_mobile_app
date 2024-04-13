@@ -29,9 +29,6 @@ class MainPage extends StatelessWidget {
         BlocProvider(
           create: (BuildContext context) => InvitationCubit()..load(),
         ),
-        BlocProvider(
-          create: (BuildContext context) => DiscountCubit()..load(),
-        ),
       ],
       child: Builder(builder: (BuildContext context) {
         return KeyboardDismisser(

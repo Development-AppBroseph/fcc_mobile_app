@@ -24,7 +24,7 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
   }
 
   void goToMenu() {
-    Future<void>.delayed(const Duration(seconds: 3)).then((value) {
+    Future<void>.delayed(const Duration(seconds: 3)).then((void value) {
       context.read<AuthCubit>().init();
       context.go(
         Routes.menu,

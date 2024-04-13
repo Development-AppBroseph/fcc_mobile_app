@@ -1,6 +1,5 @@
 import 'package:fcc_app_front/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:fcc_app_front/features/settings/data/models/setting.dart';
-import 'package:fcc_app_front/features/settings/presentation/cubit/discount_cubit.dart';
 import 'package:fcc_app_front/shared/config/routes.dart';
 import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
 import 'package:fcc_app_front/shared/widgets/buttons/filled_btn.dart';
@@ -86,13 +85,13 @@ class SettingsPageButton extends StatelessWidget {
           } else if (setting.route == RoutesNames.addPerson) {
             context.pushNamed(
               setting.route,
-              extra: BlocProvider.of<DiscountCubit>(context),
             );
           } else if (setting.route == RoutesNames.changePlan) {
             final AuthState authState = context.read<AuthCubit>().state;
             context.pushNamed(
               setting.route,
-              extra: authState is Authenticated ? authState.user.phoneNumber : '',
+              extra:
+                  authState is Authenticated ? authState.user.phoneNumber : '',
             );
           } else {
             context.pushNamed(

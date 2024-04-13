@@ -72,8 +72,6 @@ class _AgreementScreenState extends State<AgreementScreen> {
                   child: LayoutBuilder(
                     builder:
                         (BuildContext context, BoxConstraints constraints) {
-                      double availableWidth = constraints.constrainWidth();
-
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[

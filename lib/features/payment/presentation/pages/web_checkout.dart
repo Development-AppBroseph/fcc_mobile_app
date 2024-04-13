@@ -43,11 +43,10 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final bool isLast = await _webViewController.canGoBack();
-        if (isLast) {
-          _webViewController.goBack();
-          return false;
-        }
+        context.read<AuthCubit>().init();
+        context.go(
+          Routes.menu,
+        );
         return true;
       },
       child: Scaffold(
@@ -75,16 +74,6 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
                 ),
                 onWebViewCreated: (InAppWebViewController controller) {
                   _webViewController = controller;
-                  controller.addJavaScriptHandler(
-                      handlerName: 'mySum',
-                      callback: (List args) {
-                        // Here you receive all the arguments from the JavaScript side
-                        // that is a List<dynamic>
-                        log('From the JavaScript side:');
-                        if (kDebugMode) {
-                          print(args.lastOrNull);
-                        }
-                      });
                 },
                 onLoadStop:
                     (InAppWebViewController controller, Uri? url) async {
@@ -92,8 +81,9 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
                       await PaymentRepo.latestPayment();
 
                   if (payment?.status == 'success' && context.mounted) {
-                    widget.onComplete();
                     context.read<AuthCubit>().init();
+
+                    context.go(RoutesNames.paymentCongrats);
 
                     return;
                   } else if (payment?.status == 'timeout' && context.mounted) {

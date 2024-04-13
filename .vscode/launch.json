@@ -1,13 +1,13 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
       "name": "fcc_mobile_app",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "args": [
+        "--web-browser-flag=--disable-web-security"
+      ]
     },
     {
       "name": "fcc_mobile_app (profile mode)",
@@ -20,6 +20,13 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
+    },
+    {
+      "name": "Flutter (Chrome)",
+      "program": "lib/main.dart",
+      "deviceId": "chrome",
+      "request": "launch",
+      "type": "dart"
     }
   ]
 }

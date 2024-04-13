@@ -20,9 +20,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     try {
       await profileRepositoryImpl.changeProfileDetails(
-        name: event.name,
-        surname: event.surname,
-        middlename: event.middlename,
+        name: event.firstName,
+        surname: event.lastName,
+        middlename: event.middleName,
       );
       emit(ProfileLoading());
       emit(ProfileSucces());
