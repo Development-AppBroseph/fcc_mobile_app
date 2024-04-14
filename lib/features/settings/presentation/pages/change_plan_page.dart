@@ -130,13 +130,14 @@ class _ChangePlanPageState extends State<ChangePlanPage> {
                                   );
 
                                   if (url == 'free' && context.mounted) {
-                                    context.go(
-                                      Routes.paymentCongrats,
+                                    context.pushNamed(
+                                      RoutesNames.freePaymentCongatulation,
                                       extra: <String, Object>{
-                                        'membership': MembershipType.elite.name,
-                                        'goMenu': true,
+                                        'membership':
+                                            MembershipType.standard.name,
                                       },
                                     );
+                                    return;
                                   }
 
                                   if (url != null && context.mounted) {
@@ -240,14 +241,14 @@ class _ChangePlanPageState extends State<ChangePlanPage> {
                                   );
 
                                   if (url == 'free' && context.mounted) {
-                                    context.go(
-                                      Routes.paymentCongrats,
+                                    context.pushNamed(
+                                      RoutesNames.freePaymentCongatulation,
                                       extra: <String, Object>{
                                         'membership':
                                             MembershipType.premium.name,
-                                        'goMenu': true,
                                       },
                                     );
+                                    return;
                                   }
 
                                   if (url != null && context.mounted) {
@@ -347,13 +348,13 @@ class _ChangePlanPageState extends State<ChangePlanPage> {
                                   );
 
                                   if (url == 'free' && context.mounted) {
-                                    context.go(
-                                      Routes.paymentCongrats,
+                                    context.pushNamed(
+                                      RoutesNames.freePaymentCongatulation,
                                       extra: <String, Object>{
                                         'membership': MembershipType.elite.name,
-                                        'goMenu': true,
                                       },
                                     );
+                                    return;
                                   }
 
                                   if (url != null && context.mounted) {

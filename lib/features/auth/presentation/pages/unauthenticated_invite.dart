@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/shared/config/service/app_links.dart';
 import 'package:flutter/foundation.dart';
+import 'package:uni_links/uni_links.dart';
 
 class UnauthenticatedInvitePage extends StatefulWidget {
   const UnauthenticatedInvitePage({
@@ -14,25 +17,26 @@ class UnauthenticatedInvitePage extends StatefulWidget {
 class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
   TextEditingController controller = TextEditingController();
   bool isLoading = false;
-  String? referaCode;
+  String? _inviteCode;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   if(!kIsWeb){
-  //       AppLinkService(callBack: (String p0) {
-  //     if (p0 != 'null') {
-  //       referaCode = p0.split('/').last;
-  //     }
-  //   }).incomingLinkHandler();
-  //   AppLinkService(callBack: (String p0) {
-  //     if (p0 != 'null') {
-  //       referaCode = p0.split('/').last;
-  //     }
-  //   }).initURIHandler();
+  Future<void> initUniLinks() async {
+    try {
+      final String? initialLink = await getInitialLink();
+      if (initialLink != null) {
+        Uri uri = Uri.parse(initialLink);
+        setState(() {
+          _inviteCode = uri.toString().split('/').last;
+          log(uri.toString());
 
-  //   }
-  // }
+          if (_inviteCode != null) {
+            controller.text = _inviteCode ?? '';
+          }
+        });
+      }
+    } on Exception {
+      log('getInitialLink error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

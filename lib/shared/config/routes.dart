@@ -3,13 +3,14 @@ import 'package:fcc_app_front/features/auth/presentation/pages/agreement.dart';
 import 'package:fcc_app_front/features/auth/presentation/pages/server_state.dart';
 import 'package:fcc_app_front/features/catalog/presentation/widget/catalog_product_details.dart';
 import 'package:fcc_app_front/features/menu/presentation/pages/choose_address.dart';
+import 'package:fcc_app_front/features/settings/presentation/pages/free_paymant_congratulation_page.dart';
 
 class Routes {
   static String menu = '/';
   static String agreement = '/agreement';
   static String serverState = '/serverState';
   static String productMenu = 'productMenu/:id';
-
+  static String freePaymentCongatulation = '/freePaymentCongatulation';
   static String selectedProduct = '/selectedProduct';
   static String placeOrder = 'placeOrder';
   static String chooseAddress = 'chooseAddress';
@@ -58,6 +59,7 @@ class Routes {
 }
 
 class RoutesNames {
+  static String freePaymentCongatulation = 'freePaymentCongatulation';
   static String agreement = 'agreement';
   static String serverState = 'serverState';
   static String menu = 'menu';
@@ -713,6 +715,22 @@ final GoRouter router = GoRouter(
             child: CatalogProductMenu(
               catalogId: state.pathParameters['id'] as String,
             ),
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.freePaymentCongatulation,
+      name: RoutesNames.freePaymentCongatulation,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        final Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+        final String membership = data['membership'] as String;
+        return buildPageWithDefaultTransition<void>(
+          context: context,
+          state: state,
+          child: FreePaymantCongratulationPage(
+            membership: membership,
           ),
         );
       },
