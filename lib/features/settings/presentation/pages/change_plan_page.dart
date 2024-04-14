@@ -1,15 +1,50 @@
+import 'dart:developer';
+
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/catalog/data/models/membership.dart';
 import 'package:fcc_app_front/features/payment/data/repositories/payment_repo.dart';
 
-class ChangePlanPage extends StatelessWidget {
+class ChangePlanPage extends StatefulWidget {
   const ChangePlanPage({super.key});
+
+  @override
+  State<ChangePlanPage> createState() => _ChangePlanPageState();
+}
+
+class _ChangePlanPageState extends State<ChangePlanPage> {
+  String removeTrailingZeros(String number) {
+    return number.replaceAll(RegExp(r'(\.0+|(?<=\..*?)0+)$'), '');
+  }
+
+  String? checkMembersheepPrice(String id) {
+    final AuthState user = context.read<AuthCubit>().state;
+    final int parsedMemberSheepPriceById = int.tryParse(id) ?? 0;
+    if (user is Authenticated) {
+      final String userDiscount = user.user.sumDiscount!;
+      int parsedUserDiscount = int.parse(removeTrailingZeros(userDiscount));
+      if (parsedUserDiscount < parsedMemberSheepPriceById) {
+        final String amount =
+            '${parsedMemberSheepPriceById - parsedUserDiscount} ₽';
+        return amount;
+      } else if (parsedUserDiscount >= parsedMemberSheepPriceById) {
+        return '0 ₽';
+      }
+    }
+    return null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     context.read<AuthCubit>().init();
-    return BlocProvider(
-      create: (BuildContext context) => MembershipCubit()..load(),
+    return BlocProvider<MembershipCubit>(
+      create: (BuildContext context) {
+        return MembershipCubit()..load();
+      },
       child: Builder(
         builder: (BuildContext context) {
           final AuthState authState = context.read<AuthCubit>().state;
@@ -93,6 +128,17 @@ class ChangePlanPage extends StatelessWidget {
                                     1,
                                     context.read<MembershipCubit>().getPrice(1),
                                   );
+
+                                  if (url == 'free' && context.mounted) {
+                                    context.go(
+                                      Routes.paymentCongrats,
+                                      extra: <String, Object>{
+                                        'membership': MembershipType.elite.name,
+                                        'goMenu': true,
+                                      },
+                                    );
+                                  }
+
                                   if (url != null && context.mounted) {
                                     context.pushNamed(
                                       RoutesNames.payment,
@@ -131,8 +177,9 @@ class ChangePlanPage extends StatelessWidget {
                                     );
                                   }
                                 },
-                                text:
-                                    context.read<MembershipCubit>().getPrice(1),
+                                text: checkMembersheepPrice(context
+                                    .read<MembershipCubit>()
+                                    .getPrice(1))!,
                                 textStyle: Theme.of(context)
                                     .textTheme
                                     .titleMedium
@@ -191,6 +238,18 @@ class ChangePlanPage extends StatelessWidget {
                                     2,
                                     context.read<MembershipCubit>().getPrice(2),
                                   );
+
+                                  if (url == 'free' && context.mounted) {
+                                    context.go(
+                                      Routes.paymentCongrats,
+                                      extra: <String, Object>{
+                                        'membership':
+                                            MembershipType.premium.name,
+                                        'goMenu': true,
+                                      },
+                                    );
+                                  }
+
                                   if (url != null && context.mounted) {
                                     context.pushNamed(
                                       RoutesNames.payment,
@@ -229,8 +288,9 @@ class ChangePlanPage extends StatelessWidget {
                                     );
                                   }
                                 },
-                                text:
-                                    context.read<MembershipCubit>().getPrice(2),
+                                text: checkMembersheepPrice(
+                                  context.read<MembershipCubit>().getPrice(2),
+                                )!,
                                 textStyle: Theme.of(context)
                                     .textTheme
                                     .titleMedium
@@ -285,6 +345,17 @@ class ChangePlanPage extends StatelessWidget {
                                     3,
                                     context.read<MembershipCubit>().getPrice(3),
                                   );
+
+                                  if (url == 'free' && context.mounted) {
+                                    context.go(
+                                      Routes.paymentCongrats,
+                                      extra: <String, Object>{
+                                        'membership': MembershipType.elite.name,
+                                        'goMenu': true,
+                                      },
+                                    );
+                                  }
+
                                   if (url != null && context.mounted) {
                                     context.pushNamed(
                                       RoutesNames.payment,
@@ -293,7 +364,7 @@ class ChangePlanPage extends StatelessWidget {
                                         'phone': phone,
                                         'onComplete': () async {
                                           context.pop();
-                                          Future.delayed(
+                                          Future<Null>.delayed(
                                             Duration.zero,
                                             () {
                                               context
@@ -323,8 +394,9 @@ class ChangePlanPage extends StatelessWidget {
                                     );
                                   }
                                 },
-                                text:
-                                    context.read<MembershipCubit>().getPrice(3),
+                                text: checkMembersheepPrice(context
+                                    .read<MembershipCubit>()
+                                    .getPrice(3))!,
                                 textStyle: Theme.of(context)
                                     .textTheme
                                     .titleMedium

@@ -32,15 +32,9 @@ class _MenuState extends State<Menu> {
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     getMemberSheep();
-    return BlocProvider(
+    return BlocProvider<SearchCubit>(
       create: (BuildContext context) => SearchCubit(),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {

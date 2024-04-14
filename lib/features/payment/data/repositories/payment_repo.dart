@@ -10,11 +10,17 @@ class PaymentRepo {
   ) async {
     try {
       Response? response;
-      response = await BaseHttpClient.post('api/v1/users/generate-payment-link/', <String, Object?>{
+      response = await BaseHttpClient.post(
+          'api/v1/users/generate-payment-link/', <String, Object?>{
         'client': getClientId(),
         'membership': membership,
         'amount': amount,
       });
+
+      if (response?.statusCode == 201) {
+        return 'free';
+      }
+
       if (response != null) {
         log(jsonDecode(response.body)['paymentUrl'] as String);
         return jsonDecode(response.body)['paymentUrl'] as String;
@@ -27,7 +33,8 @@ class PaymentRepo {
 
   static Future<PaymentModel?> latestPayment() async {
     try {
-      final String? response = await BaseHttpClient.get('api/v1/users/latest-payment/');
+      final String? response =
+          await BaseHttpClient.get('api/v1/users/latest-payment/');
       if (response != null) {
         return PaymentModel.fromMap(
           jsonDecode(response),

@@ -23,14 +23,36 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
     goToMenu();
   }
 
+  String extra(String membership) {
+    if (membership == 'standard') {
+      return '1';
+    } else if (membership == 'premium') {
+      return '2';
+    } else if (membership == 'elite') {
+      return '3';
+    } else {
+      return '4';
+    }
+  }
+
   void goToMenu() {
-    Future<void>.delayed(const Duration(seconds: 3)).then((void value) {
-      context.read<AuthCubit>().init();
-      context.go(
-        Routes.menu,
-        extra: widget.membership,
-      );
-    });
+    final String membershipName = membershipNames[MembershipType.values
+                    .firstWhereOrNull((MembershipType element) {
+                  return element.name == widget.membership;
+                }) ??
+                MembershipType.standard]
+            ?.toUpperCase() ??
+        'Стандарт';
+    ApplicationSnackBar.showErrorSnackBar(
+        context,
+        'Вы приобрели тариф $membershipName',
+        2,
+        const EdgeInsets.all(50),
+        3,
+        false);
+    context.go(
+      Routes.profile,
+    );
   }
 
   @override
@@ -42,45 +64,48 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
                 MembershipType.standard]
             ?.toUpperCase() ??
         'Стандарт';
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 35.w,
-            vertical: 20.h,
-          ),
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Вы успешно подключили  тариф “$membershipName"',
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ).animate().fadeIn(duration: 1000.ms),
-                    sized30,
-                    CstmBtn(
-                      width: double.infinity,
-                      onTap: () {
-                        if (widget.goMenu) {
-                          context.goNamed(
-                            RoutesNames.menu,
-                          );
-                        } else {
-                          context.pop();
-                        }
-                      },
-                      text: 'Перейти в каталог',
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double boxWidth = constraints.constrainWidth();
+
+        return Scaffold(
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Вы успешно подключили  тариф “$membershipName"',
+                          style: Theme.of(context).textTheme.titleMedium,
+                          textAlign: TextAlign.center,
+                        ).animate().fadeIn(duration: 1000.ms),
+                        sized30,
+                        CstmBtn(
+                          width: double.infinity,
+                          onTap: () {
+                            if (widget.goMenu) {
+                              context.goNamed(
+                                RoutesNames.menu,
+                              );
+                            } else {
+                              context.pop();
+                            }
+                          },
+                          text: 'Перейти в каталог',
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
