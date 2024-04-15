@@ -19,7 +19,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
   bool isLoading = false;
   String? _inviteCode;
 
-  Future<void> initUniLinks() async {
+  Future<void> _initUniLinks() async {
     try {
       final String? initialLink = await getInitialLink();
       if (initialLink != null) {
@@ -36,6 +36,12 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
     } on Exception {
       log('getInitialLink error');
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initUniLinks();
   }
 
   @override
