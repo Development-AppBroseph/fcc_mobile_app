@@ -8,20 +8,6 @@ class OrderConfirmationPage extends StatefulWidget {
 }
 
 class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
-  final ConfettiController confettiController = ConfettiController();
-
-  @override
-  void initState() {
-    super.initState();
-    confettiController.play();
-  }
-
-  @override
-  void dispose() {
-    confettiController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,16 +20,6 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
           child: Column(
             children: <Widget>[
               const CustomBackButton(),
-              ConfettiWidget(
-                confettiController: confettiController,
-                blastDirectionality: BlastDirectionality.explosive,
-                blastDirection: -1.5,
-                particleDrag: 0.01,
-                emissionFrequency: 0.02,
-                numberOfParticles: 50,
-                gravity: 0.05,
-                shouldLoop: false,
-              ),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
