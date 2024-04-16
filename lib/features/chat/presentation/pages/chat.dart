@@ -193,24 +193,38 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleImageSelection() async {
-    final XFile? result = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 10,
-      maxHeight: 600,
-      maxWidth: 900,
+    // final XFile? result = await ImagePicker().pickImage(
+    //   source: ImageSource.gallery,
+    //   imageQuality: 10,
+    //   maxHeight: 600,
+    //   maxWidth: 900,
+    // );
+    // File(result!.path).readAsBytesSync();
+
+    // final Uint8List bytes = await result.readAsBytes();
+
+    // final Uri a =
+    //     Uri.dataFromBytes(bytes, mimeType: lookupMimeType(result.path) ?? '');
+    // log('Here is from Uri${a.toString()}');
+
+    final picker.FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
     );
-    File(result!.path).readAsBytesSync();
 
-    final Uint8List bytes = await result.readAsBytes();
+    if (result == null) return;
+    final Uint8List? imageInUnit8List = result.files.first.bytes;
 
-    final Uri a =
-        Uri.dataFromBytes(bytes, mimeType: lookupMimeType(result.path) ?? '');
-    log('Here is from Uri${a.toString()}');
+    final Directory tempDir = await getTemporaryDirectory();
+    File file = await File('${tempDir.path}/image.png').create();
+
+    file.writeAsBytesSync(imageInUnit8List!);
+    log(file.toString());
+    log(result.files.first.name.split('.').last);
 
     _channel.sink.add(jsonEncode(<String, Object>{
-      'file': a.toString(),
-      'format': result.name.split('.').last,
-      'filename': result.name.split('.').first
+      'file': file.toString(),
+      'format': result.files.first.name.split('.').last,
+      'filename': result.files.first.name.split('.').first
     }));
 
     // picker.FilePickerResult? result = await picker.FilePicker.platform.pickFiles(
@@ -357,7 +371,7 @@ class _ChatPageState extends State<ChatPage> {
           audioMessageBuilder: (types.AudioMessage p0, {int? messageWidth}) {
             return Image.asset(Assets.microphone.path);
           },
-          // onAttachmentPressed: _handleAttachmentPressed,
+          onAttachmentPressed: _handleAttachmentPressed,
           onMessageTap: _handleMessageTap,
           onSendPressed: _handleSendPressed,
           showUserAvatars: true,
