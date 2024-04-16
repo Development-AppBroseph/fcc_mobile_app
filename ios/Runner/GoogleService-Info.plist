@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>br.mobile.fcc</string>
+	<string>fcc.br.mobile</string>
 	<key>PROJECT_ID</key>
 	<string>fcc-mobile-app</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:367644519695:ios:5c4048626691a05f16e27a</string>
+	<string>1:367644519695:ios:c7dc6983e2daa5f216e27a</string>
 </dict>
 </plist>
