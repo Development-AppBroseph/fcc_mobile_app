@@ -163,22 +163,25 @@ class _ChatPageState extends State<ChatPage> {
       type: FileType.any,
     );
 
-    if (result != null && result.files.single.path != null) {
-      final Uint8List s =
-          File(result.files.single.path ?? '').readAsBytesSync();
-
-      final Uri a = Uri.dataFromBytes(s,
-          mimeType: lookupMimeType(result.files.single.path!) ?? '');
+    if (result != null) {
+      Uint8List? bytes = result.files.single.bytes;
+      final Uri a = Uri.dataFromBytes(
+        bytes ?? <int>[],
+        mimeType:
+            lookupMimeType(result.files.single.name, headerBytes: bytes) ?? '',
+      );
 
       log(a.toString());
+
       types.FileMessage(
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
-        mimeType: lookupMimeType(result.files.single.path!),
+        mimeType:
+            lookupMimeType(result.files.single.name, headerBytes: bytes) ?? '',
         name: result.files.single.name,
         size: result.files.single.size,
-        uri: result.files.single.path!,
+        uri: a.toString(),
       );
       _channel.sink.add(
         jsonEncode(
@@ -192,52 +195,45 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
+  String getFileExtension(String fileName) {
+    return ".${fileName.split('.').last}".toLowerCase();
+  }
+
   void _handleImageSelection() async {
-    // final XFile? result = await ImagePicker().pickImage(
-    //   source: ImageSource.gallery,
-    //   imageQuality: 10,
-    //   maxHeight: 600,
-    //   maxWidth: 900,
-    // );
-    // File(result!.path).readAsBytesSync();
-
-    // final Uint8List bytes = await result.readAsBytes();
-
-    // final Uri a =
-    //     Uri.dataFromBytes(bytes, mimeType: lookupMimeType(result.path) ?? '');
-    // log('Here is from Uri${a.toString()}');
-
     final picker.FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
     );
 
-    if (result == null) return;
-    final Uint8List? imageInUnit8List = result.files.first.bytes;
+    if (result != null) {
+      Uint8List? bytes = result.files.single.bytes;
+      final Uri a = Uri.dataFromBytes(
+        bytes ?? <int>[],
+        mimeType:
+            lookupMimeType(result.files.single.name, headerBytes: bytes) ?? '',
+      );
 
-    final Directory tempDir = await getTemporaryDirectory();
-    File file = await File('${tempDir.path}/image.png').create();
+      log(a.toString());
 
-    file.writeAsBytesSync(imageInUnit8List!);
-    log(file.toString());
-    log(result.files.first.name.split('.').last);
-
-    _channel.sink.add(jsonEncode(<String, Object>{
-      'file': file.toString(),
-      'format': result.files.first.name.split('.').last,
-      'filename': result.files.first.name.split('.').first
-    }));
-
-    // picker.FilePickerResult? result = await picker.FilePicker.platform.pickFiles(
-    //   type: picker.FileType.image,
-    // );
-
-    // if (result != null && result.files.single.path != null) {
-    //   _channel.sink.add(jsonEncode(<String, Object>{
-    //     'file': result.files.single.bytes!.toString(),
-    //     'format': result.files.single.name.split('.').last,
-    //     'filename': result.files.single.name.split('.').first
-    //   }));
-    // }
+      types.FileMessage(
+        author: _user,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: const Uuid().v4(),
+        mimeType:
+            lookupMimeType(result.files.single.name, headerBytes: bytes) ?? '',
+        name: result.files.single.name,
+        size: result.files.single.size,
+        uri: a.toString(),
+      );
+      _channel.sink.add(
+        jsonEncode(
+          <String, Object>{
+            'file': a.toString(),
+            'format': result.files.single.name.split('.').last,
+            'filename': result.files.single.name.split('.').first
+          },
+        ),
+      );
+    }
   }
 
   void _handleMessageTap(BuildContext _, types.Message message) async {
