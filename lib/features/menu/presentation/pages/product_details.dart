@@ -25,7 +25,7 @@ class ProductDetails extends StatelessWidget {
                   height: 20,
                 ),
                 Container(
-                  height: size.height / 3.5,
+                  height: size.height / 3.2,
                   width: size.width,
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(

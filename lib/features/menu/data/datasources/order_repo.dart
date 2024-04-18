@@ -28,6 +28,7 @@ final class OrderRepository {
       if (response != null) {
         final List body = jsonDecode(response) as List;
         for (dynamic address in body) {
+          log(address.toString());
           addresses.add(
             Address.fromJson(address),
           );

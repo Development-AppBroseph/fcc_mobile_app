@@ -35,119 +35,143 @@ class _OrderState extends State<Order> {
                       ? BlocBuilder<OrderCubit, OrderState>(
                           builder: (BuildContext context, OrderState state) {
                             if (state.orders.isNotEmpty) {
-                              return ListView.builder(
-                                itemBuilder: (
-                                  BuildContext context,
-                                  int index,
-                                ) {
-                                  final List<OrderModel> order = state.orders;
-
-                                  return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          height: 30.h,
+                              return Scaffold(
+                                appBar: AppBar(
+                                  automaticallyImplyLeading: false,
+                                  centerTitle: false,
+                                  scrolledUnderElevation: 0,
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                  title: Text(
+                                    'Доставка',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .primaryColorDark,
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            context.pushNamed(
-                                              RoutesNames.orderDetails,
-                                              extra: order[index],
-                                            );
-                                          },
-                                          child: SizedBox(
-                                            height: size.height / 8.h,
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Card(
-                                                  elevation: 0.1,
-                                                  clipBehavior: Clip.antiAlias,
-                                                  child: CachedNetworkImage(
-                                                    imageBuilder: (BuildContext
-                                                            context,
-                                                        ImageProvider<Object>
-                                                            imageProvider) {
-                                                      return Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          image:
-                                                              DecorationImage(
+                                  ),
+                                ),
+                                body: ListView.builder(
+                                  itemBuilder: (
+                                    BuildContext context,
+                                    int index,
+                                  ) {
+                                    final List<OrderModel> order = state.orders;
+
+                                    return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          SizedBox(
+                                            height: 30.h,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              context.pushNamed(
+                                                RoutesNames.orderDetails,
+                                                extra: order[index],
+                                              );
+                                            },
+                                            child: SizedBox(
+                                              height: size.height / 8.h,
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Card(
+                                                    elevation: 0.1,
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    child: CachedNetworkImage(
+                                                      imageBuilder: (BuildContext
+                                                              context,
+                                                          ImageProvider<Object>
+                                                              imageProvider) {
+                                                        return Container(
+                                                          decoration:
+                                                              BoxDecoration(
                                                             image:
-                                                                imageProvider,
-                                                            fit: BoxFit.fill,
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    imageUrl: order[index]
-                                                        .orderItems
-                                                        .map((OrderItem e) {
-                                                          return e.productPhoto;
-                                                        })
-                                                        .toString()
-                                                        .replaceAll('(', '')
-                                                        .replaceAll(')', ''),
-                                                    width: 100.w,
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 20.w,
-                                                ),
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        '№ ${order[index].id}',
-                                                      ),
-                                                      Text(
-                                                        order[index]
-                                                            .orderItems
-                                                            .map((OrderItem e) {
-                                                              return e
-                                                                  .productName;
-                                                            })
-                                                            .toString()
-                                                            .replaceAll(
-                                                              '(',
-                                                              '',
-                                                            )
-                                                            .replaceAll(
-                                                              ')',
-                                                              '',
+                                                                DecorationImage(
+                                                              image:
+                                                                  imageProvider,
+                                                              fit: BoxFit.fill,
                                                             ),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodySmall,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 2,
-                                                      ),
-                                                      Text(
-                                                        'Статус: ${convertOrderStatus(order[index].status)}',
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodySmall,
-                                                      ),
-                                                    ],
+                                                          ),
+                                                        );
+                                                      },
+                                                      imageUrl: order[index]
+                                                          .orderItems
+                                                          .map((OrderItem e) {
+                                                            return e
+                                                                .productPhoto;
+                                                          })
+                                                          .toString()
+                                                          .replaceAll('(', '')
+                                                          .replaceAll(')', ''),
+                                                      width: 100.w,
+                                                      fit: BoxFit.fill,
+                                                    ),
                                                   ),
-                                                )
-                                              ],
+                                                  SizedBox(
+                                                    width: 20.w,
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          '№ ${order[index].id}',
+                                                        ),
+                                                        Text(
+                                                          order[index]
+                                                              .orderItems
+                                                              .map((OrderItem
+                                                                  e) {
+                                                                return e
+                                                                    .productName;
+                                                              })
+                                                              .toString()
+                                                              .replaceAll(
+                                                                '(',
+                                                                '',
+                                                              )
+                                                              .replaceAll(
+                                                                ')',
+                                                                '',
+                                                              ),
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodySmall,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 2,
+                                                        ),
+                                                        Text(
+                                                          'Статус: ${convertOrderStatus(order[index].status)}',
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodySmall,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ]);
-                                },
-                                itemCount: state.orders.length,
+                                        ]);
+                                  },
+                                  itemCount: state.orders.length,
+                                ),
                               );
                             }
                             return Column(

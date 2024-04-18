@@ -9,7 +9,7 @@ class OrderModel {
   final String clientPhone;
   final String clientEmail;
   final String deliveryStatus;
-  final DeliveryPoint? deliveryPoint;
+  final String? deliveryPoint;
   final DateTime createdAt;
   final String status;
   final String trackNumber;
@@ -35,7 +35,7 @@ class OrderModel {
     return OrderModel(
       trackNumber: json['track_number'] ?? '',
       deliveryStatus: json['delivery_status'] ?? '',
-      deliveryPoint: DeliveryPoint.fromJson(json['delivery_point']),
+      deliveryPoint: json['delivery_point'] ?? '',
       status: json['status'] ?? '',
       id: json['id'] ?? 0,
       client: json['client'] ?? 0,
@@ -75,49 +75,4 @@ class OrderItem {
       quantity: json['quantity'] ?? 0,
     );
   }
-}
-
-class DeliveryPoint {
-  final int id;
-  final String address;
-  double latitude;
-  double longitude;
-
-  DeliveryPoint({
-    required this.id,
-    required this.address,
-    required this.latitude,
-    required this.longitude,
-  });
-
-  factory DeliveryPoint.fromJson(Map<String, dynamic> json) {
-    return DeliveryPoint(
-      id: json['id'],
-      address: json['address'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'id': id,
-      'address': address,
-      'latitude': latitude,
-      'longitude': longitude,
-    };
-  }
-
-  DeliveryPoint copyWith({
-    int? id,
-    String? address,
-    double? latitude,
-    double? longitude,
-  }) =>
-      DeliveryPoint(
-        id: id ?? this.id,
-        address: address ?? this.address,
-        latitude: latitude ?? this.latitude,
-        longitude: longitude ?? this.longitude,
-      );
 }

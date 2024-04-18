@@ -1,10 +1,15 @@
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
 
-class ChooseAddress extends StatelessWidget {
-  final TextEditingController address = TextEditingController();
-
+class ChooseAddress extends StatefulWidget {
   ChooseAddress({super.key});
+
+  @override
+  State<ChooseAddress> createState() => _ChooseAddressState();
+}
+
+class _ChooseAddressState extends State<ChooseAddress> {
+  final TextEditingController address = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -105,8 +110,10 @@ class ChooseAddress extends StatelessWidget {
                         },
                         itemCount: state.addresses.length),
                   );
+                } else if (state is OrderLoading) {
+                  return const CircularProgressIndicator.adaptive();
                 }
-                return const SizedBox.shrink();
+                return const Center(child: SizedBox.shrink());
               },
             ),
           ],

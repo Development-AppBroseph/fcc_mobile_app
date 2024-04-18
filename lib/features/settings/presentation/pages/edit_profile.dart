@@ -208,9 +208,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 context
                                     .read<ProfileBloc>()
                                     .add(ChangeProfileDetails(
-                                      name: name.text,
-                                      surname: surname.text,
-                                      middlename: middlename.text,
+                                      firstName: name.text,
+                                      middleName: surname.text,
+                                      lastName: middlename.text,
                                     ));
                                 context.read<AuthCubit>().init();
                               },

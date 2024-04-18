@@ -19,7 +19,10 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
           ),
           child: Column(
             children: <Widget>[
-              const CustomBackButton(),
+              CustomBackButton(
+                pop: false,
+                path: RoutesNames.menu,
+              ),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -53,7 +53,7 @@ class OrderDetails extends StatelessWidget {
 
             sized10,
             SizedBox(
-              height: size.height / 6,
+              height: size.height / 4,
               width: double.infinity,
               child: Card(
                 clipBehavior: Clip.antiAlias,
@@ -187,14 +187,15 @@ class OrderDetails extends StatelessWidget {
             ),
 
             sized20,
-            Text(
-              order?.deliveryPoint?.address ?? '',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
+            Expanded(
+              child: Text(
+                order?.deliveryPoint ?? '',
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w400,
+                    ),
+              ),
             ),
 
-            sized10,
             // BlocBuilder<EditingAddress, bool>(
             //   builder: (BuildContext context, bool state) {
             //     if (state) {

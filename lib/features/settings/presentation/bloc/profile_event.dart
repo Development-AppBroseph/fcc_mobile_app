@@ -8,12 +8,12 @@ abstract class ProfileEvent extends Equatable {
 }
 
 final class ChangeProfileDetails extends ProfileEvent {
-  final String name;
-  final String surname;
-  final String middlename;
+  final String firstName;
+  final String lastName;
+  final String middleName;
   const ChangeProfileDetails({
-    required this.name,
-    required this.surname,
-    required this.middlename,
+    required this.firstName,
+    required this.lastName,
+    required this.middleName,
   });
 }
