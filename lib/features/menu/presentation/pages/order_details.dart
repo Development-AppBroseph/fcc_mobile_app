@@ -201,7 +201,7 @@ class OrderDetails extends StatelessWidget {
 
                 sized20,
                 Text(
-                  order?.deliveryPoint?.address ?? '',
+                  order?.deliveryPoint ?? '',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w400,
                       ),

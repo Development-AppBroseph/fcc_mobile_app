@@ -70,7 +70,6 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double boxWidth = constraints.constrainWidth();
@@ -122,7 +121,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                           ),
                           sized20,
                           Text(
-                            'Адрес пункта выдачи',
+                            'Адрес доставки',
                             style:
                                 Theme.of(context).textTheme.bodyLarge?.copyWith(
                                       fontWeight: FontWeight.w400,
@@ -137,7 +136,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                         await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
+                                          builder: (BuildContext context) =>
                                               ChooseAddress()),
                                     );
 
@@ -160,7 +159,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            'Выберите адрес',
+                                            'Введите адрес',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall
@@ -181,7 +180,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                               text: TextSpan(
                             children: <TextSpan>[
                               TextSpan(
-                                text: 'Выбран aдрес: ',
+                                text: 'Введенный адрес: ',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall
@@ -355,7 +354,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                     if (selectedAddressByUser.isEmpty) {
                                       ApplicationSnackBar.showErrorSnackBar(
                                           context,
-                                          'Пожалуйста, выберите адрес',
+                                          'Пожалуйста,введите адрес',
                                           0.9,
                                           const EdgeInsets.symmetric(
                                               horizontal: 10),
@@ -377,7 +376,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       final (OrderModel?, String?) order =
                                           await OrderRepo.placeOrder(
                                         product: widget.product!,
-                                        address: selectedAddressId,
+                                        address: selectedAddressByUser,
                                         name:
                                             '${firstNameController.text} ${middleNameController.text} ${lastNameController.text}',
                                         phone: phoneController.text,

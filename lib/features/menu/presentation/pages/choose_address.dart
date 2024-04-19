@@ -1,9 +1,13 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
+import 'package:fcc_app_front/shared/utils/debouncer.dart';
 
 class ChooseAddress extends StatelessWidget {
   final TextEditingController address = TextEditingController();
-
+  final Debouncer debouncer = Debouncer(milliseconds: 200);
   ChooseAddress({super.key});
 
   @override
@@ -18,7 +22,7 @@ class ChooseAddress extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: Text(
-              'Выберите адрес',
+              'Введите адрес',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Theme.of(context).primaryColorDark,
                   ),
@@ -37,10 +41,9 @@ class ChooseAddress extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 TextField(
+                  autocorrect: true,
                   onChanged: (String address) {
-                    context
-                        .read<OrderBloc>()
-                        .add(FetchAllAddreses(address: address));
+                    onSearchQuery(address);
                   },
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontFamily: 'Rubik',
@@ -80,8 +83,7 @@ class ChooseAddress extends StatelessWidget {
                             physics: const ClampingScrollPhysics(),
                             cacheExtent: 30,
                             itemBuilder: (BuildContext context, int index) {
-                              final address = state.addresses[index].address!
-                                  .replaceRange(0, 7, '');
+                              final address = state.addresses[index].address;
                               return ListTile(
                                 splashColor: Theme.of(context).primaryColor,
                                 title: Text(
@@ -96,7 +98,7 @@ class ChooseAddress extends StatelessWidget {
                                       ),
                                 ),
                                 subtitle: Text(
-                                  'Индекс: ${state.addresses[index].address!.split(',').first.trim()}',
+                                  'Индекс: ${state.addresses[index].address?.split(',').first.trim()}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -128,6 +130,16 @@ class ChooseAddress extends StatelessWidget {
         );
       },
     );
+  }
+
+  void onSearchQuery(String query) {
+    debouncer.run(() {
+      log(query);
+
+      // context
+      //     .read<OrderBloc>()
+      //     .add(FetchAllAddreses(address: address));
+    });
   }
 
   String removeIndexFromAddress(String address) {

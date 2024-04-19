@@ -5,7 +5,7 @@ import 'package:fcc_app_front/export.dart';
 
 class OrderRepo {
   static Future<(OrderModel?, String?)> placeOrder({
-    required int address,
+    required String address,
     required String name,
     required String phone,
     required String email,
