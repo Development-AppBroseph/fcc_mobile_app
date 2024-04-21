@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
@@ -6,8 +5,10 @@ import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
 import 'package:fcc_app_front/shared/utils/debouncer.dart';
 
 class ChooseAddress extends StatelessWidget {
-  final TextEditingController address = TextEditingController();
-  final Debouncer debouncer = Debouncer(milliseconds: 200);
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController appartmentController = TextEditingController();
+
+  final Debouncer debouncer = Debouncer(milliseconds: 1000);
   ChooseAddress({super.key});
 
   @override
@@ -43,7 +44,11 @@ class ChooseAddress extends StatelessWidget {
                 TextField(
                   autocorrect: true,
                   onChanged: (String address) {
-                    onSearchQuery(address);
+                    debouncer.run(() {
+                      context
+                          .read<OrderBloc>()
+                          .add((FetchAllAddreses(address: address)));
+                    });
                   },
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontFamily: 'Rubik',
@@ -68,7 +73,7 @@ class ChooseAddress extends StatelessWidget {
                       ),
                     ),
                   ),
-                  controller: address,
+                  controller: addressController,
                 ),
                 BlocBuilder<OrderBloc, AddressOrderState>(
                   builder: (BuildContext context, AddressOrderState state) {
@@ -83,11 +88,12 @@ class ChooseAddress extends StatelessWidget {
                             physics: const ClampingScrollPhysics(),
                             cacheExtent: 30,
                             itemBuilder: (BuildContext context, int index) {
-                              final address = state.addresses[index].address;
+                              final String? address =
+                                  state.addresses[index].address;
                               return ListTile(
                                 splashColor: Theme.of(context).primaryColor,
                                 title: Text(
-                                  'Улица:${address}',
+                                  'Улица:$address',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -109,12 +115,72 @@ class ChooseAddress extends StatelessWidget {
                                       ),
                                 ),
                                 onTap: () {
-                                  context.pop(
-                                    <int?, String?>{
-                                      state.addresses[index].id:
-                                          state.addresses[index].address,
-                                    },
-                                  );
+                                  showDialog(
+                                      barrierDismissible: true,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                            titlePadding:
+                                                const EdgeInsets.all(16),
+                                            backgroundColor: Colors.white,
+                                            elevation: 0,
+                                            icon: const Icon(Icons.home_filled),
+                                            actions: <Widget>[
+                                              CstmBtn(
+                                                key: UniqueKey(),
+                                                text: 'Добавить',
+                                                onTap: () {
+                                                  if (appartmentController
+                                                      .text.isEmpty) {
+                                                    ApplicationSnackBar
+                                                        .showErrorSnackBar(
+                                                      context,
+                                                      'Пожалуйста, введите квартиру',
+                                                      1,
+                                                      const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10),
+                                                      1,
+                                                    );
+                                                    return;
+                                                  }
+
+                                                  if (state.addresses[index]
+                                                          .address !=
+                                                      null) {
+                                                    context.pop(<int?, String?>{
+                                                      state.addresses[index].id:
+                                                          '${state.addresses[index].address!.trim()}, Квартира ${appartmentController.text.trim()}',
+                                                    });
+
+                                                    Navigator.of(context).pop();
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                            title:
+                                                const Text('Введите квартиру'),
+                                            content: Card(
+                                              elevation: 0,
+                                              color: Colors.transparent,
+                                              child: CustomFormField(
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                textInputType:
+                                                    TextInputType.number,
+                                                hintText: 'Квартира',
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Поле не может быть пустым';
+                                                  }
+                                                  return null;
+                                                },
+                                                controller:
+                                                    appartmentController,
+                                              ),
+                                            ));
+                                      });
                                 },
                               );
                             },
@@ -130,16 +196,6 @@ class ChooseAddress extends StatelessWidget {
         );
       },
     );
-  }
-
-  void onSearchQuery(String query) {
-    debouncer.run(() {
-      log(query);
-
-      // context
-      //     .read<OrderBloc>()
-      //     .add(FetchAllAddreses(address: address));
-    });
   }
 
   String removeIndexFromAddress(String address) {

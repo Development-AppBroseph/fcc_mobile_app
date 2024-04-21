@@ -1,64 +1,65 @@
-import 'dart:io';
-import 'package:fcc_app_front/export.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'dart:io';
+// import 'package:fcc_app_front/export.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class NotificationApi {
-  static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+// class NotificationApi {
+//   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//       FlutterLocalNotificationsPlugin();
 
-  static Future<void> requestPermissions() async {
-    if (Platform.isIOS) {
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              MacOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-    } else if (Platform.isAndroid) {
-      final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>();
+//   static Future<void> requestPermissions() async {
+//     if (Platform.isIOS) {
+//       await flutterLocalNotificationsPlugin
+//           .resolvePlatformSpecificImplementation<
+//               IOSFlutterLocalNotificationsPlugin>()
+//           ?.requestPermissions(
+//             alert: true,
+//             badge: true,
+//             sound: true,
+//           );
+//       await flutterLocalNotificationsPlugin
+//           .resolvePlatformSpecificImplementation<
+//               MacOSFlutterLocalNotificationsPlugin>()
+//           ?.requestPermissions(
+//             alert: true,
+//             badge: true,
+//             sound: true,
+//           );
+//     } else if (Platform.isAndroid) {
+//       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
+//           flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+//               AndroidFlutterLocalNotificationsPlugin>();
 
-      await androidImplementation?.requestNotificationsPermission();
-    }
-  }
+//       await androidImplementation?.requestNotificationsPermission();
+//     }
+//   }
 
-  static Future<void> init() async {
-    AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings(Assets.fsc.path);
+//   static Future<void> init() async {
+//     AndroidInitializationSettings initializationSettingsAndroid =
+//         AndroidInitializationSettings(Assets.fsc.path);
 
-    const DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
+//     const DarwinInitializationSettings initializationSettingsIOS =
+//         DarwinInitializationSettings(
+//       requestAlertPermission: true,
+//       requestBadgePermission: true,
+//       requestSoundPermission: true,
+//     );
 
-    InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
+//     InitializationSettings initializationSettings = InitializationSettings(
+//       android: initializationSettingsAndroid,
+//       iOS: initializationSettingsIOS,
+//     );
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+//     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-    flutterLocalNotificationsPlugin.initialize(
-      const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-        iOS: DarwinInitializationSettings(),
-      ),
-    );
-    requestPermissions();
-  }
+//     flutterLocalNotificationsPlugin.initialize(
+//       const InitializationSettings(
+//         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+//         iOS: DarwinInitializationSettings(),
+//       ),
+//     );
+//     requestPermissions();
+//   }
 
 //   static void pushNotification(
 //     RemoteMessage message,
@@ -113,5 +114,4 @@ class NotificationApi {
 //       platformChannelSpecifics,
 //     );
 //   }
-// }}
-}
+// }

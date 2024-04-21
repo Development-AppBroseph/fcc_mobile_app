@@ -8,28 +8,30 @@ import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dar
 import 'package:fcc_app_front/features/chat/di/di.dart';
 import 'package:fcc_app_front/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
+import 'package:fcc_app_front/firebase_options.dart';
 import 'package:fcc_app_front/shared/config/base/observer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
 Future<void> main() async {
   setUrlStrategy(null);
 
-  // if (kIsWeb) {
-  //   await Firebase.initializeApp(
-  //       options: FirebaseOptions(
-  //     apiKey: "AIzaSyDuZO...",
-  //     authDomain: "fcc-mobile-app.firebaseapp.com",
-  //     projectId: "fcc-mobile-app",
-  //     storageBucket: "fcc-mobile-app.appspot.com",
-  //     messagingSenderId: "367644519695",
-  //     appId: "1:367644519695:web:a048cc4d451c116316e27a",
-  //     measurementId: "G-HWRH4WVGSO",
-  //   ));
-  // } else {
-  //   await Firebase.initializeApp(
-  //     options: DefaultFirebaseOptions.currentPlatform,
-  //   );
-  // }
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+        options: FirebaseOptions(
+      apiKey: "AIzaSyDU2ONrSHdG6huXBHnAj_y0BZyXNWh73XQ",
+      authDomain: "fcc-mobile-app.firebaseapp.com",
+      projectId: "fcc-mobile-app",
+      storageBucket: "fcc-mobile-app.appspot.com",
+      messagingSenderId: "367644519695",
+      appId: "1:367644519695:web:a048cc4d451c116316e27a",
+      measurementId: "G-HWRH4WVGSO",
+    ));
+  } else {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -37,10 +39,9 @@ Future<void> main() async {
     await Hive.initFlutter();
     await _initHive();
 
-    // NotificationApi.init();
+    //  NotificationApi.init();
 
-    // FirebaseNotificationsRepo().initNotifications(() {});
-    _initChatDependencies();
+    FirebaseNotificationsRepo().initNotifications(() {});
 
     Bloc.observer = AppBlocObserver();
     runApp(

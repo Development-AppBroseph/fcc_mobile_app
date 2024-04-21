@@ -12,7 +12,6 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
@@ -166,9 +165,10 @@ class _ChatPageState extends State<ChatPage> {
     if (result != null) {
       Uint8List? bytes = result.files.single.bytes;
       final Uri a = Uri.dataFromBytes(
-        bytes ?? <int>[],
-        mimeType:
-            lookupMimeType(result.files.single.name, headerBytes: bytes) ?? '',
+        bytes ?? [],
+        mimeType: lookupMimeType(result.files.single.name,
+                headerBytes: bytes ?? []) ??
+            '',
       );
 
       log(a.toString());
@@ -177,8 +177,7 @@ class _ChatPageState extends State<ChatPage> {
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
-        mimeType:
-            lookupMimeType(result.files.single.name, headerBytes: bytes) ?? '',
+        mimeType: result.files.single.name.split('.').last.toLowerCase(),
         name: result.files.single.name,
         size: result.files.single.size,
         uri: a.toString(),
@@ -186,13 +185,26 @@ class _ChatPageState extends State<ChatPage> {
       _channel.sink.add(
         jsonEncode(
           <String, Object>{
-            'file': a.toString(),
+            'file': a.toString().split(':').last,
             'format': result.files.single.name.split('.').last,
             'filename': result.files.single.name.split('.').first
           },
         ),
       );
     }
+  }
+
+  Future<Uint8List> comporessImageOrFile(Uint8List list) async {
+    final Uint8List result = await FlutterImageCompress.compressWithList(
+      list,
+      minHeight: 1920,
+      minWidth: 1080,
+      quality: 96,
+      rotate: 135,
+    );
+    print(result);
+    print(result.length);
+    return result;
   }
 
   String getFileExtension(String fileName) {
@@ -206,20 +218,21 @@ class _ChatPageState extends State<ChatPage> {
 
     if (result != null) {
       Uint8List? bytes = result.files.single.bytes;
+      //  final compressedBytes = await comporessImageOrFile(bytes!);
       final Uri a = Uri.dataFromBytes(
-        bytes ?? <int>[],
-        mimeType:
-            lookupMimeType(result.files.single.name, headerBytes: bytes) ?? '',
+        bytes ?? [],
+        mimeType: lookupMimeType(result.files.single.name,
+                headerBytes: bytes ?? []) ??
+            '',
       );
 
-      log(a.toString());
+      print(a.toString().split(':').last);
 
       types.FileMessage(
         author: _user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
-        mimeType:
-            lookupMimeType(result.files.single.name, headerBytes: bytes) ?? '',
+        mimeType: result.files.single.name.split('.').last.toLowerCase(),
         name: result.files.single.name,
         size: result.files.single.size,
         uri: a.toString(),
@@ -227,7 +240,7 @@ class _ChatPageState extends State<ChatPage> {
       _channel.sink.add(
         jsonEncode(
           <String, Object>{
-            'file': a.toString(),
+            'file': a.toString().split(':').last,
             'format': result.files.single.name.split('.').last,
             'filename': result.files.single.name.split('.').first
           },
@@ -334,7 +347,16 @@ class _ChatPageState extends State<ChatPage> {
                     message.file.toString().contains('.png') ||
                 message.file.toString().contains('.jpg') ||
                 message.file.toString().contains('.jpeg') ||
-                message.file.toString().contains('.gif')) {}
+                message.file.toString().contains('.gif')) {
+              types.ImageMessage(
+                author: message.clientSend == true ? _user : _admin,
+                createdAt: DateTime.now().millisecondsSinceEpoch,
+                id: const Uuid().v4(),
+                name: message.file?.split('/').last ?? '',
+                size: 28,
+                uri: message.file ?? '',
+              );
+            }
             return types.ImageMessage(
               author: message.clientSend == true ? _user : _admin,
               createdAt: DateTime.now().millisecondsSinceEpoch,

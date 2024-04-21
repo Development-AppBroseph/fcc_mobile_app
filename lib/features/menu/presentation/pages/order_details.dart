@@ -196,7 +196,7 @@ class OrderDetails extends StatelessWidget {
                 ),
                 sized30,
                 const Text(
-                  'Пункт выдачи',
+                  'Адрес доставки',
                 ),
 
                 sized20,
