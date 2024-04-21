@@ -60,7 +60,7 @@ class OrderDetails extends StatelessWidget {
                 child: CachedNetworkImage(
                     fadeInCurve: Curves.easeInOutBack,
                     fit: BoxFit.fitWidth,
-                    imageUrl: order?.orderItems.first.productPhoto ?? ''),
+                    imageUrl: order?.orderItems?.first.productPhoto ?? ''),
               ),
             ),
 
@@ -68,10 +68,11 @@ class OrderDetails extends StatelessWidget {
             InkWell(
               hoverColor: Theme.of(context).primaryColor,
               onTap: () async {
-                final ProductModel? product =
-                    await context.read<OrderCubit>().getProductbyId(
-                          productUuid: order?.orderItems.last.productUuid ?? '',
-                        );
+                final ProductModel? product = await context
+                    .read<OrderCubit>()
+                    .getProductbyId(
+                      productUuid: order?.orderItems?.last.productUuid ?? '',
+                    );
 
                 if (context.mounted) {
                   context.pushNamed(
@@ -183,14 +184,14 @@ class OrderDetails extends StatelessWidget {
             ),
             sized30,
             const Text(
-              'Пункт выдачи',
+              'Адрес доставки',
             ),
 
             sized20,
             Expanded(
               child: Text(
                 order?.deliveryPoint ?? '',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w400,
                     ),
               ),

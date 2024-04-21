@@ -1,16 +1,20 @@
+import 'dart:async';
+
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
 
 class ChooseAddress extends StatefulWidget {
-  ChooseAddress({super.key});
+  const ChooseAddress({super.key});
 
   @override
   State<ChooseAddress> createState() => _ChooseAddressState();
 }
 
 class _ChooseAddressState extends State<ChooseAddress> {
-  final TextEditingController address = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController appartmentController = TextEditingController();
 
+  Debouncer debounce = Debouncer(milliseconds: 1000);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +23,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          'Выберите адрес',
+          'Введите улицу',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: Theme.of(context).primaryColorDark,
               ),
@@ -30,10 +34,13 @@ class _ChooseAddressState extends State<ChooseAddress> {
         child: Column(
           children: <Widget>[
             TextField(
+              autocorrect: false,
               onChanged: (String address) {
-                context
-                    .read<OrderBloc>()
-                    .add(FetchAllAddreses(address: address));
+                debounce.run(() {
+                  context
+                      .read<OrderBloc>()
+                      .add(FetchAllAddreses(address: address));
+                });
               },
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontFamily: 'Rubik',
@@ -58,7 +65,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                   ),
                 ),
               ),
-              controller: address,
+              controller: addressController,
             ),
             BlocBuilder<OrderBloc, AddressOrderState>(
               builder: (BuildContext context, AddressOrderState state) {
@@ -72,9 +79,10 @@ class _ChooseAddressState extends State<ChooseAddress> {
                         physics: const ClampingScrollPhysics(),
                         cacheExtent: 30,
                         itemBuilder: (BuildContext context, int index) {
-                          final address = state.addresses[index].address!
+                          final String address = state.addresses[index].address!
                               .replaceRange(0, 7, '');
                           return ListTile(
+                            key: UniqueKey(),
                             splashColor: Theme.of(context).primaryColor,
                             title: Text(
                               'Улица:${address}',
@@ -99,19 +107,76 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                   ),
                             ),
                             onTap: () {
-                              context.pop(
-                                <int?, String?>{
-                                  state.addresses[index].id:
-                                      state.addresses[index].address,
-                                },
-                              );
+                              showDialog(
+                                  barrierDismissible: true,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                        titlePadding: const EdgeInsets.all(16),
+                                        backgroundColor: Colors.white,
+                                        elevation: 0,
+                                        icon: const Icon(Icons.home_filled),
+                                        actions: <Widget>[
+                                          CstmBtn(
+                                            key: UniqueKey(),
+                                            text: 'Добавить',
+                                            onTap: () {
+                                              if (appartmentController
+                                                  .text.isEmpty) {
+                                                ApplicationSnackBar
+                                                    .showErrorSnackBar(
+                                                  context,
+                                                  'Пожалуйста, введите квартиру',
+                                                  1,
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                                  1,
+                                                );
+                                                return;
+                                              }
+
+                                              context.pop();
+
+                                              if (state.addresses[index]
+                                                      .address !=
+                                                  null) {
+                                                context.pop(<int?, String?>{
+                                                  state.addresses[index].id:
+                                                      '${state.addresses[index].address!.trim()}, Квартира ${appartmentController.text.trim()}',
+                                                });
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                        title: const Text('Введите квартиру'),
+                                        content: Card(
+                                          elevation: 0,
+                                          color: Colors.transparent,
+                                          child: CustomFormField(
+                                            textInputAction:
+                                                TextInputAction.done,
+                                            textInputType: TextInputType.number,
+                                            hintText: 'Квартира',
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Поле не может быть пустым';
+                                              }
+                                              return null;
+                                            },
+                                            controller: appartmentController,
+                                          ),
+                                        ));
+                                  });
                             },
                           );
                         },
                         itemCount: state.addresses.length),
                   );
                 } else if (state is OrderLoading) {
-                  return const CircularProgressIndicator.adaptive();
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
                 }
                 return const Center(child: SizedBox.shrink());
               },
@@ -128,5 +193,17 @@ class _ChooseAddressState extends State<ChooseAddress> {
       parts.removeAt(0);
     }
     return parts.join(', ');
+  }
+}
+
+class Debouncer {
+  Debouncer({required this.milliseconds});
+  final int milliseconds;
+  Timer? _timer;
+  void run(VoidCallback action) {
+    if (_timer?.isActive ?? false) {
+      _timer?.cancel();
+    }
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
 }

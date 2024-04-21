@@ -10,7 +10,9 @@ part 'order_state.dart';
 
 class OrderBloc extends Bloc<OrderEvent, AddressOrderState> {
   OrderBloc() : super(OrderInitial()) {
-    on<FetchAllAddreses>(_fetchAllAddreses);
+    on<FetchAllAddreses>(
+      _fetchAllAddreses,
+    );
   }
 
   Future<void> _fetchAllAddreses(

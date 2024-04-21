@@ -164,10 +164,4 @@ class _ProductMenuState extends State<ProductMenu> {
       );
     });
   }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
 }

@@ -122,7 +122,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                           ),
                           sized20,
                           Text(
-                            'Адрес пункта выдачи',
+                            'Адрес доставки',
                             style:
                                 Theme.of(context).textTheme.bodyLarge?.copyWith(
                                       fontWeight: FontWeight.w400,
@@ -160,7 +160,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            'Выберите адрес',
+                                            'Введите адрес',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall
@@ -181,7 +181,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                               text: TextSpan(
                             children: <TextSpan>[
                               TextSpan(
-                                text: 'Выбран aдрес: ',
+                                text: 'Введенный адрес: ',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall
@@ -355,7 +355,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                     if (selectedAddressByUser.isEmpty) {
                                       ApplicationSnackBar.showErrorSnackBar(
                                           context,
-                                          'Пожалуйста, выберите адрес',
+                                          'Пожалуйста,введите адрес',
                                           0.9,
                                           const EdgeInsets.symmetric(
                                               horizontal: 10),

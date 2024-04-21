@@ -6,7 +6,6 @@ import 'package:fcc_app_front/features/auth/data/models/fcm_token.dart';
 import 'package:fcc_app_front/features/auth/presentation/bloc/bloc/server_bloc.dart';
 import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dart';
 import 'package:fcc_app_front/features/chat/di/di.dart';
-import 'package:fcc_app_front/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
 import 'package:fcc_app_front/shared/config/base/observer.dart';
 
@@ -21,7 +20,6 @@ void main() {
     NotificationApi.init();
 
     FirebaseNotificationsRepo().initNotifications(() {});
-    _initChatDependencies();
 
     Bloc.observer = AppBlocObserver();
     runApp(
@@ -56,9 +54,6 @@ void main() {
           BlocProvider<SelectedProductsCubit>(
             create: (BuildContext context) => SelectedProductsCubit(),
           ),
-          BlocProvider<ChatBloc>(
-              create: (BuildContext context) =>
-                  ChatBloc(getIt<ChatRepositoryImpl>())),
           BlocProvider<OrderBloc>(
             create: (BuildContext context) {
               return OrderBloc();
@@ -112,8 +107,4 @@ Future<void> _initHive() async {
   await Hive.openBox<dynamic>(HiveStrings.message);
   Hive.registerAdapter(FcmTokenAdapter());
   await Hive.openBox<dynamic>(HiveStrings.fcmToken);
-}
-
-void _initChatDependencies() {
-  setupDependencies();
 }

@@ -27,9 +27,6 @@ class MainPage extends StatelessWidget {
           create: (BuildContext context) => OrderCubit()..load(),
         ),
         BlocProvider(
-          create: (BuildContext context) => InvitationCubit()..load(),
-        ),
-        BlocProvider(
           create: (BuildContext context) => DiscountCubit()..load(),
         ),
       ],

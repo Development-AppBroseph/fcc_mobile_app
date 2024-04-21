@@ -26,192 +26,103 @@ class _InviteFrPageState extends State<InviteFrPage> {
             builder: (BuildContext context, AuthState auth) {
               return auth is Authenticated
                   ? SingleChildScrollView(
-                      child: BlocBuilder<InvitationCubit, InvitationModel?>(
-                        builder:
-                            (BuildContext context, InvitationModel? state) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        sized30,
+                        if (widget.showBackButton) const CustomBackButton(),
+                        Center(
+                          child: Text(
+                            'Пригласить друга',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  fontSize: 23,
+                                ),
+                          ),
+                        ),
+                        sized20,
+                        Text(
+                          'Не нужно платить !',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        sized40,
+                        RichText(
+                          text: TextSpan(
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text:
+                                    'При помощи данного инвайт кода вы можете получать 10% скидку на свой ежемесячный набор продуктов ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      fontSize: 13,
+                                      color: Theme.of(context).hintColor,
+                                    ),
+                              ),
+                              TextSpan(
+                                text: ' за каждого друга!',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      fontSize: 13,
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        sized40,
+                        Container(
+                          height: 50,
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 20,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              color: Theme.of(context).primaryColorLight,
+                            ),
+                          ),
+                          child: Row(
                             children: <Widget>[
-                              sized30,
-                              if (widget.showBackButton)
-                                const CustomBackButton(),
-                              Center(
-                                child: Text(
-                                  'Пригласить друга',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
-                                        fontSize: 23,
-                                      ),
-                                ),
-                              ),
-                              sized20,
-                              Text(
-                                'Не нужно платить !',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              sized40,
-                              RichText(
-                                text: TextSpan(
-                                  children: <InlineSpan>[
-                                    TextSpan(
-                                      text:
-                                          'При помощи данного инвайт кода вы можете получать 10% скидку на свой ежемесячный набор продуктов ',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                            fontSize: 13,
-                                            color: Theme.of(context).hintColor,
-                                          ),
-                                    ),
-                                    TextSpan(
-                                      text: ' за каждого друга!',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                            fontSize: 13,
-                                            color: Theme.of(context)
-                                                .primaryColorDark,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              sized40,
-                              Container(
-                                height: 50,
-                                width: double.infinity,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                  horizontal: 20,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                    color: Theme.of(context).primaryColorLight,
-                                  ),
-                                ),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: BlocBuilder<AuthCubit, AuthState>(
-                                        builder: (BuildContext context,
-                                            AuthState state) {
-                                          if (state is Authenticated) {
-                                            return Text(
-                                              'fcc-app.ru/invite/${state.user.invitationCode ?? ''}',
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.copyWith(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 14,
-                                                    color: Theme.of(context)
-                                                        .hintColor,
-                                                  ),
-                                            );
-                                          }
-                                          if (state is Unauthenticated) {
-                                            return const Text(
-                                              'Не авторизован',
-                                            );
-                                          }
-                                          return const SizedBox.shrink();
-                                        },
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    BlocBuilder<AuthCubit, AuthState>(
-                                      builder: (BuildContext context,
-                                          AuthState state) {
-                                        if (state is Unauthenticated) {
-                                          return const SizedBox();
-                                        }
-                                        if (state is Authenticated) {
-                                          return GestureDetector(
-                                            onTap: () async {
-                                              await Clipboard.setData(
-                                                ClipboardData(
-                                                  text:
-                                                      'fcc-app.ru/invite/${state.user.invitationCode ?? ''}',
-                                                ),
-                                              ).then(
-                                                (_) {
-                                                  ApplicationSnackBar
-                                                      .showErrorSnackBar(
-                                                    context,
-                                                    'Cкопирован в буфер обмена',
-                                                    1,
-                                                    const EdgeInsets.all(16),
-                                                    1,
-                                                    false,
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            child: SvgPicture.asset(
-                                              'assets/copy.svg',
-                                              colorFilter: ColorFilter.mode(
-                                                Theme.of(context).canvasColor,
-                                                BlendMode.srcIn,
-                                              ),
-                                              height: 18,
+                              Expanded(
+                                child: BlocBuilder<AuthCubit, AuthState>(
+                                  builder:
+                                      (BuildContext context, AuthState state) {
+                                    if (state is Authenticated) {
+                                      return Text(
+                                        'fcc-app.ru/invite/${state.user.invitationCode ?? ''}',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              color:
+                                                  Theme.of(context).hintColor,
                                             ),
-                                          );
-                                        }
-                                        return const SizedBox();
-                                      },
-                                    ),
-                                  ],
+                                      );
+                                    }
+                                    if (state is Unauthenticated) {
+                                      return const Text(
+                                        'Не авторизован',
+                                      );
+                                    }
+                                    return const SizedBox.shrink();
+                                  },
                                 ),
                               ),
-                              sized40,
-                              Center(
-                                  child: Column(
-                                children: <Widget>[
-                                  Animate(
-                                    effects: const <Effect>[
-                                      ScaleEffect(),
-                                    ],
-                                    child: BlocBuilder<AuthCubit, AuthState>(
-                                      builder: (
-                                        BuildContext context,
-                                        AuthState state,
-                                      ) {
-                                        if (state is Authenticated) {
-                                          return QrImageView(
-                                            data:
-                                                // state.user.invitationCode ?? '',
-                                                'https://fcc-app.ru/invite/${state.user.invitationCode}',
-                                            version: QrVersions.auto,
-                                            size: 200.0,
-                                          );
-                                        } else {
-                                          return const SizedBox.shrink();
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  Text(
-                                    'Покажите QR-код друзьям',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                          fontSize: 14,
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                  ),
-                                ],
-                              )),
-                              sized40,
+                              const SizedBox(
+                                width: 5,
+                              ),
                               BlocBuilder<AuthCubit, AuthState>(
                                 builder:
                                     (BuildContext context, AuthState state) {
@@ -219,31 +130,111 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                     return const SizedBox();
                                   }
                                   if (state is Authenticated) {
-                                    return CstmBtn(
-                                      height: 50,
-                                      onTap: () {
-                                        ShareExtend.share(
-                                          'fcc-app.ru/invite/${state.user.invitationCode}',
-                                          'text',
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        await Clipboard.setData(
+                                          ClipboardData(
+                                            text:
+                                                'fcc-app.ru/invite/${state.user.invitationCode ?? ''}',
+                                          ),
+                                        ).then(
+                                          (_) {
+                                            ApplicationSnackBar
+                                                .showErrorSnackBar(
+                                              context,
+                                              'Cкопирован в буфер обмена',
+                                              1,
+                                              const EdgeInsets.all(16),
+                                              1,
+                                              false,
+                                            );
+                                          },
                                         );
                                       },
-                                      text: 'Поделиться  кодом',
-                                      alignment: MainAxisAlignment.center,
-                                      iconPath: 'assets/send.svg',
-                                      textColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      color: Theme.of(context).canvasColor,
+                                      child: SvgPicture.asset(
+                                        'assets/copy.svg',
+                                        colorFilter: ColorFilter.mode(
+                                          Theme.of(context).canvasColor,
+                                          BlendMode.srcIn,
+                                        ),
+                                        height: 18,
+                                      ),
                                     );
                                   }
                                   return const SizedBox();
                                 },
                               ),
-                              sized10,
                             ],
-                          );
-                        },
-                      ),
-                    )
+                          ),
+                        ),
+                        sized40,
+                        Center(
+                            child: Column(
+                          children: <Widget>[
+                            Animate(
+                              effects: const <Effect>[
+                                ScaleEffect(),
+                              ],
+                              child: BlocBuilder<AuthCubit, AuthState>(
+                                builder: (
+                                  BuildContext context,
+                                  AuthState state,
+                                ) {
+                                  if (state is Authenticated) {
+                                    return QrImageView(
+                                      data:
+                                          // state.user.invitationCode ?? '',
+                                          'https://fcc-app.ru/invite/${state.user.invitationCode}',
+                                      version: QrVersions.auto,
+                                      size: 200.0,
+                                    );
+                                  } else {
+                                    return const SizedBox.shrink();
+                                  }
+                                },
+                              ),
+                            ),
+                            Text(
+                              'Покажите QR-код друзьям',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    fontSize: 14,
+                                    color: Theme.of(context).hintColor,
+                                  ),
+                            ),
+                          ],
+                        )),
+                        sized40,
+                        BlocBuilder<AuthCubit, AuthState>(
+                          builder: (BuildContext context, AuthState state) {
+                            if (state is Unauthenticated) {
+                              return const SizedBox();
+                            }
+                            if (state is Authenticated) {
+                              return CstmBtn(
+                                height: 50,
+                                onTap: () {
+                                  ShareExtend.share(
+                                    'fcc-app.ru/invite/${state.user.invitationCode}',
+                                    'text',
+                                  );
+                                },
+                                text: 'Поделиться  кодом',
+                                alignment: MainAxisAlignment.center,
+                                iconPath: 'assets/send.svg',
+                                textColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                color: Theme.of(context).canvasColor,
+                              );
+                            }
+                            return const SizedBox();
+                          },
+                        ),
+                        sized10,
+                      ],
+                    ))
                   : Column(
                       children: <Widget>[
                         sized20,

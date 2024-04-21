@@ -43,7 +43,7 @@ class OrderRepo {
       Hive.box(HiveStrings.userBox).put(HiveStrings.address, address);
       if (response.statusCode < 300) {
         return (
-          OrderModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))),
+          OrderModel.fromMap(jsonDecode(utf8.decode(response.bodyBytes))),
           null
         );
       } else if (jsonDecode(
@@ -74,7 +74,7 @@ class OrderRepo {
           try {
             if (order['client'] == getClientId()) {
               orders.add(
-                OrderModel.fromJson(
+                OrderModel.fromMap(
                   order,
                 ),
               );
@@ -105,7 +105,7 @@ class OrderRepo {
       );
 
       if (response != null) {
-        return OrderModel.fromJson(
+        return OrderModel.fromMap(
           jsonDecode(response),
         );
       }

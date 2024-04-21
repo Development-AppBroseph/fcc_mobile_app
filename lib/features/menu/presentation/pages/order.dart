@@ -69,10 +69,15 @@ class _OrderState extends State<Order> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              context.pushNamed(
-                                                RoutesNames.orderDetails,
-                                                extra: order[index],
-                                              );
+                                              // Ensure that order[index] is an OrderModel instance
+                                              OrderModel? orderModel =
+                                                  order[index] as OrderModel?;
+                                              if (orderModel != null) {
+                                                context.pushNamed(
+                                                  RoutesNames.orderDetails,
+                                                  extra: orderModel,
+                                                );
+                                              }
                                             },
                                             child: SizedBox(
                                               height: size.height / 8.h,
@@ -102,7 +107,7 @@ class _OrderState extends State<Order> {
                                                         );
                                                       },
                                                       imageUrl: order[index]
-                                                          .orderItems
+                                                          .orderItems!
                                                           .map((OrderItem e) {
                                                             return e
                                                                 .productPhoto;
@@ -131,7 +136,7 @@ class _OrderState extends State<Order> {
                                                         ),
                                                         Text(
                                                           order[index]
-                                                              .orderItems
+                                                              .orderItems!
                                                               .map((OrderItem
                                                                   e) {
                                                                 return e
@@ -155,7 +160,7 @@ class _OrderState extends State<Order> {
                                                           maxLines: 2,
                                                         ),
                                                         Text(
-                                                          'Статус: ${convertOrderStatus(order[index].status)}',
+                                                          'Статус: ${convertOrderStatus(order[index].status ?? '')}',
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme

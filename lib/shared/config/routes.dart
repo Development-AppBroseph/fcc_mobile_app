@@ -114,6 +114,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
+  routerNeglect: true,
   initialLocation: Routes.agreement,
   errorBuilder: (BuildContext context, GoRouterState state) {
     return ErrorScreen(
@@ -388,7 +389,7 @@ final GoRouter router = GoRouter(
                         return buildPageWithDefaultTransition<void>(
                           context: context,
                           state: state,
-                          child: ChooseAddress(),
+                          child: const ChooseAddress(),
                         );
                       },
                     ),

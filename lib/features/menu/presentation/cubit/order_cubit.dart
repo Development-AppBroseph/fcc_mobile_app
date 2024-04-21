@@ -25,7 +25,7 @@ class OrderCubit extends Cubit<OrderState> {
     ];
     final OrderModel? order = await OrderRepo.updateOrderAddress(
       address,
-      super.state.orders.last.id,
+      super.state.orders.last.id ?? 0,
     );
     if (order != null) {
       orders.removeLast();
