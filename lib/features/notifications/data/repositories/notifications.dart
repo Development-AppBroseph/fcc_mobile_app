@@ -16,7 +16,6 @@ class FirebaseNotificationsRepo {
           log(message.data.toString());
 
           NotificationApi.pushNotification(message);
-          onBackgroundMessage();
         },
       );
 

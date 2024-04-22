@@ -4,23 +4,24 @@ import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/data/models/fcm_token.dart';
 import 'package:fcc_app_front/features/auth/presentation/bloc/bloc/server_bloc.dart';
-import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dart';
-import 'package:fcc_app_front/features/chat/di/di.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
 import 'package:fcc_app_front/shared/config/base/observer.dart';
+import 'package:flutter/foundation.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  NotificationApi.pushNotification(message);
+}
 
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-
     await Hive.initFlutter();
     await _initHive();
-
     await Firebase.initializeApp();
-    NotificationApi.init();
-
-    FirebaseNotificationsRepo().initNotifications(() {});
-
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    if (!kIsWeb) {
+      await NotificationApi.init();
+    }
     Bloc.observer = AppBlocObserver();
     runApp(
       MultiBlocProvider(

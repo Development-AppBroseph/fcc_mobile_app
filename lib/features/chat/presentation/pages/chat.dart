@@ -54,9 +54,15 @@ class _ChatPageState extends State<ChatPage> {
 
     _channel.stream.listen((dynamic event) {
       MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
+      print(parsed.message.message);
+
       ValueNotifier<bool> isAdmin =
           ValueNotifier<bool>(parsed.message.clientSend);
 
+      if (!isAdmin.value) {
+        NotificationApi.pushLocaleNotification(
+            'ФКК', parsed.message.message ?? 'ФКК');
+      }
       log(parsed.toJson().toString());
 
       if (parsed.message.file.toString().contains('image_picker')) {

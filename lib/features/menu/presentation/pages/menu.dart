@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:fcc_app_front/export.dart';
+import 'package:web_socket_channel/io.dart';
 
 class Menu extends StatefulWidget {
   final String? catalogId;
@@ -12,12 +16,36 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   late ScrollController _scrollController;
+  late IOWebSocketChannel _channel;
   @override
   void initState() {
     _scrollController = ScrollController();
 
     super.initState();
     getMemberSheep();
+
+    final int? userId = getClientId();
+    _channel = IOWebSocketChannel.connect(
+      Uri.parse(socketUrl + userId.toString()),
+      headers: <String, String>{
+        'Authorization': 'Bearer ${getToken()}',
+        'Origin': baseUrl,
+      },
+    );
+
+    _channel.stream.listen((dynamic event) {
+      MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
+
+      final isAdmin = ValueNotifier<bool>(parsed.message.clientSend);
+
+      log(parsed.toString());
+
+      if (!isAdmin.value) {
+        NotificationApi.pushLocaleNotification(
+            'ФКК', parsed.message.message ?? 'ФКК');
+      }
+      log(parsed.toJson().toString());
+    });
   }
 
   Future<void> getMemberSheep() async {
