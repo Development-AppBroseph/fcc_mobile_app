@@ -249,8 +249,8 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                             //   subject: 'Поделиться кодом',
                                             // );
 
-                                            _launchUrl('fcc-app.ru/invite/' +
-                                                state.user.invitationCode!);
+                                            _launchUrl(
+                                                'fcc-app.ru/invite/${state.user.invitationCode!}');
 
                                             // if (result.status ==
                                             //     ShareResultStatus.success) {
