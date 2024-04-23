@@ -18,14 +18,14 @@ Future<void> main() async {
 
   if (kIsWeb) {
     await Firebase.initializeApp(
-        options: FirebaseOptions(
-      apiKey: "AIzaSyDU2ONrSHdG6huXBHnAj_y0BZyXNWh73XQ",
-      authDomain: "fcc-mobile-app.firebaseapp.com",
-      projectId: "fcc-mobile-app",
-      storageBucket: "fcc-mobile-app.appspot.com",
-      messagingSenderId: "367644519695",
-      appId: "1:367644519695:web:a048cc4d451c116316e27a",
-      measurementId: "G-HWRH4WVGSO",
+        options: const FirebaseOptions(
+      apiKey: 'AIzaSyDU2ONrSHdG6huXBHnAj_y0BZyXNWh73XQ',
+      authDomain: 'fcc-mobile-app.firebaseapp.com',
+      projectId: 'fcc-mobile-app',
+      storageBucket: 'fcc-mobile-app.appspot.com',
+      messagingSenderId: '367644519695',
+      appId: '1:367644519695:web:a048cc4d451c116316e27a',
+      measurementId: 'G-HWRH4WVGSO',
     ));
   } else {
     await Firebase.initializeApp(

@@ -45,19 +45,8 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     final int? userId = getClientId();
 
-    if (kIsWeb) {
-      _channel = WebSocketChannel.connect(
-          Uri.parse('$socketUrl$userId?token=${getToken()}'));
-    } else {
-      _channel = IOWebSocketChannel.connect(
-        protocols: <String>['https', 'wss'],
-        Uri.parse(socketUrl + userId.toString()),
-        headers: <String, String>{
-          'Authorization': 'Bearer ${getToken()}',
-          'Origin': baseUrl,
-        },
-      );
-    }
+    _channel = WebSocketChannel.connect(
+        Uri.parse('$socketUrl$userId?token=${getToken()}'));
 
     _channel.stream.listen((dynamic event) {
       MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
@@ -65,6 +54,48 @@ class _ChatPageState extends State<ChatPage> {
           ValueNotifier<bool>(parsed.message.clientSend);
 
       log(parsed.toJson().toString());
+
+      if (!isAdmin.value) {
+        showDialog(
+            barrierDismissible: true,
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                titlePadding: const EdgeInsets.all(
+                  16,
+                ),
+                backgroundColor: Colors.white,
+                elevation: 0,
+                icon: const Icon(Icons.message),
+                actions: <Widget>[
+                  CstmBtn(
+                    key: UniqueKey(),
+                    text: 'Закрыть',
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+                title: Column(
+                  children: <Widget>[
+                    Text(
+                      'ФКК',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    Text(
+                      'Новое сообщение в чате',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+                content: Card(
+                  elevation: 0,
+                  color: Colors.white,
+                  child: Text(parsed.message.message ?? ''),
+                ),
+              );
+            });
+      }
 
       if (parsed.message.file.toString().contains('image_picker')) {
         _addMessage(

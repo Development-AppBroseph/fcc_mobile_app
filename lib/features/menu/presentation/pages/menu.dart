@@ -1,19 +1,79 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:fcc_app_front/export.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class Menu extends StatefulWidget {
   final String? catalogId;
+
   const Menu({
-    Key? key,
+    super.key,
     required this.catalogId,
-  }) : super(key: key);
+  });
   @override
   State<Menu> createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> {
   late ScrollController _scrollController;
+
+  late WebSocketChannel _channel;
+
   @override
   void initState() {
+    final int? userId = getClientId();
+    _channel = WebSocketChannel.connect(
+        Uri.parse('$socketUrl$userId?token=${getToken()}'));
+    _channel.stream.listen((dynamic event) {
+      MessageModel parsed = MessageModel.fromJson(jsonDecode(event));
+      ValueNotifier<bool> isAdmin =
+          ValueNotifier<bool>(parsed.message.clientSend);
+
+      log(parsed.toJson().toString());
+
+      if (!isAdmin.value) {
+        showDialog(
+            barrierDismissible: true,
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                titlePadding: const EdgeInsets.all(
+                  16,
+                ),
+                backgroundColor: Colors.white,
+                elevation: 0,
+                icon: const Icon(Icons.message),
+                actions: <Widget>[
+                  CstmBtn(
+                    key: UniqueKey(),
+                    text: 'Закрыть',
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+                title: Column(
+                  children: <Widget>[
+                    Text(
+                      'ФКК',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    Text(
+                      'Новое сообщение в чате',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+                content: Card(
+                  elevation: 0,
+                  color: Colors.white,
+                  child: Text(parsed.message.message ?? ''),
+                ),
+              );
+            });
+      }
+    });
     _scrollController = ScrollController();
     context.read<AuthCubit>().init();
     super.initState();

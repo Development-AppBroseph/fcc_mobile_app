@@ -130,27 +130,12 @@ class ChooseAddress extends StatelessWidget {
                                                 key: UniqueKey(),
                                                 text: 'Добавить',
                                                 onTap: () {
-                                                  if (appartmentController
-                                                      .text.isEmpty) {
-                                                    ApplicationSnackBar
-                                                        .showErrorSnackBar(
-                                                      context,
-                                                      'Пожалуйста, введите квартиру',
-                                                      1,
-                                                      const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      1,
-                                                    );
-                                                    return;
-                                                  }
-
                                                   if (state.addresses[index]
                                                           .address !=
                                                       null) {
                                                     context.pop(<int?, String?>{
                                                       state.addresses[index].id:
-                                                          '${state.addresses[index].address!.trim()}, Квартира ${appartmentController.text.trim()}',
+                                                          '${state.addresses[index].address!.trim()}, ${appartmentController.text.trim()}',
                                                     });
 
                                                     Navigator.of(context).pop();
@@ -158,8 +143,22 @@ class ChooseAddress extends StatelessWidget {
                                                 },
                                               ),
                                             ],
-                                            title:
-                                                const Text('Введите квартиру'),
+                                            title: Column(
+                                              children: [
+                                                Text(
+                                                  'Введите номер квартиры',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium,
+                                                ),
+                                                Text(
+                                                  'при необходимости',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall,
+                                                ),
+                                              ],
+                                            ),
                                             content: Card(
                                               elevation: 0,
                                               color: Colors.transparent,
@@ -169,13 +168,6 @@ class ChooseAddress extends StatelessWidget {
                                                 textInputType:
                                                     TextInputType.number,
                                                 hintText: 'Квартира',
-                                                validator: (value) {
-                                                  if (value == null ||
-                                                      value.isEmpty) {
-                                                    return 'Поле не может быть пустым';
-                                                  }
-                                                  return null;
-                                                },
                                                 controller:
                                                     appartmentController,
                                               ),

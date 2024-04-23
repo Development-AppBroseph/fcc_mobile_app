@@ -82,9 +82,7 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
 
                   if (payment?.status == 'success' && context.mounted) {
                     context.read<AuthCubit>().init();
-
-                    context.go(RoutesNames.paymentCongrats);
-
+                    context.go(Routes.paymentCongrats);
                     return;
                   } else if (payment?.status == 'timeout' && context.mounted) {
                     ApplicationSnackBar.showErrorSnackBar(
