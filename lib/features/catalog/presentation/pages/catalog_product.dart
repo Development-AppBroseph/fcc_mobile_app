@@ -135,11 +135,11 @@ class _CatalogProductMenuState extends State<CatalogProductMenu> {
                       builder: (BuildContext context, String? query) {
                         return BlocBuilder<ProductCubit, ProductState>(
                           builder: (BuildContext context, ProductState state) {
-                            final List<ProductModel> products = searchProduct(
+                            final List<Product> products = searchProduct(
                               query,
                               state.products
                                   .where(
-                                    (ProductModel element) =>
+                                    (Product element) =>
                                         element.catalog.toString() ==
                                         widget.catalogId,
                                   )

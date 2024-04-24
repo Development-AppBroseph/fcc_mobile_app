@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 
 class CatalogProductDetails extends StatelessWidget {
-  final ProductModel? model;
+  final Product? model;
   const CatalogProductDetails({
     required this.model,
     super.key,
@@ -80,11 +80,11 @@ class CatalogProductDetails extends StatelessWidget {
                       ),
                       ProductTextDetailsField(
                         title: 'Крепость',
-                        subtitle: model?.strenght ?? '',
+                        subtitle: model?.strength ?? '',
                       ),
                       ProductTextDetailsField(
                         title: 'Вкус',
-                        subtitle: model?.taste ?? '',
+                        subtitle: model?.tasty ?? '',
                       ),
                       ProductTextDetailsField(
                         title: 'Формат',

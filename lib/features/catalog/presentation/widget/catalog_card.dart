@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 
 class CatalogCard extends StatelessWidget {
-  final ProductModel? product;
+  final Product? product;
   final bool isSelected;
   final bool canSelect;
 

@@ -38,7 +38,7 @@ class _CatalogMenuState extends State<CatalogMenu> {
       ],
       child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-        final double boxWidth = constraints.constrainWidth();
+        final double boxWidth = constraints.maxWidth;
 
         return Scaffold(
           body: SafeArea(

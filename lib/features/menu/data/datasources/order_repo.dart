@@ -5,12 +5,11 @@ import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/menu/data/models/address.dart';
 
 final class OrderRepository {
-  static Future<ProductModel?> getProductbyId(
-      {required String productUuid}) async {
+  static Future<Product?> getProductbyId({required String productUuid}) async {
     try {
       final String? response =
           await BaseHttpClient.get('api/v1/products/$productUuid');
-      return ProductModel.fromMap(
+      return Product.fromJson(
         jsonDecode(response.toString()) as Map<String, dynamic>,
       );
     } catch (e) {

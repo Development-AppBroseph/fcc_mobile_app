@@ -49,7 +49,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
     return KeyboardDismisser(
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          double availableWidth = constraints.maxWidth;
+          final double availableWidth = constraints.maxWidth;
 
           return Scaffold(
             body: SafeArea(

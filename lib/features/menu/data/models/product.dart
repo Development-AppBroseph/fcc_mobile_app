@@ -1,60 +1,63 @@
-class ProductModel {
-  final String id;
-  final String name;
-  final String description;
-  final double price;
-  final int stock;
-  final String image;
-  final int catalog;
-  final String taste;
-  final String country;
-  final String strenght;
-  final String format;
-  ProductModel({
-    required this.format,
-    required this.strenght,
-    required this.taste,
+import 'package:json_annotation/json_annotation.dart';
+
+part 'product.g.dart';
+
+@JsonSerializable()
+class Product {
+  @JsonKey(name: 'id')
+  int id;
+  @JsonKey(name: 'uuid')
+  String uuid;
+  @JsonKey(name: 'name')
+  String name;
+  @JsonKey(name: 'description')
+  String description;
+  @JsonKey(name: 'format')
+  String format;
+  @JsonKey(name: 'strength')
+  String strength;
+  @JsonKey(name: 'tasty')
+  String tasty;
+  @JsonKey(name: 'mark')
+  String mark;
+  @JsonKey(name: 'country')
+  String country;
+  @JsonKey(name: 'price')
+  String price;
+  @JsonKey(name: 'stock')
+  int stock;
+  @JsonKey(name: 'image')
+  String image;
+  @JsonKey(name: 'active')
+  bool active;
+  @JsonKey(name: 'created_at')
+  DateTime createdAt;
+  @JsonKey(name: 'updated_at')
+  DateTime updatedAt;
+  @JsonKey(name: 'catalog')
+  int catalog;
+
+  Product({
     required this.id,
-    required this.country,
+    required this.uuid,
     required this.name,
     required this.description,
+    required this.format,
+    required this.strength,
+    required this.tasty,
+    required this.mark,
+    required this.country,
     required this.price,
     required this.stock,
     required this.image,
+    required this.active,
+    required this.createdAt,
+    required this.updatedAt,
     required this.catalog,
   });
 
-  factory ProductModel.fromMap(Map<String, dynamic> map) {
-    return ProductModel(
-      format: map['format'] ?? '',
-      strenght: map['strength'] ?? '',
-      taste: map['tasty'] ?? '',
-      country: map['country'] ?? '',
-      id: map['uuid'] ?? '',
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-      price: double.parse(
-        (map['price'] ?? 0).toString(),
-      ),
-      stock: map['stock'] ?? 1,
-      image: map['image'] ?? '',
-      catalog: map['catalog'] ?? 0,
-    );
-  }
+  factory Product.fromJson(Map<String, dynamic> json) =>
+      _$ProductFromJson(json);
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'format': format,
-      'strength': strenght,
-      'tasty': taste,
-      'country': country,
-      'uuid': id,
-      'name': name,
-      'description': description,
-      'price': price,
-      'stock': stock,
-      'image': image,
-      'catalog': catalog,
-    };
-  }
+  // Map<String, dynamic> toJson() => _$ProductToJson(this);
 }

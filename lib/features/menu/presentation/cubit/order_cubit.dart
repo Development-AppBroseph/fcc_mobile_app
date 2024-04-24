@@ -12,8 +12,8 @@ class OrderCubit extends Cubit<OrderState> {
     );
   }
 
-  Future<ProductModel?> getProductbyId({required String productUuid}) async {
-    final ProductModel? product = await OrderRepository.getProductbyId(
+  Future<Product?> getProductbyId({required String productUuid}) async {
+    final Product? product = await OrderRepository.getProductbyId(
       productUuid: productUuid,
     );
     return product;

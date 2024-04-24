@@ -3,9 +3,9 @@ import 'package:fcc_app_front/features/menu/presentation/pages/choose_address.da
 import 'package:fcc_app_front/features/settings/presentation/bloc/profile_bloc.dart';
 
 class PlacingOrderPage extends StatefulWidget {
-  final ProductModel? product;
+  final Product? product;
   const PlacingOrderPage({
-    this.product,
+    required this.product,
     super.key,
   });
 
@@ -70,9 +70,10 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final double boxWidth = constraints.constrainWidth();
+        final double boxWidth = constraints.maxWidth;
 
         return Scaffold(
           body: SafeArea(
@@ -93,7 +94,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                   reverse: true,
                   child: BlocBuilder<AuthCubit, AuthState>(
                     builder: (BuildContext context, AuthState authState) {
-                      double price = widget.product?.price ?? 0;
+                      var price = widget.product?.price ?? 0;
 
                       if (authState is Authenticated) {
                         price = context
@@ -148,6 +149,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                     });
                                   },
                                   child: Container(
+                                    height: 50.h,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Theme.of(context).primaryColor,
@@ -168,7 +170,10 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                                 ),
                                             textAlign: TextAlign.center,
                                           ),
-                                          const Icon(Icons.chevron_right),
+                                          const Icon(
+                                            Icons.chevron_right,
+                                            weight: 40,
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -222,66 +227,79 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       if (state is Authenticated) {
                                         return Column(
                                           children: <Widget>[
-                                            CustomFormField(
-                                              readOnly: state
-                                                      .user.lastName!.isNotEmpty
-                                                  ? true
-                                                  : false,
-                                              controller: middleNameController,
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              hintText: 'Введите фамилию',
-                                              validator:
-                                                  FormBuilderValidators.compose(
-                                                <FormFieldValidator<String>>[
-                                                  FormBuilderValidators
-                                                      .required(
-                                                    errorText:
-                                                        'Заполните это поле',
-                                                  ),
-                                                ],
+                                            Container(
+                                              height: 50.h,
+                                              child: CustomFormField(
+                                                isFromPlacingOrder: true,
+                                                readOnly: state.user.lastName!
+                                                        .isNotEmpty
+                                                    ? true
+                                                    : false,
+                                                controller:
+                                                    middleNameController,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                hintText: 'Введите фамилию',
+                                                validator: FormBuilderValidators
+                                                    .compose(
+                                                  <FormFieldValidator<String>>[
+                                                    FormBuilderValidators
+                                                        .required(
+                                                      errorText:
+                                                          'Заполните это поле',
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                             sized10,
-                                            CustomFormField(
-                                              readOnly: state.user.firstName!
-                                                      .isNotEmpty
-                                                  ? true
-                                                  : false,
-                                              controller: firstNameController,
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              hintText: 'Введите имя',
-                                              validator:
-                                                  FormBuilderValidators.compose(
-                                                <FormFieldValidator<String>>[
-                                                  FormBuilderValidators
-                                                      .required(
-                                                    errorText:
-                                                        'Заполните это поле',
-                                                  ),
-                                                ],
+                                            Container(
+                                              height: 50.h,
+                                              child: CustomFormField(
+                                                isFromPlacingOrder: true,
+                                                readOnly: state.user.firstName!
+                                                        .isNotEmpty
+                                                    ? true
+                                                    : false,
+                                                controller: firstNameController,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                hintText: 'Введите имя',
+                                                validator: FormBuilderValidators
+                                                    .compose(
+                                                  <FormFieldValidator<String>>[
+                                                    FormBuilderValidators
+                                                        .required(
+                                                      errorText:
+                                                          'Заполните это поле',
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                             sized10,
-                                            CustomFormField(
-                                              readOnly: state.user.middleName!
-                                                      .isNotEmpty
-                                                  ? true
-                                                  : false,
-                                              controller: lastNameController,
-                                              textInputAction:
-                                                  TextInputAction.done,
-                                              hintText: 'Введите отчество',
-                                              validator:
-                                                  FormBuilderValidators.compose(
-                                                <FormFieldValidator<String>>[
-                                                  FormBuilderValidators
-                                                      .required(
-                                                    errorText:
-                                                        'Заполните это поле',
-                                                  ),
-                                                ],
+                                            Container(
+                                              height: 50.h,
+                                              child: CustomFormField(
+                                                isFromPlacingOrder: true,
+                                                readOnly: state.user.middleName!
+                                                        .isNotEmpty
+                                                    ? true
+                                                    : false,
+                                                controller: lastNameController,
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                hintText: 'Введите отчество',
+                                                validator: FormBuilderValidators
+                                                    .compose(
+                                                  <FormFieldValidator<String>>[
+                                                    FormBuilderValidators
+                                                        .required(
+                                                      errorText:
+                                                          'Заполните это поле',
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -296,14 +314,18 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                             ),
                           ),
                           sized10,
-                          CustomFormField(
-                            controller: phoneController,
-                            textInputAction: TextInputAction.next,
-                            readOnly: true,
-                            textInputType: TextInputType.number,
-                            // textInputFormatter: <TextInputFormatter>[
-                            //   maskFormatter,
-                            // ],
+                          Container(
+                            height: 50.h,
+                            child: CustomFormField(
+                              isFromPlacingOrder: true,
+                              controller: phoneController,
+                              textInputAction: TextInputAction.next,
+                              readOnly: true,
+                              textInputType: TextInputType.number,
+                              // textInputFormatter: <TextInputFormatter>[
+                              //   maskFormatter,
+                              // ],
+                            ),
                           ),
                           sized40,
                           Text(

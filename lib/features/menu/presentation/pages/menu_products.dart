@@ -35,12 +35,14 @@ class _ProductMenuState extends State<ProductMenu> {
             body: SafeArea(
               child: Padding(
                 padding: avalibaleWidth < 600
-                    ? EdgeInsets.only(
-                        left: 30.w,
-                        right: 30.w,
-                        top: 20.h,
+                    ? const EdgeInsets.only(
+                        left: 30,
+                        right: 30,
                       )
-                    : const EdgeInsets.symmetric(horizontal: 700),
+                    : EdgeInsets.only(
+                        left: 30 + (avalibaleWidth - 600) / 2,
+                        right: 30 + (avalibaleWidth - 600) / 2,
+                      ),
                 child: CustomScrollView(
                   slivers: <Widget>[
                     SliverToBoxAdapter(
@@ -111,11 +113,11 @@ class _ProductMenuState extends State<ProductMenu> {
                       builder: (BuildContext context, String? query) {
                         return BlocBuilder<ProductCubit, ProductState>(
                           builder: (BuildContext context, ProductState state) {
-                            final List<ProductModel> products = searchProduct(
+                            final List<Product> products = searchProduct(
                               query,
                               state.products
                                   .where(
-                                    (ProductModel element) =>
+                                    (Product element) =>
                                         element.catalog.toString() ==
                                         widget.catalogId,
                                   )
@@ -156,7 +158,7 @@ class _ProductMenuState extends State<ProductMenu> {
                                             isSelected: selectedProducts
                                                         .product !=
                                                     null &&
-                                                selectedProducts.product!.id ==
+                                                selectedProducts.product?.id ==
                                                     products[index].id,
                                           ),
                                         ),

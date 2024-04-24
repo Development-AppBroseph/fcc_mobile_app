@@ -146,6 +146,9 @@ class AuthRepo {
       if (response.statusCode == 200) {
         return true;
       }
+      if (response.statusCode == 202) {
+        return false;
+      }
     } catch (e) {
       log('Someting wrong in checkRegistration: $e');
     }

@@ -115,7 +115,6 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>();
 
 final GoRouter router = GoRouter(
-  debugLogDiagnostics: true,
   initialLocation: Routes.agreement,
   errorBuilder: (BuildContext context, GoRouterState state) {
     return ErrorScreen(
@@ -318,7 +317,7 @@ final GoRouter router = GoRouter(
                       context: context,
                       state: state,
                       child: CatalogProductDetails(
-                        model: state.extra as ProductModel?,
+                        model: state.extra as Product?,
                       ),
                     );
                   },
@@ -372,7 +371,7 @@ final GoRouter router = GoRouter(
                       context: context,
                       state: state,
                       child: PlacingOrderPage(
-                        product: state.extra as ProductModel?,
+                        product: state.extra as Product?,
                       ),
                     );
                   },
@@ -627,7 +626,7 @@ final GoRouter router = GoRouter(
             context: context,
             state: state,
             child: ProductDetails(
-              model: state.extra as ProductModel?,
+              model: state.extra as Product?,
             ));
       },
     ),

@@ -24,7 +24,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final double boxWidth = constraints.constrainWidth();
+        final double boxWidth = constraints.maxWidth;
 
         return Scaffold(
           body: SafeArea(

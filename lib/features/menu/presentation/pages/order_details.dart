@@ -10,7 +10,7 @@ class OrderDetails extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final double boxWidth = constraints.constrainWidth();
+        final double boxWidth = constraints.maxWidth;
 
         return SafeArea(
           child: Padding(
@@ -80,7 +80,7 @@ class OrderDetails extends StatelessWidget {
                 InkWell(
                   hoverColor: Theme.of(context).primaryColor,
                   onTap: () async {
-                    final ProductModel? product = await context
+                    final Product? product = await context
                         .read<OrderCubit>()
                         .getProductbyId(
                           productUuid: order?.orderItems.last.productUuid ?? '',

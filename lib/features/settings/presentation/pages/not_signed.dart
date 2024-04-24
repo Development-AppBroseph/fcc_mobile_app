@@ -7,7 +7,7 @@ class NotSignedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final double boxWidth = constraints.constrainWidth();
+        final double boxWidth = constraints.maxWidth;
 
         return Scaffold(
           body: SafeArea(

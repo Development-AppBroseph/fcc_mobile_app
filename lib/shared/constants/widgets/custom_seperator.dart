@@ -13,7 +13,7 @@ class CustomSeperator extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final double boxWidth = constraints.constrainWidth();
+        final double boxWidth = constraints.maxWidth;
         const double dashWidth = 2.0;
         final double dashHeight = height;
         final int dashCount = (boxWidth / (2 * dashWidth)).floor();

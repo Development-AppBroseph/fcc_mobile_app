@@ -9,7 +9,7 @@ class OrderRepo {
     required String name,
     required String phone,
     required String email,
-    required ProductModel product,
+    required Product product,
   }) async {
     try {
       final Response response = await BaseHttpClient.postBody(

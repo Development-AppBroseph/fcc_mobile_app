@@ -6,7 +6,7 @@ class SelectedProductPage extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final ProductModel? product =
+    final Product? product =
         context.read<SelectedProductsCubit>().state.product;
     if (product == null) return Container();
     return Scaffold(

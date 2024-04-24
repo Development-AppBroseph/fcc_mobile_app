@@ -180,7 +180,12 @@ class AuthCubit extends Cubit<AuthState> {
     return await AuthRepo.incrementInvites(phone, userName);
   }
 
+  //9939009646
   Future<(bool, bool)> createUserSendCode(String phone) async {
+    if (!await AuthRepo.checkRegistration(phone)) {
+      return (await AuthRepo.sendSms(phone), false);
+    }
+
     if (await AuthRepo.checkRegistration(phone)) {
       return (await AuthRepo.sendSms(phone), false);
     } else {

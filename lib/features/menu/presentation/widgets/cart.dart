@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
 
 class ProductCart extends StatelessWidget {
-  final ProductModel? product;
+  final Product? product;
   final bool isSelected;
   final bool canSelect;
 
@@ -50,8 +50,8 @@ class ProductCart extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
-                context.push(
-                  Routes.productDetails,
+                context.pushNamed(
+                  RoutesNames.productDetails,
                   extra: product,
                 );
               },
