@@ -121,20 +121,6 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                             key: UniqueKey(),
                                             text: 'Добавить',
                                             onTap: () {
-                                              if (appartmentController
-                                                  .text.isEmpty) {
-                                                ApplicationSnackBar
-                                                    .showErrorSnackBar(
-                                                  context,
-                                                  'Пожалуйста, введите квартиру',
-                                                  1,
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                                  1,
-                                                );
-                                                return;
-                                              }
-
                                               context.pop();
 
                                               if (state.addresses[index]
@@ -142,13 +128,29 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                                   null) {
                                                 context.pop(<int?, String?>{
                                                   state.addresses[index].id:
-                                                      '${state.addresses[index].address!.trim()}, Квартира ${appartmentController.text.trim()}',
+                                                      '${state.addresses[index].address!.trim()}, ${appartmentController.text.trim()}',
                                                 });
                                               }
                                             },
                                           ),
                                         ],
-                                        title: const Text('Введите квартиру'),
+                                        title: Column(
+                                          children: <Widget>[
+                                            Text(
+                                              'Введите номер квартиры',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
+                                            ),
+                                            sized10,
+                                            Text(
+                                              'при необходимости',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                          ],
+                                        ),
                                         content: Card(
                                           elevation: 0,
                                           color: Colors.transparent,
