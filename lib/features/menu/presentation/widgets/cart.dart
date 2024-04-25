@@ -50,10 +50,11 @@ class ProductCart extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
-                context.pushNamed(
-                  RoutesNames.productDetails,
-                  extra: product,
-                );
+                Navigator.of(context).push(MaterialPageRoute<dynamic>(builder: (
+                  BuildContext context,
+                ) {
+                  return ProductDetails(model: product);
+                }));
               },
               child: Row(
                 children: <Widget>[

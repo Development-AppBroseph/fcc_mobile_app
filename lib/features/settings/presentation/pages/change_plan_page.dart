@@ -57,9 +57,15 @@ class _ChangePlanPageState extends State<ChangePlanPage> {
               return Scaffold(
                 body: SafeArea(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: availableWidth < 600 ? 40.w : 700,
-                    ),
+                    padding: availableWidth < 600
+                        ? const EdgeInsets.only(
+                            left: 30,
+                            right: 30,
+                          )
+                        : EdgeInsets.only(
+                            left: 30 + (availableWidth - 600) / 2,
+                            right: 30 + (availableWidth - 600) / 2,
+                          ),
                     child: BlocBuilder<MembershipCubit, List<MembershipModel>>(
                       builder:
                           (BuildContext context, List<MembershipModel> state) {

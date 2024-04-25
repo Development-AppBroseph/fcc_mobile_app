@@ -81,11 +81,11 @@ class ProductDetails extends StatelessWidget {
                 ),
                 ProductTextDetailsField(
                   title: 'Крепость',
-                  subtitle: model?.strength ?? '',
+                  subtitle: model?.strenght ?? '',
                 ),
                 ProductTextDetailsField(
                   title: 'Вкус',
-                  subtitle: model?.tasty ?? '',
+                  subtitle: model?.taste ?? '',
                 ),
                 ProductTextDetailsField(
                   title: 'Формат',
