@@ -39,6 +39,18 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
     });
   }
 
+  String extra(int membership) {
+    if (membership == 1) {
+      return 'Стандарт';
+    } else if (membership == 2) {
+      return 'Премиум';
+    } else if (membership == 3) {
+      return 'Элит';
+    } else {
+      return '4';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -82,7 +94,13 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
 
                   if (payment?.status == 'success' && context.mounted) {
                     context.read<AuthCubit>().init();
-                    context.go(Routes.paymentCongrats);
+                    context.go(
+                      Routes.paymentCongrats,
+                      extra: <String, dynamic>{
+                        'membership': extra(payment!.membership),
+                        'goMenu': true,
+                      },
+                    );
                     return;
                   } else if (payment?.status == 'timeout' && context.mounted) {
                     ApplicationSnackBar.showErrorSnackBar(

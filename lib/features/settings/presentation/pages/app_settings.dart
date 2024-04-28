@@ -50,13 +50,17 @@ class AppSettingsPage extends StatelessWidget {
                       //     .read<AuthCubit>()
                       //     .deleteFcmToken(fcmToken.toString());
                       context.read<AuthCubit>().logOut();
-                      if (context.read<SelectedMembershipCubit>().state ==
-                          null) {
-                        context.read<SelectedMembershipCubit>().change(
-                              MembershipType.standard,
-                            );
-                      }
-                      context.go(Routes.login);
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const UnauthenticatedInvitePage()),
+                          (route) => false);
+                      // if (context.read<SelectedMembershipCubit>().state ==
+                      //     null) {
+                      //   context.read<SelectedMembershipCubit>().change(
+                      //         MembershipType.standard,
+                      //       );
+                      // }
                     },
                     iconPath: 'assets/logout.svg',
                   ),

@@ -32,7 +32,7 @@ void showConfirmDeleteDialog(
             ),
             sized10,
             Text(
-              'Ваша учетная запись будет удалена через 6 месяцев. В течение этого времени вы можете восстановить свою учетную запись, обратившись в службу поддержки клиентов.Обратите внимание, что в течение 6 месяцев ваше устройство будет привязано к вашей текущей учетной записи, и вы не сможете создать новую.',
+              'Вы уверены, что хотите удалить свой аккаунт? Пожалуйста, обратите внимание, что это действие нельзя будет отменить. После удаления аккаунта вы потеряете доступ ко всем своим данным и не сможете восстановить свою учетную запись.',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontSize: 15,
                   ),
@@ -47,7 +47,7 @@ void showConfirmDeleteDialog(
               ),
               onTap: () async {
                 final Future<bool> result =
-                    context.read<AuthCubit>().archiveAccount();
+                    context.read<AuthCubit>().deleteAccaunt();
 
                 if (await result) {
                   if (context.mounted) {
@@ -66,7 +66,7 @@ void showConfirmDeleteDialog(
                 top: 10,
               ),
               onTap: () {
-                canPopThenPop(context);
+                Navigator.of(context).pop();
               },
               text: 'Назад',
             ),

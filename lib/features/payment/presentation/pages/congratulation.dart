@@ -24,7 +24,7 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
   }
 
   String extra(String membership) {
-    if (membership == 'standard') {
+    if (membership == 'Стандарт') {
       return '1';
     } else if (membership == 'premium') {
       return '2';
@@ -36,34 +36,23 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
   }
 
   void goToMenu() {
-    final String membershipName = membershipNames[MembershipType.values
-                    .firstWhereOrNull((MembershipType element) {
-                  return element.name == widget.membership;
-                }) ??
-                MembershipType.standard]
-            ?.toUpperCase() ??
-        'Стандарт';
-    ApplicationSnackBar.showErrorSnackBar(
-        context,
-        'Вы приобрели тариф $membershipName',
-        1,
-        const EdgeInsets.all(200),
-        1,
-        false);
-    context.go(
-      Routes.profile,
-    );
+    Future.delayed(Duration(seconds: 3), () {
+      // final String membershipName = membershipNames[MembershipType.values
+      //                 .firstWhereOrNull((MembershipType element) {
+      //               return element.name == widget.membership;
+      //             }) ??
+      //             MembershipType.standard]
+      //         ?.toUpperCase() ??
+      //     'Стандарт';
+
+      context.go(
+        Routes.profile,
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final String membershipName = membershipNames[MembershipType.values
-                    .firstWhereOrNull((MembershipType element) {
-                  return element.name == widget.membership;
-                }) ??
-                MembershipType.standard]
-            ?.toUpperCase() ??
-        'Стандарт';
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double boxWidth = constraints.maxWidth;
@@ -71,7 +60,15 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
         return Scaffold(
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: boxWidth < 600
+                  ? const EdgeInsets.only(
+                      left: 30,
+                      right: 30,
+                    )
+                  : EdgeInsets.only(
+                      left: 30 + (boxWidth - 600) / 2,
+                      right: 30 + (boxWidth - 600) / 2,
+                    ),
               child: Column(
                 children: <Widget>[
                   Expanded(
@@ -79,7 +76,7 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Вы успешно подключили  тариф “$membershipName"',
+                          'Вы успешно подключили  тариф “${widget.membership}”',
                           style: Theme.of(context).textTheme.titleMedium,
                           textAlign: TextAlign.center,
                         ).animate().fadeIn(duration: 1000.ms),

@@ -143,6 +143,7 @@ class AuthRepo {
           response.bodyBytes,
         ),
       );
+
       if (response.statusCode == 200) {
         return true;
       }
@@ -155,18 +156,15 @@ class AuthRepo {
     return false;
   }
 
-  static Future<bool> archiveAccount() async {
+  static Future<bool> deleteAccount() async {
     try {
-      http.Response response = await BaseHttpClient.getBody(
-          'api/v1/users/auth/archive_account/',
-          headers: BaseHttpClient.getDefaultHeader());
-      log(
-        utf8.decode(
-          response.bodyBytes,
-        ),
-      );
-
-      if (response.statusCode == 200) {
+      final Response response = await http.Client().delete(
+          Uri.parse('https://api.fcc-app.ru/api/v1/users/auth/delete_account/'),
+          headers: <String, String>{
+            'Authorization':
+                'Bearer ${Hive.box(HiveStrings.userBox).get(HiveStrings.token)}',
+          });
+      if (response.statusCode == 204) {
         return true;
       }
     } catch (e) {
