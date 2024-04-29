@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                    itemCount: settingsList.length + 1,
+                    itemCount: settingsList.length,
                   ),
                 ],
               ),

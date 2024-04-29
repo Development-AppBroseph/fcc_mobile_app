@@ -9,15 +9,14 @@ class NotificationSettingsPage extends StatefulWidget {
 }
 
 class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
-  bool receiveNotifications = false;
-  bool pushNotifications = false;
-  bool smsNotifications = false;
+  bool receiveNotifications = true;
+  bool pushNotifications = true;
+  bool smsNotifications = true;
   @override
   void initState() {
     super.initState();
     receiveNotifications = getReceiveNotifications();
     pushNotifications = getPushNotifications();
-    smsNotifications = getSmsNotifications();
   }
 
   @override

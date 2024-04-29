@@ -111,8 +111,9 @@ class _ProductMenuState extends State<ProductMenu> {
                     ),
                     BlocBuilder<SearchCubit, String?>(
                       builder: (BuildContext context, String? query) {
-                        return BlocBuilder<ProductCubit, ProductState>(
-                          builder: (BuildContext context, ProductState state) {
+                        return BlocBuilder<ProductCubit, ProductState>(builder:
+                            (BuildContext context, ProductState state) {
+                          if (state.products.isNotEmpty) {
                             final List<Product> products = searchProduct(
                               query,
                               state.products
@@ -169,8 +170,17 @@ class _ProductMenuState extends State<ProductMenu> {
                                 );
                               },
                             );
-                          },
-                        );
+                          } else {
+                            return const SliverFillRemaining(
+                              hasScrollBody: false,
+                              child: Center(
+                                child: Text(
+                                  'Данный товар временно недоступен',
+                                ),
+                              ),
+                            );
+                          }
+                        });
                       },
                     ),
                   ],

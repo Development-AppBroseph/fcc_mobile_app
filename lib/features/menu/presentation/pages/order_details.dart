@@ -65,9 +65,11 @@ class OrderDetails extends StatelessWidget {
 
                 sized10,
                 SizedBox(
-                  height: size.height / 6,
+                  height: size.height / 3,
                   width: double.infinity,
                   child: Card(
+                    elevation: 0,
+                    color: Colors.transparent,
                     clipBehavior: Clip.antiAlias,
                     child: CachedNetworkImage(
                         fadeInCurve: Curves.easeInOutBack,
@@ -270,9 +272,9 @@ class OrderDetails extends StatelessWidget {
   String convertDeliveryStatus(String orderStatus) {
     switch (orderStatus) {
       case 'WAITING':
-        return 'Ожидает товар';
+        return 'Ожидает отправки';
       case 'PROCESS':
-        return 'в пути';
+        return 'Принят';
       case 'SUCCESS':
         return 'Доставлен';
       default:
@@ -283,7 +285,7 @@ class OrderDetails extends StatelessWidget {
   String convertOrderStatus(String orderStatus) {
     switch (orderStatus) {
       case 'PROCESS':
-        return 'В работе';
+        return 'Принят';
       case 'READY':
         return 'Собран';
       case 'DELIVERED':

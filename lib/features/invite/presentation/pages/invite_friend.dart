@@ -239,42 +239,104 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                         return const SizedBox();
                                       }
                                       if (state is Authenticated) {
-                                        return CstmBtn(
-                                          height: 50,
-                                          onTap: () async {
-                                            // final ShareResult result =
-                                            //     await Share.shareWithResult(
-                                            //   baseUrl +
-                                            //       state.user.invitationCode!,
-                                            //   subject: 'Поделиться кодом',
-                                            // );
-
-                                            _launchUrl(
-                                                'fcc-app.ru/invite/${state.user.invitationCode!}');
-
-                                            // if (result.status ==
-                                            //     ShareResultStatus.success) {
-                                            //   ApplicationSnackBar
-                                            //       .showErrorSnackBar(
-                                            //     context,
-                                            //     'Успешно поделились кодом',
-                                            //     1,
-                                            //     const EdgeInsets.all(16),
-                                            //     1,
-                                            //     false,
-                                            //   );
-                                            // }
-                                            // ShareExtend.share(
-                                            //   state.user.invitationCode ?? '',
-                                            //   'text',
-                                            // );
-                                          },
-                                          text: 'Поделиться  кодом',
-                                          alignment: MainAxisAlignment.center,
-                                          iconPath: 'assets/send.svg',
-                                          textColor: Theme.of(context)
-                                              .scaffoldBackgroundColor,
-                                          color: Theme.of(context).canvasColor,
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Поделитесь с кодом :',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            sized30,
+                                            TextButton.icon(
+                                                style: ButtonStyle(
+                                                  foregroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(
+                                                    Theme.of(context)
+                                                        .primaryColorDark,
+                                                  ),
+                                                  overlayColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(
+                                                    Theme.of(context)
+                                                        .primaryColorLight,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  _shareTelegram(
+                                                      'fcc-app.ru/invite/${state.user.invitationCode!}');
+                                                },
+                                                icon: SvgPicture.asset(
+                                                  'assets/telegram.svg',
+                                                ),
+                                                label: Text(
+                                                  'Телеграм',
+                                                )),
+                                            sized20,
+                                            TextButton.icon(
+                                                style: ButtonStyle(
+                                                  foregroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(Theme.of(
+                                                              context)
+                                                          .primaryColorDark),
+                                                  overlayColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(
+                                                    Theme.of(context)
+                                                        .primaryColorLight,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  _shareWhatsUp(
+                                                      'fcc-app.ru/invite/${state.user.invitationCode}');
+                                                },
+                                                icon: SizedBox(
+                                                  height: 30.h,
+                                                  width: 30.h,
+                                                  child: SvgPicture.asset(
+                                                      'assets/icons8-whatsapp.svg'),
+                                                ),
+                                                label: const Text(
+                                                  'Ватсап',
+                                                )),
+                                            sized20,
+                                            TextButton.icon(
+                                                style: ButtonStyle(
+                                                  foregroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(
+                                                    Theme.of(context)
+                                                        .primaryColorDark,
+                                                  ),
+                                                  overlayColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(
+                                                    Theme.of(context)
+                                                        .primaryColorLight,
+                                                  ),
+                                                ),
+                                                onPressed: () {
+                                                  _shareViber(
+                                                      'fcc-app.ru/invite/${state.user.invitationCode}');
+                                                },
+                                                icon: SizedBox(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: SvgPicture.asset(
+                                                      'assets/viber.svg'),
+                                                ),
+                                                label: Text(
+                                                  'Вайбер',
+                                                )),
+                                          ],
                                         );
                                       }
                                       return const SizedBox();
@@ -344,12 +406,26 @@ class _InviteFrPageState extends State<InviteFrPage> {
     );
   }
 
-  Future<void> _launchUrl(String text) async {
+  Future<void> _shareTelegram(String text) async {
     final Uri uri = Uri.parse(
         'https://t.me/share/url?url=${text.split('/').last}&text=$text');
     if (!await launchUrl(uri)) {
       throw Exception('Could not launch $uri');
     }
+  }
+}
+
+Future<void> _shareWhatsUp(String text) async {
+  final Uri uri = Uri.parse('https://wa.me/?text=$text');
+  if (!await launchUrl(uri)) {
+    throw Exception('Could not launch $uri');
+  }
+}
+
+Future<void> _shareViber(String text) async {
+  final Uri uri = Uri.parse('viber://forward?text=$text');
+  if (!await launchUrl(uri)) {
+    throw Exception('Could not launch $uri');
   }
 }
 

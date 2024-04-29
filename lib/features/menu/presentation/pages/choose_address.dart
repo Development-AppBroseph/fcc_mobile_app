@@ -142,6 +142,24 @@ class ChooseAddress extends StatelessWidget {
                                                   }
                                                 },
                                               ),
+                                              sized20,
+                                              CstmBtn(
+                                                color: Colors.white60,
+                                                key: UniqueKey(),
+                                                text: 'Закрыть',
+                                                onTap: () {
+                                                  if (state.addresses[index]
+                                                          .address !=
+                                                      null) {
+                                                    context.pop(<int?, String?>{
+                                                      state.addresses[index].id:
+                                                          '${state.addresses[index].address!.trim()}, ',
+                                                    });
+
+                                                    Navigator.of(context).pop();
+                                                  }
+                                                },
+                                              ),
                                             ],
                                             title: Column(
                                               children: [
