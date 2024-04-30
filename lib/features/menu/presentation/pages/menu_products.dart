@@ -171,12 +171,26 @@ class _ProductMenuState extends State<ProductMenu> {
                               },
                             );
                           } else {
-                            return const SliverFillRemaining(
+                            return SliverFillRemaining(
                               hasScrollBody: false,
-                              child: Center(
-                                child: Text(
-                                  'Данный товар временно недоступен',
+                              child: FutureBuilder<dynamic>(
+                                future: Future<dynamic>.delayed(
+                                  const Duration(milliseconds: 300),
                                 ),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<dynamic> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return const Center(
+                                      child: Text(
+                                        'Данный товар временно недоступен',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    );
+                                  } else {
+                                    return const SizedBox.shrink();
+                                  }
+                                },
                               ),
                             );
                           }

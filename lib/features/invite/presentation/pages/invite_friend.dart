@@ -254,88 +254,31 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                               textAlign: TextAlign.center,
                                             ),
                                             sized30,
-                                            TextButton.icon(
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(
-                                                    Theme.of(context)
-                                                        .primaryColorDark,
-                                                  ),
-                                                  overlayColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(
-                                                    Theme.of(context)
-                                                        .primaryColorLight,
-                                                  ),
-                                                ),
+                                            ShareInvite(
+                                                imagePath:
+                                                    'assets/telegram.svg',
+                                                text: 'Телеграм',
                                                 onPressed: () {
                                                   _shareTelegram(
                                                       'fcc-app.ru/invite/${state.user.invitationCode!}');
-                                                },
-                                                icon: SvgPicture.asset(
-                                                  'assets/telegram.svg',
-                                                ),
-                                                label: Text(
-                                                  'Телеграм',
-                                                )),
+                                                }),
                                             sized20,
-                                            TextButton.icon(
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(Theme.of(
-                                                              context)
-                                                          .primaryColorDark),
-                                                  overlayColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(
-                                                    Theme.of(context)
-                                                        .primaryColorLight,
-                                                  ),
-                                                ),
+                                            ShareInvite(
+                                                imagePath:
+                                                    'assets/icons8-whatsapp.svg',
+                                                text: 'Ватсап',
                                                 onPressed: () {
                                                   _shareWhatsUp(
-                                                      'fcc-app.ru/invite/${state.user.invitationCode}');
-                                                },
-                                                icon: SizedBox(
-                                                  height: 30.h,
-                                                  width: 30.h,
-                                                  child: SvgPicture.asset(
-                                                      'assets/icons8-whatsapp.svg'),
-                                                ),
-                                                label: const Text(
-                                                  'Ватсап',
-                                                )),
+                                                      'fcc-app.ru/invite/${state.user.invitationCode!}');
+                                                }),
                                             sized20,
-                                            TextButton.icon(
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(
-                                                    Theme.of(context)
-                                                        .primaryColorDark,
-                                                  ),
-                                                  overlayColor:
-                                                      MaterialStateProperty.all<
-                                                          Color>(
-                                                    Theme.of(context)
-                                                        .primaryColorLight,
-                                                  ),
-                                                ),
+                                            ShareInvite(
+                                                imagePath: 'assets/viber.svg',
+                                                text: 'Вайбер',
                                                 onPressed: () {
                                                   _shareViber(
-                                                      'fcc-app.ru/invite/${state.user.invitationCode}');
-                                                },
-                                                icon: SizedBox(
-                                                  height: 30,
-                                                  width: 30,
-                                                  child: SvgPicture.asset(
-                                                      'assets/viber.svg'),
-                                                ),
-                                                label: Text(
-                                                  'Вайбер',
-                                                )),
+                                                      'fcc-app.ru/invite/${state.user.invitationCode!}');
+                                                }),
                                           ],
                                         );
                                       }
@@ -412,6 +355,45 @@ class _InviteFrPageState extends State<InviteFrPage> {
     if (!await launchUrl(uri)) {
       throw Exception('Could not launch $uri');
     }
+  }
+}
+
+class ShareInvite extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+
+  final String imagePath;
+  const ShareInvite({
+    required this.imagePath,
+    required this.text,
+    required this.onPressed,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 200),
+            child: SizedBox(
+              height: 30,
+              width: 30,
+              child: SvgPicture.asset(
+                imagePath,
+              ),
+            ),
+          ),
+          sized20,
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text(text),
+          ),
+        ],
+      ),
+    );
   }
 }
 

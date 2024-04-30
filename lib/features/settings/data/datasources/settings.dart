@@ -11,7 +11,7 @@ final List<SettingModel> settingsList = List<SettingModel>.generate(
 
 const List<String> settingTitles = <String>[
   'Сколько человек я пригласил',
-  // 'Сменить план',
+  //'Сменить план',
   'Уведомления',
   'Настройки',
   'Чат поддержки',
@@ -25,7 +25,7 @@ const List<String> settingIcons = <String>[
 ];
 final List<String> settingRoutes = <String>[
   RoutesNames.addPerson,
-//  RoutesNames.changePlan,
+  // RoutesNames.changePlan,
   RoutesNames.notifications,
   RoutesNames.settings,
   RoutesNames.chat,

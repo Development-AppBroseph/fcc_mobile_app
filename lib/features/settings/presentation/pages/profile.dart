@@ -63,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 return Column(
                                   children: <Widget>[
                                     Text(
-                                      '${state.user.lastName} ${state.user.firstName} ${state.user.middleName}',
+                                      ' ${state.user.middleName ?? ""} ${state.user.firstName ?? ""}  ${state.user.lastName ?? ""}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleMedium
@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                    itemCount: settingsList.length,
+                    itemCount: settingsList.length + 1,
                   ),
                 ],
               ),

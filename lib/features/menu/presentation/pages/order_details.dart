@@ -273,8 +273,10 @@ class OrderDetails extends StatelessWidget {
     switch (orderStatus) {
       case 'WAITING':
         return 'Ожидает отправки';
+
       case 'PROCESS':
-        return 'Принят';
+        return 'В пути';
+
       case 'SUCCESS':
         return 'Доставлен';
       default:
@@ -288,7 +290,7 @@ class OrderDetails extends StatelessWidget {
         return 'Принят';
       case 'READY':
         return 'Собран';
-      case 'DELIVERED':
+      case 'DELIVERY':
         return 'Передан на доставку';
       default:
         return 'Статус неизвестен';

@@ -235,8 +235,9 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               height: 50.h,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
-                                                readOnly: state.user.middleName!
-                                                        .isNotEmpty
+                                                readOnly: state.user.middleName
+                                                            ?.isNotEmpty ??
+                                                        false
                                                     ? true
                                                     : false,
                                                 controller: middlename,
@@ -260,8 +261,9 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               height: 50.h,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
-                                                readOnly: state.user.firstName!
-                                                        .isNotEmpty
+                                                readOnly: state.user.firstName
+                                                            ?.isNotEmpty ??
+                                                        false
                                                     ? true
                                                     : false,
                                                 controller: name,
@@ -285,8 +287,9 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               height: 50.h,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
-                                                readOnly: state.user.lastName!
-                                                        .isNotEmpty
+                                                readOnly: state.user.lastName
+                                                            ?.isNotEmpty ??
+                                                        false
                                                     ? true
                                                     : false,
                                                 controller: lastName,

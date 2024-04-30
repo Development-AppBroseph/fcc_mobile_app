@@ -5,8 +5,8 @@ import 'package:fcc_app_front/export.dart';
 
 class UnauthenticatedInvitePage extends StatefulWidget {
   const UnauthenticatedInvitePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   State<UnauthenticatedInvitePage> createState() =>
       _UnauthenticatedInvitePageState();
@@ -16,11 +16,11 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
   TextEditingController controller = TextEditingController();
   bool isLoading = false;
   String? _inviteCode;
-  final _appLinks = AppLinks();
+  final AppLinks _appLinks = AppLinks();
 
   Future<void> _initUniLinks() async {
     try {
-      _appLinks.allUriLinkStream.listen((uri) {
+      _appLinks.allUriLinkStream.listen((Uri uri) {
         setState(() {
           _inviteCode = uri.toString().split('/').last;
           log(uri.toString());

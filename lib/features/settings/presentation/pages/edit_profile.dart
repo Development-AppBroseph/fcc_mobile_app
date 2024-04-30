@@ -124,7 +124,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     color: Theme.of(context).primaryColorDark,
                                   ),
                               controller: middlename,
-                              initialText: user?.middleName,
+                              initialText: user?.middleName ?? '',
                               hintText: 'Введите фамилию',
                               hintStyle: Theme.of(context)
                                   .textTheme
@@ -152,7 +152,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               controller: name,
                               enabled: false,
                               hintText: 'Введите имя',
-                              initialText: user?.firstName,
+                              initialText: user?.firstName ?? '',
                               hintStyle: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
@@ -183,7 +183,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             RounField(
                               enabled: false,
                               controller: lastName,
-                              initialText: user?.lastName,
+                              initialText: user?.lastName ?? '',
                               textStyle: Theme.of(context)
                                   .textTheme
                                   .bodyMedium

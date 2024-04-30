@@ -121,8 +121,10 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                       BlocBuilder<SearchCubit, String?>(
                         builder: (BuildContext context, String? query) {
                           return BlocBuilder<ProductCubit, ProductState>(
-                            builder:
-                                (BuildContext context, ProductState state) {
+                            builder: (
+                              BuildContext context,
+                              ProductState state,
+                            ) {
                               final List<Product> products = searchProduct(
                                 query,
                                 state.products
@@ -133,49 +135,76 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                                     )
                                     .toList(),
                               );
-                              return BlocBuilder<SelectedProductsCubit,
-                                  SelectedProductsState>(
-                                builder: (BuildContext context,
-                                    SelectedProductsState selectedProducts) {
-                                  return SliverPadding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 20.h,
-                                    ),
-                                    sliver: LiveSliverList(
-                                      controller: _scrollController,
-                                      showItemInterval:
-                                          const Duration(milliseconds: 150),
-                                      showItemDuration:
-                                          const Duration(milliseconds: 200),
-                                      itemBuilder: (BuildContext context,
-                                              int index,
-                                              Animation<double> animation) =>
-                                          FadeTransition(
-                                        opacity: Tween<double>(
-                                          begin: 0,
-                                          end: 1,
-                                        ).animate(animation),
-                                        // And slide transition
-                                        child: SlideTransition(
-                                          position: Tween<Offset>(
-                                            begin: const Offset(0, -0.1),
-                                            end: Offset.zero,
+
+                              if (state.products.isNotEmpty) {
+                                return BlocBuilder<SelectedProductsCubit,
+                                    SelectedProductsState>(
+                                  builder: (BuildContext context,
+                                      SelectedProductsState selectedProducts) {
+                                    return SliverPadding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 20.h,
+                                      ),
+                                      sliver: LiveSliverList(
+                                        controller: _scrollController,
+                                        showItemInterval:
+                                            const Duration(milliseconds: 150),
+                                        showItemDuration:
+                                            const Duration(milliseconds: 200),
+                                        itemBuilder: (BuildContext context,
+                                                int index,
+                                                Animation<double> animation) =>
+                                            FadeTransition(
+                                          opacity: Tween<double>(
+                                            begin: 0,
+                                            end: 1,
                                           ).animate(animation),
-                                          child: CatalogCard(
-                                            product: products[index],
-                                            isSelected: selectedProducts
-                                                        .product !=
-                                                    null &&
-                                                selectedProducts.product!.id ==
-                                                    products[index].id,
+                                          // And slide transition
+                                          child: SlideTransition(
+                                            position: Tween<Offset>(
+                                              begin: const Offset(0, -0.1),
+                                              end: Offset.zero,
+                                            ).animate(animation),
+                                            child: CatalogCard(
+                                              product: products[index],
+                                              isSelected:
+                                                  selectedProducts.product !=
+                                                          null &&
+                                                      selectedProducts
+                                                              .product!.id ==
+                                                          products[index].id,
+                                            ),
                                           ),
                                         ),
+                                        itemCount: products.length,
                                       ),
-                                      itemCount: products.length,
+                                    );
+                                  },
+                                );
+                              } else {
+                                return SliverFillRemaining(
+                                  hasScrollBody: false,
+                                  child: FutureBuilder<dynamic>(
+                                    future: Future<dynamic>.delayed(
+                                      const Duration(milliseconds: 300),
                                     ),
-                                  );
-                                },
-                              );
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<dynamic> snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                        return const Center(
+                                          child: Text(
+                                            'Данный товар временно недоступен',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        );
+                                      } else {
+                                        return const SizedBox.shrink();
+                                      }
+                                    },
+                                  ),
+                                );
+                              }
                             },
                           );
                         },

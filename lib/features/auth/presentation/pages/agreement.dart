@@ -14,23 +14,7 @@ class _AgreementScreenState extends State<AgreementScreen> {
   @override
   void initState() {
     super.initState();
-    initUniLinks();
     context.read<ServerBloc>().add(const CheckServerEvent());
-  }
-
-  Future<void> initUniLinks() async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      final initialLink = await getInitialLink();
-
-      final link = initialLink;
-      if (kDebugMode) {
-        print('Initial Link: $link');
-      }
-    } on PlatformException {
-      // Handle exception by warning the user their action did not succeed
-      // return?
-    }
   }
 
   @override
