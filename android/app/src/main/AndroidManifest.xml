@@ -23,8 +23,8 @@
            <action android:name="android.intent.action.VIEW" />
            <category android:name="android.intent.category.DEFAULT" />
            <category android:name="android.intent.category.BROWSABLE" />
-           <data android:scheme="http" android:host="fcc-app.ru" />
-           <data android:scheme="https" />
+           <data android:scheme="https" android:host="fcc-app.ru" />
+           <data android:scheme="http" />
     
     </intent-filter>
             <meta-data

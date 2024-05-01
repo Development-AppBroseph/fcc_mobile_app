@@ -50,11 +50,7 @@ class AppSettingsPage extends StatelessWidget {
                       //     .read<AuthCubit>()
                       //     .deleteFcmToken(fcmToken.toString());
                       context.read<AuthCubit>().logOut();
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const UnauthenticatedInvitePage()),
-                          (route) => false);
+                      context.go(Routes.unauthenticatedInvite);
                       // if (context.read<SelectedMembershipCubit>().state ==
                       //     null) {
                       //   context.read<SelectedMembershipCubit>().change(
