@@ -239,42 +239,47 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                         return const SizedBox();
                                       }
                                       if (state is Authenticated) {
-                                        return CstmBtn(
-                                          height: 50,
-                                          onTap: () async {
-                                            // final ShareResult result =
-                                            //     await Share.shareWithResult(
-                                            //   baseUrl +
-                                            //       state.user.invitationCode!,
-                                            //   subject: 'Поделиться кодом',
-                                            // );
-
-                                            _launchUrl(
-                                                'fcc-app.ru/invite/${state.user.invitationCode!}');
-
-                                            // if (result.status ==
-                                            //     ShareResultStatus.success) {
-                                            //   ApplicationSnackBar
-                                            //       .showErrorSnackBar(
-                                            //     context,
-                                            //     'Успешно поделились кодом',
-                                            //     1,
-                                            //     const EdgeInsets.all(16),
-                                            //     1,
-                                            //     false,
-                                            //   );
-                                            // }
-                                            // ShareExtend.share(
-                                            //   state.user.invitationCode ?? '',
-                                            //   'text',
-                                            // );
-                                          },
-                                          text: 'Поделиться  кодом',
-                                          alignment: MainAxisAlignment.center,
-                                          iconPath: 'assets/send.svg',
-                                          textColor: Theme.of(context)
-                                              .scaffoldBackgroundColor,
-                                          color: Theme.of(context).canvasColor,
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Поделитесь с кодом :',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            sized30,
+                                            ShareInvite(
+                                                imagePath:
+                                                    'assets/telegram.svg',
+                                                text: 'Телеграм',
+                                                onPressed: () {
+                                                  _shareTelegram(
+                                                      'fcc-app.ru/invite/${state.user.invitationCode!}');
+                                                }),
+                                            sized20,
+                                            ShareInvite(
+                                                imagePath:
+                                                    'assets/icons8-whatsapp.svg',
+                                                text: 'Ватсап',
+                                                onPressed: () {
+                                                  _shareWhatsUp(
+                                                      'fcc-app.ru/invite/${state.user.invitationCode!}');
+                                                }),
+                                            sized20,
+                                            ShareInvite(
+                                                imagePath: 'assets/viber.svg',
+                                                text: 'Вайбер',
+                                                onPressed: () {
+                                                  _shareViber(
+                                                      'fcc-app.ru/invite/${state.user.invitationCode!}');
+                                                }),
+                                          ],
                                         );
                                       }
                                       return const SizedBox();
@@ -344,12 +349,65 @@ class _InviteFrPageState extends State<InviteFrPage> {
     );
   }
 
-  Future<void> _launchUrl(String text) async {
+  Future<void> _shareTelegram(String text) async {
     final Uri uri = Uri.parse(
         'https://t.me/share/url?url=${text.split('/').last}&text=$text');
     if (!await launchUrl(uri)) {
       throw Exception('Could not launch $uri');
     }
+  }
+}
+
+class ShareInvite extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+
+  final String imagePath;
+  const ShareInvite({
+    required this.imagePath,
+    required this.text,
+    required this.onPressed,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 200),
+            child: SizedBox(
+              height: 30,
+              width: 30,
+              child: SvgPicture.asset(
+                imagePath,
+              ),
+            ),
+          ),
+          sized20,
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text(text),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Future<void> _shareWhatsUp(String text) async {
+  final Uri uri = Uri.parse('https://wa.me/?text=$text');
+  if (!await launchUrl(uri)) {
+    throw Exception('Could not launch $uri');
+  }
+}
+
+Future<void> _shareViber(String text) async {
+  final Uri uri = Uri.parse('viber://forward?text=$text');
+  if (!await launchUrl(uri)) {
+    throw Exception('Could not launch $uri');
   }
 }
 

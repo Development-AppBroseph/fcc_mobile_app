@@ -62,7 +62,7 @@ class _OrderState extends State<Order> {
                                             );
                                           },
                                           child: SizedBox(
-                                            height: size.height / 8.h,
+                                            height: size.height / 6.h,
                                             child: Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -236,7 +236,7 @@ class _OrderState extends State<Order> {
   String convertOrderStatus(String orderStatus) {
     switch (orderStatus) {
       case 'PROCESS':
-        return 'В работе';
+        return 'Принят';
       case 'READY':
         return 'Собран';
       case 'DELIVERED':

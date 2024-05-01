@@ -18,10 +18,13 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
   int selectedAddressId = 0;
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final TextEditingController addressController = TextEditingController();
-  final TextEditingController firstNameController = TextEditingController();
+
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController middleNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
+
+  TextEditingController lastName = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController middlename = TextEditingController();
+  TextEditingController email = TextEditingController();
 
   final TextEditingController emailController = TextEditingController();
   final MaskTextInputFormatter maskFormatter = MaskTextInputFormatter(
@@ -43,10 +46,10 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
   void dispose() {
     super.dispose();
     addressController.dispose();
-    firstNameController.dispose();
+    name.dispose();
     phoneController.dispose();
-    middleNameController.dispose();
-    lastNameController.dispose();
+    middlename.dispose();
+    lastName.dispose();
     emailController.dispose();
   }
 
@@ -56,11 +59,12 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
 
     final AuthState state = context.read<AuthCubit>().state;
     if (state is Authenticated) {
-      firstNameController.text = state.user.firstName!;
+      name.text = state.user.firstName ?? '';
+      emailController.text = state.user.email ?? '';
 
-      middleNameController.text = state.user.lastName!;
+      lastName.text = state.user.lastName ?? '';
 
-      lastNameController.text = state.user.middleName!;
+      middlename.text = state.user.middleName ?? '';
 
       phoneController.text = state.user.phoneNumber ?? '';
     }
@@ -231,12 +235,12 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               height: 50.h,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
-                                                readOnly: state.user.lastName!
-                                                        .isNotEmpty
+                                                readOnly: state.user.middleName
+                                                            ?.isNotEmpty ??
+                                                        false
                                                     ? true
                                                     : false,
-                                                controller:
-                                                    middleNameController,
+                                                controller: middlename,
                                                 textInputAction:
                                                     TextInputAction.next,
                                                 hintText: 'Введите фамилию',
@@ -257,11 +261,12 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               height: 50.h,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
-                                                readOnly: state.user.firstName!
-                                                        .isNotEmpty
+                                                readOnly: state.user.firstName
+                                                            ?.isNotEmpty ??
+                                                        false
                                                     ? true
                                                     : false,
-                                                controller: firstNameController,
+                                                controller: name,
                                                 textInputAction:
                                                     TextInputAction.next,
                                                 hintText: 'Введите имя',
@@ -282,14 +287,42 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               height: 50.h,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
-                                                readOnly: state.user.middleName!
-                                                        .isNotEmpty
+                                                readOnly: state.user.lastName
+                                                            ?.isNotEmpty ??
+                                                        false
                                                     ? true
                                                     : false,
-                                                controller: lastNameController,
+                                                controller: lastName,
                                                 textInputAction:
                                                     TextInputAction.done,
                                                 hintText: 'Введите отчество',
+                                                validator: FormBuilderValidators
+                                                    .compose(
+                                                  <FormFieldValidator<String>>[
+                                                    FormBuilderValidators
+                                                        .required(
+                                                      errorText:
+                                                          'Заполните это поле',
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            sized10,
+                                            Container(
+                                              height: 50.h,
+                                              child: CustomFormField(
+                                                isFromPlacingOrder: true,
+                                                readOnly: state.user.email
+                                                            ?.isNotEmpty ??
+                                                        false
+                                                    ? true
+                                                    : false,
+                                                controller: emailController,
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                hintText:
+                                                    'Введите электронную почту',
                                                 validator: FormBuilderValidators
                                                     .compose(
                                                   <FormFieldValidator<String>>[
@@ -348,9 +381,10 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                   context
                                       .read<ProfileBloc>()
                                       .add(ChangeProfileDetails(
-                                        firstName: firstNameController.text,
-                                        lastName: lastNameController.text,
-                                        middleName: middleNameController.text,
+                                        email: emailController.text,
+                                        firstName: name.text,
+                                        lastName: lastName.text,
+                                        middleName: middlename.text,
                                       ));
 
                                   try {
@@ -360,9 +394,9 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       return;
                                     }
 
-                                    if (firstNameController.text.isEmpty ||
-                                        middleNameController.text.isEmpty ||
-                                        lastNameController.text.isEmpty) {
+                                    if (name.text.isEmpty ||
+                                        middlename.text.isEmpty ||
+                                        lastName.text.isEmpty) {
                                       ApplicationSnackBar.showErrorSnackBar(
                                           context,
                                           'Пожалуйста, заполните все обязательные поля',
@@ -400,9 +434,9 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                         product: widget.product!,
                                         address: selectedAddressByUser,
                                         name:
-                                            '${firstNameController.text} ${middleNameController.text} ${lastNameController.text}',
+                                            '${name.text} ${middlename.text} ${lastName.text}',
                                         phone: phoneController.text,
-                                        email: 'test@gmail.com',
+                                        email: emailController.text,
                                       );
 
                                       if (order.$2 != null && context.mounted) {

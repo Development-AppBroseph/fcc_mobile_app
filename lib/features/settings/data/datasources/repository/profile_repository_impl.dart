@@ -11,14 +11,16 @@ final class ProfileRepositoryImpl implements ProfileRepository {
   Future<void> changeProfileDetails({
     required String name,
     required String surname,
+    required String email,
     required String middlename,
   }) async {
     try {
-      final String? response = await BaseHttpClient.put(
+      final String? response = await BaseHttpClient.patch(
           changeMyProfileDetailsEndpoint, <String, String>{
         'first_name': name,
         'last_name': surname,
         'middle_name': middlename,
+        'email': email,
       });
 
       log(response ?? 'response is null');

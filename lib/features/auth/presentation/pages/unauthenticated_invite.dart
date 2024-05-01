@@ -1,14 +1,12 @@
 import 'dart:developer';
 
+import 'package:app_links/app_links.dart';
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/shared/config/service/app_links.dart';
-import 'package:flutter/foundation.dart';
-import 'package:uni_links/uni_links.dart';
 
 class UnauthenticatedInvitePage extends StatefulWidget {
   const UnauthenticatedInvitePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   State<UnauthenticatedInvitePage> createState() =>
       _UnauthenticatedInvitePageState();
@@ -18,12 +16,11 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
   TextEditingController controller = TextEditingController();
   bool isLoading = false;
   String? _inviteCode;
+  final AppLinks _appLinks = AppLinks();
 
   Future<void> _initUniLinks() async {
     try {
-      final String? initialLink = await getInitialLink();
-      if (initialLink != null) {
-        Uri uri = Uri.parse(initialLink);
+      _appLinks.allUriLinkStream.listen((Uri uri) {
         setState(() {
           _inviteCode = uri.toString().split('/').last;
           log(uri.toString());
@@ -32,7 +29,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
             controller.text = _inviteCode ?? '';
           }
         });
-      }
+      });
     } on Exception {
       log('getInitialLink error');
     }

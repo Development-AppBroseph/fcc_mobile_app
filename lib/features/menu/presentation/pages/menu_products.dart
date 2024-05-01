@@ -111,8 +111,9 @@ class _ProductMenuState extends State<ProductMenu> {
                     ),
                     BlocBuilder<SearchCubit, String?>(
                       builder: (BuildContext context, String? query) {
-                        return BlocBuilder<ProductCubit, ProductState>(
-                          builder: (BuildContext context, ProductState state) {
+                        return BlocBuilder<ProductCubit, ProductState>(builder:
+                            (BuildContext context, ProductState state) {
+                          if (state.products.isNotEmpty) {
                             final List<Product> products = searchProduct(
                               query,
                               state.products
@@ -169,8 +170,31 @@ class _ProductMenuState extends State<ProductMenu> {
                                 );
                               },
                             );
-                          },
-                        );
+                          } else {
+                            return SliverFillRemaining(
+                              hasScrollBody: false,
+                              child: FutureBuilder<dynamic>(
+                                future: Future<dynamic>.delayed(
+                                  const Duration(milliseconds: 300),
+                                ),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<dynamic> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return const Center(
+                                      child: Text(
+                                        'Данный товар временно недоступен',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    );
+                                  } else {
+                                    return const SizedBox.shrink();
+                                  }
+                                },
+                              ),
+                            );
+                          }
+                        });
                       },
                     ),
                   ],

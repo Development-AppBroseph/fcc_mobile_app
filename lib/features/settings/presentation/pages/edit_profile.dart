@@ -13,23 +13,13 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   bool isSurnameValid = false;
-  TextEditingController surname = TextEditingController();
+  TextEditingController lastName = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController middlename = TextEditingController();
+  TextEditingController email = TextEditingController();
 
   void validateAndSubmit() {
-    if (!isNameValid(surname.text)) {
-      ApplicationSnackBar.showErrorSnackBar(
-        context,
-        'Введена некорректная контактная информация, допускаются только буквы русского языка',
-        1,
-        const EdgeInsets.symmetric(horizontal: 10),
-        3,
-      );
-    } else {
-      return;
-    }
-    if (surname.text.isEmpty) {
+    if (middlename.text.isEmpty) {
       ApplicationSnackBar.showErrorSnackBar(
         context,
         'Пожалуйста введите фамилию',
@@ -133,8 +123,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   ?.copyWith(
                                     color: Theme.of(context).primaryColorDark,
                                   ),
-                              controller: surname,
-                              initialText: user?.lastName,
+                              controller: middlename,
+                              initialText: user?.middleName ?? '',
                               hintText: 'Введите фамилию',
                               hintStyle: Theme.of(context)
                                   .textTheme
@@ -162,7 +152,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               controller: name,
                               enabled: false,
                               hintText: 'Введите имя',
-                              initialText: user?.firstName,
+                              initialText: user?.firstName ?? '',
                               hintStyle: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
@@ -192,8 +182,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             sized10,
                             RounField(
                               enabled: false,
-                              controller: middlename,
-                              initialText: user?.middleName,
+                              controller: lastName,
+                              initialText: user?.lastName ?? '',
                               textStyle: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
@@ -201,6 +191,38 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     color: Theme.of(context).primaryColorDark,
                                   ),
                               hintText: 'Введите отчество',
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(context).hintColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                              textInputAction: TextInputAction.next,
+                            ),
+                            sized10,
+                            Text(
+                              'Электронная почта',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(context).hintColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                            ),
+                            sized10,
+                            RounField(
+                              enabled: false,
+                              controller: email,
+                              initialText: user?.email,
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(context).primaryColorDark,
+                                  ),
+                              hintText: 'Введите электронную почту',
                               hintStyle: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
@@ -239,8 +261,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     context
                                         .read<ProfileBloc>()
                                         .add(ChangeProfileDetails(
+                                          email: email.text,
                                           firstName: name.text,
-                                          lastName: surname.text,
+                                          lastName: lastName.text,
                                           middleName: middlename.text,
                                         ));
                                     context.read<AuthCubit>().init();
