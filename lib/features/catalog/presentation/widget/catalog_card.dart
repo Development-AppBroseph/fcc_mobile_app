@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/catalog/presentation/widget/catalog_product_details.dart';
 
 class CatalogCard extends StatelessWidget {
-  final Product? product;
+  final Product product;
   final bool isSelected;
   final bool canSelect;
 
@@ -50,10 +51,11 @@ class CatalogCard extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
-                context.pushNamed(
-                  Routes.catalogProductDetails,
-                  extra: product,
-                );
+                Navigator.of(context).push(MaterialPageRoute<dynamic>(builder: (
+                  BuildContext context,
+                ) {
+                  return CatalogProductDetails(model: product);
+                }));
               },
               child: Row(
                 children: <Widget>[

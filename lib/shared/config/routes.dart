@@ -317,7 +317,7 @@ final GoRouter router = GoRouter(
                       context: context,
                       state: state,
                       child: CatalogProductDetails(
-                        model: state.extra as Product?,
+                        model: state.extra as Product,
                       ),
                     );
                   },
@@ -673,22 +673,12 @@ final GoRouter router = GoRouter(
       name: RoutesNames.catalogProductProfile,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (BuildContext context, GoRouterState state) {
-        final MultipleCubits cubits = state.extra as MultipleCubits;
+        // final MultipleCubits cubits = state.extra as MultipleCubits;
         return buildPageWithDefaultTransition<void>(
           context: context,
           state: state,
-          child: MultiBlocProvider(
-            providers: <SingleChildWidget>[
-              BlocProvider.value(
-                value: cubits.cubits['productCubit'] as ProductCubit,
-              ),
-              BlocProvider.value(
-                value: cubits.cubits['catalogCubit'] as CatalogCubit,
-              ),
-            ],
-            child: CatalogProductProfileMenu(
-              catalogId: state.pathParameters['id'] as String,
-            ),
+          child: CatalogProductProfileMenu(
+            catalogId: state.pathParameters['id'] as String,
           ),
         );
       },

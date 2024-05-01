@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:fcc_app_front/export.dart';
 
 class CatalogProductDetails extends StatelessWidget {
-  final Product? model;
+  final Product model;
   const CatalogProductDetails({
     required this.model,
     super.key,
@@ -18,13 +16,18 @@ class CatalogProductDetails extends StatelessWidget {
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           double availableWidth = constraints.maxWidth;
-          log('IMAGE' + model!.image.toString());
           return Scaffold(
             backgroundColor: Colors.white,
             body: Padding(
               padding: availableWidth < 600
-                  ? EdgeInsets.all(16)
-                  : EdgeInsets.symmetric(horizontal: 700),
+                  ? const EdgeInsets.only(
+                      left: 30,
+                      right: 30,
+                    )
+                  : EdgeInsets.only(
+                      left: 30 + (availableWidth - 600) / 2,
+                      right: 30 + (availableWidth - 600) / 2,
+                    ),
               child: SafeArea(
                 child: SingleChildScrollView(
                   child: Column(
@@ -35,8 +38,8 @@ class CatalogProductDetails extends StatelessWidget {
                         height: 20,
                       ),
                       Container(
-                        height: size.height / 3.5,
-                        width: size.width,
+                        height: 280,
+                        width: double.infinity,
                         decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(
                           Radius.circular(16),
@@ -45,7 +48,7 @@ class CatalogProductDetails extends StatelessWidget {
                           clipBehavior: Clip.antiAlias,
                           child: CachedNetworkImage(
                             fit: BoxFit.fill,
-                            imageUrl: model?.image ?? '',
+                            imageUrl: model.image,
                           ),
                         ),
                       ),
@@ -53,14 +56,14 @@ class CatalogProductDetails extends StatelessWidget {
                         height: 20,
                       ),
                       Text(
-                        model?.name ?? '',
+                        model.name,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       Text(
-                        model?.description ?? '',
+                        model.description,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       const SizedBox(
@@ -68,11 +71,11 @@ class CatalogProductDetails extends StatelessWidget {
                       ),
                       ProductTextDetailsField(
                         title: 'Марка',
-                        subtitle: model?.name ?? '',
+                        subtitle: model.name,
                       ),
                       ProductTextDetailsField(
                         title: 'Страна происхождения',
-                        subtitle: model?.country ?? '',
+                        subtitle: model.country,
                       ),
                       const ProductTextDetailsField(
                         title: 'Количество блоков',
@@ -80,15 +83,15 @@ class CatalogProductDetails extends StatelessWidget {
                       ),
                       ProductTextDetailsField(
                         title: 'Крепость',
-                        subtitle: model?.strenght ?? '',
+                        subtitle: model.strenght,
                       ),
                       ProductTextDetailsField(
                         title: 'Вкус',
-                        subtitle: model?.taste ?? '',
+                        subtitle: model.taste,
                       ),
                       ProductTextDetailsField(
                         title: 'Формат',
-                        subtitle: model?.format ?? '',
+                        subtitle: model.format,
                       ),
                       const SizedBox(
                         height: 40,

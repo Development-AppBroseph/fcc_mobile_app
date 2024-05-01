@@ -257,7 +257,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                             ),
                                             sized10,
                                             Container(
-                                              height: 50.h,
+                                              height: 50,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
                                                 readOnly: state.user.firstName
@@ -283,7 +283,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                             ),
                                             sized10,
                                             Container(
-                                              height: 50.h,
+                                              height: 50,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
                                                 readOnly: state.user.lastName
@@ -309,7 +309,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                             ),
                                             sized10,
                                             Container(
-                                              height: 50.h,
+                                              height: 50,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
                                                 readOnly: state.user.email
@@ -347,7 +347,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                           ),
                           sized10,
                           Container(
-                            height: 50.h,
+                            height: 50,
                             child: CustomFormField(
                               isFromPlacingOrder: true,
                               controller: phoneController,

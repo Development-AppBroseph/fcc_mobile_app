@@ -1,5 +1,4 @@
 import 'package:fcc_app_front/export.dart';
-import 'package:share_plus/share_plus.dart';
 
 class InviteFrPage extends StatefulWidget {
   final bool showBackButton;
@@ -244,7 +243,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                               CrossAxisAlignment.stretch,
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: [
+                                          children: <Widget>[
                                             Text(
                                               'Поделитесь с кодом :',
                                               style: Theme.of(context)
@@ -266,7 +265,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                             ShareInvite(
                                                 imagePath:
                                                     'assets/icons8-whatsapp.svg',
-                                                text: 'Ватсап',
+                                                text: 'Ватсап   ',
                                                 onPressed: () {
                                                   _shareWhatsUp(
                                                       'fcc-app.ru/invite/${state.user.invitationCode!}');
@@ -274,7 +273,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                             sized20,
                                             ShareInvite(
                                                 imagePath: 'assets/viber.svg',
-                                                text: 'Вайбер',
+                                                text: 'Вайбер   ',
                                                 onPressed: () {
                                                   _shareViber(
                                                       'fcc-app.ru/invite/${state.user.invitationCode!}');
@@ -375,21 +374,31 @@ class ShareInvite extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Row(
+        textDirection: TextDirection.ltr,
+        textBaseline: TextBaseline.alphabetic,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 200),
+            padding: const EdgeInsets.only(left: 10),
             child: SizedBox(
               height: 30,
               width: 30,
               child: SvgPicture.asset(
                 imagePath,
+                height: 30,
+                width: 30,
               ),
             ),
           ),
           sized20,
           Padding(
             padding: const EdgeInsets.only(left: 20),
-            child: Text(text),
+            child: Text(
+              text,
+              textAlign: TextAlign.left,
+            ),
           ),
         ],
       ),

@@ -36,7 +36,7 @@ class ProductDetails extends StatelessWidget {
                     height: 20,
                   ),
                   Container(
-                    height: 280.h,
+                    height: 280,
                     width: double.infinity,
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(
@@ -46,7 +46,7 @@ class ProductDetails extends StatelessWidget {
                       clipBehavior: Clip.antiAlias,
                       child: CachedNetworkImage(
                         fadeInCurve: Curves.bounceIn,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                         imageUrl: model?.image ?? '',
                       ),
                     ),
