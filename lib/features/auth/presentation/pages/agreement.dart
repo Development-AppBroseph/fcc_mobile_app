@@ -1,7 +1,5 @@
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/auth/presentation/bloc/bloc/server_bloc.dart';
-import 'package:flutter/foundation.dart';
-import 'package:uni_links/uni_links.dart';
 
 class AgreementScreen extends StatefulWidget {
   const AgreementScreen({super.key});

@@ -74,7 +74,6 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double boxWidth = constraints.maxWidth;
