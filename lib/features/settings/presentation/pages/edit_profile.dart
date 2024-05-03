@@ -36,7 +36,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       MaterialPageRoute(
         builder: (BuildContext context) => Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.transparent,
             title: Text(
               'Просмотр фото',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(

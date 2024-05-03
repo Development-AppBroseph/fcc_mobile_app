@@ -27,7 +27,7 @@ class ProductDetails extends StatelessWidget {
                     left: 30 + (availableWidth - 600) / 2,
                     right: 30 + (availableWidth - 600) / 2,
                   ),
-            child: ListView(shrinkWrap: true, children: [
+            child: ListView(children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -35,22 +35,25 @@ class ProductDetails extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    height: 280,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                      Radius.circular(24),
-                    )),
-                    child: Card(
+                  Card(
                       clipBehavior: Clip.antiAlias,
-                      child: CachedNetworkImage(
-                        fadeInCurve: Curves.bounceIn,
-                        fit: BoxFit.cover,
-                        imageUrl: model?.image ?? '',
-                      ),
-                    ),
-                  ),
+                      child: ClipRect(
+                        child: Container(
+                          height: 400,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                30.r,
+                              ),
+                            ),
+                          ),
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl: model!.image,
+                          ),
+                        ),
+                      )),
                   const SizedBox(
                     height: 20,
                   ),

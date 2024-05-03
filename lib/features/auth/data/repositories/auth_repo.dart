@@ -61,6 +61,7 @@ class AuthRepo {
         haveToken: false,
       );
       if (response != null) {
+        sendSms(phoneNumber);
         log(
           jsonDecode(
                 utf8.decode(
@@ -69,6 +70,7 @@ class AuthRepo {
               )['message'] ??
               '',
         );
+
         return true;
       }
     } catch (e) {
@@ -144,11 +146,8 @@ class AuthRepo {
         ),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 202) {
         return true;
-      }
-      if (response.statusCode == 202) {
-        return false;
       }
     } catch (e) {
       log('Someting wrong in checkRegistration: $e');

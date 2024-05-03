@@ -93,7 +93,7 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                   ),
                                   sized40,
                                   Container(
-                                    height: 50,
+                                    height: 60,
                                     width: double.infinity,
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 16,

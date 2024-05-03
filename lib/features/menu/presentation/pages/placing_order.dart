@@ -152,7 +152,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                     });
                                   },
                                   child: Container(
-                                    height: 50.h,
+                                    height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Theme.of(context).primaryColor,
@@ -231,7 +231,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                         return Column(
                                           children: <Widget>[
                                             Container(
-                                              height: 50.h,
+                                              height: 50,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
                                                 readOnly: state.user.middleName

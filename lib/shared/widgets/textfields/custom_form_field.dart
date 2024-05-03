@@ -67,7 +67,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
         decoration: InputDecoration(
           isDense: true,
           contentPadding: widget.isFromPlacingOrder != null
-              ? EdgeInsets.only(top: 13.h)
+              ? EdgeInsets.only(top: 10.h)
               : null,
           hintText: widget.hintText,
           hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(

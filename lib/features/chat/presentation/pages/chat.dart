@@ -466,6 +466,14 @@ PreferredSize appBar(BuildContext context) {
         )
       ]),
       child: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: Colors.white,
+
+          // Status bar brightness (optional)
+          statusBarIconBrightness: Brightness.light, // For Android (dark icons)
+          statusBarBrightness: Brightness.light, //) For iOS (dark icons)
+        ),
         automaticallyImplyLeading: false,
         elevation: 0.0,
         title: Row(

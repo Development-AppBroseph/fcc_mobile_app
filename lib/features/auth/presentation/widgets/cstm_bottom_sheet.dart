@@ -148,16 +148,16 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                               const SizedBox.shrink(),
                           showCursor: true,
                           onCompleted: (String pin) async {
-                            if (widget.isRegistration) {
-                              ApplicationSnackBar.showErrorSnackBar(
-                                context,
-                                'Вы успешно зарегистрировались. Пожалуйста, авторизуйтесь',
-                                2,
-                                const EdgeInsets.symmetric(horizontal: 10),
-                                2,
-                                false,
-                              );
-                            }
+                            // if (widget.isRegistration) {
+                            //   ApplicationSnackBar.showErrorSnackBar(
+                            //     context,
+                            //     'Вы успешно зарегистрировались. Пожалуйста, авторизуйтесь',
+                            //     2,
+                            //     const EdgeInsets.symmetric(horizontal: 10),
+                            //     2,
+                            //     false,
+                            //   );
+                            // }
                             setState(() {
                               isLoading = true;
                             });

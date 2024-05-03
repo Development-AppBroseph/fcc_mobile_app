@@ -9,10 +9,8 @@ class CatalogProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.sizeOf(context);
-
-    return BlocProvider(
-      create: (context) => CatalogCubit(),
+    return BlocProvider<CatalogCubit>(
+      create: ( BuildContext context) => CatalogCubit(),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           double availableWidth = constraints.maxWidth;
@@ -29,8 +27,8 @@ class CatalogProductDetails extends StatelessWidget {
                       right: 30 + (availableWidth - 600) / 2,
                     ),
               child: SafeArea(
-                child: SingleChildScrollView(
-                  child: Column(
+                child: ListView(shrinkWrap: true, children: <Widget>[
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const CustomBackButton(),
@@ -124,7 +122,7 @@ class CatalogProductDetails extends StatelessWidget {
                       )
                     ],
                   ),
-                ),
+                ]),
               ),
             ),
           );

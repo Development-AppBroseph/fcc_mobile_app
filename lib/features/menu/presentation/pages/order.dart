@@ -56,51 +56,89 @@ class _OrderState extends State<Order> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            context.pushNamed(
-                                              RoutesNames.orderDetails,
-                                              extra: order[index],
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute<dynamic>(
+                                                  builder:
+                                                      (BuildContext context) {
+                                                return OrderDetails(
+                                                  order: order[index],
+                                                );
+                                              }),
                                             );
                                           },
                                           child: SizedBox(
-                                            height: size.height / 6.h,
+                                            height: size.height / 9.h,
                                             child: Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                Expanded(
-                                                  child: Card(
-                                                    elevation: 0.1,
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    child: CachedNetworkImage(
-                                                      imageBuilder: (BuildContext
-                                                              context,
-                                                          ImageProvider<Object>
-                                                              imageProvider) {
-                                                        return Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            image:
-                                                                DecorationImage(
-                                                              image:
-                                                                  imageProvider,
-                                                              fit: BoxFit.fill,
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.r),
+                                                  child: SizedBox(
+                                                    height: 90,
+                                                    child: order[index]
+                                                                .orderItems[
+                                                                    index]
+                                                                .productPhoto !=
+                                                            null
+                                                        ? ClipRect(
+                                                            child: Container(
+                                                              height: 90,
+                                                              width: 90,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                    30.r,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                imageUrl: order[
+                                                                        index]
+                                                                    .orderItems
+                                                                    .map(
+                                                                        (OrderItem
+                                                                            e) {
+                                                                      return e
+                                                                          .productPhoto;
+                                                                    })
+                                                                    .toString()
+                                                                    .replaceAll(
+                                                                        '(', '')
+                                                                    .replaceAll(
+                                                                        ')',
+                                                                        ''),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : AspectRatio(
+                                                            aspectRatio: 1,
+                                                            child: Container(
+                                                              height: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                color:
+                                                                    primaryColorLight,
+                                                              ),
+                                                              child:
+                                                                  const Center(
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .smoking_rooms,
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
-                                                        );
-                                                      },
-                                                      imageUrl: order[index]
-                                                          .orderItems
-                                                          .map((OrderItem e) {
-                                                            return e
-                                                                .productPhoto;
-                                                          })
-                                                          .toString()
-                                                          .replaceAll('(', '')
-                                                          .replaceAll(')', ''),
-                                                      width: 100.w,
-                                                      fit: BoxFit.fill,
-                                                    ),
                                                   ),
                                                 ),
                                                 SizedBox(

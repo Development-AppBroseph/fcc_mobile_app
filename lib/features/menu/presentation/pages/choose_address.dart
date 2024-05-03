@@ -121,7 +121,7 @@ class ChooseAddress extends StatelessWidget {
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                             titlePadding:
-                                                const EdgeInsets.all(16),
+                                                const EdgeInsets.all(4),
                                             backgroundColor: Colors.white,
                                             elevation: 0,
                                             icon: const Icon(Icons.home_filled),
