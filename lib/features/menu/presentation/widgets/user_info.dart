@@ -134,7 +134,7 @@ class MenuUserInfo extends StatelessWidget {
                           ),
                           Expanded(
                             child: AutoSizeText(
-                              'Подарок за друга',
+                              'Бонус за друга',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall

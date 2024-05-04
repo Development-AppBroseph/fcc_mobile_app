@@ -56,10 +56,15 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                     ),
                                   ),
                                   sized20,
-                                  Text(
-                                    'Не нужно платить !',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                  Center(
+                                    child: Text(
+                                      'Приглашайте друзей в Федеральный Клуб',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(fontSize: 23),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                   sized40,
                                   RichText(

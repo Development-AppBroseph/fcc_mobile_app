@@ -39,7 +39,7 @@ class ProductDetails extends StatelessWidget {
                       clipBehavior: Clip.antiAlias,
                       child: ClipRect(
                         child: Container(
-                          height: 400,
+                          height: 280,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(

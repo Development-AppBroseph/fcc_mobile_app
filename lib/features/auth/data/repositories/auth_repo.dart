@@ -61,7 +61,6 @@ class AuthRepo {
         haveToken: false,
       );
       if (response != null) {
-        sendSms(phoneNumber);
         log(
           jsonDecode(
                 utf8.decode(
