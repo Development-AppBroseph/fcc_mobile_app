@@ -37,13 +37,13 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
 
   void goToMenu() {
     Future.delayed(Duration(seconds: 3), () {
-      // final String membershipName = membershipNames[MembershipType.values
-      //                 .firstWhereOrNull((MembershipType element) {
-      //               return element.name == widget.membership;
-      //             }) ??
-      //             MembershipType.standard]
-      //         ?.toUpperCase() ??
-      //     'Стандарт';
+      final String membershipName = membershipNames[MembershipType.values
+                      .firstWhereOrNull((MembershipType element) {
+                    return element.name == widget.membership;
+                  }) ??
+                  MembershipType.standard]
+              ?.toUpperCase() ??
+          'Стандарт';
 
       context.go(
         Routes.profile,
