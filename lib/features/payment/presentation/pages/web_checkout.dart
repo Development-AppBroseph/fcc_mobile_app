@@ -1,25 +1,14 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:fcc_app_front/features/payment/data/models/payment.dart';
-import 'package:fcc_app_front/shared/config/routes.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-
-import 'package:fcc_app_front/features/payment/data/repositories/payment_repo.dart';
-
-import 'package:fcc_app_front/shared/widgets/snackbar.dart';
 
 class WebCheckoutPage extends StatefulWidget {
   const WebCheckoutPage({
-    Key? key,
+    super.key,
     required this.url,
     required this.onComplete,
     required this.phone,
-  }) : super(key: key);
+  });
   final String url;
   final Function onComplete;
   final String phone;
@@ -31,12 +20,13 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
   late InAppWebViewController _webViewController;
   String? url;
   late Timer _timer;
+  @override
   void initState() {
     super.initState();
     setState(() {
       url = widget.url;
     });
-    _timer = Timer.periodic(Duration(seconds: 10), (_) {
+    _timer = Timer.periodic(const Duration(seconds: 10), (_) {
       _checkLatestPayment();
     });
   }

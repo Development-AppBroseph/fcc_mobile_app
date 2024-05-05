@@ -9,7 +9,7 @@ class OrderConfirmationPage extends StatefulWidget {
 
 class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
   void goOrder() {
-    Future.delayed(Duration(seconds: 3)).then((value) {
+    Future.delayed(const Duration(seconds: 3)).then((value) {
       context.read<OrderCubit>().load();
       context.go(Routes.menu);
     });

@@ -97,7 +97,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                   reverse: true,
                   child: BlocBuilder<AuthCubit, AuthState>(
                     builder: (BuildContext context, AuthState authState) {
-                      var price = widget.product?.price ?? 0;
+                      double price = widget.product?.price ?? 0;
 
                       if (authState is Authenticated) {
                         price = context
@@ -158,11 +158,11 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       color: Theme.of(context).primaryColor,
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
-                                        children: [
+                                        children: <Widget>[
                                           Text(
                                             'Введите адрес',
                                             style: Theme.of(context)
@@ -222,7 +222,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                           BlocProvider(
                             create: (BuildContext context) => ProfileBloc(),
                             child: BlocBuilder<AuthCubit, AuthState>(
-                              builder: (context, state) {
+                              builder: (BuildContext context, AuthState state) {
                                 if (state is Authenticated) {
                                   return BlocBuilder<AuthCubit, AuthState>(
                                     builder: (BuildContext context,
@@ -230,7 +230,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       if (state is Authenticated) {
                                         return Column(
                                           children: <Widget>[
-                                            Container(
+                                            SizedBox(
                                               height: 50,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
@@ -256,7 +256,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               ),
                                             ),
                                             sized10,
-                                            Container(
+                                            SizedBox(
                                               height: 50,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
@@ -282,7 +282,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               ),
                                             ),
                                             sized10,
-                                            Container(
+                                            SizedBox(
                                               height: 50,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
@@ -308,7 +308,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               ),
                                             ),
                                             sized10,
-                                            Container(
+                                            SizedBox(
                                               height: 50,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
@@ -346,7 +346,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                             ),
                           ),
                           sized10,
-                          Container(
+                          SizedBox(
                             height: 50,
                             child: CustomFormField(
                               isFromPlacingOrder: true,
@@ -370,121 +370,126 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                           ),
                           sized20,
                           BlocProvider(
-                            create: (context) => ProfileBloc(),
+                            create: (BuildContext context) => ProfileBloc(),
                             child: BlocBuilder<ProfileBloc, ProfileState>(
                               builder:
                                   (BuildContext context, ProfileState state) =>
-                                      CstmBtn(
-                                width: double.infinity,
-                                onTap: () async {
-                                  context
-                                      .read<ProfileBloc>()
-                                      .add(ChangeProfileDetails(
-                                        email: emailController.text,
-                                        firstName: name.text,
-                                        lastName: lastName.text,
-                                        middleName: middlename.text,
-                                      ));
+                                      Padding(
+                                padding: const EdgeInsets.only(bottom: 40),
+                                child: CstmBtn(
+                                  width: double.infinity,
+                                  onTap: () async {
+                                    context
+                                        .read<ProfileBloc>()
+                                        .add(ChangeProfileDetails(
+                                          email: emailController.text,
+                                          firstName: name.text,
+                                          lastName: lastName.text,
+                                          middleName: middlename.text,
+                                        ));
 
-                                  try {
-                                    if (context.read<AuthCubit>().state
-                                        is Unauthenticated) {
-                                      context.pushNamed(RoutesNames.login);
-                                      return;
-                                    }
-
-                                    if (name.text.isEmpty ||
-                                        middlename.text.isEmpty ||
-                                        lastName.text.isEmpty) {
-                                      ApplicationSnackBar.showErrorSnackBar(
-                                          context,
-                                          'Пожалуйста, заполните все обязательные поля',
-                                          0.9,
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          2);
-                                      return;
-                                    }
-
-                                    if (selectedAddressByUser.isEmpty) {
-                                      ApplicationSnackBar.showErrorSnackBar(
-                                          context,
-                                          'Пожалуйста,введите адрес',
-                                          0.9,
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          2);
-                                      return;
-                                    }
-                                    if (phoneController.text.length < 10) {
-                                      ApplicationSnackBar.showErrorSnackBar(
-                                          context,
-                                          'Пожалуйста, введите корректный номер мобильного телефона',
-                                          0.9,
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          2);
-                                      return;
-                                    }
-                                    if (_formKey.currentState!.validate() &&
-                                        phoneController.text.length >= 10) {
-                                      final (OrderModel?, String?) order =
-                                          await OrderRepo.placeOrder(
-                                        product: widget.product!,
-                                        address: selectedAddressByUser,
-                                        name:
-                                            '${name.text} ${middlename.text} ${lastName.text}',
-                                        phone: phoneController.text,
-                                        email: emailController.text,
-                                      );
-
-                                      if (order.$2 != null && context.mounted) {
-                                        ApplicationSnackBar.showErrorSnackBar(
-                                            context,
-                                            order.$2 ?? '',
-                                            1,
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            3);
+                                    try {
+                                      if (context.read<AuthCubit>().state
+                                          is Unauthenticated) {
+                                        context.pushNamed(RoutesNames.login);
                                         return;
                                       }
 
-                                      if (order.$1 != null && context.mounted) {
-                                        canPopThenPop(context);
-                                        context
-                                            .read<SelectedProductsCubit>()
-                                            .addProduct(null);
-                                        context.pushNamed(
-                                          RoutesNames.orderConfirm,
-                                        );
-                                      }
-                                    } else {
-                                      if (validateMobile() != null) {
+                                      if (name.text.isEmpty ||
+                                          middlename.text.isEmpty ||
+                                          lastName.text.isEmpty) {
                                         ApplicationSnackBar.showErrorSnackBar(
                                             context,
-                                            validateMobile() ??
-                                                'Пожалуйста, введите номер телефона',
+                                            'Пожалуйста, заполните все обязательные поля',
                                             0.9,
                                             const EdgeInsets.symmetric(
                                                 horizontal: 10),
-                                            3);
+                                            2);
+                                        return;
+                                      }
+
+                                      if (selectedAddressByUser.isEmpty) {
+                                        ApplicationSnackBar.showErrorSnackBar(
+                                            context,
+                                            'Пожалуйста,введите адрес',
+                                            0.9,
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            2);
+                                        return;
+                                      }
+                                      if (phoneController.text.length < 10) {
+                                        ApplicationSnackBar.showErrorSnackBar(
+                                            context,
+                                            'Пожалуйста, введите корректный номер мобильного телефона',
+                                            0.9,
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            2);
+                                        return;
+                                      }
+                                      if (_formKey.currentState!.validate() &&
+                                          phoneController.text.length >= 10) {
+                                        final (OrderModel?, String?) order =
+                                            await OrderRepo.placeOrder(
+                                          product: widget.product!,
+                                          address: selectedAddressByUser,
+                                          name:
+                                              '${name.text} ${middlename.text} ${lastName.text}',
+                                          phone: phoneController.text,
+                                          email: emailController.text,
+                                        );
+
+                                        if (order.$2 != null &&
+                                            context.mounted) {
+                                          ApplicationSnackBar.showErrorSnackBar(
+                                              context,
+                                              order.$2 ?? '',
+                                              1,
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              3);
+                                          return;
+                                        }
+
+                                        if (order.$1 != null &&
+                                            context.mounted) {
+                                          canPopThenPop(context);
+                                          context
+                                              .read<SelectedProductsCubit>()
+                                              .addProduct(null);
+                                          context.pushNamed(
+                                            RoutesNames.orderConfirm,
+                                          );
+                                        }
+                                      } else {
+                                        if (validateMobile() != null) {
+                                          ApplicationSnackBar.showErrorSnackBar(
+                                              context,
+                                              validateMobile() ??
+                                                  'Пожалуйста, введите номер телефона',
+                                              0.9,
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              3);
+                                        }
+                                      }
+                                    } catch (e) {
+                                      if (e is OrderException &&
+                                          context.mounted) {
+                                        ApplicationSnackBar.showErrorSnackBar(
+                                          context,
+                                          'Bы уже оформили заказ в этом месяце',
+                                          0.9,
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          2,
+                                        );
                                       }
                                     }
-                                  } catch (e) {
-                                    if (e is OrderException &&
-                                        context.mounted) {
-                                      ApplicationSnackBar.showErrorSnackBar(
-                                        context,
-                                        'Bы уже оформили заказ в этом месяце',
-                                        0.9,
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        2,
-                                      );
-                                    }
-                                  }
-                                },
-                                text: 'Оформить доставку',
+                                  },
+                                  text: 'Оформить доставку',
+                                ),
                               ),
                             ),
                           ),

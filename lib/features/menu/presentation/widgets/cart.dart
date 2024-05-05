@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
 
@@ -11,8 +10,8 @@ class ProductCart extends StatelessWidget {
     required this.product,
     this.isSelected = false,
     this.canSelect = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

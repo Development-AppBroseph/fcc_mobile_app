@@ -29,10 +29,12 @@ class _AgreementScreenState extends State<AgreementScreen> {
         listener: (BuildContext context, AuthState state) {
           if (state is ServerOffline) {
             context.go(RoutesNames.serverState);
+            return;
           }
 
           if (state is Authenticated) {
             context.go(Routes.menu);
+            return;
           }
         },
         child: LayoutBuilder(

@@ -28,7 +28,7 @@ class _ProductMenuState extends State<ProductMenu> {
         context.watch<CatalogCubit>().getById(widget.catalogId);
     return Builder(builder: (BuildContext context) {
       return LayoutBuilder(
-        builder: (context, constraints) {
+        builder: (BuildContext context, BoxConstraints constraints) {
           double avalibaleWidth = constraints.maxWidth;
 
           return Scaffold(

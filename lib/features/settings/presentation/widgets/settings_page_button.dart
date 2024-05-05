@@ -11,10 +11,10 @@ import 'package:go_router/go_router.dart';
 
 class SettingsPageButton extends StatelessWidget {
   const SettingsPageButton({
-    Key? key,
+    super.key,
     required this.setting,
     this.isFsc = false,
-  }) : super(key: key);
+  });
   final SettingModel setting;
   final bool isFsc;
   @override

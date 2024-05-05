@@ -2,9 +2,9 @@ import 'package:fcc_app_front/export.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
   final Widget child;
 
   @override

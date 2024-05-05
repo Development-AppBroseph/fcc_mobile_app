@@ -5,8 +5,8 @@ class FreePaymantCongratulationPage extends StatefulWidget {
 
   const FreePaymantCongratulationPage({
     required this.membership,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<FreePaymantCongratulationPage> createState() =>

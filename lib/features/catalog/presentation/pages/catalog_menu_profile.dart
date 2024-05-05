@@ -3,8 +3,8 @@ import 'package:fcc_app_front/export.dart';
 class CatalogMenuProfile extends StatefulWidget {
   const CatalogMenuProfile({
     required this.type,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final MembershipType type;
 
   @override
@@ -33,7 +33,7 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
           create: (BuildContext context) => CatalogCubit()
             ..getAllCatalogsById((widget.type.index + 1).toString()),
         ),
-        BlocProvider<MembershipCubit>(create: (context) => MembershipCubit())
+        BlocProvider<MembershipCubit>(create: (BuildContext context) => MembershipCubit())
       ],
       child: Builder(
         builder: (BuildContext context) {

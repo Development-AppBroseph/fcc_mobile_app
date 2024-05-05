@@ -6,8 +6,8 @@ class CatalogCart extends StatelessWidget {
   const CatalogCart({
     required this.catalog,
     this.function,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

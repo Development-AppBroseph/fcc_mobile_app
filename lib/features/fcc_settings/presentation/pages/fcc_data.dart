@@ -2,9 +2,9 @@ import 'package:fcc_app_front/export.dart';
 
 class FscDataPage extends StatelessWidget {
   const FscDataPage({
-    Key? key,
+    super.key,
     required this.data,
-  }) : super(key: key);
+  });
   final MapEntry data;
   @override
   Widget build(BuildContext context) {

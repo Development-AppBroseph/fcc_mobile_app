@@ -2,9 +2,9 @@ import 'package:fcc_app_front/export.dart';
 
 class Order extends StatefulWidget {
   const Order({
-    Key? key,
+    super.key,
     this.showBack = false,
-  }) : super(key: key);
+  });
   final bool showBack;
 
   @override
@@ -254,8 +254,8 @@ class _OrderState extends State<Order> {
         return 'Принят';
       case 'READY':
         return 'Собран';
-      case 'DELIVERED':
-        return 'Передан на доставку';
+      case 'DELIVERY':
+        return 'Передан в службу доставки';
       default:
         return 'Статус неизвестен';
     }

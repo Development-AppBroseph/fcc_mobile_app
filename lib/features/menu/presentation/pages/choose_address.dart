@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
@@ -162,7 +161,7 @@ class ChooseAddress extends StatelessWidget {
                                               ),
                                             ],
                                             title: Column(
-                                              children: [
+                                              children: <Widget>[
                                                 Text(
                                                   'Введите номер квартиры',
                                                   style: Theme.of(context)

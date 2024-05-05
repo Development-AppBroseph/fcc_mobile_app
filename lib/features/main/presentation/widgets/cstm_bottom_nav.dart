@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({
-    Key? key,
+    super.key,
     required this.onChanged,
     required this.selectedIndex,
     required this.items,
-  }) : super(key: key);
+  });
 
   final int selectedIndex;
   final List<BottomNavBarItem> items;
@@ -64,7 +64,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   ),
                 ),
               )
-              .toList(),
+              ,
         ],
       ),
     );

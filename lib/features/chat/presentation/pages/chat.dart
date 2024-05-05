@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:ui';
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/chat/data/models/api_message.dart';
 
 import 'package:file_picker/file_picker.dart' as picker;
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -17,7 +15,6 @@ import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatPage extends StatefulWidget {
@@ -196,9 +193,9 @@ class _ChatPageState extends State<ChatPage> {
     if (result != null) {
       Uint8List? bytes = result.files.single.bytes;
       final Uri a = Uri.dataFromBytes(
-        bytes ?? [],
+        bytes ?? <int>[],
         mimeType: lookupMimeType(result.files.single.name,
-                headerBytes: bytes ?? []) ??
+                headerBytes: bytes ?? <int>[]) ??
             '',
       );
 
@@ -251,9 +248,9 @@ class _ChatPageState extends State<ChatPage> {
       Uint8List? bytes = result.files.single.bytes;
       //  final compressedBytes = await comporessImageOrFile(bytes!);
       final Uri a = Uri.dataFromBytes(
-        bytes ?? [],
+        bytes ?? <int>[],
         mimeType: lookupMimeType(result.files.single.name,
-                headerBytes: bytes ?? []) ??
+                headerBytes: bytes ?? <int>[]) ??
             '',
       );
 

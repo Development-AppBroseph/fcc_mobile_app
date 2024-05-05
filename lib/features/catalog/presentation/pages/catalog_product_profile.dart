@@ -43,73 +43,78 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                         right: 30,
                       )
                     : EdgeInsets.only(
+                        bottom: 30 + (availableWidth - 600) / 2,
+                        top: 30 + (availableWidth - 600) / 2,
                         left: 30 + (availableWidth - 600) / 2,
                         right: 30 + (availableWidth - 600) / 2,
                       ),
                 child: CustomScrollView(
                   slivers: <Widget>[
                     SliverToBoxAdapter(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const CustomBackButton(),
-                          sized20,
-                          AutoSizeText(
-                            catalog.name.toUpperCase(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                            maxLines: 1,
-                            minFontSize: 16,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          sized10,
-                          Container(
-                            height: 42,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.grey[100]!.withOpacity(0.7),
-                            ),
-                            alignment: Alignment.centerLeft,
-                            child: TextField(
-                              textAlignVertical: TextAlignVertical.center,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const CustomBackButton(),
+                            sized20,
+                            AutoSizeText(
+                              catalog.name.toUpperCase(),
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodySmall
+                                  .titleLarge
                                   ?.copyWith(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: const EdgeInsets.all(0),
-                                hintText: 'Поиск',
-                                hintStyle: Theme.of(context)
+                              maxLines: 1,
+                              minFontSize: 16,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            sized10,
+                            Container(
+                              height: 42,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey[100]!.withOpacity(0.7),
+                              ),
+                              alignment: Alignment.centerLeft,
+                              child: TextField(
+                                textAlignVertical: TextAlignVertical.center,
+                                style: Theme.of(context)
                                     .textTheme
                                     .bodySmall
                                     ?.copyWith(
                                       fontSize: 11,
                                       fontWeight: FontWeight.w400,
                                     ),
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                prefixIcon: Icon(
-                                  CupertinoIcons.search,
-                                  size: 13,
-                                  color: Theme.of(context).primaryColorDark,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: const EdgeInsets.all(0),
+                                  hintText: 'Поиск',
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                  border: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  prefixIcon: Icon(
+                                    CupertinoIcons.search,
+                                    size: 13,
+                                    color: Theme.of(context).primaryColorDark,
+                                  ),
                                 ),
+                                onChanged: (String value) {
+                                  context.read<SearchCubit>().search(value);
+                                },
                               ),
-                              onChanged: (String value) {
-                                context.read<SearchCubit>().search(value);
-                              },
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     BlocBuilder<SearchCubit, String?>(

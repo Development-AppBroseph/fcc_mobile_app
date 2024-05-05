@@ -322,7 +322,7 @@ class _MenuCardState extends State<MenuCard> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
+      builder: (BuildContext context, AuthState state) {
         return SliverPadding(
           padding: EdgeInsets.symmetric(
             vertical: 20.h,

@@ -1,12 +1,10 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:fcc_app_front/features/chat/data/models/message.dart';
 import 'package:fcc_app_front/features/chat/data/models/message_body_model.dart';
 import 'package:fcc_app_front/features/chat/data/repositories/chat_repo.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:hive/hive.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class ChatRepositoryImpl implements ChatRepository {
   final WebSocketChannel _channel;

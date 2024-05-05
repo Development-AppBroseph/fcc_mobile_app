@@ -4,10 +4,10 @@ class CustomSeperator extends StatelessWidget {
   final double height;
   final Color color;
   const CustomSeperator({
-    Key? key,
+    super.key,
     this.height = 1,
     this.color = Colors.black,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

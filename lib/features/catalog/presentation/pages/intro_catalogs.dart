@@ -2,8 +2,8 @@ import 'package:fcc_app_front/export.dart';
 
 class IntroCatalogPage extends StatelessWidget {
   const IntroCatalogPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

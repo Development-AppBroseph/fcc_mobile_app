@@ -5,9 +5,9 @@ import 'package:fcc_app_front/export.dart';
 class CstmBtmSheet extends StatefulWidget {
   const CstmBtmSheet({
     required this.phone,
-    Key? key,
+    super.key,
     required this.isRegistration,
-  }) : super(key: key);
+  });
   final String phone;
   final bool isRegistration;
   @override
@@ -134,8 +134,8 @@ class _CstmBtmSheetState extends State<CstmBtmSheet> {
                           pinAnimationType: PinAnimationType.slide,
                           defaultPinTheme: const PinTheme(
                             margin: EdgeInsets.zero,
-                            width: 40,
-                            height: 40,
+                            width: 50,
+                            height: 50,
                             decoration: BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(

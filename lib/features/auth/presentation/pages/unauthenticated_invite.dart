@@ -5,8 +5,8 @@ import 'package:fcc_app_front/export.dart';
 
 class UnauthenticatedInvitePage extends StatefulWidget {
   const UnauthenticatedInvitePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<UnauthenticatedInvitePage> createState() =>
@@ -43,7 +43,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
       log('getInitialAppLink error');
     }
 
-    _appLinks.uriLinkStream.listen((uri) {
+    _appLinks.uriLinkStream.listen((Uri uri) {
       // Handle further events here
     });
   }

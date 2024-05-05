@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/auth/data/models/fcm_token.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRepo {

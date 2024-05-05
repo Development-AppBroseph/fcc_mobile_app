@@ -29,6 +29,7 @@ export 'package:fcc_app_front/features/catalog/presentation/pages/catalog_produc
 export 'package:fcc_app_front/features/catalog/presentation/pages/intro_catalogs.dart';
 export 'package:fcc_app_front/features/catalog/presentation/pages/terms_of_use_page.dart';
 export 'package:fcc_app_front/features/chat/data/models/message.dart';
+export 'package:fcc_app_front/features/chat/data/models/message_body_model.dart';
 export 'package:fcc_app_front/features/chat/data/repositories/chat_repo.dart';
 export 'package:fcc_app_front/features/chat/data/utils/check_first_message.dart';
 export 'package:fcc_app_front/features/chat/data/utils/date_string.dart';
@@ -158,4 +159,3 @@ export 'package:share_extend/share_extend.dart';
 export 'package:top_snackbar_flutter/custom_snack_bar.dart';
 export 'package:top_snackbar_flutter/top_snack_bar.dart';
 export 'package:url_launcher/url_launcher.dart';
-export 'package:fcc_app_front/features/chat/data/models/message_body_model.dart';

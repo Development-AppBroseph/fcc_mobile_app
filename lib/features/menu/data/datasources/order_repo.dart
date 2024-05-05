@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/menu/data/models/address.dart';

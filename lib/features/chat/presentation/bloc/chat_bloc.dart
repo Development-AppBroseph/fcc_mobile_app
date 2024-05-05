@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/chat/data/repositories/chat_repo_impl.dart';
-import 'package:flutter_chat_types/src/message.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';

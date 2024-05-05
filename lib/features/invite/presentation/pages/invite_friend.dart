@@ -46,24 +46,14 @@ class _InviteFrPageState extends State<InviteFrPage> {
                                     const CustomBackButton(),
                                   Center(
                                     child: Text(
-                                      'Пригласить друга',
+                                      'Приглашайте друзей в Федеральный Клуб',
+                                      textAlign: TextAlign.center,
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleMedium
                                           ?.copyWith(
                                             fontSize: 23,
                                           ),
-                                    ),
-                                  ),
-                                  sized20,
-                                  Center(
-                                    child: Text(
-                                      'Приглашайте друзей в Федеральный Клуб',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium
-                                          ?.copyWith(fontSize: 23),
-                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                   sized40,
@@ -432,8 +422,8 @@ class StoreButtons extends StatelessWidget {
   const StoreButtons({
     required this.title,
     required this.icon,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

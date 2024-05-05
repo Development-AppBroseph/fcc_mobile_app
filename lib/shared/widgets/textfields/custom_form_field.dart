@@ -12,8 +12,8 @@ class CustomFormField extends StatefulWidget {
     this.textInputFormatter,
     this.validator,
     this.initialValue,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final TextEditingController? controller;
   final TextInputAction? textInputAction;
   final String? hintText;

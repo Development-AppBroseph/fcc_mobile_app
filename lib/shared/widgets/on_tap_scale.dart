@@ -12,8 +12,8 @@ class OnTapScaleAndFade extends StatefulWidget {
     required this.onTap,
     this.lowerBound = 0.85,
     this.behavior,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<OnTapScaleAndFade> createState() => _OnTapScaleAndFadeState();

@@ -7,8 +7,8 @@ class PaymentCongratulationPage extends StatefulWidget {
   const PaymentCongratulationPage({
     required this.membership,
     required this.goMenu,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<PaymentCongratulationPage> createState() =>
@@ -36,17 +36,16 @@ class _PaymentCongratulationPageState extends State<PaymentCongratulationPage> {
   }
 
   void goToMenu() {
-    Future.delayed(Duration(seconds: 3), () {
-      final String membershipName = membershipNames[MembershipType.values
-                      .firstWhereOrNull((MembershipType element) {
+    Future.delayed(const Duration(seconds: 3), () {
+      membershipNames[
+              MembershipType.values.firstWhereOrNull((MembershipType element) {
                     return element.name == widget.membership;
                   }) ??
                   MembershipType.standard]
-              ?.toUpperCase() ??
-          'Стандарт';
+          ?.toUpperCase();
 
       context.go(
-        Routes.profile,
+        Routes.menu,
       );
     });
   }

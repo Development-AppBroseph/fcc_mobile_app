@@ -23,7 +23,7 @@ class OrderDetails extends StatelessWidget {
                     left: 30 + (boxWidth - 600) / 2,
                     right: 30 + (boxWidth - 600) / 2,
                   ),
-            child: ListView(children: [
+            child: ListView(children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -275,10 +275,8 @@ class OrderDetails extends StatelessWidget {
     switch (orderStatus) {
       case 'WAITING':
         return 'Ожидает отправки';
-
       case 'PROCESS':
         return 'В пути';
-
       case 'SUCCESS':
         return 'Доставлен';
       default:
@@ -293,7 +291,7 @@ class OrderDetails extends StatelessWidget {
       case 'READY':
         return 'Собран';
       case 'DELIVERY':
-        return 'Передан на доставку';
+        return 'Передан в службу доставки';
       default:
         return 'Статус неизвестен';
     }

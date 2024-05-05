@@ -1,7 +1,5 @@
-import 'package:equatable/equatable.dart';
 
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/shared/config/utils/get_token.dart';
 
 class UserModel extends Equatable {
   int? id;

@@ -1,8 +1,5 @@
-import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/catalog/data/models/membership.dart';
-import 'package:fcc_app_front/features/payment/data/repositories/payment_repo.dart';
 
 class ChangePlanPage extends StatefulWidget {
   const ChangePlanPage({super.key});
@@ -371,7 +368,7 @@ class _ChangePlanPageState extends State<ChangePlanPage> {
                                         'phone': phone,
                                         'onComplete': () async {
                                           context.pop();
-                                          Future<Null>.delayed(
+                                          Future<void>.delayed(
                                             Duration.zero,
                                             () {
                                               context

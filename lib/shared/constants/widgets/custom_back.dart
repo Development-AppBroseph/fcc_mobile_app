@@ -6,8 +6,8 @@ class CustomBackButton extends StatelessWidget {
   const CustomBackButton({
     this.path,
     this.pop = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final String? path;
   final bool pop;
 

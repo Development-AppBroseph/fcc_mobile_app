@@ -1,8 +1,8 @@
 import 'dart:developer';
+import 'dart:html' as web;
 
 import 'package:fcc_app_front/export.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'dart:html' as web;
 
 class FirebaseNotificationsRepo {
 // use the returned token to send messages to users from your custom server
