@@ -46,7 +46,7 @@ Future<void> main() async {
     Bloc.observer = AppBlocObserver();
     runApp(
       MultiBlocProvider(
-        providers: <SingleChildWidget>[
+        providers: [
           BlocProvider<BottomNavbarCont>(
             create: (BuildContext context) {
               return BottomNavbarCont();

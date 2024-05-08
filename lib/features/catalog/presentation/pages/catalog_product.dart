@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:auto_animated/auto_animated.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fcc_app_front/features/menu/data/models/product.dart';
@@ -13,8 +12,8 @@ import 'package:fcc_app_front/shared/constants/widgets/sizedbox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc/src/bloc_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nested/nested.dart';
 
 class CatalogProductMenu extends StatefulWidget {
   final String catalogId;
@@ -44,7 +43,7 @@ class _CatalogProductMenuState extends State<CatalogProductMenu> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: <SingleChildWidget>[
+      providers: <BlocProviderSingleChildWidget>[
         BlocProvider(
           create: (BuildContext context) => SearchCubit(),
         ),

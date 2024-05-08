@@ -22,7 +22,7 @@ class _CatalogMenuProfileState extends State<CatalogMenuProfile> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: <SingleChildWidget>[
+      providers: [
         BlocProvider<SearchCubit>(
           create: (BuildContext context) => SearchCubit(),
         ),

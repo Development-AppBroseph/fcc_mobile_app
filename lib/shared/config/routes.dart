@@ -4,7 +4,6 @@ import 'package:fcc_app_front/features/auth/presentation/pages/server_state.dart
 import 'package:fcc_app_front/features/catalog/presentation/widget/catalog_product_details.dart';
 import 'package:fcc_app_front/features/menu/presentation/pages/choose_address.dart';
 import 'package:fcc_app_front/features/settings/presentation/pages/free_paymant_congratulation_page.dart';
-import 'package:flutter_bloc/src/bloc_provider.dart';
 
 class Routes {
   static String menu = '/';
@@ -453,7 +452,7 @@ final GoRouter router = GoRouter(
             context: context,
             state: state,
             child: MultiBlocProvider(
-              providers : <BlocProviderSingleChildWidget>[
+              providers : [
                 BlocProvider.value(
                   value: cubits.cubits['productCubit'] as ProductCubit,
                 ),
@@ -694,7 +693,7 @@ final GoRouter router = GoRouter(
           context: context,
           state: state,
           child: MultiBlocProvider(
-            providers: <SingleChildWidget>[
+            providers: [
               BlocProvider.value(
                 value: cubits.cubits['productCubit'] as ProductCubit,
               ),
