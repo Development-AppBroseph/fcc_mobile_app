@@ -100,7 +100,6 @@ export 'package:fcc_app_front/features/settings/presentation/pages/change_plan_p
 export 'package:fcc_app_front/features/settings/presentation/pages/edit_profile.dart';
 export 'package:fcc_app_front/features/settings/presentation/pages/not_signed.dart';
 export 'package:fcc_app_front/features/settings/presentation/pages/offer_page.dart';
-export 'package:fcc_app_front/features/settings/presentation/pages/profile.dart';
 export 'package:fcc_app_front/features/settings/presentation/widgets/settings_page_button.dart';
 export 'package:fcc_app_front/gen/assets.gen.dart';
 export 'package:fcc_app_front/shared/config/base_http_client.dart';

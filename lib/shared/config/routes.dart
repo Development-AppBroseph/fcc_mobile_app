@@ -3,6 +3,7 @@ import 'package:fcc_app_front/features/auth/presentation/pages/agreement.dart';
 import 'package:fcc_app_front/features/auth/presentation/pages/server_state.dart';
 import 'package:fcc_app_front/features/catalog/presentation/widget/catalog_product_details.dart';
 import 'package:fcc_app_front/features/menu/presentation/pages/choose_address.dart';
+import 'package:fcc_app_front/features/settings/presentation/pages/profile.dart';
 
 class Routes {
   static String menu = '/';
