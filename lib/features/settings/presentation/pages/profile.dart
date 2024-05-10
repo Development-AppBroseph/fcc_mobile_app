@@ -53,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             return Column(
                               children: <Widget>[
                                 Text(
-                                  '${state.user.lastName} ${state.user.firstName} ${state.user.middleName}',
+                                  '${state.user.lastName ?? ""} ${state.user.firstName ?? ''} ${state.user.middleName ?? ''}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleMedium
