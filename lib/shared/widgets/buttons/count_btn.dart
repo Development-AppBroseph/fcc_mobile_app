@@ -5,11 +5,11 @@ import 'package:fcc_app_front/export.dart';
 
 class CounterButton extends StatefulWidget {
   CounterButton({
-    Key? key,
+    super.key,
     required this.counter,
     required this.onTap,
     this.margin,
-  }) : super(key: key);
+  });
 
   int counter;
   final EdgeInsets? margin;

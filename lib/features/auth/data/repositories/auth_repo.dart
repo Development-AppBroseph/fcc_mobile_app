@@ -1,52 +1,51 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/features/auth/data/models/fcm_token.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRepo {
-  static Future<FcmToken?> createFcmToken() async {
-    try {
-      final Response? response = await BaseHttpClient.post(
-        'api/v1/notifications/fcm_token/',
-        <String, String>{
-          'token': await FirebaseMessaging.instance.getToken() ?? '',
-        },
-        headers: <String, String>{
-          'Authorization':
-              'Bearer ' + Hive.box(HiveStrings.userBox).get(HiveStrings.token),
-          'Content-type': 'application/json',
-        },
-        haveToken: false,
-      );
-      final FcmToken createdToken =
-          FcmToken.fromJson(jsonDecode(response?.body ?? ''));
-      await Hive.box(HiveStrings.fcmToken).add(createdToken.id);
+  // static Future<FcmToken?> createFcmToken() async {
+  //   try {
+  //     final Response? response = await BaseHttpClient.post(
+  //       'api/v1/notifications/fcm_token/',
+  //       <String, String>{
+  //         //  'token': await FirebaseMessaging.instance.getToken() ?? '',
+  //       },
+  //       headers: <String, String>{
+  //         'Authorization':
+  //             'Bearer ' + Hive.box(HiveStrings.userBox).get(HiveStrings.token),
+  //         'Content-type': 'application/json',
+  //       },
+  //       haveToken: false,
+  //     );
+  //     final FcmToken createdToken =
+  //         FcmToken.fromJson(jsonDecode(response?.body ?? ''));
+  //     await Hive.box(HiveStrings.fcmToken).add(createdToken.id);
 
-      return createdToken;
-    } catch (e) {
-      log('Someting wrong in fcmToken when create: $e');
-    }
-    return null;
-  }
+  //     return createdToken;
+  //   } catch (e) {
+  //     log('Someting wrong in fcmToken when create: $e');
+  //   }
+  //   return null;
+  // }
 
-  static Future<bool> deleteFcmToken(String fcmToken) async {
-    try {
-      final String response = await BaseHttpClient.delete(
-        'api/v1/notifications/fcm_token/$fcmToken/',
-        headers: <String, String>{
-          'Authorization':
-              'Bearer ' + Hive.box(HiveStrings.userBox).get(HiveStrings.token),
-          'Content-type': 'application/json',
-        },
-      );
-      log(response.toString());
-      return true;
-    } catch (e) {
-      log('Someting wrong in fcmToken when delete : $e');
-    }
-    return false;
-  }
+  // static Future<bool> deleteFcmToken(String fcmToken) async {
+  //   try {
+  //     final String response = await BaseHttpClient.delete(
+  //       'api/v1/notifications/fcm_token/$fcmToken/',
+  //       headers: <String, String>{
+  //         'Authorization':
+  //             'Bearer ' + Hive.box(HiveStrings.userBox).get(HiveStrings.token),
+  //         'Content-type': 'application/json',
+  //       },
+  //     );
+  //     log(response.toString());
+  //     return true;
+  //   } catch (e) {
+  //     log('Someting wrong in fcmToken when delete : $e');
+  //   }
+  //   return false;
+  // }
 
   static Future<bool> register(String phoneNumber) async {
     try {
@@ -69,6 +68,7 @@ class AuthRepo {
               )['message'] ??
               '',
         );
+
         return true;
       }
     } catch (e) {
@@ -143,7 +143,8 @@ class AuthRepo {
           response.bodyBytes,
         ),
       );
-      if (response.statusCode == 200) {
+
+      if (response.statusCode == 200 || response.statusCode == 202) {
         return true;
       }
     } catch (e) {
@@ -152,18 +153,15 @@ class AuthRepo {
     return false;
   }
 
-  static Future<bool> archiveAccount() async {
+  static Future<bool> deleteAccount() async {
     try {
-      http.Response response = await BaseHttpClient.getBody(
-          'api/v1/users/auth/archive_account/',
-          headers: BaseHttpClient.getDefaultHeader());
-      log(
-        utf8.decode(
-          response.bodyBytes,
-        ),
-      );
-
-      if (response.statusCode == 200) {
+      final Response response = await http.Client().delete(
+          Uri.parse('https://api.fcc-app.ru/api/v1/users/auth/delete_account/'),
+          headers: <String, String>{
+            'Authorization':
+                'Bearer ${Hive.box(HiveStrings.userBox).get(HiveStrings.token)}',
+          });
+      if (response.statusCode == 204) {
         return true;
       }
     } catch (e) {
@@ -189,7 +187,7 @@ class AuthRepo {
     );
     if (response.statusCode == 403) {
       final Map<String, dynamic> body = Map<String, dynamic>.from(
-        jsonDecode(response.body) as Map<dynamic,dynamic>,
+        jsonDecode(response.body) as Map<dynamic, dynamic>,
       );
       await saveUserInfo(body);
       if (body['status'] == 1) {
@@ -213,7 +211,7 @@ class AuthRepo {
               '',
         );
 
-        createFcmToken();
+        //createFcmToken();
         return RoutesNames.menu;
       } catch (e) {
         log('Someting wrong in login: $e');

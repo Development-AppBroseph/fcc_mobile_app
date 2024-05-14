@@ -2,6 +2,7 @@ import 'package:fcc_app_front/export.dart';
 
 class CustomFormField extends StatefulWidget {
   const CustomFormField({
+    this.isFromPlacingOrder,
     this.controller,
     this.onEditingComplete,
     this.textInputAction,
@@ -11,12 +12,12 @@ class CustomFormField extends StatefulWidget {
     this.textInputFormatter,
     this.validator,
     this.initialValue,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final TextEditingController? controller;
   final TextInputAction? textInputAction;
   final String? hintText;
-
+  final bool? isFromPlacingOrder;
   final TextInputType? textInputType;
   final List<TextInputFormatter>? textInputFormatter;
   final String? Function(String? value)? validator;
@@ -51,6 +52,8 @@ class _CustomFormFieldState extends State<CustomFormField> {
         ),
       ),
       child: TextFormField(
+        textAlignVertical:
+            widget.isFromPlacingOrder != null ? TextAlignVertical.center : null,
         initialValue: widget.initialValue,
         onEditingComplete: widget.onEditingComplete,
         readOnly: widget.readOnly ?? false,
@@ -63,7 +66,9 @@ class _CustomFormFieldState extends State<CustomFormField> {
         controller: widget.controller,
         decoration: InputDecoration(
           isDense: true,
-          contentPadding: EdgeInsets.zero,
+          contentPadding: widget.isFromPlacingOrder != null
+              ? EdgeInsets.only(top: 10.h)
+              : null,
           hintText: widget.hintText,
           hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontSize: 12,

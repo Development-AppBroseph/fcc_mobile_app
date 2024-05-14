@@ -1,11 +1,8 @@
 import 'dart:developer';
-
 import 'package:auto_animated/auto_animated.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:fcc_app_front/features/menu/data/models/catalog.dart';
 import 'package:fcc_app_front/features/menu/data/models/product.dart';
 import 'package:fcc_app_front/features/menu/data/utils/search_product.dart';
-import 'package:fcc_app_front/features/menu/presentation/cubit/catalog_cubit.dart';
 import 'package:fcc_app_front/features/menu/presentation/cubit/product_cubit.dart';
 import 'package:fcc_app_front/features/menu/presentation/cubit/search.dart';
 import 'package:fcc_app_front/features/menu/presentation/cubit/selected_products_cubit.dart';
@@ -22,8 +19,8 @@ class CatalogProductMenu extends StatefulWidget {
   final String catalogId;
   const CatalogProductMenu({
     required this.catalogId,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<CatalogProductMenu> createState() => _CatalogProductMenuState();
@@ -135,11 +132,11 @@ class _CatalogProductMenuState extends State<CatalogProductMenu> {
                       builder: (BuildContext context, String? query) {
                         return BlocBuilder<ProductCubit, ProductState>(
                           builder: (BuildContext context, ProductState state) {
-                            final List<ProductModel> products = searchProduct(
+                            final List<Product> products = searchProduct(
                               query,
                               state.products
                                   .where(
-                                    (ProductModel element) =>
+                                    (Product element) =>
                                         element.catalog.toString() ==
                                         widget.catalogId,
                                   )

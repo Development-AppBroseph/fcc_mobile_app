@@ -2,9 +2,9 @@ import 'package:fcc_app_front/export.dart';
 
 class FscSettingsPageButton extends StatelessWidget {
   const FscSettingsPageButton({
-    Key? key,
+    super.key,
     required this.setting,
-  }) : super(key: key);
+  });
   final FscSettingModel setting;
   @override
   Widget build(BuildContext context) {

@@ -5,8 +5,8 @@ class CatalogMenu extends StatefulWidget {
 
   const CatalogMenu({
     required this.type,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<CatalogMenu> createState() => _CatalogMenuState();
@@ -36,15 +36,22 @@ class _CatalogMenuState extends State<CatalogMenu> {
         BlocProvider(create: (BuildContext context) => ProductCubit()),
         BlocProvider(create: (BuildContext context) => CatalogCubit()),
       ],
-      child: Builder(builder: (BuildContext context) {
+      child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+        final double boxWidth = constraints.maxWidth;
+
         return Scaffold(
           body: SafeArea(
             child: Padding(
-              padding: EdgeInsets.only(
-                left: 30.w,
-                right: 30.w,
-                top: 20.h,
-              ),
+              padding: boxWidth < 600
+                  ? const EdgeInsets.only(
+                      left: 30,
+                      right: 30,
+                    )
+                  : EdgeInsets.only(
+                      left: 30 + (boxWidth - 600) / 2,
+                      right: 30 + (boxWidth - 600) / 2,
+                    ),
               child: CustomScrollView(
                 slivers: <Widget>[
                   SliverToBoxAdapter(

@@ -12,8 +12,8 @@ class OrderCubit extends Cubit<OrderState> {
     );
   }
 
-  Future<ProductModel?> getProductbyId({required String productUuid}) async {
-    final ProductModel? product = await OrderRepository.getProductbyId(
+  Future<Product?> getProductbyId({required String productUuid}) async {
+    final Product? product = await OrderRepository.getProductbyId(
       productUuid: productUuid,
     );
     return product;
@@ -25,7 +25,7 @@ class OrderCubit extends Cubit<OrderState> {
     ];
     final OrderModel? order = await OrderRepo.updateOrderAddress(
       address,
-      super.state.orders.last.id ?? 0,
+      super.state.orders.last.id,
     );
     if (order != null) {
       orders.removeLast();

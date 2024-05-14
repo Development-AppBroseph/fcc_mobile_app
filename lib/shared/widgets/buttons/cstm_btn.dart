@@ -39,8 +39,8 @@ class CstmBtn extends StatefulWidget {
     this.margin,
     required this.onTap,
     this.gradient,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   // Добавлено: параметр для градиента
   final Gradient? gradient;

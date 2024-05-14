@@ -29,6 +29,7 @@ export 'package:fcc_app_front/features/catalog/presentation/pages/catalog_produc
 export 'package:fcc_app_front/features/catalog/presentation/pages/intro_catalogs.dart';
 export 'package:fcc_app_front/features/catalog/presentation/pages/terms_of_use_page.dart';
 export 'package:fcc_app_front/features/chat/data/models/message.dart';
+export 'package:fcc_app_front/features/chat/data/models/message_body_model.dart';
 export 'package:fcc_app_front/features/chat/data/repositories/chat_repo.dart';
 export 'package:fcc_app_front/features/chat/data/utils/check_first_message.dart';
 export 'package:fcc_app_front/features/chat/data/utils/date_string.dart';
@@ -100,6 +101,7 @@ export 'package:fcc_app_front/features/settings/presentation/pages/change_plan_p
 export 'package:fcc_app_front/features/settings/presentation/pages/edit_profile.dart';
 export 'package:fcc_app_front/features/settings/presentation/pages/not_signed.dart';
 export 'package:fcc_app_front/features/settings/presentation/pages/offer_page.dart';
+export 'package:fcc_app_front/features/settings/presentation/pages/profile.dart';
 export 'package:fcc_app_front/features/settings/presentation/widgets/settings_page_button.dart';
 export 'package:fcc_app_front/gen/assets.gen.dart';
 export 'package:fcc_app_front/shared/config/base_http_client.dart';
@@ -126,7 +128,6 @@ export 'package:fcc_app_front/shared/widgets/textfields/cstm_textfield.dart';
 export 'package:fcc_app_front/shared/widgets/textfields/custom_form_field.dart';
 export 'package:fcc_app_front/shared/widgets/textfields/rounded_field.dart';
 export 'package:firebase_core/firebase_core.dart';
-export 'package:firebase_messaging/firebase_messaging.dart';
 export 'package:flutter/cupertino.dart' hide RefreshCallback;
 export 'package:flutter/gestures.dart';
 export 'package:flutter/material.dart';
@@ -158,5 +159,3 @@ export 'package:share_extend/share_extend.dart';
 export 'package:top_snackbar_flutter/custom_snack_bar.dart';
 export 'package:top_snackbar_flutter/top_snack_bar.dart';
 export 'package:url_launcher/url_launcher.dart';
-
-export 'package:fcc_app_front/features/chat/data/models/message_body_model.dart';

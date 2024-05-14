@@ -2,14 +2,15 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
+import 'package:http/http.dart' as http;
 
 class MembershipCubit extends Cubit<List<MembershipModel>> {
   MembershipCubit() : super(<MembershipModel>[]);
   Future<void> load() async {
     try {
-      final Response response = await BaseHttpClient.getBody(
-        'api/v1/users/memberships/',
-      );
+      final Response response = await http.Client().get(Uri.parse(
+        '${baseUrl}api/v1/users/memberships/',
+      ));
       log(response.body.toString());
       List<MembershipModel> membershipList = <MembershipModel>[];
       final List memberships = jsonDecode(response.body) as List;

@@ -1,4 +1,4 @@
-class ProductModel {
+class Product {
   final String id;
   final String name;
   final String description;
@@ -10,22 +10,9 @@ class ProductModel {
   final String country;
   final String strenght;
   final String format;
-  ProductModel({
-    required this.format,
-    required this.strenght,
-    required this.taste,
-    required this.id,
-    required this.country,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.stock,
-    required this.image,
-    required this.catalog,
-  });
 
-  factory ProductModel.fromMap(Map<String, dynamic> map) {
-    return ProductModel(
+  factory Product.fromJson(Map<String, dynamic> map) {
+    return Product(
       format: map['format'] ?? '',
       strenght: map['strength'] ?? '',
       taste: map['tasty'] ?? '',
@@ -42,15 +29,17 @@ class ProductModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['description'] = description;
-    data['price'] = price;
-    data['stock'] = stock;
-    data['image'] = image;
-    data['catalog'] = catalog;
-    return data;
-  }
+  Product({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.stock,
+    required this.image,
+    required this.catalog,
+    required this.taste,
+    required this.country,
+    required this.strenght,
+    required this.format,
+  });
 }

@@ -1,9 +1,8 @@
-import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
 
 class ProductCart extends StatelessWidget {
-  final ProductModel? product;
+  final Product? product;
   final bool isSelected;
   final bool canSelect;
 
@@ -11,8 +10,8 @@ class ProductCart extends StatelessWidget {
     required this.product,
     this.isSelected = false,
     this.canSelect = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +49,11 @@ class ProductCart extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute<dynamic>(
-                  builder: (BuildContext context) =>
-                      ProductDetails(model: product),
-                ));
+                Navigator.of(context).push(MaterialPageRoute<dynamic>(builder: (
+                  BuildContext context,
+                ) {
+                  return ProductDetails(model: product);
+                }));
               },
               child: Row(
                 children: <Widget>[

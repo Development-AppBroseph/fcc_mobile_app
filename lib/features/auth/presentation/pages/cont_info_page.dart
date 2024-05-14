@@ -5,8 +5,8 @@ class ContInfoPage extends StatefulWidget {
 
   const ContInfoPage({
     required this.phone,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   State<ContInfoPage> createState() => _ContInfoPageState();
 }

@@ -29,9 +29,6 @@ class MessageModel {
         type: type ?? this.type,
         message: message ?? this.message,
       );
-
-  @override
-  String toString() => 'MessageModel(type: $type, message: $message)';
 }
 
 class Message {
@@ -95,9 +92,4 @@ class Message {
         createdDate: createdDate ?? this.createdDate,
         updatedDate: updatedDate ?? this.updatedDate,
       );
-
-  @override
-  String toString() {
-    return 'Message(id: $id, message: $message, file: $file, clientSend: $clientSend, type: $type, createdDate: $createdDate, updatedDate: $updatedDate)';
-  }
 }

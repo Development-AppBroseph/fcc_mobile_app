@@ -2,9 +2,9 @@ import 'package:fcc_app_front/export.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
   final Widget child;
 
   @override
@@ -27,7 +27,7 @@ class MainPage extends StatelessWidget {
           create: (BuildContext context) => OrderCubit()..load(),
         ),
         BlocProvider(
-          create: (BuildContext context) => DiscountCubit()..load(),
+          create: (BuildContext context) => InvitationCubit()..load(),
         ),
       ],
       child: Builder(builder: (BuildContext context) {
@@ -57,11 +57,6 @@ class _MainScaffoldState extends State<MainScaffold> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (Duration timeStamp) async {
-        await FirebaseMessaging.instance.getInitialMessage();
-      },
-    );
 
     // final IOWebSocketChannel channel = IOWebSocketChannel.connect(
     //   Uri.parse(socketUrl),

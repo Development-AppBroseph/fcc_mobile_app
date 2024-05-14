@@ -6,6 +6,7 @@ import 'package:fcc_app_front/features/auth/data/models/fcm_token.dart';
 import 'package:fcc_app_front/features/auth/presentation/bloc/bloc/server_bloc.dart';
 import 'package:fcc_app_front/features/menu/presentation/bloc/order_bloc.dart';
 import 'package:fcc_app_front/shared/config/base/observer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {

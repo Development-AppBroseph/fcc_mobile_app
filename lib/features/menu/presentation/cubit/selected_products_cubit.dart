@@ -9,12 +9,13 @@ class SelectedProductsCubit extends Cubit<SelectedProductsState> {
       : super(
           const SelectedProductsState(),
         );
-  addProduct(ProductModel? product) {
+  addProduct(Product? product) {
     if (product == null) {
       emit(
         const SelectedProductsState(),
       );
-    } else if (super.state.product != null && super.state.product!.id == product.id) {
+    } else if (super.state.product != null &&
+        super.state.product!.id == product.id) {
       emit(
         const SelectedProductsState(),
       );

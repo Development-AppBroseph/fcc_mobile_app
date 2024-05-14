@@ -6,8 +6,8 @@ class CatalogCart extends StatelessWidget {
   const CatalogCart({
     required this.catalog,
     this.function,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,57 +42,20 @@ class CatalogCart extends StatelessWidget {
                   child: SizedBox(
                     height: 90,
                     child: catalog.image != null
-                        ? CachedNetworkImage(
-                            imageUrl: catalog.image!,
-                            imageBuilder: (
-                              BuildContext context,
-                              ImageProvider<Object> imageProvider,
-                            ) {
-                              return AspectRatio(
-                                aspectRatio: 1,
-                                child: Container(
-                                  height: double.infinity,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                        ? ClipRect(
+                            child: Container(
+                              height: 90,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30.r),
                                 ),
-                              );
-                            },
-                            placeholder: (BuildContext context, String url) {
-                              return AspectRatio(
-                                aspectRatio: 1,
-                                child: Container(
-                                  height: double.infinity,
-                                  decoration: const BoxDecoration(
-                                    color: primaryColorLight,
-                                  ),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.smoking_rooms,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            errorWidget: (BuildContext context, String url, Object error) {
-                              return AspectRatio(
-                                aspectRatio: 1,
-                                child: Container(
-                                  height: double.infinity,
-                                  decoration: const BoxDecoration(
-                                    color: primaryColorLight,
-                                  ),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.smoking_rooms,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                              ),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: catalog.image!,
+                              ),
+                            ),
                           )
                         : AspectRatio(
                             aspectRatio: 1,

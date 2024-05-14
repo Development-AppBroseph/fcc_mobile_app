@@ -1,9 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:fcc_app_front/shared/constants/colors/color.dart';
+import 'package:fcc_app_front/shared/widgets/on_tap_scale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../../shared/constants/colors/color.dart';
-import '../../../../shared/widgets/on_tap_scale.dart';
 
 class OfferCart extends StatefulWidget {
   const OfferCart({
@@ -56,7 +55,7 @@ class _OfferCartState extends State<OfferCart> {
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          boxShadow: [
+          boxShadow: <BoxShadow>[
             BoxShadow(
               color: Theme.of(context).hintColor.withOpacity(0.05),
               blurRadius: 46,
@@ -69,7 +68,7 @@ class _OfferCartState extends State<OfferCart> {
           borderRadius: widget.borderRadius,
         ),
         child: Row(
-          children: [
+          children: <Widget>[
             AspectRatio(
               aspectRatio: 1,
               child: Container(
@@ -80,7 +79,7 @@ class _OfferCartState extends State<OfferCart> {
                 ),
                 alignment: Alignment.center,
                 child: SvgPicture.asset(
-                  "assets/offer.svg",
+                  'assets/offer.svg',
                   height: 50,
                 ),
               ),
@@ -92,7 +91,7 @@ class _OfferCartState extends State<OfferCart> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Text(
                     widget.title,
                     style: widget.titleStyle ??
@@ -101,7 +100,7 @@ class _OfferCartState extends State<OfferCart> {
                             ),
                   ),
                   AutoSizeText(
-                    "Ваш процент скидки",
+                    'Ваш процент скидки',
                     maxLines: 1,
                     style: widget.descriptionStyle ??
                         Theme.of(context)

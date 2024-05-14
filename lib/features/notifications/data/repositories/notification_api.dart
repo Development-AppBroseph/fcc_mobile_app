@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:fcc_app_front/export.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationApi {
@@ -35,7 +36,7 @@ class NotificationApi {
 
   static Future<void> init() async {
     AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings(Assets.fsc.path);
 
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(

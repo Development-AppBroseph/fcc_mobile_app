@@ -3,14 +3,14 @@ import 'package:fcc_app_front/features/auth/presentation/pages/agreement.dart';
 import 'package:fcc_app_front/features/auth/presentation/pages/server_state.dart';
 import 'package:fcc_app_front/features/catalog/presentation/widget/catalog_product_details.dart';
 import 'package:fcc_app_front/features/menu/presentation/pages/choose_address.dart';
-import 'package:fcc_app_front/features/settings/presentation/pages/profile.dart';
+import 'package:fcc_app_front/features/settings/presentation/pages/free_paymant_congratulation_page.dart';
 
 class Routes {
   static String menu = '/';
   static String agreement = '/agreement';
   static String serverState = '/serverState';
   static String productMenu = 'productMenu/:id';
-
+  static String freePaymentCongatulation = '/freePaymentCongatulation';
   static String selectedProduct = '/selectedProduct';
   static String placeOrder = 'placeOrder';
   static String chooseAddress = 'chooseAddress';
@@ -59,6 +59,7 @@ class Routes {
 }
 
 class RoutesNames {
+  static String freePaymentCongatulation = 'freePaymentCongatulation';
   static String agreement = 'agreement';
   static String serverState = 'serverState';
   static String menu = 'menu';
@@ -114,8 +115,6 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>();
 
 final GoRouter router = GoRouter(
-  debugLogDiagnostics: true,
-  routerNeglect: true,
   initialLocation: Routes.agreement,
   errorBuilder: (BuildContext context, GoRouterState state) {
     return ErrorScreen(
@@ -194,13 +193,7 @@ final GoRouter router = GoRouter(
               name: RoutesNames.addPerson,
               pageBuilder: (BuildContext context, GoRouterState state) {
                 return buildPageWithDefaultTransition<void>(
-                  context: context,
-                  state: state,
-                  child: BlocProvider.value(
-                    value: state.extra as DiscountCubit,
-                    child: const OfferPage(),
-                  ),
-                );
+                    context: context, state: state, child: const OfferPage());
               },
             ),
             GoRoute(
@@ -324,7 +317,7 @@ final GoRouter router = GoRouter(
                       context: context,
                       state: state,
                       child: CatalogProductDetails(
-                        model: state.extra as ProductModel?,
+                        model: state.extra as Product,
                       ),
                     );
                   },
@@ -378,7 +371,7 @@ final GoRouter router = GoRouter(
                       context: context,
                       state: state,
                       child: PlacingOrderPage(
-                        product: state.extra as ProductModel?,
+                        product: state.extra as Product?,
                       ),
                     );
                   },
@@ -390,7 +383,7 @@ final GoRouter router = GoRouter(
                         return buildPageWithDefaultTransition<void>(
                           context: context,
                           state: state,
-                          child: const ChooseAddress(),
+                          child: ChooseAddress(),
                         );
                       },
                     ),
@@ -459,7 +452,7 @@ final GoRouter router = GoRouter(
             context: context,
             state: state,
             child: MultiBlocProvider(
-              providers: <SingleChildWidget>[
+              providers : <SingleChildWidget>[
                 BlocProvider.value(
                   value: cubits.cubits['productCubit'] as ProductCubit,
                 ),
@@ -633,7 +626,7 @@ final GoRouter router = GoRouter(
             context: context,
             state: state,
             child: ProductDetails(
-              model: state.extra as ProductModel?,
+              model: state.extra as Product?,
             ));
       },
     ),
@@ -680,22 +673,12 @@ final GoRouter router = GoRouter(
       name: RoutesNames.catalogProductProfile,
       parentNavigatorKey: _rootNavigatorKey,
       pageBuilder: (BuildContext context, GoRouterState state) {
-        final MultipleCubits cubits = state.extra as MultipleCubits;
+        // final MultipleCubits cubits = state.extra as MultipleCubits;
         return buildPageWithDefaultTransition<void>(
           context: context,
           state: state,
-          child: MultiBlocProvider(
-            providers: <SingleChildWidget>[
-              BlocProvider.value(
-                value: cubits.cubits['productCubit'] as ProductCubit,
-              ),
-              BlocProvider.value(
-                value: cubits.cubits['catalogCubit'] as CatalogCubit,
-              ),
-            ],
-            child: CatalogProductProfileMenu(
-              catalogId: state.pathParameters['id'] as String,
-            ),
+          child: CatalogProductProfileMenu(
+            catalogId: state.pathParameters['id'] as String,
           ),
         );
       },
@@ -721,6 +704,22 @@ final GoRouter router = GoRouter(
             child: CatalogProductMenu(
               catalogId: state.pathParameters['id'] as String,
             ),
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: Routes.freePaymentCongatulation,
+      name: RoutesNames.freePaymentCongatulation,
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (BuildContext context, GoRouterState state) {
+        final Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+        final String membership = data['membership'] as String;
+        return buildPageWithDefaultTransition<void>(
+          context: context,
+          state: state,
+          child: FreePaymantCongratulationPage(
+            membership: membership,
           ),
         );
       },

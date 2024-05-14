@@ -1,17 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:ui';
-import 'dart:ui' as ui show Image;
 import 'package:fcc_app_front/export.dart';
 import 'package:fcc_app_front/features/chat/data/models/api_message.dart';
-import 'package:fcc_app_front/features/chat/data/models/message_body_model.dart'
-    as m;
 import 'package:file_picker/file_picker.dart' as picker;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';

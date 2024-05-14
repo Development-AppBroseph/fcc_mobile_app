@@ -2,11 +2,11 @@ import 'package:fcc_app_front/export.dart';
 
 class SelectedProductPage extends StatelessWidget {
   const SelectedProductPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
-    final ProductModel? product =
+    final Product? product =
         context.read<SelectedProductsCubit>().state.product;
     if (product == null) return Container();
     return Scaffold(

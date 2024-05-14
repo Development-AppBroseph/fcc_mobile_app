@@ -1,4 +1,3 @@
-import 'package:fcc_app_front/features/chat/data/models/message.dart';
 
 // bool checkFirstMessage(MessageModel message, MessageModel? messageBefore) {
 //   if (messageBefore == null) return true;

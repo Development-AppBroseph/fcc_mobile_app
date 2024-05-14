@@ -7,66 +7,74 @@ class AppSettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 25.h,
-            horizontal: 35.w,
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double boxWidth = constraints.maxWidth;
+
+        return Scaffold(
+          body: SafeArea(
+            child: Padding(
+              padding: boxWidth < 600
+                  ? const EdgeInsets.only(
+                      left: 30,
+                      right: 30,
+                    )
+                  : EdgeInsets.only(
+                      left: 30 + (boxWidth - 600) / 2,
+                      right: 30 + (boxWidth - 600) / 2,
+                    ),
+              child: Column(
+                children: <Widget>[
+                  const CustomBackButton(),
+                  sized20,
+                  Text(
+                    'Настройки',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  sized20,
+                  FillBtn(
+                    text: 'Посмотреть свои данные',
+                    onTap: () {
+                      context.goNamed(
+                        RoutesNames.editProfile,
+                      );
+                    },
+                    iconPath: 'assets/edit.svg',
+                  ),
+                  sized20,
+                  FillBtn(
+                    text: 'Выйти',
+                    onTap: () async {
+                      //   final fcmToken = Hive.box(HiveStrings.fcmToken).values.last;
+                      // await context
+                      //     .read<AuthCubit>()
+                      //     .deleteFcmToken(fcmToken.toString());
+                      context.read<AuthCubit>().logOut();
+                      context.go(Routes.agreement);
+                      // if (context.read<SelectedMembershipCubit>().state ==
+                      //     null) {
+                      //   context.read<SelectedMembershipCubit>().change(
+                      //         MembershipType.standard,
+                      //       );
+                      // }
+                    },
+                    iconPath: 'assets/logout.svg',
+                  ),
+                  sized20,
+                  FillBtn(
+                    text: 'Удалить учетную запись',
+                    textColor: Colors.red,
+                    onTap: () {
+                      showConfirmDeleteDialog(context);
+                    },
+                    iconPath: 'assets/delete.svg',
+                  ),
+                ],
+              ),
+            ),
           ),
-          child: Column(
-            children: <Widget>[
-              const CustomBackButton(),
-              sized20,
-              Text(
-                'Настройки',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              sized20,
-              FillBtn(
-                text: 'Посмотреть свои данные',
-                onTap: () {
-                  context.goNamed(
-                    RoutesNames.editProfile,
-                  );
-                },
-                iconPath: 'assets/edit.svg',
-              ),
-              sized20,
-              FillBtn(
-                text: 'Выйти',
-                onTap: () async {
-                  final fcmToken = Hive.box(HiveStrings.fcmToken).values.last;
-                  await context
-                      .read<AuthCubit>()
-                      .deleteFcmToken(fcmToken.toString());
-                  context.read<AuthCubit>().logOut();
-                  if (context.read<SelectedMembershipCubit>().state == null) {
-                    context.read<SelectedMembershipCubit>().change(
-                          MembershipType.standard,
-                        );
-                  }
-                  if (context.mounted) {
-                    context.go(
-                      Routes.login,
-                    );
-                  }
-                },
-                iconPath: 'assets/logout.svg',
-              ),
-              sized20,
-              FillBtn(
-                text: 'Удалить учетную запись',
-                textColor: Colors.red,
-                onTap: () {
-                  showConfirmDeleteDialog(context);
-                },
-                iconPath: 'assets/delete.svg',
-              ),
-            ],
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -9,7 +9,7 @@ class OrderRepo {
     required String name,
     required String phone,
     required String email,
-    required ProductModel product,
+    required Product product,
   }) async {
     try {
       final Response response = await BaseHttpClient.postBody(
@@ -43,7 +43,7 @@ class OrderRepo {
       Hive.box(HiveStrings.userBox).put(HiveStrings.address, address);
       if (response.statusCode < 300) {
         return (
-          OrderModel.fromMap(jsonDecode(utf8.decode(response.bodyBytes))),
+          OrderModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))),
           null
         );
       } else if (jsonDecode(
@@ -74,7 +74,7 @@ class OrderRepo {
           try {
             if (order['client'] == getClientId()) {
               orders.add(
-                OrderModel.fromMap(
+                OrderModel.fromJson(
                   order,
                 ),
               );
@@ -105,7 +105,7 @@ class OrderRepo {
       );
 
       if (response != null) {
-        return OrderModel.fromMap(
+        return OrderModel.fromJson(
           jsonDecode(response),
         );
       }

@@ -1,14 +1,14 @@
-import 'package:equatable/equatable.dart';
 
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/shared/config/utils/get_token.dart';
 
 class UserModel extends Equatable {
   int? id;
+  int? userDiscount;
   String? phoneNumber;
   String? firstName;
   String? lastName;
   String? middleName;
+  String? email;
   bool? isActive;
   bool? isPhoneVerified;
   String? passportVerificationStatus;
@@ -25,7 +25,9 @@ class UserModel extends Equatable {
       this.firstName,
       this.lastName,
       this.middleName,
+      this.userDiscount,
       this.isActive,
+      this.email,
       this.isPhoneVerified,
       this.passportVerificationStatus,
       this.isIdentityVerified,
@@ -41,6 +43,8 @@ class UserModel extends Equatable {
     );
     phoneNumber = json['phone_number'];
     firstName = json['first_name'];
+    email = json['email'];
+    userDiscount = json['discount_percent'];
     lastName = json['last_name'];
     middleName = json['middle_name'];
     isActive = json['is_active'];
@@ -59,8 +63,10 @@ class UserModel extends Equatable {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['email'] = email;
     data['phone_number'] = phoneNumber;
     data['first_name'] = firstName;
+    data['discount_percent'] = userDiscount;
     data['last_name'] = lastName;
     data['middle_name'] = middleName;
     data['is_active'] = isActive;

@@ -6,7 +6,7 @@ import 'package:fcc_app_front/features/menu/data/repositories/product_repo.dart'
 part 'product_state.dart';
 
 class ProductCubit extends Cubit<ProductState> {
-  ProductCubit() : super(const ProductState(<ProductModel>[]));
+  ProductCubit() : super(const ProductState(<Product>[]));
   load({bool isPublic = false}) async {
     // final List<ProductModel> products = await ProductRepo.getProducts(isPublic: isPublic);
     // emit(
@@ -25,15 +25,15 @@ class ProductCubit extends Cubit<ProductState> {
     // );
   }
 
-  ProductModel getById(String id) {
+  Product getById(String id) {
     return super.state.products.firstWhere(
-          (ProductModel element) => element.id.toString() == id,
+          (Product element) => element.id.toString() == id,
         );
   }
 
   Future<void> getAuthenticatedProductByCatalogId(String catalogId) async {
-    final List<ProductModel> products = await ProductRepo.getProducts(
-      catalodId: catalogId,
+    final List<Product> products = await ProductRepo.getProducts(
+      catalogId: catalogId,
     );
     emit(
       ProductState(

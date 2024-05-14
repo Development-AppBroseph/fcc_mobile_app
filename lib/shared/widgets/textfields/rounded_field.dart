@@ -47,8 +47,8 @@ class RounField extends StatefulWidget {
     this.borderRadius,
     this.color,
     this.iconFunction,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<RounField> createState() => _RounFieldState();

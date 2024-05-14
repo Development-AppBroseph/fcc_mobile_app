@@ -1,13 +1,21 @@
 import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class FirebaseNotificationsRepo {
+// use the returned token to send messages to users from your custom server
+
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   Future<void> initNotifications(Function onBackgroundMessage) async {
     await _firebaseMessaging.requestPermission();
-    log('firebase token:${await _firebaseMessaging.getToken()}');
-    final String? token = await _firebaseMessaging.getToken();
+    final String? token = await _firebaseMessaging.getToken(
+      vapidKey:
+          'BKcykRrAxRkMX5lgT7WusnUc4aOYg4qiqfzJ9knJh_D_AdBUFJxUjNlqUxbChiETHOqlknHVSgbsUhGuzbYagQ4',
+    );
+
+    log('firebase token:$token');
+
     Hive.box(HiveStrings.isFcmSent).put(HiveStrings.isFcmSent, token);
 
     try {
@@ -15,7 +23,7 @@ class FirebaseNotificationsRepo {
         (RemoteMessage message) async {
           log(message.data.toString());
 
-          NotificationApi.pushNotification(message);
+          onBackgroundMessage();
         },
       );
 
@@ -31,16 +39,17 @@ class FirebaseNotificationsRepo {
       FirebaseMessaging.onMessageOpenedApp.listen(
         (RemoteMessage message) {
           log('Here is from onMessageOpenedApp${message.data}');
-          NotificationApi.pushNotification(message);
+          //  NotificationApi.pushNotification(message);
         },
       );
 
       FirebaseMessaging.onMessage.listen(
         (RemoteMessage message) {
           log('Hefre is onMessage$message');
-          NotificationApi.pushNotification(message);
-
-          onBackgroundMessage();
+          // showNotification(
+          //   message.data['body'],
+          // );
+          NotificationApi.pushNotification(message.data['body']);
         },
       );
     } catch (e) {
@@ -48,3 +57,13 @@ class FirebaseNotificationsRepo {
     }
   }
 }
+
+// Future<void> showNotification(String message) async {
+//   String? permission = web.Notification.permission;
+//   if (permission != 'granted') {
+//     permission = await web.Notification.requestPermission();
+//   }
+//   if (permission == 'granted') {
+//     web.Notification(message);
+//   }
+// }

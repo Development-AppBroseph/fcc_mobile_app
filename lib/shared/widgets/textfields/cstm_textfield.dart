@@ -33,7 +33,7 @@ class CustomField extends StatefulWidget {
   final FocusNode? focusNode;
 
   const CustomField(
-      {Key? key,
+      {super.key,
       this.controller,
       this.prefix,
       this.inputFormatter = const <TextInputFormatter>[],
@@ -63,8 +63,7 @@ class CustomField extends StatefulWidget {
       this.hintAlignment,
       this.focusedBorder,
       this.borderRadius = const BorderRadius.all(Radius.circular(5)),
-      this.suffixIconColor})
-      : super(key: key);
+      this.suffixIconColor});
 
   @override
   State<CustomField> createState() => _CustomFieldState();

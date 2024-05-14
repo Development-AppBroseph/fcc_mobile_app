@@ -2,9 +2,9 @@ import 'package:fcc_app_front/export.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({
-    Key? key,
+    super.key,
     required this.error,
-  }) : super(key: key);
+  });
   final String error;
   @override
   Widget build(BuildContext context) {

@@ -1,13 +1,13 @@
 import 'dart:developer';
 
+import 'package:app_links/app_links.dart';
 import 'package:fcc_app_front/export.dart';
-import 'package:fcc_app_front/shared/config/service/app_links.dart';
-import 'package:uni_links/uni_links.dart';
 
 class UnauthenticatedInvitePage extends StatefulWidget {
   const UnauthenticatedInvitePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
+
   @override
   State<UnauthenticatedInvitePage> createState() =>
       _UnauthenticatedInvitePageState();
@@ -18,22 +18,21 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
   bool isLoading = false;
   String? referaCode;
   String? _inviteCode;
+  late final AppLinks _appLinks = AppLinks();
 
   @override
   void initState() {
     super.initState();
-    initUniLinks();
+    initAppLinks();
   }
 
-  Future<void> initUniLinks() async {
+  Future<void> initAppLinks() async {
     try {
-      final initialLink = await getInitialLink();
-      // Обработайте initialLink, например, извлеките инвайт-код
+      final Uri? initialLink = await _appLinks.getInitialLink();
       if (initialLink != null) {
-        Uri uri = Uri.parse(initialLink);
         setState(() {
-          _inviteCode = uri.toString().split('/').last;
-          log(uri.toString());
+          _inviteCode = initialLink.toString().split('/').last;
+          log(initialLink.toString());
 
           if (_inviteCode != null) {
             controller.text = _inviteCode ?? '';
@@ -41,8 +40,12 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
         });
       }
     } on Exception {
-      log('getInitialLink error');
+      log('getInitialAppLink error');
     }
+
+    _appLinks.uriLinkStream.listen((Uri uri) {
+      // Handle further events here
+    });
   }
 
   @override
@@ -51,18 +54,14 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
       child: Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 40.w,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 40.w),
             child: SingleChildScrollView(
               reverse: true,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  SizedBox(
-                    height: 80.h,
-                  ),
+                  SizedBox(height: 80.h),
                   Text(
                     'Введите свой инвайт код',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -77,12 +76,9 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                         ),
                   ),
                   sized10,
-
                   sized40,
                   Container(
-                    padding: const EdgeInsets.all(
-                      15,
-                    ),
+                    padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(
@@ -187,17 +183,6 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                         : null,
                   ),
                   sized20,
-                  // CstmBtn(
-                  //   onTap: () {
-                  //     context.pushNamed(
-                  //       RoutesNames.forgot,
-                  //     );
-                  //   },
-                  //   height: 30,
-                  //   text: 'Я не помню',
-                  //   color: Colors.transparent,
-                  //   textColor: Theme.of(context).canvasColor,
-                  // ),
                 ],
               ),
             ),

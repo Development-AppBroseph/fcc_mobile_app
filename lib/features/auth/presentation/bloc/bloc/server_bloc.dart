@@ -16,8 +16,8 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     CheckServerEvent event,
     Emitter<ServerState> emit,
   ) async {
-    final String? response =
-        await BaseHttpClient.get('settings/public/status/');
+    final String? response = await BaseHttpClient.get('settings/public/status/',
+    );
 
     if (response!.contains('on')) {
       emit(ServerOnline());

@@ -1,9 +1,9 @@
-import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/catalog/presentation/widget/catalog_product_details.dart';
 
 class CatalogCard extends StatelessWidget {
-  final ProductModel? product;
+  final Product product;
   final bool isSelected;
   final bool canSelect;
 
@@ -11,8 +11,8 @@ class CatalogCard extends StatelessWidget {
     required this.product,
     this.isSelected = false,
     this.canSelect = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,15 +50,18 @@ class CatalogCard extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
-                context.pushNamed(RoutesNames.catalogProductDetails,
-                    extra: product);
+                Navigator.of(context).push(MaterialPageRoute<dynamic>(builder: (
+                  BuildContext context,
+                ) {
+                  return CatalogProductDetails(model: product);
+                }));
               },
               child: Row(
                 children: <Widget>[
                   SizedBox(
                     height: 90,
                     child: CachedNetworkImage(
-                      imageUrl: product?.image ?? '',
+                      imageUrl: product.image ?? '',
                       imageBuilder: (
                         BuildContext context,
                         ImageProvider<Object> imageProvider,
@@ -122,7 +125,7 @@ class CatalogCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Text(
-                          product?.name ?? '',
+                          product.name ?? '',
                           style:
                               Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w400,
@@ -130,7 +133,7 @@ class CatalogCard extends StatelessWidget {
                         ),
                         sized5,
                         Text(
-                          product?.description ?? '',
+                          product.description ?? '',
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
                                     fontWeight: FontWeight.w400,

@@ -30,8 +30,13 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> deleteFcmToken(String fcmToken) async {
-    await AuthRepo.deleteFcmToken(fcmToken);
+  // Future<void> deleteFcmToken(String fcmToken) async {
+  //   await AuthRepo.deleteFcmToken(fcmToken);
+  // }
+
+  Future<UserModel?> getUserSession() async {
+    final UserModel? user = await AuthRepo.getUser();
+    return user;
   }
 
   Future<bool> checkInviteByLink({
@@ -113,17 +118,17 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<bool> archiveAccount() async {
+  Future<bool> deleteAccaunt() async {
     final AuthState currentState = super.state;
     if (currentState is Authenticated) {
-      AuthRepo.archiveAccount();
+      AuthRepo.deleteAccount();
     }
 
     box.clear();
     emit(
       Unauthenticated(),
     );
-    if (await AuthRepo.archiveAccount()) {
+    if (await AuthRepo.deleteAccount()) {
       return true;
     } else {
       return false;
@@ -175,13 +180,17 @@ class AuthCubit extends Cubit<AuthState> {
     return await AuthRepo.incrementInvites(phone, userName);
   }
 
+  //9939009646
   Future<(bool, bool)> createUserSendCode(String phone) async {
+    // if (!await AuthRepo.checkRegistration(phone)) {
+    //   return (await AuthRepo.sendSms(phone), false);
+    // }
+
     if (await AuthRepo.checkRegistration(phone)) {
       return (await AuthRepo.sendSms(phone), false);
-    } else {
-      if (await AuthRepo.register(phone)) {
-        return (true, true);
-      }
+    }
+    if (await AuthRepo.register(phone)) {
+      return (true, true);
     }
     return (false, false);
   }

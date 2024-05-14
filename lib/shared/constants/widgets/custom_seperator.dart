@@ -4,16 +4,16 @@ class CustomSeperator extends StatelessWidget {
   final double height;
   final Color color;
   const CustomSeperator({
-    Key? key,
+    super.key,
     this.height = 1,
     this.color = Colors.black,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final double boxWidth = constraints.constrainWidth();
+        final double boxWidth = constraints.maxWidth;
         const double dashWidth = 2.0;
         final double dashHeight = height;
         final int dashCount = (boxWidth / (2 * dashWidth)).floor();

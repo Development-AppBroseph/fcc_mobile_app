@@ -16,8 +16,8 @@ import 'package:go_router/go_router.dart';
 class CatalogPage extends StatelessWidget {
   const CatalogPage({
     required this.phone,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final String phone;
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,8 @@ class CatalogPage extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         if (context.canPop())
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
                               vertical: 10,
                             ),
                             child: CustomBackButton(),
