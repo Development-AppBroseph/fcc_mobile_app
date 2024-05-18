@@ -34,6 +34,7 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
   String extra(int membership) {
     if (membership == 1) {
       return 'Стандарт';
+
     } else if (membership == 2) {
       return 'Премиум';
     } else if (membership == 3) {

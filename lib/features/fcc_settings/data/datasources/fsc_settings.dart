@@ -12,14 +12,12 @@ final List<FscSettingModel> fscSettingsList = List<FscSettingModel>.generate(
 
 const List<String> fscSettingTitles = <String>[
   'О нас',
-  'Оставить отзыв',
   'Условия использования',
   'Лицензии открытого ПО',
   'Политика конфиденциальности',
 ];
 const List<String> fscSettingIcons = <String>[
   'about_us',
-  'rate',
   'terms_of_use',
   'license_of_open_source_software',
   'privacy_policy',
