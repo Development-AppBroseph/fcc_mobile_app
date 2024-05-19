@@ -1,52 +1,45 @@
-import 'dart:async';
-
 import 'package:fcc_app_front/export.dart';
+import 'package:fcc_app_front/features/payment/service/payment_service.dart';
+import 'package:fcc_app_front/shared/config/routes.dart';
+import 'package:fcc_app_front/shared/widgets/snackbar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:provider/provider.dart';
 
 class WebCheckoutPage extends StatefulWidget {
   const WebCheckoutPage({
-    super.key,
+    Key? key,
     required this.url,
     required this.onComplete,
     required this.phone,
-  });
+  }) : super(key: key);
+
   final String url;
   final Function onComplete;
   final String phone;
+
   @override
   State<WebCheckoutPage> createState() => _WebCheckoutPageState();
 }
 
 class _WebCheckoutPageState extends State<WebCheckoutPage> {
   late InAppWebViewController _webViewController;
-  String? url;
-  late Timer _timer;
+
   @override
   void initState() {
     super.initState();
-    setState(() {
-      url = widget.url;
+    Provider.of<PaymentService>(context, listen: false)
+        .startCheckingPaymentStatus();
+    Provider.of<PaymentService>(context, listen: false)
+        .paymentStatusStream
+        .listen((status) {
+      _handlePaymentStatus(status);
     });
-    _timer = Timer.periodic(const Duration(seconds: 10), (_) {
-      _checkLatestPayment();
-    });
-  }
-
-  String extra(int membership) {
-    if (membership == 1) {
-      return 'Стандарт';
-
-    } else if (membership == 2) {
-      return 'Премиум';
-    } else if (membership == 3) {
-      return 'Элит';
-    } else {
-      return '4';
-    }
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    // Не останавливаем проверку при выходе с экрана, чтобы запросы продолжались
     super.dispose();
   }
 
@@ -55,9 +48,7 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
     return WillPopScope(
       onWillPop: () async {
         context.read<AuthCubit>().init();
-        context.go(
-          Routes.menu,
-        );
+        context.go(Routes.menu);
         return true;
       },
       child: Scaffold(
@@ -68,7 +59,7 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  sized40,
+                  SizedBox(width: 40),
                   const Padding(
                     padding: EdgeInsets.only(left: 20),
                     child: CustomBackButton(),
@@ -79,9 +70,7 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
             Expanded(
               child: InAppWebView(
                 initialUrlRequest: URLRequest(
-                  url: WebUri(
-                    widget.url,
-                  ),
+                  url: WebUri(widget.url),
                 ),
                 onWebViewCreated: (InAppWebViewController controller) {
                   _webViewController = controller;
@@ -98,37 +87,55 @@ class _WebCheckoutPageState extends State<WebCheckoutPage> {
     );
   }
 
-  void _checkLatestPayment() async {
-    final PaymentModel? payment = await PaymentRepo.latestPayment();
+  void _handlePaymentStatus(String status) {
+    if (context.mounted) {
+      if (status == 'success') {
+        Provider.of<PaymentService>(context, listen: false)
+            .stopCheckingPaymentStatus(); // Останавливаем проверку при успешной оплате
+        context.read<AuthCubit>().init();
+        context.go(
+          Routes.paymentCongrats,
+          extra: <String, dynamic>{
+            'membership': extra(1), // replace with actual membership level
+            'goMenu': true,
+          },
+        );
+      } else if (status == 'timeout') {
+        Provider.of<PaymentService>(context, listen: false)
+            .stopCheckingPaymentStatus(); // Останавливаем проверку при тайм-ауте
+        ApplicationSnackBar.showErrorSnackBar(
+          context,
+          'Время вашего платежа истекло. Пожалуйста, обновите страницу и попробуйте еще раз',
+          0.9,
+          const EdgeInsets.symmetric(horizontal: 15),
+          3,
+        );
+        context.go(Routes.menu);
+      } else if (status == 'error') {
+        Provider.of<PaymentService>(context, listen: false)
+            .stopCheckingPaymentStatus(); // Останавливаем проверку при ошибке
+        ApplicationSnackBar.showErrorSnackBar(
+          context,
+          'Платеж не прошел успешно. Пожалуйста, попробуйте еще раз',
+          0.9,
+          const EdgeInsets.symmetric(horizontal: 15),
+          3,
+        );
+        context.go(Routes.menu);
+      }
+    }
+  }
 
-    if (payment?.status == 'success' && context.mounted) {
-      context.read<AuthCubit>().init();
-      context.go(
-        Routes.paymentCongrats,
-        extra: <String, dynamic>{
-          'membership': extra(payment!.membership),
-          'goMenu': true,
-        },
-      );
-      return;
-    } else if (payment?.status == 'timeout' && context.mounted) {
-      ApplicationSnackBar.showErrorSnackBar(
-        context,
-        'Время вашего платежа истекло. Пожалуйста, обновите страницу и попробуйте еще раз',
-        0.9,
-        const EdgeInsets.symmetric(horizontal: 15),
-        3,
-      );
-      context.go(Routes.menu);
-    } else if (payment?.status == 'error' && context.mounted) {
-      ApplicationSnackBar.showErrorSnackBar(
-        context,
-        'Платеж не прошел успешно. Пожалуйста, попробуйте еще раз',
-        0.9,
-        const EdgeInsets.symmetric(horizontal: 15),
-        3,
-      );
-      context.go(Routes.menu);
+  String extra(int membership) {
+    switch (membership) {
+      case 1:
+        return 'Стандарт';
+      case 2:
+        return 'Премиум';
+      case 3:
+        return 'Элит';
+      default:
+        return '4';
     }
   }
 }

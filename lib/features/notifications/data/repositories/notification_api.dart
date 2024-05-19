@@ -36,7 +36,7 @@ class NotificationApi {
 
   static Future<void> init() async {
     AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings(Assets.fsc.path);
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(

@@ -9,10 +9,7 @@ class FirebaseNotificationsRepo {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   Future<void> initNotifications(Function onBackgroundMessage) async {
     await _firebaseMessaging.requestPermission();
-    final String? token = await _firebaseMessaging.getToken(
-      vapidKey:
-          'BKcykRrAxRkMX5lgT7WusnUc4aOYg4qiqfzJ9knJh_D_AdBUFJxUjNlqUxbChiETHOqlknHVSgbsUhGuzbYagQ4',
-    );
+    final String? token = await _firebaseMessaging.getToken();
 
     log('firebase token:$token');
 
@@ -39,7 +36,7 @@ class FirebaseNotificationsRepo {
       FirebaseMessaging.onMessageOpenedApp.listen(
         (RemoteMessage message) {
           log('Here is from onMessageOpenedApp${message.data}');
-          //  NotificationApi.pushNotification(message);
+          NotificationApi.pushNotification(message);
         },
       );
 
