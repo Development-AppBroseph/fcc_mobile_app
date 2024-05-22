@@ -28,7 +28,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
 
   Future<void> initAppLinks() async {
     try {
-      final Uri? initialLink = await _appLinks.getInitialLink();
+      final Uri? initialLink = await _appLinks.getInitialAppLink();
       if (initialLink != null) {
         setState(() {
           _inviteCode = initialLink.toString().split('/').last;

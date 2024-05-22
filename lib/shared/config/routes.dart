@@ -452,7 +452,7 @@ final GoRouter router = GoRouter(
             context: context,
             state: state,
             child: MultiBlocProvider(
-              providers : <SingleChildWidget>[
+              providers: [
                 BlocProvider.value(
                   value: cubits.cubits['productCubit'] as ProductCubit,
                 ),
@@ -693,7 +693,7 @@ final GoRouter router = GoRouter(
           context: context,
           state: state,
           child: MultiBlocProvider(
-            providers: <SingleChildWidget>[
+            providers: [
               BlocProvider.value(
                 value: cubits.cubits['productCubit'] as ProductCubit,
               ),

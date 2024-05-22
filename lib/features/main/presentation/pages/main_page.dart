@@ -10,7 +10,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: <SingleChildWidget>[
+      providers: [
         BlocProvider<BottomNavbarCont>(
           create: (BuildContext context) => BottomNavbarCont()..change(1),
         ),
