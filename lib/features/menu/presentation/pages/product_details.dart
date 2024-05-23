@@ -73,26 +73,31 @@ class ProductDetails extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
+                    if (_shouldDisplayField(model?.name ?? ''))
                     ProductTextDetailsField(
                       title: 'Марка',
                       subtitle: model?.name ?? '',
                     ),
+                    if (_shouldDisplayField(model?.country ?? ''))
                     ProductTextDetailsField(
                       title: 'Страна происхождения',
                       subtitle: model?.country ?? '',
                     ),
                     const ProductTextDetailsField(
-                      title: 'Количество блоков',
+                      title: 'Количество к оформлению',
                       subtitle: '4',
                     ),
+                    if (_shouldDisplayField(model?.strenght ?? ''))
                     ProductTextDetailsField(
                       title: 'Крепость',
                       subtitle: model?.strenght ?? '',
                     ),
+                    if (_shouldDisplayField(model?.taste ?? ''))
                     ProductTextDetailsField(
                       title: 'Вкус',
                       subtitle: model?.taste ?? '',
                     ),
+                    if (_shouldDisplayField(model?.format ?? ''))
                     ProductTextDetailsField(
                       title: 'Формат',
                       subtitle: model?.format ?? '',
@@ -157,5 +162,9 @@ class ProductDetails extends StatelessWidget {
         );
       },
     );
+  }
+
+  bool _shouldDisplayField(String value) {
+    return value != '-';
   }
 }
