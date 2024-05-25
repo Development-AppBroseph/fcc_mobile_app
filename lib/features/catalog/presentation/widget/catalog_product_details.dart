@@ -149,6 +149,6 @@ class CatalogProductDetails extends StatelessWidget {
   }
 
   bool _shouldDisplayField(String value) {
-    return value != '-';
+    return value != '-' && value.isNotEmpty;
   }
 }

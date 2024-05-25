@@ -165,6 +165,6 @@ class ProductDetails extends StatelessWidget {
   }
 
   bool _shouldDisplayField(String value) {
-    return value != '-';
+    return value != '-' && value.isNotEmpty;
   }
 }
