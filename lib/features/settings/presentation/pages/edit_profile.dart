@@ -123,8 +123,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   ?.copyWith(
                                     color: Theme.of(context).primaryColorDark,
                                   ),
-                              controller: middlename,
-                              initialText: user?.middleName ?? '',
+                              controller: lastName,
+                              initialText: user?.lastName ?? '',
                               hintText: 'Введите фамилию',
                               hintStyle: Theme.of(context)
                                   .textTheme
@@ -182,8 +182,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             sized10,
                             RounField(
                               enabled: false,
-                              controller: lastName,
-                              initialText: user?.lastName ?? '',
+                              controller: middlename,
+                              initialText: user?.middleName ?? '',
                               textStyle: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
