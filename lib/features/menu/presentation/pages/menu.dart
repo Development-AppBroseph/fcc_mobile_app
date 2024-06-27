@@ -248,9 +248,7 @@ class _MenuState extends State<Menu> {
                                 );
                                 if (authState is Authenticated) {
                                   if (authState.user.userMembership?.isActive ==
-                                          false ||
-                                      authState.user.membershipLevel ==
-                                          'no membership') {
+                                          false ) {
                                     return SliverToBoxAdapter(
                                       child: SizedBox(
                                         height: 400.h,

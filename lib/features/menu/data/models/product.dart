@@ -10,6 +10,7 @@ class Product {
   final String country;
   final String strenght;
   final String format;
+  final String mark;
 
   factory Product.fromJson(Map<String, dynamic> map) {
     return Product(
@@ -26,6 +27,7 @@ class Product {
       stock: map['stock'] ?? 1,
       image: map['image'] ?? '',
       catalog: map['catalog'] ?? 0,
+      mark: map['mark'] ?? '',
     );
   }
 
@@ -41,5 +43,6 @@ class Product {
     required this.country,
     required this.strenght,
     required this.format,
+    required this.mark,
   });
 }
