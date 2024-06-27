@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:fcc_app_front/export.dart';
@@ -30,40 +31,35 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // Future<void> deleteFcmToken(String fcmToken) async {
-  //   await AuthRepo.deleteFcmToken(fcmToken);
-  // }
-
   Future<UserModel?> getUserSession() async {
     final UserModel? user = await AuthRepo.getUser();
     return user;
   }
 
-  Future<bool> checkInviteByLink({
-    required String username,
-  }) async {
+  Future<String?> checkInviteByLink({required String username}) async {
     try {
       final Response response = await BaseHttpClient.getBody(inviteUrl,
-          queryParameters: <String, String>{
-            'invite': username,
-          });
+          queryParameters: <String, String>{'invite': username});
       if (response.statusCode == 200) {
-        log('Invited by username: ${response.body}');
-        return true;
-      } else if (response.statusCode == 400) {
-        log('Username parameter missing: ${response.body}');
-        return false;
-      } else if (response.statusCode == 422) {
-        log('No user found with provided username: ${response.body}');
-        return false;
+        return null;
       } else {
-        log('Request failed with status: ${response.statusCode}');
-        return false;
+        final Map<String, dynamic> responseBody = json.decode(response.body);
+        final String detailMessage =
+            responseBody['detail'] ??
+                'Произошла ошибка, попробуйте позже еще раз';
+
+        return _decodeInvalidEncoding(detailMessage);
       }
     } catch (error) {
       log(error.toString());
-      return false;
+      return error.toString();
     }
+  }
+
+  String _decodeInvalidEncoding(String input) {
+    // Decode the Windows-1252 encoded bytes as UTF-8
+    List<int> bytes = input.runes.toList();
+    return utf8.decode(bytes);
   }
 
   Future<bool> verifyIdentity(
@@ -180,11 +176,7 @@ class AuthCubit extends Cubit<AuthState> {
     return await AuthRepo.incrementInvites(phone, userName);
   }
 
-  //9939009646
   Future<(bool, bool)> createUserSendCode(String phone) async {
-    // if (!await AuthRepo.checkRegistration(phone)) {
-    //   return (await AuthRepo.sendSms(phone), false);
-    // }
 
     if (await AuthRepo.checkRegistration(phone)) {
       return (await AuthRepo.sendSms(phone), false);
