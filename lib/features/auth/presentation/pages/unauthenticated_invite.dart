@@ -1,11 +1,10 @@
 import 'dart:developer';
-
 import 'package:app_links/app_links.dart';
 import 'package:fcc_app_front/export.dart';
 
 class UnauthenticatedInvitePage extends StatefulWidget {
   const UnauthenticatedInvitePage({
-    super.key,
+    super.key
   });
 
   @override
@@ -117,12 +116,11 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                           3,
                         );
                       } else {
-                        final bool inviteLink =
-                            await context.read<AuthCubit>().checkInviteByLink(
-                                  username: controller.text,
-                                );
+                        final String? errorMessage = await context.read<AuthCubit>().checkInviteByLink(
+                          username: controller.text,
+                        );
 
-                        if (inviteLink) {
+                        if (errorMessage == null) {
                           setState(() {
                             isLoading = true;
                           });
@@ -147,7 +145,7 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                           if (mounted) {
                             ApplicationSnackBar.showErrorSnackBar(
                               context,
-                              'Указанный инвайт код не найден,попробуйте ещё раз',
+                              errorMessage,
                               0.9,
                               const EdgeInsets.symmetric(horizontal: 15),
                               3,
@@ -159,27 +157,24 @@ class _UnauthenticatedInvitePageState extends State<UnauthenticatedInvitePage> {
                     text: 'Продолжить',
                     child: isLoading
                         ? Row(
-                            children: <Widget>[
-                              Text(
-                                'Продолжить',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  color: primaryColorDark,
-                                  strokeWidth: 3,
-                                ),
-                              ),
-                            ],
-                          )
+                      children: <Widget>[
+                        Text(
+                          'Продолжить',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: primaryColorDark,
+                            strokeWidth: 3,
+                          ),
+                        ),
+                      ],
+                    )
                         : null,
                   ),
                   sized20,
