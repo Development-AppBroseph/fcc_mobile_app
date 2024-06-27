@@ -14,12 +14,14 @@ class PlacingOrderPage extends StatefulWidget {
 }
 
 class _PlacingOrderPageState extends State<PlacingOrderPage> {
+  String selectedAddressByUserDefault = '';
   String selectedAddressByUser = '';
   int selectedAddressId = 0;
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final TextEditingController addressController = TextEditingController();
 
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController appartmentController = TextEditingController();
 
   TextEditingController lastName = TextEditingController();
   TextEditingController name = TextEditingController();
@@ -51,6 +53,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
     middlename.dispose();
     lastName.dispose();
     emailController.dispose();
+    appartmentController.dispose();
   }
 
   @override
@@ -61,12 +64,10 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
     if (state is Authenticated) {
       name.text = state.user.firstName ?? '';
       emailController.text = state.user.email ?? '';
-
       lastName.text = state.user.lastName ?? '';
-
       middlename.text = state.user.middleName ?? '';
-
       phoneController.text = state.user.phoneNumber ?? '';
+      appartmentController.text = '';
     }
   }
 
@@ -149,6 +150,7 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                           selectedAddress?.keys.first ?? 0;
                                       selectedAddressByUser =
                                           selectedAddress?.values.first ?? '';
+                                      selectedAddressByUserDefault = selectedAddressByUser;
                                     });
                                   },
                                   child: Container(
@@ -211,6 +213,27 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                             ],
                           )),
                           sized20,
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          'Введите номер квартиры при необходимости',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        ),
+                                      ],
+                                    ),
+                          sized10,
+                                    CustomFormField(
+                                        textInputAction:
+                                            TextInputAction.done,
+                                        textInputType:
+                                            TextInputType.number,
+                                        hintText: 'Квартира',
+                                        controller:
+                                            appartmentController,
+                                      ),
+                          sized20,
                           Text(
                             'Получатель',
                             style:
@@ -234,12 +257,12 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               height: 50,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
-                                                readOnly: state.user.middleName
+                                                readOnly: state.user.lastName
                                                             ?.isNotEmpty ??
                                                         false
                                                     ? true
                                                     : false,
-                                                controller: middlename,
+                                                controller: lastName,
                                                 textInputAction:
                                                     TextInputAction.next,
                                                 hintText: 'Введите фамилию',
@@ -286,12 +309,12 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                               height: 50,
                                               child: CustomFormField(
                                                 isFromPlacingOrder: true,
-                                                readOnly: state.user.lastName
+                                                readOnly: state.user.middleName
                                                             ?.isNotEmpty ??
                                                         false
                                                     ? true
                                                     : false,
-                                                controller: lastName,
+                                                controller: middlename,
                                                 textInputAction:
                                                     TextInputAction.done,
                                                 hintText: 'Введите отчество',
@@ -430,6 +453,13 @@ class _PlacingOrderPageState extends State<PlacingOrderPage> {
                                       }
                                       if (_formKey.currentState!.validate() &&
                                           phoneController.text.length >= 10) {
+
+                                        if (appartmentController.text.isNotEmpty) {
+                                          selectedAddressByUser = selectedAddressByUserDefault + appartmentController.text.trim();
+                                        } else {
+                                          selectedAddressByUser = selectedAddressByUserDefault.replaceAll(RegExp(r',\s*$'), '');
+                                        }
+
                                         final (OrderModel?, String?) order =
                                             await OrderRepo.placeOrder(
                                           product: widget.product!,

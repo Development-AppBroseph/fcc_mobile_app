@@ -11,7 +11,6 @@ class OrderDetails extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double boxWidth = constraints.maxWidth;
-
         return SafeArea(
           child: Padding(
             padding: boxWidth < 600
@@ -53,13 +52,17 @@ class OrderDetails extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text(
-                        convertOrderStatus(
-                          order?.status ?? '',
+                      Expanded(
+                        child: Text(
+                          convertOrderStatus(
+                            order?.status ?? '',
+                          ),
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
                         ),
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
                       ),
                     ],
                   ),
@@ -189,12 +192,50 @@ class OrderDetails extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text(
-                        '№${order?.trackNumber}',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              fontSize: 14,
+                      order?.trackNumber != null && order!.trackNumber.isNotEmpty
+                          ? GestureDetector(
+                        onTap: () async {
+                          await Clipboard.setData(
+                            ClipboardData(
+                              text: order?.trackNumber ?? '',
                             ),
-                      ),
+                          ).then((_) {
+                            ApplicationSnackBar.showErrorSnackBar(
+                              context,
+                              'Трек-номер скопирован в буфер обмена',
+                              1,
+                              const EdgeInsets.all(16),
+                              1,
+                              false,
+                            );
+                          });
+                        },
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              '№${order?.trackNumber}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            SvgPicture.asset(
+                              'assets/copy.svg',
+                              colorFilter:
+                              ColorFilter.mode(
+                                Theme.of(context)
+                                    .canvasColor,
+                                BlendMode.srcIn,
+                              ),
+                              height: 18,
+                            ),
+                          ],
+                        ),
+                      )
+                          : const SizedBox.shrink(),
                     ],
                   ),
                   sized30,
@@ -210,58 +251,7 @@ class OrderDetails extends StatelessWidget {
                         ),
                   ),
 
-                  sized10,
-                  // BlocBuilder<EditingAddress, bool>(
-                  //   builder: (BuildContext context, bool state) {
-                  //     if (state) {
-                  //       return CustomFormField(
-                  //         controller: addressController,
-                  //         initialValue: order.address,
-                  //         textInputAction: TextInputAction.next,
-                  //         hintText: 'Адрес пункта выдачи',
-                  //         validator: FormBuilderValidators.compose(
-                  //           <FormFieldValidator<String>>[
-                  //             FormBuilderValidators.required(
-                  //               errorText: 'Заполните это поле',
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       );
-                  //     }
-                  //     return const SizedBox.shrink();
-                  //   },
-                  // ),
-                  // OnTapScaleAndFade(
-                  // onTap: () {
-                  //   if (context.read<EditingAddress>().state) {
-                  //     if (addressController.text != '') {
-                  //       context.read<EditingAddress>().change(false);
-
-                  //       context.read<OrderCubit>().changeAddress(
-                  //             addressController.text,
-                  //           );
-                  //     }
-                  //   } else {
-                  //     context.read<EditingAddress>().change(true);
-                  //   }
-                  // },
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.only(
-                  //       top: 5,
-                  //       bottom: 5,
-                  //       right: 5,
-                  //     ),
-                  //     child: Text(
-                  //       'Изменить',
-                  //       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  //             fontWeight: FontWeight.w400,
-                  //             fontSize: 12,
-                  //             color: textColor,
-                  //           ),
-                  //     ),
-                  //   ),
-                  // ),
-                  sized30,
+                  sized40,
                 ],
               ),
             ]),
@@ -291,7 +281,7 @@ class OrderDetails extends StatelessWidget {
       case 'READY':
         return 'Собран';
       case 'DELIVERY':
-        return 'Передан в службу доставки';
+        return 'Передан в доставку';
       default:
         return 'Статус неизвестен';
     }

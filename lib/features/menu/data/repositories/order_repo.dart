@@ -30,7 +30,7 @@ class OrderRepo {
         },
       );
 
-      if (response.statusCode == 400 &&
+      if (response.statusCode == 300 &&
           const Utf8Decoder()
               .convert(response.bodyBytes)
               .contains('Слишком мало кол-во товаров в наличии')) {
@@ -41,7 +41,7 @@ class OrderRepo {
       }
 
       Hive.box(HiveStrings.userBox).put(HiveStrings.address, address);
-      if (response.statusCode < 300) {
+      if (response.statusCode < 400) {
         return (
           OrderModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))),
           null
@@ -51,12 +51,12 @@ class OrderRepo {
           response.bodyBytes,
         ),
       )['message']
-          .contains('Order limit reached')) {
-        throw OrderException(message: 'Order limit reached');
+          .contains('Превышен лимит заказов')) {
+        throw OrderException(message: 'Превышен лимит заказов');
       }
     } catch (e) {
       if (e is OrderException) rethrow;
-      throw OrderException(message: 'Order limit reached');
+      throw OrderException(message: 'Превышен лимит заказов');
     }
     return (null, null);
   }
@@ -69,7 +69,7 @@ class OrderRepo {
       );
       if (response != null) {
         final List body = jsonDecode(response) as List;
-        log(response.toString());
+        log(body.toString());
         for (var order in body) {
           try {
             if (order['client'] == getClientId()) {

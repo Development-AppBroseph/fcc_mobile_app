@@ -114,82 +114,16 @@ class ChooseAddress extends StatelessWidget {
                                       ),
                                 ),
                                 onTap: () {
-                                  showDialog(
-                                      barrierDismissible: true,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                            titlePadding:
-                                                const EdgeInsets.all(4),
-                                            backgroundColor: Colors.white,
-                                            elevation: 0,
-                                            icon: const Icon(Icons.home_filled),
-                                            actions: <Widget>[
-                                              CstmBtn(
-                                                key: UniqueKey(),
-                                                text: 'Добавить',
-                                                onTap: () {
-                                                  if (state.addresses[index]
-                                                          .address !=
-                                                      null) {
-                                                    context.pop(<int?, String?>{
-                                                      state.addresses[index].id:
-                                                          '${state.addresses[index].address!.trim()}, ${appartmentController.text.trim()}',
-                                                    });
 
-                                                    Navigator.of(context).pop();
-                                                  }
-                                                },
-                                              ),
-                                              sized20,
-                                              CstmBtn(
-                                                color: Colors.white60,
-                                                key: UniqueKey(),
-                                                text: 'Закрыть',
-                                                onTap: () {
-                                                  if (state.addresses[index]
-                                                          .address !=
-                                                      null) {
-                                                    context.pop(<int?, String?>{
-                                                      state.addresses[index].id:
-                                                          '${state.addresses[index].address!.trim()}, ',
-                                                    });
 
-                                                    Navigator.of(context).pop();
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                            title: Column(
-                                              children: <Widget>[
-                                                Text(
-                                                  'Введите номер квартиры',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium,
-                                                ),
-                                                Text(
-                                                  'при необходимости',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall,
-                                                ),
-                                              ],
-                                            ),
-                                            content: Card(
-                                              elevation: 0,
-                                              color: Colors.transparent,
-                                              child: CustomFormField(
-                                                textInputAction:
-                                                    TextInputAction.done,
-                                                textInputType:
-                                                    TextInputType.number,
-                                                hintText: 'Квартира',
-                                                controller:
-                                                    appartmentController,
-                                              ),
-                                            ));
+                                    if (state.addresses[index]
+                                        .address !=
+                                        null) {
+                                      context.pop(<int?, String?>{
+                                        state.addresses[index].id:
+                                        '${state.addresses[index].address!.trim()}, ',
                                       });
+                                    }
                                 },
                               );
                             },

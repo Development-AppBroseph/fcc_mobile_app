@@ -6,6 +6,7 @@ part 'order_state.dart';
 class OrderCubit extends Cubit<OrderState> {
   OrderCubit() : super(const OrderState(<OrderModel>[]));
   dynamic load() async {
+    print('getordeer');
     final List<OrderModel> orders = await OrderRepo.getOrders();
     emit(
       state.copyWith(orders: orders),
@@ -13,6 +14,7 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<Product?> getProductbyId({required String productUuid}) async {
+    print('asdasd');
     final Product? product = await OrderRepository.getProductbyId(
       productUuid: productUuid,
     );
