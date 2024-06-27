@@ -73,10 +73,10 @@ class ProductDetails extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    if (_shouldDisplayField(model?.name ?? ''))
+                    if (_shouldDisplayField(model?.mark ?? ''))
                     ProductTextDetailsField(
                       title: 'Марка',
-                      subtitle: model?.name ?? '',
+                      subtitle: model?.mark ?? '',
                     ),
                     if (_shouldDisplayField(model?.country ?? ''))
                     ProductTextDetailsField(

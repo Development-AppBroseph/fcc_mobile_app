@@ -23,8 +23,6 @@ class CatalogProductDetails extends StatelessWidget {
                       right: 30,
                     )
                   : EdgeInsets.only(
-                      bottom: 30 + (availableWidth - 600) / 2,
-                      top: 30 + (availableWidth - 600) / 2,
                       left: 30 + (availableWidth - 600) / 2,
                       right: 30 + (availableWidth - 600) / 2,
                     ),
@@ -69,10 +67,10 @@ class CatalogProductDetails extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      if (_shouldDisplayField(model.name))
+                      if (_shouldDisplayField(model.mark))
                       ProductTextDetailsField(
                         title: 'Марка',
-                        subtitle: model.name,
+                        subtitle: model.mark,
                       ),
                       if (_shouldDisplayField(model.country))
                       ProductTextDetailsField(

@@ -43,8 +43,6 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                         right: 30,
                       )
                     : EdgeInsets.only(
-                        bottom: 30 + (availableWidth - 600) / 2,
-                        top: 30 + (availableWidth - 600) / 2,
                         left: 30 + (availableWidth - 600) / 2,
                         right: 30 + (availableWidth - 600) / 2,
                       ),
@@ -58,18 +56,21 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                           children: <Widget>[
                             const CustomBackButton(),
                             sized20,
-                            AutoSizeText(
-                              catalog.name.toUpperCase(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                              maxLines: 1,
-                              minFontSize: 16,
-                              overflow: TextOverflow.ellipsis,
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                               child: AutoSizeText(
+                                  catalog.name.toUpperCase(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                  maxLines: 1,
+                                  minFontSize: 16,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                             ),
                             sized10,
                             Container(
@@ -184,7 +185,7 @@ class _CatalogProductProfileMenuState extends State<CatalogProductProfileMenu> {
                                 hasScrollBody: false,
                                 child: FutureBuilder<dynamic>(
                                   future: Future<dynamic>.delayed(
-                                    const Duration(milliseconds: 300),
+                                    const Duration(milliseconds: 1000),
                                   ),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<dynamic> snapshot) {
